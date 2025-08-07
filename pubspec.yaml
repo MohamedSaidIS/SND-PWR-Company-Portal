@@ -33,6 +33,7 @@ dependencies:
 
   flutter_localizations:
     sdk: flutter
+  flutter_gen: ^5.11.0
 
   flutter_launcher_icons: ^0.13.1
   flutter_native_splash: ^2.4.0
@@ -46,7 +47,7 @@ dependencies:
   url_launcher: ^6.2.5
   flutter_inappwebview: ^6.1.5
   signature: ^5.4.1
-  intl: ^0.19.0
+  intl: ^0.20.2
   fl_chart: ^0.63.0
   intl_utils:
   cupertino_icons: ^1.0.8
@@ -60,6 +61,7 @@ dependencies:
 dev_dependencies:
   flutter_test:
     sdk: flutter
+
 
   # The "flutter_lints" package below contains a set of recommended lints to
   # encourage good coding practices. The lint set provided by the package is
@@ -77,9 +79,6 @@ dev_dependencies:
 flutter:
   uses-material-design: true
   generate: true
-
-  # To add assets to your application, add an assets section, like this:
-
   assets:
     - assets/images/
     - env/.env_dev

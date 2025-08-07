@@ -56,7 +56,9 @@ class _DirectReportsScreenState extends State<DirectReportsScreen> {
               : directReportListProvider.error != null
                   ? Center(
                       child: Text("Error: ${directReportListProvider.error}"))
-                  : directReportListProvider.directReportList!.isNotEmpty
+                  : directReportListProvider.directReportList == null
+              ? const Center(child: CircularProgressIndicator())
+              : directReportListProvider.directReportList!.isNotEmpty
                       ? Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
