@@ -1,7 +1,7 @@
 import 'package:company_portal/utils/context_extensions.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import '../../l10n/app_localizations.dart';
 import 'package:signature/signature.dart';
 
 class VacationRequestScreen extends StatefulWidget {
@@ -201,7 +201,7 @@ class _VacationRequestScreenState extends State<VacationRequestScreen> {
                       borderRadius: BorderRadius.circular(5),
                     ),
                   ),
-                  child:  Text(local.clearSignature),
+                  child:  Text(local.clearSignature, style: TextStyle(fontSize: 16, color: theme.colorScheme.secondary),),
                 ),
                 const SizedBox(height: 5),
                 _buildSubmitButton(local.submitRequest, theme, () => submitRequest(local)),
@@ -239,7 +239,7 @@ Widget _buildSubmitButton(String btnText, ThemeData theme, void Function() btnFu
         borderRadius: BorderRadius.circular(5),
       ),
     ),
-    child: Text(btnText),
+    child: Text(btnText, style: TextStyle(fontSize: 16, color: theme.colorScheme.background),),
   );
 }
 

@@ -38,7 +38,7 @@ class _HomeScreenState extends State<HomeScreen> {
       child: Scaffold(
         body: screens[_currentIndex],
         bottomNavigationBar: SizedBox(
-          height: 70,
+
           child: NavigationBar(
             indicatorColor: theme.colorScheme.secondary,
             labelBehavior: NavigationDestinationLabelBehavior.onlyShowSelected,
