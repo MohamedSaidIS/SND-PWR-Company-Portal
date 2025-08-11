@@ -1,7 +1,7 @@
 import 'package:company_portal/utils/context_extensions.dart';
 import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:flutter/material.dart';
-
+import '../../../l10n/app_localizations.dart';
 import '../../../utils/app_notifier.dart';
 import '../../../utils/enums.dart';
 
@@ -13,35 +13,39 @@ class ComplainSuggestionFormScreen extends StatefulWidget {
       _ComplainSuggestionFormScreenState();
 }
 
-class _ComplainSuggestionFormScreenState
-    extends State<ComplainSuggestionFormScreen> {
+class _ComplainSuggestionFormScreenState extends State<ComplainSuggestionFormScreen> {
   final _formKey = GlobalKey<FormState>();
   final TextEditingController _nameController = TextEditingController();
-  final TextEditingController _complainOrSuggestionController =
-      TextEditingController();
+  final TextEditingController _complainOrSuggestionController = TextEditingController();
 
-  String? _selectedCategory, _selectedPriority;
-
-  final List<String> _categories = [
-    'IT',
-    'Marketing',
-    'Customer Service',
-    'HR',
-    'Sales',
-    'Finance'
-  ];
-  final List<String> _priorities = ['Low', 'Normal', 'High', 'Critical'];
-
-  void _submitForm() {
+  void _submitForm(AppLocalizations local) {
     if (_formKey.currentState!.validate()) {
       AppNotifier.snackBar(
-          context, 'Form submitted successfully!', SnackBarType.success);
+          context, local.fromSubmittedSuccessfully, SnackBarType.success);
     }
   }
 
   @override
   Widget build(BuildContext context) {
     final theme = context.theme;
+    final local = context.local;
+    String? selectedCategory, selectedPriority;
+
+    final categories = [
+      {'value': 'IT', 'label': local.it},
+      {'value': 'Marketing', 'label': local.marketing},
+      {'value': 'Customer Service', 'label': local.customerService},
+      {'value': 'HR', 'label': local.hr},
+      {'value': 'Sales', 'label': local.sales},
+      {'value': 'Finance', 'label': local.finance},
+    ];
+
+    final priorities = [
+      {'value': 'Low', 'label': local.low},
+      {'value': 'Normal', 'label': local.normal},
+      {'value': 'High', 'label': local.high},
+      {'value': 'Critical', 'label': local.critical},
+     ];
 
     return Scaffold(
       backgroundColor: theme.colorScheme.background,
@@ -53,24 +57,24 @@ class _ComplainSuggestionFormScreenState
             children: [
               TextFormField(
                 controller: _nameController,
-                decoration: const InputDecoration(
-                  labelText: 'Name (Optional)',
-                  border: OutlineInputBorder(
+                decoration:  InputDecoration(
+                  labelText: local.nameOptional,
+                  border: const OutlineInputBorder(
                     borderRadius: BorderRadius.all(Radius.circular(10)),
                   ),
                 ),
               ),
               const SizedBox(height: 16),
               DropdownButtonFormField2(
-                value: _selectedCategory,
+                value: selectedCategory,
                 isExpanded: true,
-                items: _categories.map((category) {
+                items: categories.map((category) {
                   return DropdownMenuItem(
-                      value: category, child: Text(category));
+                      value: category['value'], child: Text(category['label']!));
                 }).toList(),
-                decoration: const InputDecoration(
-                  labelText: 'Category *',
-                  border: OutlineInputBorder(
+                decoration: InputDecoration(
+                  labelText: local.category,
+                  border: const OutlineInputBorder(
                     borderRadius: BorderRadius.all(Radius.circular(10)),
                   ),
                 ),
@@ -80,19 +84,19 @@ class _ComplainSuggestionFormScreenState
                       borderRadius: BorderRadius.circular(12),
                     )
                 ),
-                validator: (value) => value == null ? 'Please select a category' : null,
-                onChanged: (value) => setState(() => _selectedCategory = value),
+                validator: (value) => value == null ? local.pleaseSelectCategory : null,
+                onChanged: (value) => setState(() => selectedCategory = value),
               ),
               const SizedBox(height: 16),
               DropdownButtonFormField2(
-                value: _selectedPriority,
-                items: _priorities.map((priority) {
+                value: selectedPriority,
+                items: priorities.map((priority) {
                   return DropdownMenuItem(
-                      value: priority, child: Text(priority));
+                      value: priority['value'], child: Text(priority['label']!));
                 }).toList(),
-                decoration: const InputDecoration(
-                  labelText: 'Priority *',
-                  border: OutlineInputBorder(
+                decoration:  InputDecoration(
+                  labelText: local.priority,
+                  border: const OutlineInputBorder(
                     borderRadius: BorderRadius.all(Radius.circular(10)),
                   ),
                 ),
@@ -102,23 +106,23 @@ class _ComplainSuggestionFormScreenState
                     borderRadius: BorderRadius.circular(12),
                   )
                 ),
-                validator: (value) => value == null ? 'Please select a priority' : null,
-                onChanged: (value) => setState(() => _selectedPriority = value),
+                validator: (value) => value == null ? local.pleaseSelectPriority : null,
+                onChanged: (value) => setState(() => selectedPriority = value),
               ),
               const SizedBox(height: 16),
               TextFormField(
                 controller: _complainOrSuggestionController,
-                decoration: const InputDecoration(
-                  labelText: 'Complain / Suggestion *',
-                  border: OutlineInputBorder(
+                decoration:  InputDecoration(
+                  labelText: local.complaintSuggestionField,
+                  border: const OutlineInputBorder(
                     borderRadius: BorderRadius.all(Radius.circular(10)),
                   ),
                 ),
                 maxLines: 10,
-                validator: (value) => (value == null || value.trim().isEmpty) ? 'Please enter your message' : null,
+                validator: (value) => (value == null || value.trim().isEmpty) ? local.pleaseEnterYourMessage : null,
               ),
               const SizedBox( height: 24),
-              _buildSubmitButton("Submit", theme, _submitForm),
+              _buildSubmitButton(local.submit, theme, () => _submitForm(local)),
             ],
           ),
         ),

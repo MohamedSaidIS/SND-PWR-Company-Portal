@@ -1,0 +1,639 @@
+import 'dart:async';
+
+import 'package:flutter/foundation.dart';
+import 'package:flutter/widgets.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:intl/intl.dart' as intl;
+
+import 'app_localizations_ar.dart';
+import 'app_localizations_en.dart';
+
+// ignore_for_file: type=lint
+
+/// Callers can lookup localized strings with an instance of AppLocalizations
+/// returned by `AppLocalizations.of(context)`.
+///
+/// Applications need to include `AppLocalizations.delegate()` in their app's
+/// `localizationDelegates` list, and the locales they support in the app's
+/// `supportedLocales` list. For example:
+///
+/// ```dart
+/// import 'l10n/app_localizations.dart';
+///
+/// return MaterialApp(
+///   localizationsDelegates: AppLocalizations.localizationsDelegates,
+///   supportedLocales: AppLocalizations.supportedLocales,
+///   home: MyApplicationHome(),
+/// );
+/// ```
+///
+/// ## Update pubspec.yaml
+///
+/// Please make sure to update your pubspec.yaml to include the following
+/// packages:
+///
+/// ```yaml
+/// dependencies:
+///   # Internationalization support.
+///   flutter_localizations:
+///     sdk: flutter
+///   intl: any # Use the pinned version from flutter_localizations
+///
+///   # Rest of dependencies
+/// ```
+///
+/// ## iOS Applications
+///
+/// iOS applications define key application metadata, including supported
+/// locales, in an Info.plist file that is built into the application bundle.
+/// To configure the locales supported by your app, you’ll need to edit this
+/// file.
+///
+/// First, open your project’s ios/Runner.xcworkspace Xcode workspace file.
+/// Then, in the Project Navigator, open the Info.plist file under the Runner
+/// project’s Runner folder.
+///
+/// Next, select the Information Property List item, select Add Item from the
+/// Editor menu, then select Localizations from the pop-up menu.
+///
+/// Select and expand the newly-created Localizations item then, for each
+/// locale your application supports, add a new item and select the locale
+/// you wish to add from the pop-up menu in the Value field. This list should
+/// be consistent with the languages listed in the AppLocalizations.supportedLocales
+/// property.
+abstract class AppLocalizations {
+  AppLocalizations(String locale) : localeName = intl.Intl.canonicalizedLocale(locale.toString());
+
+  final String localeName;
+
+  static AppLocalizations? of(BuildContext context) {
+    return Localizations.of<AppLocalizations>(context, AppLocalizations);
+  }
+
+  static const LocalizationsDelegate<AppLocalizations> delegate = _AppLocalizationsDelegate();
+
+  /// A list of this localizations delegate along with the default localizations
+  /// delegates.
+  ///
+  /// Returns a list of localizations delegates containing this delegate along with
+  /// GlobalMaterialLocalizations.delegate, GlobalCupertinoLocalizations.delegate,
+  /// and GlobalWidgetsLocalizations.delegate.
+  ///
+  /// Additional delegates can be added by appending to this list in
+  /// MaterialApp. This list does not have to be used at all if a custom list
+  /// of delegates is preferred or required.
+  static const List<LocalizationsDelegate<dynamic>> localizationsDelegates = <LocalizationsDelegate<dynamic>>[
+    delegate,
+    GlobalMaterialLocalizations.delegate,
+    GlobalCupertinoLocalizations.delegate,
+    GlobalWidgetsLocalizations.delegate,
+  ];
+
+  /// A list of this localizations delegate's supported locales.
+  static const List<Locale> supportedLocales = <Locale>[
+    Locale('ar'),
+    Locale('en')
+  ];
+
+  /// No description provided for @requests.
+  ///
+  /// In en, this message translates to:
+  /// **'Requests'**
+  String get requests;
+
+  /// No description provided for @attendLeaveRequest.
+  ///
+  /// In en, this message translates to:
+  /// **'Attend / Leave'**
+  String get attendLeaveRequest;
+
+  /// No description provided for @vacationRequest.
+  ///
+  /// In en, this message translates to:
+  /// **'Vacation \nRequest'**
+  String get vacationRequest;
+
+  /// No description provided for @permissionRequest.
+  ///
+  /// In en, this message translates to:
+  /// **'Permission \nRequest'**
+  String get permissionRequest;
+
+  /// No description provided for @vacationBalanceRequest.
+  ///
+  /// In en, this message translates to:
+  /// **'Vacation \nBalance'**
+  String get vacationBalanceRequest;
+
+  /// No description provided for @selectDate.
+  ///
+  /// In en, this message translates to:
+  /// **'Select date'**
+  String get selectDate;
+
+  /// No description provided for @managementName.
+  ///
+  /// In en, this message translates to:
+  /// **'Management Name'**
+  String get managementName;
+
+  /// No description provided for @departmentName.
+  ///
+  /// In en, this message translates to:
+  /// **'Department Name'**
+  String get departmentName;
+
+  /// No description provided for @employeeCode.
+  ///
+  /// In en, this message translates to:
+  /// **'Employee Code'**
+  String get employeeCode;
+
+  /// No description provided for @employeeName.
+  ///
+  /// In en, this message translates to:
+  /// **'Employee Name'**
+  String get employeeName;
+
+  /// No description provided for @jobTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Job Title'**
+  String get jobTitle;
+
+  /// No description provided for @vacationType.
+  ///
+  /// In en, this message translates to:
+  /// **'Vacation Type'**
+  String get vacationType;
+
+  /// No description provided for @startDate.
+  ///
+  /// In en, this message translates to:
+  /// **'Start Date'**
+  String get startDate;
+
+  /// No description provided for @endDate.
+  ///
+  /// In en, this message translates to:
+  /// **'End Date'**
+  String get endDate;
+
+  /// No description provided for @vacationDays.
+  ///
+  /// In en, this message translates to:
+  /// **'Vacation Days'**
+  String get vacationDays;
+
+  /// No description provided for @signature.
+  ///
+  /// In en, this message translates to:
+  /// **'Signature'**
+  String get signature;
+
+  /// No description provided for @clearSignature.
+  ///
+  /// In en, this message translates to:
+  /// **'Clear Signature'**
+  String get clearSignature;
+
+  /// No description provided for @submitRequest.
+  ///
+  /// In en, this message translates to:
+  /// **'Submit Request'**
+  String get submitRequest;
+
+  /// No description provided for @requiredField.
+  ///
+  /// In en, this message translates to:
+  /// **'Required field'**
+  String get requiredField;
+
+  /// No description provided for @vacationRequestSubmitted.
+  ///
+  /// In en, this message translates to:
+  /// **'Vacation request submitted'**
+  String get vacationRequestSubmitted;
+
+  /// No description provided for @pleaseFillAllFields.
+  ///
+  /// In en, this message translates to:
+  /// **'Please fill all fields'**
+  String get pleaseFillAllFields;
+
+  /// No description provided for @vacationRequestTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Vacation Request'**
+  String get vacationRequestTitle;
+
+  /// No description provided for @dashboard.
+  ///
+  /// In en, this message translates to:
+  /// **'Dashboard'**
+  String get dashboard;
+
+  /// No description provided for @apps.
+  ///
+  /// In en, this message translates to:
+  /// **'Apps'**
+  String get apps;
+
+  /// No description provided for @kpis.
+  ///
+  /// In en, this message translates to:
+  /// **'KPIs'**
+  String get kpis;
+
+  /// No description provided for @profile.
+  ///
+  /// In en, this message translates to:
+  /// **'Profile'**
+  String get profile;
+
+  /// No description provided for @settings.
+  ///
+  /// In en, this message translates to:
+  /// **'Settings'**
+  String get settings;
+
+  /// No description provided for @notifications.
+  ///
+  /// In en, this message translates to:
+  /// **'Notifications'**
+  String get notifications;
+
+  /// No description provided for @help.
+  ///
+  /// In en, this message translates to:
+  /// **'Help'**
+  String get help;
+
+  /// No description provided for @language.
+  ///
+  /// In en, this message translates to:
+  /// **'Language'**
+  String get language;
+
+  /// No description provided for @theme.
+  ///
+  /// In en, this message translates to:
+  /// **'Theme'**
+  String get theme;
+
+  /// No description provided for @logout.
+  ///
+  /// In en, this message translates to:
+  /// **'Logout'**
+  String get logout;
+
+  /// No description provided for @userInformation.
+  ///
+  /// In en, this message translates to:
+  /// **'User Information'**
+  String get userInformation;
+
+  /// No description provided for @directReport.
+  ///
+  /// In en, this message translates to:
+  /// **'Direct Reports'**
+  String get directReport;
+
+  /// No description provided for @yourTeamMembers.
+  ///
+  /// In en, this message translates to:
+  /// **'Your Team Members'**
+  String get yourTeamMembers;
+
+  /// No description provided for @userInfo.
+  ///
+  /// In en, this message translates to:
+  /// **'User Info'**
+  String get userInfo;
+
+  /// No description provided for @personalDetails.
+  ///
+  /// In en, this message translates to:
+  /// **'Personal Details'**
+  String get personalDetails;
+
+  /// No description provided for @phone.
+  ///
+  /// In en, this message translates to:
+  /// **'Phone'**
+  String get phone;
+
+  /// No description provided for @location.
+  ///
+  /// In en, this message translates to:
+  /// **'Location'**
+  String get location;
+
+  /// No description provided for @managerDetails.
+  ///
+  /// In en, this message translates to:
+  /// **'Manager Details'**
+  String get managerDetails;
+
+  /// No description provided for @name.
+  ///
+  /// In en, this message translates to:
+  /// **'Name'**
+  String get name;
+
+  /// No description provided for @email.
+  ///
+  /// In en, this message translates to:
+  /// **'Email'**
+  String get email;
+
+  /// No description provided for @thisAppIsNotExists.
+  ///
+  /// In en, this message translates to:
+  /// **'This app is not exists'**
+  String get thisAppIsNotExists;
+
+  /// No description provided for @ok.
+  ///
+  /// In en, this message translates to:
+  /// **'Ok'**
+  String get ok;
+
+  /// No description provided for @cancel.
+  ///
+  /// In en, this message translates to:
+  /// **'Cancel'**
+  String get cancel;
+
+  /// No description provided for @undo.
+  ///
+  /// In en, this message translates to:
+  /// **'UNDO'**
+  String get undo;
+
+  /// No description provided for @english.
+  ///
+  /// In en, this message translates to:
+  /// **'English'**
+  String get english;
+
+  /// No description provided for @arabic.
+  ///
+  /// In en, this message translates to:
+  /// **'Arabic'**
+  String get arabic;
+
+  /// No description provided for @signIn.
+  ///
+  /// In en, this message translates to:
+  /// **'Sign In'**
+  String get signIn;
+
+  /// No description provided for @takePhoto.
+  ///
+  /// In en, this message translates to:
+  /// **'Take Photo'**
+  String get takePhoto;
+
+  /// No description provided for @complaintAndSuggestion.
+  ///
+  /// In en, this message translates to:
+  /// **'Complaint and Suggestion'**
+  String get complaintAndSuggestion;
+
+  /// No description provided for @complaintSuggestionHeader.
+  ///
+  /// In en, this message translates to:
+  /// **'Complaint / Suggestion'**
+  String get complaintSuggestionHeader;
+
+  /// No description provided for @history.
+  ///
+  /// In en, this message translates to:
+  /// **'History'**
+  String get history;
+
+  /// No description provided for @chooseFromGallery.
+  ///
+  /// In en, this message translates to:
+  /// **'Choose from Gallery'**
+  String get chooseFromGallery;
+
+  /// No description provided for @profilePhotoUpdated.
+  ///
+  /// In en, this message translates to:
+  /// **'Profile photo updated Successfully'**
+  String get profilePhotoUpdated;
+
+  /// No description provided for @uploadPhotoFailed.
+  ///
+  /// In en, this message translates to:
+  /// **'Upload photo failed:'**
+  String get uploadPhotoFailed;
+
+  /// No description provided for @fromSubmittedSuccessfully.
+  ///
+  /// In en, this message translates to:
+  /// **'From submitted successfully!'**
+  String get fromSubmittedSuccessfully;
+
+  /// No description provided for @nameOptional.
+  ///
+  /// In en, this message translates to:
+  /// **'Name (Optional)'**
+  String get nameOptional;
+
+  /// No description provided for @category.
+  ///
+  /// In en, this message translates to:
+  /// **'Category *'**
+  String get category;
+
+  /// No description provided for @priority.
+  ///
+  /// In en, this message translates to:
+  /// **'Priority *'**
+  String get priority;
+
+  /// No description provided for @pleaseSelectCategory.
+  ///
+  /// In en, this message translates to:
+  /// **'Please select a category'**
+  String get pleaseSelectCategory;
+
+  /// No description provided for @pleaseSelectPriority.
+  ///
+  /// In en, this message translates to:
+  /// **'Please select a priority'**
+  String get pleaseSelectPriority;
+
+  /// No description provided for @complaintSuggestionField.
+  ///
+  /// In en, this message translates to:
+  /// **'Complaint / Suggestion *'**
+  String get complaintSuggestionField;
+
+  /// No description provided for @pleaseEnterYourMessage.
+  ///
+  /// In en, this message translates to:
+  /// **'Please enter your message'**
+  String get pleaseEnterYourMessage;
+
+  /// No description provided for @areYouSureYouWantToLogout.
+  ///
+  /// In en, this message translates to:
+  /// **'Are you sure you want to logout?'**
+  String get areYouSureYouWantToLogout;
+
+  /// No description provided for @failedToRetrieveAccessToken.
+  ///
+  /// In en, this message translates to:
+  /// **'Failed to retrieve access token'**
+  String get failedToRetrieveAccessToken;
+
+  /// No description provided for @noTeamMembersAssigned.
+  ///
+  /// In en, this message translates to:
+  /// **'No Team Members Assigned'**
+  String get noTeamMembersAssigned;
+
+  /// No description provided for @submit.
+  ///
+  /// In en, this message translates to:
+  /// **'Submit'**
+  String get submit;
+
+  /// No description provided for @thereAreCurrentlyNoTeamMembersAssignedToYouForDisplay.
+  ///
+  /// In en, this message translates to:
+  /// **'There are currently no team members assigned to you for display.'**
+  String get thereAreCurrentlyNoTeamMembersAssignedToYouForDisplay;
+
+  /// No description provided for @sectionTitleOne.
+  ///
+  /// In en, this message translates to:
+  /// **'Introduction to Al-Sanidi'**
+  String get sectionTitleOne;
+
+  /// No description provided for @sectionTextOne.
+  ///
+  /// In en, this message translates to:
+  /// **'Al-Sanidi is one of the foremost names in Saudi Arabia’s outdoor retail market, specializing in trekking tools, camping gear, and adventure equipment. Since its founding, the company has focused on delivering a wide range of durable, high-quality products that cater to the needs of both casual campers and seasoned outdoor enthusiasts. Its product portfolio includes essential items like tents, backpacks, sleeping bags, portable stoves, multi-tools, hiking boots, and other equipment designed to withstand harsh conditions and enhance the outdoor experience.'**
+  String get sectionTextOne;
+
+  /// No description provided for @sectionTitleTwo.
+  ///
+  /// In en, this message translates to:
+  /// **'Vision and Market Presence'**
+  String get sectionTitleTwo;
+
+  /// No description provided for @sectionTextTwo.
+  ///
+  /// In en, this message translates to:
+  /// **'Al-Sanidi’s vision is rooted in becoming the ultimate destination for adventurers, offering not only products but also expertise in outdoor activities. The company has grown from a single store to a robust network of physical retail outlets spread across multiple regions of Saudi Arabia, supported by a dynamic online platform that serves customers both locally and across the Middle East. By blending in-store services with e-commerce, Al-Sanidi offers a seamless omnichannel shopping experience.\n\nIn recent years, Al-Sanidi has increasingly focused on expanding its market share through innovative product offerings, such as high-tech camping gear, solar-powered gadgets, and eco-friendly tools. This has allowed the company to differentiate itself in a competitive retail landscape, while maintaining a reputation for reliability and innovative products.'**
+  String get sectionTextTwo;
+
+  /// No description provided for @sectionTitleThree.
+  ///
+  /// In en, this message translates to:
+  /// **'Commitment to Quality and Customer Experience'**
+  String get sectionTitleThree;
+
+  /// No description provided for @sectionTextThree.
+  ///
+  /// In en, this message translates to:
+  /// **'Al-Sanidi is committed to ensuring that every product meets rigorous quality standards. This emphasis on quality is reflected in its partnerships with globally renowned brands known for their durability and innovation. Whether it is providing the most lightweight tents for backpackers or offering durable trekking poles for rugged terrains, Al-Sanidi focuses on curating products that align with the specific needs of outdoor adventurers in the Middle East.\n\nMoreover, customer experience remains at the heart of the company’s business strategy. With a diverse clientele ranging from families planning weekend camping trips to professional hikers exploring remote regions, Al-Sanidi takes pride in offering personalized recommendations and in-store consultations, bolstered by knowledgeable staff who are themselves passionate about outdoor activities.'**
+  String get sectionTextThree;
+
+  /// No description provided for @it.
+  ///
+  /// In en, this message translates to:
+  /// **'IT'**
+  String get it;
+
+  /// No description provided for @marketing.
+  ///
+  /// In en, this message translates to:
+  /// **'Marketing'**
+  String get marketing;
+
+  /// No description provided for @customerService.
+  ///
+  /// In en, this message translates to:
+  /// **'Customer Service'**
+  String get customerService;
+
+  /// No description provided for @hr.
+  ///
+  /// In en, this message translates to:
+  /// **'HR'**
+  String get hr;
+
+  /// No description provided for @sales.
+  ///
+  /// In en, this message translates to:
+  /// **'Sales'**
+  String get sales;
+
+  /// No description provided for @finance.
+  ///
+  /// In en, this message translates to:
+  /// **'Finance'**
+  String get finance;
+
+  /// No description provided for @low.
+  ///
+  /// In en, this message translates to:
+  /// **'Low'**
+  String get low;
+
+  /// No description provided for @normal.
+  ///
+  /// In en, this message translates to:
+  /// **'Normal'**
+  String get normal;
+
+  /// No description provided for @high.
+  ///
+  /// In en, this message translates to:
+  /// **'High'**
+  String get high;
+
+  /// No description provided for @critical.
+  ///
+  /// In en, this message translates to:
+  /// **'Critical'**
+  String get critical;
+}
+
+class _AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> {
+  const _AppLocalizationsDelegate();
+
+  @override
+  Future<AppLocalizations> load(Locale locale) {
+    return SynchronousFuture<AppLocalizations>(lookupAppLocalizations(locale));
+  }
+
+  @override
+  bool isSupported(Locale locale) => <String>['ar', 'en'].contains(locale.languageCode);
+
+  @override
+  bool shouldReload(_AppLocalizationsDelegate old) => false;
+}
+
+AppLocalizations lookupAppLocalizations(Locale locale) {
+
+
+  // Lookup logic when only language code is specified.
+  switch (locale.languageCode) {
+    case 'ar': return AppLocalizationsAr();
+    case 'en': return AppLocalizationsEn();
+  }
+
+  throw FlutterError(
+    'AppLocalizations.delegate failed to load unsupported locale "$locale". This is likely '
+    'an issue with the localizations generation tool. Please file an issue '
+    'on GitHub with a reproducible sample app and the gen-l10n configuration '
+    'that was used.'
+  );
+}
