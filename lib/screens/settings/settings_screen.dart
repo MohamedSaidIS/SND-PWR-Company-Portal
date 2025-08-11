@@ -70,7 +70,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                 ),
                 AppSeparators.dividerSeparate(),
                 MenuWidget(
-                  title: local.complainAndSuggestion,
+                  title: local.complaintAndSuggestion,
                   icon: LineAwesomeIcons.hands_helping_solid,
                   //textColor: theme.colorScheme.primary,
                   navigatedPage: () => const ComplainSuggestionScreen(),

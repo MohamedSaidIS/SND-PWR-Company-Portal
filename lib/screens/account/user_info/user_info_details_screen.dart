@@ -8,10 +8,11 @@ import 'package:provider/provider.dart';
 class UserInfoDetailsScreen extends StatefulWidget {
   const UserInfoDetailsScreen(
       {super.key,
+        required this.userName,
       required this.userPhone,
       required this.userOfficeLocation});
 
-  final String  userPhone, userOfficeLocation;
+  final String  userName, userPhone, userOfficeLocation;
 
   @override
   State<UserInfoDetailsScreen> createState() => _UserInfoDetailsScreenState();
@@ -72,6 +73,9 @@ class _UserInfoDetailsScreenState extends State<UserInfoDetailsScreen> {
                               _buildInfoCard([
                                 _buildSectionTitle(
                                     local.personalDetails, context, theme),
+                                _buildInfoRow(local.name, widget.userName,
+                                    LineAwesomeIcons.user, theme),
+                                AppSeparators.infoDivider(),
                                 _buildInfoRow(local.phone, widget.userPhone,
                                     LineAwesomeIcons.phone_solid, theme),
                                 AppSeparators.infoDivider(),

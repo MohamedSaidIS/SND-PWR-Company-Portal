@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:company_portal/data/app_data.dart';
 import 'package:company_portal/utils/context_extensions.dart';
 import 'package:device_apps/device_apps.dart';
@@ -45,6 +47,7 @@ class _AppsScreenState extends State<AppsScreen> {
                   return _buildAppCard(
                       _buildCardInfo(item.appIcon, item.appName, isTablet),
                       item.packageName,
+                      item.iosAppId,
                       context,
                       theme, local);
                 }),
@@ -54,10 +57,10 @@ class _AppsScreenState extends State<AppsScreen> {
 }
 
 Widget _buildAppCard(
-    Widget child, String packageName, BuildContext context, ThemeData theme, AppLocalizations local) {
+    Widget child, String packageName, String iosAppId, BuildContext context, ThemeData theme, AppLocalizations local) {
   return GestureDetector(
       onTap: () {
-        openAppOrRedirect(packageName, context, local);
+        openAppOrRedirect(androidPackageName: packageName, iosAppId: iosAppId, context: context, local: local);
       },
       child: Padding(
         padding: const EdgeInsets.all(5.0),
@@ -90,7 +93,7 @@ Widget _buildCardInfo(String iconStr, String text, bool isTablet) {
       ]);
 }
 
-void openAppOrRedirect(String packageName, BuildContext context, AppLocalizations local) async {
+void openAppOrRedirectAndroid(String packageName, BuildContext context, AppLocalizations local) async {
   await Future.delayed(const Duration(seconds: 1));
   if (packageName == "") {
     ScaffoldMessenger.of(context).showSnackBar(
@@ -122,6 +125,84 @@ void openAppOrRedirect(String packageName, BuildContext context, AppLocalization
           "https://play.google.com/store/apps/details?id=$packageName");
       if (!await launchUrl(uri, mode: LaunchMode.externalApplication)) {
         throw 'Could not launch $uri';
+      }
+    }
+  }
+}
+
+
+Future<void> openAppOrRedirect({
+  required String androidPackageName,
+  required String iosAppId,
+  required BuildContext context,
+  required AppLocalizations local,
+  String? iosCustomScheme, // optional, e.g. "fb://"
+}) async {
+  await Future.delayed(const Duration(seconds: 1));
+
+  if (androidPackageName.isEmpty && iosAppId.isEmpty) {
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: Text(local.thisAppIsNotExists),
+        action: SnackBarAction(
+          label: local.ok,
+          onPressed: () {
+            ScaffoldMessenger.of(context).hideCurrentSnackBar();
+          },
+        ),
+      ),
+    );
+    return;
+  }
+
+  if (Platform.isAndroid) {
+    // Check if installed
+    List<Application> apps = await DeviceApps.getInstalledApplications(
+      includeSystemApps: true,
+      onlyAppsWithLaunchIntent: false,
+    );
+
+    bool isInstalled = apps.any((app) => app.packageName == androidPackageName);
+    print("Installed App: $isInstalled");
+
+    if (isInstalled) {
+      DeviceApps.openApp(androidPackageName);
+    } else {
+      final Uri uri = Uri.parse(
+          "https://play.google.com/store/apps/details?id=$androidPackageName");
+      if (!await launchUrl(uri, mode: LaunchMode.externalApplication)) {
+        throw 'Could not launch $uri';
+      }
+    }
+  }
+
+  else if (Platform.isIOS) {
+    bool isSimulator =
+        !Platform.isIOS || Platform.environment.containsKey('SIMULATOR_DEVICE_NAME');
+
+    if (isSimulator) {
+      final Uri testUri = Uri.parse("https://apple.com");
+      await launchUrl(testUri, mode: LaunchMode.externalApplication);
+      return;
+    }
+
+    bool opened = false;
+
+    if (iosCustomScheme != null && iosCustomScheme.isNotEmpty) {
+      final Uri customUri = Uri.parse(iosCustomScheme);
+      if (await canLaunchUrl(customUri)) {
+        await launchUrl(customUri, mode: LaunchMode.externalApplication);
+        opened = true;
+      }
+    }
+
+    // Open App Store if not opened
+    if (!opened) {
+      final Uri appStoreUri =
+      Uri.parse("https://apps.apple.com/eg/app/$iosAppId");
+      if (!await launchUrl(appStoreUri,
+          mode: LaunchMode.externalApplication)) {
+        throw 'Could not launch $appStoreUri';
       }
     }
   }

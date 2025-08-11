@@ -127,6 +127,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                             title: local.userInformation,
                             icon: LineAwesomeIcons.user,
                             navigatedPage: () => UserInfoDetailsScreen(
+                              userName: "${userInfo.givenName} ${userInfo.surname}",
                                 userPhone: userInfo.mobilePhone,
                                 userOfficeLocation: userInfo.officeLocation),
                             textColor: theme.colorScheme.primary,

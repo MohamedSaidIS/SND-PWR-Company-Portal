@@ -27,7 +27,7 @@ class ComplainSuggestionScreen extends StatelessWidget {
                   backIcon,
                   color: theme.colorScheme.primary,
                 )),
-            title: Text(local.complainAndSuggestion,
+            title: Text(local.complaintAndSuggestion,
                 style: theme.textTheme.headlineLarge!.copyWith(fontSize: 20)),
             bottom: PreferredSize(
               preferredSize: const Size.fromHeight(50),
@@ -48,15 +48,15 @@ class ComplainSuggestionScreen extends StatelessWidget {
                       color: theme.colorScheme.secondary,
                       borderRadius: BorderRadius.circular(10),
                     ),
-                    unselectedLabelColor: theme.colorScheme.primary,
+                    unselectedLabelColor: theme.colorScheme.secondary,
                     labelStyle: const TextStyle(
                         fontSize: 15, fontWeight: FontWeight.w500),
                     tabs: [
                       Tab(
-                        child: _tabChild('Complain / Suggestion', isTablet),
+                        child: _tabChild(local.complaintSuggestionHeader, isTablet),
                       ),
                       Tab(
-                        child: _tabChild('History', isTablet),
+                        child: _tabChild(local.history, isTablet),
                       ),
                     ],
                   ),
