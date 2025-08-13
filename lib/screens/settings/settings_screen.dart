@@ -3,12 +3,13 @@ import 'package:flutter/material.dart';
 import 'package:line_awesome_flutter/line_awesome_flutter.dart';
 import '../../utils/app_separators.dart';
 import '../../widgets/menu_widget.dart';
-import 'complain_suggestion/complain_suggestion_screen.dart';
+import 'complaint_suggestion/complaint_suggestion_screen.dart';
 import 'language/language_screen.dart';
 import 'notification/notification_screen.dart';
 
 class SettingsScreen extends StatefulWidget {
-  const SettingsScreen({super.key});
+  final String userName;
+  const SettingsScreen({ required this.userName, super.key});
 
   @override
   State<SettingsScreen> createState() => _SettingsScreenState();
@@ -73,7 +74,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                   title: local.complaintAndSuggestion,
                   icon: LineAwesomeIcons.hands_helping_solid,
                   //textColor: theme.colorScheme.primary,
-                  navigatedPage: () => const ComplainSuggestionScreen(),
+                  navigatedPage: () => ComplaintSuggestionScreen(userName: widget.userName,),
                 ),
               ],
             ),

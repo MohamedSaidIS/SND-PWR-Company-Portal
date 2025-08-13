@@ -85,7 +85,7 @@ class MyApp extends StatelessWidget {
             GlobalCupertinoLocalizations.delegate
           ],
           theme: Provider.of<ThemeProvider>(context).themeData,
-          home: const SplashScreen(/*navigatorKey: navigatorKey,*/),
+          home: const SplashScreen(),
           navigatorKey: navigatorKey,
         //   routes: {
         //     '/home': (context) => const HomeScreen(oauth: oauth, accessToken: accessToken),

@@ -1,11 +1,19 @@
 import 'package:auto_size_text/auto_size_text.dart';
-import 'package:company_portal/screens/settings/complain_suggestion/complain_suggestion_form_screen.dart';
+import 'package:company_portal/screens/settings/complaint_suggestion/history_screen.dart';
 import 'package:company_portal/utils/context_extensions.dart';
 import 'package:flutter/material.dart';
 
-class ComplainSuggestionScreen extends StatelessWidget {
-  const ComplainSuggestionScreen({super.key});
+import 'complaint_suggestion_form_screen.dart';
 
+class ComplaintSuggestionScreen extends StatefulWidget {
+  final String userName;
+  const ComplaintSuggestionScreen({required this.userName, super.key});
+
+  @override
+  State<ComplaintSuggestionScreen> createState() => _ComplaintSuggestionScreenState();
+}
+
+class _ComplaintSuggestionScreenState extends State<ComplaintSuggestionScreen> {
   @override
   Widget build(BuildContext context) {
     final theme = context.theme;
@@ -64,10 +72,10 @@ class ComplainSuggestionScreen extends StatelessWidget {
               ),
             ),
           ),
-          body: const TabBarView(
+          body: TabBarView(
             children: [
-              ComplainSuggestionFormScreen(),
-              Center(child: Text("History Screen")),
+              ComplaintSuggestionFormScreen(userName: widget.userName,),
+              const HistoryScreen(),
             ],
           ),
         ),

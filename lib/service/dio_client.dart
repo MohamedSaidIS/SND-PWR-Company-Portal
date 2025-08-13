@@ -26,11 +26,12 @@ class DioClient {
       final expired = await isTokenExpired();
       print("Token Expired $expired");
       if (expired) {
-        print("Token Expired And New Token is $token");
         token = await _refreshToken();
+        print("Token Expired And New Token is $token");
       }
 
       if (token != null) {
+        print("Token Expired And not null Token is $token");
         options.headers['Authorization'] = 'Bearer $token';
       }
       handler.next(options);
@@ -56,12 +57,13 @@ class DioClient {
 
   Future<String?> _refreshToken() async {
     try {
-      final newToken = await oauth.refreshToken();
+      final newToken = await oauth.getAccessToken();
       if (newToken != null) {
         final prefs = SharedPrefsHelper();
         await prefs.saveUserData("AccessToken", newToken.toString());
         await prefs.saveUserData(
             "TokenSavedAt", DateTime.now().toIso8601String());
+        print("Token Expired And New Token is $newToken");
         return newToken.toString();
       }
     } catch (e) {
