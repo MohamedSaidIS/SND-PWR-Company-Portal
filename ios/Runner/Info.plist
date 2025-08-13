@@ -27,9 +27,9 @@
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
 	<key>NSCameraUsageDescription</key>
-	<string>Pick image from Camera</string>
+	<string>This app uses your camera to let you take a profile photo, which will be displayed in your account.</string>
 	<key>NSPhotoLibraryUsageDescription</key>
-	<string>Pick an image from Gallery</string>
+	<string>This app uses your Gallery so you can select existing pictures to use as your profile image.</string>
 	<key>UIApplicationSupportsIndirectInputEvents</key>
 	<true/>
 	<key>UILaunchStoryboardName</key>

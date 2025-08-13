@@ -1,9 +1,10 @@
 import 'dart:async';
+import 'package:company_portal/screens/login/login_screen_new.dart';
 import 'package:flutter/material.dart';
 import 'screens/login/login_screen.dart';
 
 class SplashScreen extends StatefulWidget {
-  const SplashScreen({super.key, /*required this.navigatorKey*/});
+  const SplashScreen({super.key,});
 
   //final GlobalKey<NavigatorState> navigatorKey;
 
@@ -23,7 +24,8 @@ class _SplashScreenState extends State<SplashScreen> {
         context,
         MaterialPageRoute(
           builder: (context) =>
-             LoginScreen(/*navigatorKey: widget.navigatorKey*/),
+          LoginScreenNew()
+           //  LoginScreen(),
         ),
       );
     });

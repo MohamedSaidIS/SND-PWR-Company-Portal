@@ -10,9 +10,7 @@ import '../../utils/enums.dart';
 import '../home/home_screen.dart';
 
 class LoginScreen extends StatefulWidget {
-  const LoginScreen({super.key, /*required this.navigatorKey*/});
-
- // final GlobalKey<NavigatorState> navigatorKey;
+  const LoginScreen({super.key,});
 
   @override
   State<StatefulWidget> createState() => _LoginScreenState();
@@ -20,15 +18,12 @@ class LoginScreen extends StatefulWidget {
 
 class _LoginScreenState extends State<LoginScreen> {
   final ScrollController _scrollController = ScrollController();
- // late final AadOAuth oauth;
   bool _logoAtTop = false;
   bool _isLoading = false;
 
   @override
   void initState() {
     super.initState();
-    // oauth = AadOAuth(AuthConfig.createMicrosoftConfig(widget.navigatorKey));
-    // sharedPrefHelper.clearData();
     _scrollController.addListener(() {
       if (_scrollController.offset > 0 && !_logoAtTop) {
         setState(() {

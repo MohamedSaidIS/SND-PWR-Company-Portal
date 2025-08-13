@@ -195,10 +195,16 @@ class AppLocalizationsEn extends AppLocalizations {
   String get pleaseSelectPriority => 'Please select a priority';
 
   @override
-  String get complaintSuggestionField => 'Complaint / Suggestion *';
+  String get issueDescription => 'Description *';
 
   @override
-  String get pleaseEnterYourMessage => 'Please enter your message';
+  String get issueTitle => 'Title *';
+
+  @override
+  String get pleaseEnterTitle => 'Please enter your title';
+
+  @override
+  String get pleaseEnterYourDescription => 'Please enter your description';
 
   @override
   String get areYouSureYouWantToLogout => 'Are you sure you want to logout?';
@@ -225,13 +231,19 @@ class AppLocalizationsEn extends AppLocalizations {
   String get sectionTitleTwo => 'Vision and Market Presence';
 
   @override
-  String get sectionTextTwo => 'Al-Sanidi’s vision is rooted in becoming the ultimate destination for adventurers, offering not only products but also expertise in outdoor activities. The company has grown from a single store to a robust network of physical retail outlets spread across multiple regions of Saudi Arabia, supported by a dynamic online platform that serves customers both locally and across the Middle East. By blending in-store services with e-commerce, Al-Sanidi offers a seamless omnichannel shopping experience.\n\nIn recent years, Al-Sanidi has increasingly focused on expanding its market share through innovative product offerings, such as high-tech camping gear, solar-powered gadgets, and eco-friendly tools. This has allowed the company to differentiate itself in a competitive retail landscape, while maintaining a reputation for reliability and innovative products.';
+  String get sectionTextTwo => 'Al-Sanidi’s vision is rooted in becoming the ultimate destination for adventurers, offering not only products but also expertise in outdoor activities. The company has grown from a single store to a robust network of physical retail outlets spread across multiple regions of Saudi Arabia, supported by a dynamic online platform that serves customers both locally and across the Middle East. By blending in-store services with e-commerce, Al-Sanidi offers a seamless omnichannel shopping experience.';
+
+  @override
+  String get sectionTextTwoPartTwo => 'In recent years, Al-Sanidi has increasingly focused on expanding its market share through innovative product offerings, such as high-tech camping gear, solar-powered gadgets, and eco-friendly tools. This has allowed the company to differentiate itself in a competitive retail landscape, while maintaining a reputation for reliability and innovative products.';
 
   @override
   String get sectionTitleThree => 'Commitment to Quality and Customer Experience';
 
   @override
-  String get sectionTextThree => 'Al-Sanidi is committed to ensuring that every product meets rigorous quality standards. This emphasis on quality is reflected in its partnerships with globally renowned brands known for their durability and innovation. Whether it is providing the most lightweight tents for backpackers or offering durable trekking poles for rugged terrains, Al-Sanidi focuses on curating products that align with the specific needs of outdoor adventurers in the Middle East.\n\nMoreover, customer experience remains at the heart of the company’s business strategy. With a diverse clientele ranging from families planning weekend camping trips to professional hikers exploring remote regions, Al-Sanidi takes pride in offering personalized recommendations and in-store consultations, bolstered by knowledgeable staff who are themselves passionate about outdoor activities.';
+  String get sectionTextThree => 'Al-Sanidi is committed to ensuring that every product meets rigorous quality standards. This emphasis on quality is reflected in its partnerships with globally renowned brands known for their durability and innovation. Whether it is providing the most lightweight tents for backpackers or offering durable trekking poles for rugged terrains, Al-Sanidi focuses on curating products that align with the specific needs of outdoor adventurers in the Middle East.';
+
+  @override
+  String get sectionTextThreePartThree => 'Moreover, customer experience remains at the heart of the company’s business strategy. With a diverse clientele ranging from families planning weekend camping trips to professional hikers exploring remote regions, Al-Sanidi takes pride in offering personalized recommendations and in-store consultations, bolstered by knowledgeable staff who are themselves passionate about outdoor activities.';
 
   @override
   String get it => 'IT';
@@ -252,6 +264,9 @@ class AppLocalizationsEn extends AppLocalizations {
   String get finance => 'Finance';
 
   @override
+  String get other => 'Other';
+
+  @override
   String get low => 'Low';
 
   @override
@@ -262,4 +277,40 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get critical => 'Critical';
+
+  @override
+  String get statusNew => 'New';
+
+  @override
+  String get statusInProgress => 'In Progress';
+
+  @override
+  String get statusCompleted => 'Completed';
+
+  @override
+  String get statusCanceled => 'Canceled';
+
+  @override
+  String get statusDuplicated => 'Duplicated';
+
+  @override
+  String get statusDelay => 'Delayed';
+
+  @override
+  String get issueID => 'ID';
+
+  @override
+  String get issue_Title => 'Issue Title';
+
+  @override
+  String get complaint => 'Complaint';
+
+  @override
+  String get suggestion => 'Suggestion';
+
+  @override
+  String get aR => 'AR';
+
+  @override
+  String get eN => 'EN';
 }

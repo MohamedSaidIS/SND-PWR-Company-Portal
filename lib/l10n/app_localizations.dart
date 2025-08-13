@@ -467,17 +467,29 @@ abstract class AppLocalizations {
   /// **'Please select a priority'**
   String get pleaseSelectPriority;
 
-  /// No description provided for @complaintSuggestionField.
+  /// No description provided for @issueDescription.
   ///
   /// In en, this message translates to:
-  /// **'Complaint / Suggestion *'**
-  String get complaintSuggestionField;
+  /// **'Description *'**
+  String get issueDescription;
 
-  /// No description provided for @pleaseEnterYourMessage.
+  /// No description provided for @issueTitle.
   ///
   /// In en, this message translates to:
-  /// **'Please enter your message'**
-  String get pleaseEnterYourMessage;
+  /// **'Title *'**
+  String get issueTitle;
+
+  /// No description provided for @pleaseEnterTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Please enter your title'**
+  String get pleaseEnterTitle;
+
+  /// No description provided for @pleaseEnterYourDescription.
+  ///
+  /// In en, this message translates to:
+  /// **'Please enter your description'**
+  String get pleaseEnterYourDescription;
 
   /// No description provided for @areYouSureYouWantToLogout.
   ///
@@ -530,8 +542,14 @@ abstract class AppLocalizations {
   /// No description provided for @sectionTextTwo.
   ///
   /// In en, this message translates to:
-  /// **'Al-Sanidi’s vision is rooted in becoming the ultimate destination for adventurers, offering not only products but also expertise in outdoor activities. The company has grown from a single store to a robust network of physical retail outlets spread across multiple regions of Saudi Arabia, supported by a dynamic online platform that serves customers both locally and across the Middle East. By blending in-store services with e-commerce, Al-Sanidi offers a seamless omnichannel shopping experience.\n\nIn recent years, Al-Sanidi has increasingly focused on expanding its market share through innovative product offerings, such as high-tech camping gear, solar-powered gadgets, and eco-friendly tools. This has allowed the company to differentiate itself in a competitive retail landscape, while maintaining a reputation for reliability and innovative products.'**
+  /// **'Al-Sanidi’s vision is rooted in becoming the ultimate destination for adventurers, offering not only products but also expertise in outdoor activities. The company has grown from a single store to a robust network of physical retail outlets spread across multiple regions of Saudi Arabia, supported by a dynamic online platform that serves customers both locally and across the Middle East. By blending in-store services with e-commerce, Al-Sanidi offers a seamless omnichannel shopping experience.'**
   String get sectionTextTwo;
+
+  /// No description provided for @sectionTextTwoPartTwo.
+  ///
+  /// In en, this message translates to:
+  /// **'In recent years, Al-Sanidi has increasingly focused on expanding its market share through innovative product offerings, such as high-tech camping gear, solar-powered gadgets, and eco-friendly tools. This has allowed the company to differentiate itself in a competitive retail landscape, while maintaining a reputation for reliability and innovative products.'**
+  String get sectionTextTwoPartTwo;
 
   /// No description provided for @sectionTitleThree.
   ///
@@ -542,8 +560,14 @@ abstract class AppLocalizations {
   /// No description provided for @sectionTextThree.
   ///
   /// In en, this message translates to:
-  /// **'Al-Sanidi is committed to ensuring that every product meets rigorous quality standards. This emphasis on quality is reflected in its partnerships with globally renowned brands known for their durability and innovation. Whether it is providing the most lightweight tents for backpackers or offering durable trekking poles for rugged terrains, Al-Sanidi focuses on curating products that align with the specific needs of outdoor adventurers in the Middle East.\n\nMoreover, customer experience remains at the heart of the company’s business strategy. With a diverse clientele ranging from families planning weekend camping trips to professional hikers exploring remote regions, Al-Sanidi takes pride in offering personalized recommendations and in-store consultations, bolstered by knowledgeable staff who are themselves passionate about outdoor activities.'**
+  /// **'Al-Sanidi is committed to ensuring that every product meets rigorous quality standards. This emphasis on quality is reflected in its partnerships with globally renowned brands known for their durability and innovation. Whether it is providing the most lightweight tents for backpackers or offering durable trekking poles for rugged terrains, Al-Sanidi focuses on curating products that align with the specific needs of outdoor adventurers in the Middle East.'**
   String get sectionTextThree;
+
+  /// No description provided for @sectionTextThreePartThree.
+  ///
+  /// In en, this message translates to:
+  /// **'Moreover, customer experience remains at the heart of the company’s business strategy. With a diverse clientele ranging from families planning weekend camping trips to professional hikers exploring remote regions, Al-Sanidi takes pride in offering personalized recommendations and in-store consultations, bolstered by knowledgeable staff who are themselves passionate about outdoor activities.'**
+  String get sectionTextThreePartThree;
 
   /// No description provided for @it.
   ///
@@ -581,6 +605,12 @@ abstract class AppLocalizations {
   /// **'Finance'**
   String get finance;
 
+  /// No description provided for @other.
+  ///
+  /// In en, this message translates to:
+  /// **'Other'**
+  String get other;
+
   /// No description provided for @low.
   ///
   /// In en, this message translates to:
@@ -604,6 +634,78 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Critical'**
   String get critical;
+
+  /// No description provided for @statusNew.
+  ///
+  /// In en, this message translates to:
+  /// **'New'**
+  String get statusNew;
+
+  /// No description provided for @statusInProgress.
+  ///
+  /// In en, this message translates to:
+  /// **'In Progress'**
+  String get statusInProgress;
+
+  /// No description provided for @statusCompleted.
+  ///
+  /// In en, this message translates to:
+  /// **'Completed'**
+  String get statusCompleted;
+
+  /// No description provided for @statusCanceled.
+  ///
+  /// In en, this message translates to:
+  /// **'Canceled'**
+  String get statusCanceled;
+
+  /// No description provided for @statusDuplicated.
+  ///
+  /// In en, this message translates to:
+  /// **'Duplicated'**
+  String get statusDuplicated;
+
+  /// No description provided for @statusDelay.
+  ///
+  /// In en, this message translates to:
+  /// **'Delayed'**
+  String get statusDelay;
+
+  /// No description provided for @issueID.
+  ///
+  /// In en, this message translates to:
+  /// **'ID'**
+  String get issueID;
+
+  /// No description provided for @issue_Title.
+  ///
+  /// In en, this message translates to:
+  /// **'Issue Title'**
+  String get issue_Title;
+
+  /// No description provided for @complaint.
+  ///
+  /// In en, this message translates to:
+  /// **'Complaint'**
+  String get complaint;
+
+  /// No description provided for @suggestion.
+  ///
+  /// In en, this message translates to:
+  /// **'Suggestion'**
+  String get suggestion;
+
+  /// No description provided for @aR.
+  ///
+  /// In en, this message translates to:
+  /// **'AR'**
+  String get aR;
+
+  /// No description provided for @eN.
+  ///
+  /// In en, this message translates to:
+  /// **'EN'**
+  String get eN;
 }
 
 class _AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> {

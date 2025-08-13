@@ -142,7 +142,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                           MenuWidget(
                             title: local.settings,
                             icon: LineAwesomeIcons.cog_solid,
-                            navigatedPage: () => const SettingsScreen(),
+                            navigatedPage: () => SettingsScreen(userName: "${userInfo.givenName} ${userInfo.surname}",),
                             textColor: theme.colorScheme.primary,
                           ),
                           MenuWidget(
