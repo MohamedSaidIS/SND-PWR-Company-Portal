@@ -313,4 +313,7 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get eN => 'EN';
+
+  @override
+  String get editImage => 'تعديل الصورة';
 }

@@ -706,6 +706,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'EN'**
   String get eN;
+
+  /// No description provided for @editImage.
+  ///
+  /// In en, this message translates to:
+  /// **'Edit Image'**
+  String get editImage;
 }
 
 class _AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> {

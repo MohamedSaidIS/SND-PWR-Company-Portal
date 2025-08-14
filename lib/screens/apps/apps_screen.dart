@@ -1,6 +1,6 @@
 import 'dart:io';
 
-import 'package:company_portal/data/app_data.dart';
+import 'package:company_portal/data/apps_data.dart';
 import 'package:company_portal/utils/context_extensions.dart';
 import 'package:device_apps/device_apps.dart';
 import 'package:flutter/material.dart';

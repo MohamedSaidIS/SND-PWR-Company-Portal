@@ -1,7 +1,7 @@
 import 'package:company_portal/utils/context_extensions.dart';
 import 'package:flutter/material.dart';
 import '../../l10n/app_localizations.dart';
-import '../../data/request_data.dart';
+import '../../data/requests_data.dart';
 
 class RequestsScreen extends StatefulWidget {
   const RequestsScreen({super.key});
@@ -17,6 +17,7 @@ class _RequestsScreenState extends State<RequestsScreen> {
     final local = context.local;
     final isTablet = context.isTablet();
     final isLandScape = context.isLandScape();
+    final items = getRequestItems(local);
 
     return PopScope(
       canPop: false,
@@ -31,7 +32,7 @@ class _RequestsScreenState extends State<RequestsScreen> {
         body: Padding(
           padding: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 25),
           child: GridView.builder(
-            itemCount: requestItems.length,
+            itemCount: items.length,
             gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
               crossAxisCount: isTablet ? 3 : 2, // two columns
               childAspectRatio: 1,
@@ -39,10 +40,10 @@ class _RequestsScreenState extends State<RequestsScreen> {
               mainAxisSpacing: 8,
             ),
             itemBuilder: (context, index) {
-              final item = requestItems[index];
+              final item = items[index];
               return _buildNewCard(
                 item.icon,
-                _labelTranslated(item.label, local)!,
+                item.label,
                 context,
                 theme,
                 item.navigatedScreen,
@@ -54,25 +55,6 @@ class _RequestsScreenState extends State<RequestsScreen> {
         ),
       ),
     );
-  }
-
-  String? _labelTranslated(String reqLabel, AppLocalizations local) {
-    String? translatedLabel;
-    switch (reqLabel) {
-      case 'Attend / Leave':
-        translatedLabel = local.attendLeaveRequest;
-        break;
-      case 'Vacation \nRequest':
-        translatedLabel = local.vacationRequest;
-        break;
-      case 'Vacation \nBalance':
-        translatedLabel = local.vacationBalanceRequest;
-        break;
-      case 'Permission \nRequest':
-        translatedLabel = local.permissionRequest;
-        break; // fallback
-    }
-    return translatedLabel;
   }
 }
 

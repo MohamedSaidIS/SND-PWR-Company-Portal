@@ -26,6 +26,7 @@
             android:theme="@style/LaunchTheme"
             android:windowSoftInputMode="adjustResize"
             tools:targetApi="33">
+
             <!-- Specifies an Android theme to apply to this Activity as soon as
                  the Android process has started. This theme is visible to the user
                  while the Flutter UI initializes. After that, this theme continues
@@ -39,6 +40,10 @@
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
+        <activity
+            android:name="com.yalantis.ucrop.UCropActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.AppCompat.Light.ActionBar"/>
         <meta-data
             android:name="flutterEmbedding"
             android:value="2" />
