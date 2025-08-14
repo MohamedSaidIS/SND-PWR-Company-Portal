@@ -14,7 +14,7 @@ if (keystorePropertiesFile.exists()) {
 android {
     namespace = "com.alsanidi.company_portal"
     compileSdk = 35
-    ndkVersion = flutter.ndkVersion
+    ndkVersion = "27.0.12077973"
 
 
     compileOptions {
@@ -27,11 +27,11 @@ android {
     }
 
     defaultConfig {
-        applicationId = "com.alsanidi.company_portal"
+        applicationId = "com.alsanidi.sndpower"
         minSdk = flutter.minSdkVersion
         targetSdk = flutter.targetSdkVersion
-        versionCode = '4'
-        versionName = '1.4'
+        versionCode = 1
+        versionName = '1.1'
     }
 
     signingConfigs{

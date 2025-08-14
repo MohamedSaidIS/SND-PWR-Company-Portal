@@ -79,7 +79,6 @@ class AppNotifier {
         icon = Icons.info;
         break;
     }
-
     ScaffoldMessenger.of(context).showSnackBar(SnackBar(
       content: Row(
         mainAxisSize: MainAxisSize.min,
