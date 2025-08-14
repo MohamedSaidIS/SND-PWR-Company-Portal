@@ -23,6 +23,8 @@ extension ContextHelper on BuildContext{
   bool isArabic() => currentLocale() == "ar";
   bool isTablet() => MediaQuery.of(this).size.width >= 600;
   bool isLandScape() => MediaQuery.of(this).orientation == Orientation.landscape;
+  double get screenWidth => isLandScape()? MediaQuery.of(this).size.height : MediaQuery.of(this).size.width;
+  double get screenHeight => isLandScape()? MediaQuery.of(this).size.width : MediaQuery.of(this).size.height;
 
 
 }

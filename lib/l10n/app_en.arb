@@ -101,5 +101,6 @@
   "complaint": "Complaint",
   "suggestion": "Suggestion",
   "aR": "AR",
-  "eN": "EN"
+  "eN": "EN",
+  "editImage" : "Edit Image"
 }

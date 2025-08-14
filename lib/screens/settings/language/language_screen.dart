@@ -45,12 +45,12 @@ Widget _languageOption(String languageCode, String languageName,
   return ListTile(
     onTap: () async {
       localeProvider.setLocale(Locale(languageCode));
-      Navigator.pushReplacement(
-        context,
-        MaterialPageRoute(
-          builder: (_) => const LanguageScreen(),
-        ),
-      );
+      // Navigator.pushReplacement(
+      //   context,
+      //   MaterialPageRoute(
+      //     builder: (_) => const LanguageScreen(),
+      //   ),
+      // );
     },
     shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
     tileColor: isSelected

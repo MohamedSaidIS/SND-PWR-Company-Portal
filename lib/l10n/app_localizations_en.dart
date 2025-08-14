@@ -313,4 +313,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get eN => 'EN';
+
+  @override
+  String get editImage => 'Edit Image';
 }

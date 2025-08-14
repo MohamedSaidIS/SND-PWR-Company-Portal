@@ -1,5 +1,4 @@
 import 'package:aad_oauth/aad_oauth.dart';
-import 'package:company_portal/service/auth_service.dart';
 import 'package:company_portal/service/sharedpref_service.dart';
 import 'package:company_portal/utils/app_notifier.dart';
 import 'package:company_portal/utils/context_extensions.dart';
@@ -112,7 +111,8 @@ class _LoginScreenState extends State<LoginScreen> {
       result.fold(
           (failure) => AppNotifier.snackBar(context, failure.message, SnackBarType.error),
           (success) async{
-            final token = await AuthService.getAccessToken(oauth, sharedPrefHelper);
+            final token =" ";
+           // final token = await AuthService.getAccessToken(oauth, sharedPrefHelper);
             if(token != null && mounted){
               Navigator.push(
                 context,
