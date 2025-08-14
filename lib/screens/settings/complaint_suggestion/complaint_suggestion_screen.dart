@@ -1,9 +1,9 @@
 import 'package:auto_size_text/auto_size_text.dart';
-import 'package:company_portal/screens/settings/complaint_suggestion/history_screen.dart';
 import 'package:company_portal/utils/context_extensions.dart';
 import 'package:flutter/material.dart';
 
 import 'complaint_suggestion_form_screen.dart';
+import 'history_screen.dart';
 
 class ComplaintSuggestionScreen extends StatefulWidget {
   final String userName;
