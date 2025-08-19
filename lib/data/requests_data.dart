@@ -1,22 +1,10 @@
-import 'package:company_portal/l10n/app_localizations.dart';
-import 'package:company_portal/screens/request/vacation_request.dart';
 import 'package:flutter/material.dart';
-
+import '../l10n/app_localizations.dart';
+import '../models/request_model.dart';
 import '../screens/request/attend_leave_screen.dart';
 import '../screens/request/permission_screen.dart';
 import '../screens/request/vacation_balance_screen.dart';
-
-class RequestItem {
-  final IconData icon;
-  final String label;
-  final Widget navigatedScreen;
-
-  const RequestItem({
-    required this.icon,
-    required this.label,
-    required this.navigatedScreen,
-  });
-}
+import '../screens/request/vacation_request.dart';
 
 List<RequestItem> getRequestItems(AppLocalizations local) {
   return [
