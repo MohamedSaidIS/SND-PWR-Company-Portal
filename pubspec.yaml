@@ -61,6 +61,7 @@ dependencies:
   carousel_slider: ^5.1.1
   country_flags: ^3.3.0
   image_cropper: ^9.1.0
+  external_app_launcher: ^4.0.3
 
 dev_dependencies:
   flutter_test:

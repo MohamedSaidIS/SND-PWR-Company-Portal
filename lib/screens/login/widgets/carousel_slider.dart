@@ -1,9 +1,8 @@
-import 'package:carousel_slider/carousel_controller.dart';
 import 'package:carousel_slider/carousel_slider.dart';
+import 'package:company_portal/data/section_data.dart';
 import 'package:company_portal/utils/context_extensions.dart';
 import 'package:flutter/material.dart';
 
-import '../../../data/login_data.dart';
 
 class CarouselSliderWidget extends StatefulWidget {
   const CarouselSliderWidget({super.key});
@@ -20,7 +19,7 @@ class _CarouselSliderWidgetState extends State<CarouselSliderWidget> {
   Widget build(BuildContext context) {
     final theme = context.theme;
     final local = context.local;
-    final items = getItems(local, theme, context);
+    final items = getSections(local, theme, context);
     final isTablet = context.isTablet();
 
     return Column(

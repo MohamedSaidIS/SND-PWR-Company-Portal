@@ -1,6 +1,6 @@
 import 'package:company_portal/utils/context_extensions.dart';
 import 'package:flutter/material.dart';
-import '../../../data/complain_and_suggesstion_data.dart';
+import '../../../data/complain_and_suggestion_data.dart';
 import '../../../l10n/app_localizations.dart';
 
 class HistoryScreen extends StatefulWidget {

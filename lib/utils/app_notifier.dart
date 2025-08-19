@@ -1,7 +1,7 @@
 import 'package:aad_oauth/aad_oauth.dart';
+import 'package:company_portal/screens/login/login_screen_new.dart';
 import 'package:company_portal/utils/context_extensions.dart';
 import 'package:flutter/material.dart';
-import 'package:company_portal/screens/login/login_screen.dart';
 import 'package:provider/provider.dart';
 import 'enums.dart';
 
@@ -43,7 +43,7 @@ class AppNotifier {
               Navigator.pushReplacement(
                 context,
                 MaterialPageRoute(
-                  builder: (context) => const LoginScreen(),
+                  builder: (context) => const LoginScreenNew(),
                 ),
               );
             },

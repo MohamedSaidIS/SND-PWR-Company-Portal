@@ -37,13 +37,13 @@ class _AppsScreenState extends State<AppsScreen> {
           body: Padding(
             padding: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 25),
             child: GridView.builder(
-              itemCount: apps.length,
+              itemCount: getAppItems.length,
                 gridDelegate:  SliverGridDelegateWithFixedCrossAxisCount(
                   crossAxisCount: isTablet? 3 : 2, // two columns
                   childAspectRatio: 1,
                 ),
                 itemBuilder: (context, index) {
-                  final item = apps[index];
+                  final item = getAppItems[index];
                   return _buildAppCard(
                       _buildCardInfo(item.appIcon, item.appName, isTablet),
                       item.packageName,
@@ -51,7 +51,8 @@ class _AppsScreenState extends State<AppsScreen> {
                       context,
                       theme, local);
                 }),
-          )),
+          )
+      ),
     );
   }
 }
@@ -92,44 +93,6 @@ Widget _buildCardInfo(String iconStr, String text, bool isTablet) {
         ),
       ]);
 }
-
-void openAppOrRedirectAndroid(String packageName, BuildContext context, AppLocalizations local) async {
-  await Future.delayed(const Duration(seconds: 1));
-  if (packageName == "") {
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(
-        content: Text(local.thisAppIsNotExists),
-        action: SnackBarAction(
-          label: local.ok,
-          onPressed: () {
-            ScaffoldMessenger.of(context).hideCurrentSnackBar();
-          },
-        ),
-      ),
-    );
-  } else {
-    List<Application> apps = await DeviceApps.getInstalledApplications(
-      includeSystemApps: true,
-      onlyAppsWithLaunchIntent: false,
-    );
-    bool isInstalled = apps.any((app) => app.packageName == packageName);
-    print("Installed App: $isInstalled");
-    for( Application app in apps){
-      print("App Name: ${app.appName}, Package: ${app.packageName}");
-    }
-
-    if (isInstalled) {
-      DeviceApps.openApp(packageName);
-    } else {
-      final Uri uri = Uri.parse(
-          "https://play.google.com/store/apps/details?id=$packageName");
-      if (!await launchUrl(uri, mode: LaunchMode.externalApplication)) {
-        throw 'Could not launch $uri';
-      }
-    }
-  }
-}
-
 
 Future<void> openAppOrRedirect({
   required String androidPackageName,
@@ -196,7 +159,6 @@ Future<void> openAppOrRedirect({
       }
     }
 
-    // Open App Store if not opened
     if (!opened) {
       final Uri appStoreUri =
       Uri.parse("https://apps.apple.com/eg/app/$iosAppId");

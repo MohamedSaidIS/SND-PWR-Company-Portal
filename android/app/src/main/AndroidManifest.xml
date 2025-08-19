@@ -9,7 +9,20 @@
     <uses-permission android:name="android.permission.CAMERA"/>
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
-    <uses-permission android:name="android.permission.QUERY_ALL_PACKAGES"/>
+
+    <queries>
+        <package android:name="com.microsoft.teams" />
+        <package android:name="com.microsoft.office.excel" />
+        <package android:name="com.yammer.v1" />
+        <package android:name="com.microsoft.skydrive" />
+        <package android:name="com.microsoft.office.onenote" />
+        <package android:name="com.microsoft.office.outlook" />
+        <package android:name="com.microsoft.planner" />
+        <package android:name="com.microsoft.msapps" />
+        <package android:name="com.microsoft.office.powerpoint" />
+        <package android:name="com.microsoft.todos" />
+        <package android:name="com.microsoft.office.word" />
+    </queries>
 
     <application
         android:label="SND Power"
@@ -43,7 +56,7 @@
         <activity
             android:name="com.yalantis.ucrop.UCropActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/Theme.AppCompat.Light.ActionBar"/>
+            android:theme="@style/Theme.UCropActivity"/>
         <meta-data
             android:name="flutterEmbedding"
             android:value="2" />
