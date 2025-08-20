@@ -5,6 +5,8 @@ import 'package:flutter/material.dart';
 import 'package:line_awesome_flutter/line_awesome_flutter.dart';
 import 'package:provider/provider.dart';
 
+import '../../../common/custom_app_bar.dart';
+
 class UserInfoDetailsScreen extends StatefulWidget {
   const UserInfoDetailsScreen(
       {super.key,
@@ -36,7 +38,6 @@ class _UserInfoDetailsScreenState extends State<UserInfoDetailsScreen> {
   Widget build(BuildContext context) {
     final managerInfoProvider = Provider.of<ManagerInfoProvider>(context);
     final managerInfo = managerInfoProvider.managerInfo;
-    final backIcon = context.backIcon;
     final theme = context.theme;
     final local = context.local;
 
@@ -44,22 +45,10 @@ class _UserInfoDetailsScreenState extends State<UserInfoDetailsScreen> {
       canPop: false,
       child: Scaffold(
         backgroundColor: theme.colorScheme.background,
-        appBar: AppBar(
-          centerTitle: true,
-          backgroundColor: theme.appBarTheme.backgroundColor,
-          leading: IconButton(
-            onPressed: () => Navigator.pop(context),
-            icon: Icon(
-              backIcon,
-              color: theme.colorScheme.primary,
-            ),
-          ),
-          title: Text(
-            local.userInfo,
-            textAlign: TextAlign.center,
-            style: theme.textTheme.headlineLarge,
-          ),
-        ),
+          appBar: CustomAppBar(
+        title: local.userInfo,
+        backBtn: true,
+      ),
         body:
             managerInfoProvider.loading || managerInfoProvider.managerInfo == null
                 ? const Center(child: CircularProgressIndicator())

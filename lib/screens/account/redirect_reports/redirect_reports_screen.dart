@@ -1,8 +1,10 @@
 import 'package:company_portal/providers/direct_reports_provider.dart';
+import 'package:company_portal/screens/account/redirect_reports/widgets/direct_report_card_widget.dart';
 import 'package:company_portal/utils/context_extensions.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import '../../../widgets/direct_report_card_widget.dart';
+
+import '../../../common/custom_app_bar.dart';
 
 class DirectReportsScreen extends StatefulWidget {
   const DirectReportsScreen({super.key,});
@@ -30,7 +32,6 @@ class _DirectReportsScreenState extends State<DirectReportsScreen> {
     final directReportListProvider =
         Provider.of<DirectReportsProvider>(context);
     final directReportList = directReportListProvider.directReportList;
-    final backIcon = context.backIcon;
     final theme = context.theme;
     final local = context.local;
 
@@ -38,16 +39,9 @@ class _DirectReportsScreenState extends State<DirectReportsScreen> {
       canPop: false,
       child: Scaffold(
         backgroundColor: theme.colorScheme.background,
-        appBar: AppBar(
-          centerTitle: true,
-          backgroundColor: theme.colorScheme.background,
-          leading: IconButton(
-              onPressed: () => Navigator.pop(context),
-              icon: Icon(
-                backIcon,
-                color: theme.colorScheme.primary,
-              )),
-          title: Text(local.directReport, style: theme.textTheme.headlineLarge),
+        appBar: CustomAppBar(
+          title: local.directReport,
+          backBtn: true,
         ),
         body: Container(
           padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 20),

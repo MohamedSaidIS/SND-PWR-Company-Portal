@@ -1,6 +1,8 @@
 import 'package:company_portal/utils/context_extensions.dart';
 import 'package:flutter/material.dart';
 
+import '../../common/custom_app_bar.dart';
+
 class PermissionScreen extends StatefulWidget {
   const PermissionScreen({super.key});
 
@@ -13,26 +15,14 @@ class _PermissionScreenState extends State<PermissionScreen> {
   Widget build(BuildContext context) {
     final theme = context.theme;
     final local = context.local;
-    final backIcon = context.backIcon;
 
     return PopScope(
       canPop: false,
       child: Scaffold(
         backgroundColor: theme.colorScheme.background,
-        appBar: AppBar(
-          centerTitle: true,
-          backgroundColor: theme.colorScheme.background,
-          leading: IconButton(
-            onPressed: () => Navigator.pop(context),
-            icon: Icon(
-              backIcon,
-              color: theme.colorScheme.primary,
-            ),
-          ),
-          title: Text(
-            local.permissionRequest,
-            style: theme.textTheme.headlineLarge,
-          ),
+        appBar: CustomAppBar(
+          title: local.permissionRequestLine,
+          backBtn: true,
         ),
         body: Center(
           child: Text(

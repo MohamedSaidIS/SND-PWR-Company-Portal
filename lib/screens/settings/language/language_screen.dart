@@ -2,6 +2,8 @@ import 'package:company_portal/providers/locale_provider.dart';
 import 'package:company_portal/utils/context_extensions.dart';
 import 'package:flutter/material.dart';
 
+import '../../../common/custom_app_bar.dart';
+
 class LanguageScreen extends StatelessWidget {
   const LanguageScreen({super.key});
 
@@ -11,19 +13,14 @@ class LanguageScreen extends StatelessWidget {
     final currentLocale = context.currentLocale();
     final theme = context.theme;
     final local = context.local;
-    final backIcon = context.backIcon;
 
     return PopScope(
       canPop: false,
       child: Scaffold(
         backgroundColor: theme.colorScheme.background,
-        appBar: AppBar(
-          centerTitle: true,
-          title: Text(local.language,style: theme.textTheme.headlineLarge),
-          leading: IconButton(
-              onPressed: () => Navigator.pop(context),
-              icon: Icon(backIcon, color: theme.colorScheme.primary,),
-          ),
+        appBar: CustomAppBar(
+          title: local.language,
+         backBtn: true,
         ),
         body: Padding(
           padding: const EdgeInsets.all(16),

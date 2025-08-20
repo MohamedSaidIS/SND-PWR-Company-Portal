@@ -18,6 +18,7 @@ class LanguageSwitcher extends StatelessWidget {
   Widget build(BuildContext context) {
     final isArabic = currentLocale == 'ar';
     final local = context.local;
+    final theme = context.theme;
 
     return Positioned(
       top: 10,
@@ -35,8 +36,8 @@ class LanguageSwitcher extends StatelessWidget {
             child: Center(
               child: Text(
                 currentLocale.toUpperCase() == "AR" ? local.aR : local.eN,
-                style: const TextStyle(
-                    color: Colors.black87,
+                style: TextStyle(
+                    color: theme.colorScheme.primary,
                     fontWeight: FontWeight.w500,
                     fontSize: 18),
               ),

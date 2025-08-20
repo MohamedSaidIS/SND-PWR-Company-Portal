@@ -62,6 +62,9 @@ dependencies:
   country_flags: ^3.3.0
   image_cropper: ^9.1.0
   external_app_launcher: ^4.0.3
+  redacted: ^1.0.13
+  shimmer: ^3.0.0
+  lottie: ^3.1.0
 
 dev_dependencies:
   flutter_test:
@@ -86,4 +89,5 @@ flutter:
   generate: true
   assets:
     - assets/images/
+    - assets/lottie/
     - env/.env_dev

@@ -125,6 +125,24 @@ abstract class AppLocalizations {
   /// **'Vacation \nBalance'**
   String get vacationBalanceRequest;
 
+  /// No description provided for @vacationRequestLine.
+  ///
+  /// In en, this message translates to:
+  /// **'Vacation Request'**
+  String get vacationRequestLine;
+
+  /// No description provided for @permissionRequestLine.
+  ///
+  /// In en, this message translates to:
+  /// **'Permission Request'**
+  String get permissionRequestLine;
+
+  /// No description provided for @vacationBalanceRequestLine.
+  ///
+  /// In en, this message translates to:
+  /// **'Vacation Balance'**
+  String get vacationBalanceRequestLine;
+
   /// No description provided for @selectDate.
   ///
   /// In en, this message translates to:
@@ -220,12 +238,6 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Please fill all fields'**
   String get pleaseFillAllFields;
-
-  /// No description provided for @vacationRequestTitle.
-  ///
-  /// In en, this message translates to:
-  /// **'Vacation Request'**
-  String get vacationRequestTitle;
 
   /// No description provided for @dashboard.
   ///
@@ -712,6 +724,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Edit Image'**
   String get editImage;
+
+  /// No description provided for @openingApp.
+  ///
+  /// In en, this message translates to:
+  /// **'Opening App'**
+  String get openingApp;
 }
 
 class _AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> {
