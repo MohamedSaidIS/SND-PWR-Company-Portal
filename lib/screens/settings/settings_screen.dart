@@ -1,8 +1,9 @@
 import 'package:company_portal/utils/context_extensions.dart';
 import 'package:flutter/material.dart';
 import 'package:line_awesome_flutter/line_awesome_flutter.dart';
+import '../../common/custom_app_bar.dart';
 import '../../utils/app_separators.dart';
-import '../../widgets/menu_widget.dart';
+import '../account/profile/widgets/menu_widget.dart';
 import 'complaint_suggestion/complaint_suggestion_screen.dart';
 import 'language/language_screen.dart';
 import 'notification/notification_screen.dart';
@@ -18,36 +19,17 @@ class SettingsScreen extends StatefulWidget {
 class _SettingsScreenState extends State<SettingsScreen> {
   @override
   Widget build(BuildContext context) {
-    var themeProvider = context.themeProvider;
     final theme = context.theme;
     final local = context.local;
-    final backIcon = context.backIcon;
-    final themeIcon = context.themeIcon;
 
     return PopScope(
       canPop: false,
       child: Scaffold(
         backgroundColor: theme.colorScheme.background,
-        appBar: AppBar(
-          centerTitle: true,
-          backgroundColor: theme.appBarTheme.backgroundColor,
-          leading: IconButton(
-            onPressed: () => Navigator.pop(context),
-            icon: Icon(
-              backIcon,
-              color: theme.colorScheme.primary,
-            ),
-          ),
-          title: Text(local.settings, style: theme.textTheme.headlineLarge),
-          actions: [
-            IconButton(
-              onPressed: () => themeProvider.toggleTheme(),
-              icon: Icon(
-                themeIcon,
-                color: theme.colorScheme.primary,
-              ),
-            )
-          ],
+        appBar: CustomAppBar(
+          title: local.settings,
+          backBtn: true,
+          themeBtn: true,
         ),
         body: SingleChildScrollView(
           child: Container(

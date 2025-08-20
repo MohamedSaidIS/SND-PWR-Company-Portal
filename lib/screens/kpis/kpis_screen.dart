@@ -2,6 +2,8 @@ import 'package:company_portal/utils/context_extensions.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 
+import '../../common/custom_app_bar.dart';
+
 class KpisScreen extends StatefulWidget {
   const KpisScreen({super.key});
 
@@ -20,15 +22,10 @@ class _KpisScreenState extends State<KpisScreen> {
       canPop: false,
       child: Scaffold(
         backgroundColor: theme.colorScheme.background,
-        appBar: AppBar(
-          centerTitle: true,
-          backgroundColor: theme.appBarTheme.backgroundColor,
-          automaticallyImplyLeading: false,
-          title: Text(local.kpis,
-              style: theme.textTheme.headlineLarge,
-          ),
+        appBar: CustomAppBar(
+          title: local.kpis,
+          backBtn: false,
         ),
-
         body: Padding(
           padding: const EdgeInsets.all(16.0),
           child: Column(

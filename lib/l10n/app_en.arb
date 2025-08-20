@@ -5,6 +5,9 @@
   "vacationRequest": "Vacation \nRequest",
   "permissionRequest": "Permission \nRequest",
   "vacationBalanceRequest": "Vacation \nBalance",
+  "vacationRequestLine": "Vacation Request",
+  "permissionRequestLine": "Permission Request",
+  "vacationBalanceRequestLine": "Vacation Balance",
   "selectDate": "Select date",
   "managementName": "Management Name",
   "departmentName": "Department Name",
@@ -21,7 +24,6 @@
   "requiredField": "Required field",
   "vacationRequestSubmitted": "Vacation request submitted",
   "pleaseFillAllFields": "Please fill all fields",
-  "vacationRequestTitle": "Vacation Request",
   "dashboard": "Dashboard",
   "apps": "Apps",
   "kpis": "KPIs",
@@ -102,5 +104,6 @@
   "suggestion": "Suggestion",
   "aR": "AR",
   "eN": "EN",
-  "editImage" : "Edit Image"
+  "editImage" : "Edit Image",
+  "openingApp" : "Opening App"
 }

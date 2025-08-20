@@ -24,6 +24,15 @@ class AppLocalizationsAr extends AppLocalizations {
   String get vacationBalanceRequest => 'رصيد الإجازة';
 
   @override
+  String get vacationRequestLine => 'طلب إجازة';
+
+  @override
+  String get permissionRequestLine => 'طلب إذن';
+
+  @override
+  String get vacationBalanceRequestLine => 'رصيد الإجازة';
+
+  @override
   String get selectDate => 'حدد التاريخ';
 
   @override
@@ -70,9 +79,6 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get pleaseFillAllFields => 'يرجى ملء جميع الحقول';
-
-  @override
-  String get vacationRequestTitle => 'طلب إجازة';
 
   @override
   String get dashboard => 'الرئيسية';
@@ -138,7 +144,7 @@ class AppLocalizationsAr extends AppLocalizations {
   String get thisAppIsNotExists => 'هذا التطبيق غير موجود';
 
   @override
-  String get ok => 'نعم';
+  String get ok => 'تم';
 
   @override
   String get cancel => 'إلغاء';
@@ -316,4 +322,7 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get editImage => 'تعديل الصورة';
+
+  @override
+  String get openingApp => 'جارٍ فتح التطبيق';
 }

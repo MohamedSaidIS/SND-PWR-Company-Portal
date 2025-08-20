@@ -1,6 +1,6 @@
 import 'package:company_portal/utils/context_extensions.dart';
 import 'package:flutter/material.dart';
-import '../../l10n/app_localizations.dart';
+import '../../common/custom_app_bar.dart';
 import '../../data/requests_data.dart';
 
 class RequestsScreen extends StatefulWidget {
@@ -23,11 +23,9 @@ class _RequestsScreenState extends State<RequestsScreen> {
       canPop: false,
       child: Scaffold(
         backgroundColor: theme.colorScheme.background,
-        appBar: AppBar(
-          centerTitle: true,
-          backgroundColor: theme.appBarTheme.backgroundColor,
-          automaticallyImplyLeading: false,
-          title: Text(local.requests, style: theme.textTheme.headlineLarge),
+        appBar: CustomAppBar(
+          title: local.requests,
+          backBtn: false,
         ),
         body: Padding(
           padding: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 25),

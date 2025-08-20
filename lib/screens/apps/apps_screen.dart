@@ -1,11 +1,12 @@
 import 'dart:io';
-
 import 'package:company_portal/data/apps_data.dart';
+import 'package:company_portal/utils/app_notifier.dart';
 import 'package:company_portal/utils/context_extensions.dart';
 import 'package:device_apps/device_apps.dart';
 import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
 
+import '../../common/custom_app_bar.dart';
 import '../../l10n/app_localizations.dart';
 
 class AppsScreen extends StatefulWidget {
@@ -26,20 +27,16 @@ class _AppsScreenState extends State<AppsScreen> {
       canPop: false,
       child: Scaffold(
           backgroundColor: theme.colorScheme.background,
-          appBar: AppBar(
-            centerTitle: true,
-            backgroundColor: theme.appBarTheme.backgroundColor,
-            automaticallyImplyLeading: false,
-            title: Text(local.apps,
-                style: theme.textTheme.headlineLarge
-            ),
+          appBar: CustomAppBar(
+            title: local.apps,
+            backBtn: false,
           ),
           body: Padding(
             padding: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 25),
             child: GridView.builder(
-              itemCount: getAppItems.length,
-                gridDelegate:  SliverGridDelegateWithFixedCrossAxisCount(
-                  crossAxisCount: isTablet? 3 : 2, // two columns
+                itemCount: getAppItems.length,
+                gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                  crossAxisCount: isTablet ? 3 : 2, // two columns
                   childAspectRatio: 1,
                 ),
                 itemBuilder: (context, index) {
@@ -49,19 +46,23 @@ class _AppsScreenState extends State<AppsScreen> {
                       item.packageName,
                       item.iosAppId,
                       context,
-                      theme, local);
+                      theme,
+                      local);
                 }),
-          )
-      ),
+          )),
     );
   }
 }
 
-Widget _buildAppCard(
-    Widget child, String packageName, String iosAppId, BuildContext context, ThemeData theme, AppLocalizations local) {
+Widget _buildAppCard(Widget child, String packageName, String iosAppId,
+    BuildContext context, ThemeData theme, AppLocalizations local) {
   return GestureDetector(
       onTap: () {
-        openAppOrRedirect(androidPackageName: packageName, iosAppId: iosAppId, context: context, local: local);
+        openAppOrRedirect(
+            androidPackageName: packageName,
+            iosAppId: iosAppId,
+            context: context,
+            local: local, theme: theme);
       },
       child: Padding(
         padding: const EdgeInsets.all(5.0),
@@ -82,13 +83,14 @@ Widget _buildCardInfo(String iconStr, String text, bool isTablet) {
       children: [
         Image.asset(
           iconStr,
-          scale: isTablet? 1: 1.4,
+          scale: isTablet ? 1 : 1.4,
         ),
         Padding(
           padding: const EdgeInsets.only(top: 10.0),
           child: Text(
             text,
-            style: TextStyle(fontSize: isTablet? 20: 15, fontWeight: FontWeight.w600),
+            style: TextStyle(
+                fontSize: isTablet ? 20 : 15, fontWeight: FontWeight.w600),
           ),
         ),
       ]);
@@ -99,9 +101,10 @@ Future<void> openAppOrRedirect({
   required String iosAppId,
   required BuildContext context,
   required AppLocalizations local,
+  required ThemeData theme,
   String? iosCustomScheme, // optional, e.g. "fb://"
 }) async {
-  await Future.delayed(const Duration(seconds: 1));
+
 
   if (androidPackageName.isEmpty && iosAppId.isEmpty) {
     ScaffoldMessenger.of(context).showSnackBar(
@@ -115,57 +118,64 @@ Future<void> openAppOrRedirect({
         ),
       ),
     );
-    return;
+  }else{
+    AppNotifier.showLoadingDialog(context, local.openingApp, theme);
+
+    try {
+      if (Platform.isAndroid) {
+        // Check if installed
+        List<Application> apps = await DeviceApps.getInstalledApplications(
+          includeSystemApps: true,
+          onlyAppsWithLaunchIntent: false,
+        );
+
+        bool isInstalled = apps.any((app) =>
+        app.packageName == androidPackageName);
+        print("Installed App: $isInstalled");
+
+        if (isInstalled) {
+          DeviceApps.openApp(androidPackageName);
+        } else {
+          final Uri uri = Uri.parse(
+              "https://play.google.com/store/apps/details?id=$androidPackageName");
+          if (!await launchUrl(uri, mode: LaunchMode.externalApplication)) {
+            throw 'Could not launch $uri';
+          }
+        }
+      } else if (Platform.isIOS) {
+        bool isSimulator = !Platform.isIOS ||
+            Platform.environment.containsKey('SIMULATOR_DEVICE_NAME');
+
+        if (isSimulator) {
+          final Uri testUri = Uri.parse("https://apple.com");
+          await launchUrl(testUri, mode: LaunchMode.externalApplication);
+          return;
+        }
+
+        bool opened = false;
+
+        if (iosCustomScheme != null && iosCustomScheme.isNotEmpty) {
+          final Uri customUri = Uri.parse(iosCustomScheme);
+          if (await canLaunchUrl(customUri)) {
+            await launchUrl(customUri, mode: LaunchMode.externalApplication);
+            opened = true;
+          }
+        }
+
+        if (!opened) {
+          final Uri appStoreUri =
+          Uri.parse("https://apps.apple.com/eg/app/$iosAppId");
+          if (!await launchUrl(
+              appStoreUri, mode: LaunchMode.externalApplication)) {
+            throw 'Could not launch $appStoreUri';
+          }
+        }
+      }
+    }finally{
+      AppNotifier.hideLoadingDialog(context);
+    }
   }
 
-  if (Platform.isAndroid) {
-    // Check if installed
-    List<Application> apps = await DeviceApps.getInstalledApplications(
-      includeSystemApps: true,
-      onlyAppsWithLaunchIntent: false,
-    );
 
-    bool isInstalled = apps.any((app) => app.packageName == androidPackageName);
-    print("Installed App: $isInstalled");
-
-    if (isInstalled) {
-      DeviceApps.openApp(androidPackageName);
-    } else {
-      final Uri uri = Uri.parse(
-          "https://play.google.com/store/apps/details?id=$androidPackageName");
-      if (!await launchUrl(uri, mode: LaunchMode.externalApplication)) {
-        throw 'Could not launch $uri';
-      }
-    }
-  }
-
-  else if (Platform.isIOS) {
-    bool isSimulator =
-        !Platform.isIOS || Platform.environment.containsKey('SIMULATOR_DEVICE_NAME');
-
-    if (isSimulator) {
-      final Uri testUri = Uri.parse("https://apple.com");
-      await launchUrl(testUri, mode: LaunchMode.externalApplication);
-      return;
-    }
-
-    bool opened = false;
-
-    if (iosCustomScheme != null && iosCustomScheme.isNotEmpty) {
-      final Uri customUri = Uri.parse(iosCustomScheme);
-      if (await canLaunchUrl(customUri)) {
-        await launchUrl(customUri, mode: LaunchMode.externalApplication);
-        opened = true;
-      }
-    }
-
-    if (!opened) {
-      final Uri appStoreUri =
-      Uri.parse("https://apps.apple.com/eg/app/$iosAppId");
-      if (!await launchUrl(appStoreUri,
-          mode: LaunchMode.externalApplication)) {
-        throw 'Could not launch $appStoreUri';
-      }
-    }
-  }
 }
+
