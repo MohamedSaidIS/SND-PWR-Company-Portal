@@ -23,28 +23,19 @@ List<Map<String, String>> getPriorities(AppLocalizations local) {
   ];
 }
 
-final issues = [
-  {"id": "101", "title": "Login not working", "status": "new"},
-  {"id": "102", "title": "UI alignment issue", "status": "inprogress"},
-  {"id": "103", "title": "Crash on iOS", "status": "completed"},
-  {"id": "104", "title": "Feature request duplicated", "status": "duplicated"},
-  {"id": "105", "title": "Wrong data in API", "status": "delay"},
-  {"id": "106", "title": "User canceled request", "status": "canceled"},
-];
-
 IconData getStatusIcon(String status) {
   switch (status.toLowerCase()) {
     case "new":
       return Icons.fiber_manual_record;
-    case "inprogress":
+    case "in progress":
       return Icons.autorenew;
     case "completed":
       return Icons.check_circle;
     case "canceled":
       return Icons.cancel;
-    case "duplicated":
+    case "duplicate":
       return Icons.copy;
-    case "delay":
+    case "pending":
       return Icons.access_time;
     default:
       return Icons.help_outline;
@@ -55,15 +46,15 @@ Color getStatusColor(String status) {
   switch (status.toLowerCase()) {
     case "new":
       return Colors.blue;
-    case "inprogress":
+    case "in progress":
       return Colors.orange;
     case "completed":
       return Colors.green;
     case "canceled":
       return Colors.red;
-    case "duplicated":
+    case "duplicate":
       return Colors.purple;
-    case "delay":
+    case "pending":
       return Colors.amber;
     default:
       return Colors.grey;
@@ -86,5 +77,51 @@ String getTranslatedStatus(BuildContext context, String status, AppLocalizations
       return local.statusDelay;
     default:
       return status;
+  }
+}
+
+Color getPriorityColor(String priority) {
+  switch (priority.toLowerCase()) {
+    case "critical":
+      return Colors.red; // خطير جداً
+    case "high":
+      return Colors.orange; // عالي
+    case "low":
+      return Colors.amber; // منخفض
+    case "normal":
+      return Colors.green; // عادي
+    default:
+      return Colors.grey; // غير معروف
+  }
+}
+
+/// Get priority icon
+IconData getPriorityIcon(String priority) {
+  switch (priority.toLowerCase()) {
+    case "critical":
+      return Icons.close;
+    case "high":
+      return Icons.arrow_upward;
+    case "low":
+      return Icons.arrow_downward;
+    case "normal":
+      return Icons.flag;
+    default:
+      return Icons.label_outline;
+  }
+}
+
+String getTranslatedPriorities(BuildContext context, String priority, AppLocalizations local) {
+  switch (priority.toLowerCase()) {
+    case "critical":
+      return local.critical;
+    case "high":
+      return local.high;
+    case "normal":
+      return local.normal;
+    case "low":
+      return local.low;
+    default:
+      return priority;
   }
 }

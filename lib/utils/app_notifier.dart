@@ -1,7 +1,8 @@
 import 'package:aad_oauth/aad_oauth.dart';
+import 'package:company_portal/screens/login/login_screen_new.dart';
 import 'package:company_portal/utils/context_extensions.dart';
 import 'package:flutter/material.dart';
-import 'package:company_portal/screens/login/login_screen.dart';
+import 'package:lottie/lottie.dart';
 import 'package:provider/provider.dart';
 import 'enums.dart';
 
@@ -43,7 +44,7 @@ class AppNotifier {
               Navigator.pushReplacement(
                 context,
                 MaterialPageRoute(
-                  builder: (context) => const LoginScreen(),
+                  builder: (context) => const LoginScreenNew(),
                 ),
               );
             },
@@ -104,5 +105,47 @@ class AppNotifier {
       ),
       elevation: 5,
     ));
+  }
+
+  static void showLoadingDialog(BuildContext context, String message, ThemeData theme) {
+    showDialog(
+      context: context,
+      barrierDismissible: false,
+      builder: (context) {
+        return Center(
+          child: Container(
+            padding: const EdgeInsets.all(10),
+            decoration: BoxDecoration(
+              color: theme.colorScheme.background.withOpacity(0.7),
+              borderRadius: BorderRadius.circular(15),
+            ),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Lottie.asset(
+                  'assets/lottie/loading.json',
+                  width: 150,
+                  height: 100,
+                  fit: BoxFit.cover,
+                ),
+                const SizedBox(height: 15),
+                Text(
+                  message,
+                  style: TextStyle(fontSize: 17, color: theme.colorScheme.primary, fontWeight: FontWeight.w600),
+                ),
+                const SizedBox(height: 15),
+              ],
+            ),
+          ),
+        );
+      },
+    );
+  }
+
+
+  static void hideLoadingDialog(BuildContext context) {
+    if (Navigator.canPop(context)) {
+      Navigator.pop(context);
+    }
   }
 }

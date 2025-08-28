@@ -1,23 +1,20 @@
 import 'dart:io';
 import 'package:company_portal/providers/user_image_provider.dart';
 import 'package:company_portal/providers/user_info_provider.dart';
-import 'package:company_portal/screens/account/redirect_reports/redirect_reports_screen.dart';
-import 'package:company_portal/screens/settings/settings_screen.dart';
-import 'package:company_portal/screens/account/user_info/user_info_details_screen.dart';
+import 'package:company_portal/screens/account/profile/widgets/error_state_widget.dart';
+import 'package:company_portal/screens/account/profile/widgets/menu_section.dart';
+import 'package:company_portal/screens/account/profile/widgets/profile_header.dart';
 import 'package:company_portal/utils/app_notifier.dart';
 import 'package:company_portal/utils/context_extensions.dart';
 import 'package:company_portal/utils/enums.dart';
-import 'package:company_portal/widgets/user_image_widget.dart';
 import 'package:flutter/material.dart';
-import 'package:line_awesome_flutter/line_awesome_flutter.dart';
 import 'package:provider/provider.dart';
+import '../../../common/custom_app_bar.dart';
 import '../../../utils/app_separators.dart';
 import '../../../utils/image_picker_handler.dart';
-import '../../../widgets/menu_widget.dart';
 
 class ProfileScreen extends StatefulWidget {
-  const ProfileScreen(
-      {super.key});
+  const ProfileScreen({super.key});
 
   @override
   State<ProfileScreen> createState() => _ProfileScreenState();
@@ -30,10 +27,10 @@ class _ProfileScreenState extends State<ProfileScreen> {
   void initState() {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      final provider = Provider.of<UserInfoProvider>(context, listen: false);
-      final imageProvider = Provider.of<UserImageProvider>(context, listen: false);
+      final userProvider = context.read<UserInfoProvider>();
+      final imageProvider = context.read<UserImageProvider>();
 
-      provider.fetchUserInfo();
+      userProvider.fetchUserInfo();
       imageProvider.fetchImage();
     });
   }
@@ -42,7 +39,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
     setState(() => _image = pickedImage);
 
     final local = context.local;
-    final imageProvider = Provider.of<UserImageProvider>(context, listen: false);
+    final imageProvider = context.read<UserImageProvider>();
     final uploadedSuccess = await imageProvider.uploadImage(pickedImage);
 
     if (uploadedSuccess) {
@@ -68,109 +65,59 @@ class _ProfileScreenState extends State<ProfileScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final userInfoProvider = Provider.of<UserInfoProvider>(context);
+    final userInfoProvider = context.watch<UserInfoProvider>();
     final userImageProvider = Provider.of<UserImageProvider>(context);
-    final themeProvider = context.themeProvider;
+
     final userInfo = userInfoProvider.userInfo;
     final userImage = userImageProvider.imageBytes;
     final theme = context.theme;
     final local = context.local;
-    final themeIcon = context.themeIcon;
+
 
     return PopScope(
       canPop: false,
       child: Scaffold(
         backgroundColor: theme.colorScheme.background,
-        appBar: AppBar(
-          centerTitle: true,
-          backgroundColor: theme.appBarTheme.backgroundColor,
-          automaticallyImplyLeading: false,
-          title: Text(local.profile, style: theme.textTheme.headlineLarge),
-          actions: [
-            IconButton(
-                onPressed: () {
-                  themeProvider.toggleTheme();
-                },
-                icon: Icon(
-                  themeIcon,
-                  color: theme.colorScheme.primary,
-                ))
-          ],
+        appBar: CustomAppBar(
+          title: local.profile,
+          themeBtn: true,
         ),
-        body: userInfoProvider.loading || userInfo == null
-            ? const Center(child: CircularProgressIndicator())
-            : userInfoProvider.error != null
-                ? Center(child: Text("Error: ${userInfoProvider.error}"))
-                : SingleChildScrollView(
-                    child: Container(
-                      padding: const EdgeInsets.symmetric(
-                          vertical: 15, horizontal: 45),
-                      child: Column(
-                        children: [
-                           UserImageWidget(
-                                  image: _image,
-                                  imageBytes: userImage,
-                                  imageLoading: userImageProvider.loading,
-                                  imageIsUploading: userImageProvider.isUploading,
-                                  onEdit: _showImagePickerOptions,
-                                ),
-                          const SizedBox(height: 8),
-                          _buildUserText(
-                              "${userInfo.givenName} ${userInfo.surname}",
-                              theme.textTheme.displayLarge!),
-                          _buildUserText(userInfo.jobTitle,
-                              theme.textTheme.displayMedium!),
-                          _buildUserText(
-                              userInfo.mail, theme.textTheme.displaySmall!),
-                          AppSeparators.dividerSeparate(),
-                          MenuWidget(
-                            title: local.userInformation,
-                            icon: LineAwesomeIcons.user,
-                            navigatedPage: () => UserInfoDetailsScreen(
-                              userName: "${userInfo.givenName} ${userInfo.surname}",
-                                userPhone: userInfo.mobilePhone,
-                                userOfficeLocation: userInfo.officeLocation),
-                            textColor: theme.colorScheme.primary,
-                          ),
-                          MenuWidget(
-                            title: local.directReport,
-                            icon: LineAwesomeIcons.book_solid,
-                            navigatedPage: () => const DirectReportsScreen(),
-                            textColor: theme.colorScheme.primary,
-                          ),
-                          AppSeparators.dividerSeparate(),
-                          MenuWidget(
-                            title: local.settings,
-                            icon: LineAwesomeIcons.cog_solid,
-                            navigatedPage: () => SettingsScreen(userName: "${userInfo.givenName} ${userInfo.surname}",),
-                            textColor: theme.colorScheme.primary,
-                          ),
-                          MenuWidget(
-                            title: local.logout,
-                            icon: LineAwesomeIcons.sign_out_alt_solid,
-                            endIcon: false,
-                            textColor: theme.colorScheme.secondaryContainer,
-                            logout: () => _logout(),
-                          ),
-                        ],
-                      ),
+        body: Builder(
+          builder: (context) {
+            if (userInfoProvider.error != null) {
+              return ErrorStateWidget(
+                error: userInfoProvider.error!,
+                onRetry: () => context.read<UserInfoProvider>().fetchUserInfo(),
+              );
+            }
+            return SingleChildScrollView(
+              child: Container(
+                padding:
+                    const EdgeInsets.symmetric(vertical: 15, horizontal: 45),
+                child: Column(
+                  children: [
+                    ProfileHeader(
+                      userInfo: userInfo,
+                      userImage: userImage,
+                      pickedImage: _image,
+                      imageProvider: userImageProvider,
+                      onPickImage: _showImagePickerOptions,
+                      isLoading: userInfoProvider.loading,
                     ),
-                  ),
+
+                    AppSeparators.dividerSeparate(),
+
+                    MenuSection(
+                      userInfo: userInfo,
+                      onLogout: _logout,
+                    )
+                  ],
+                ),
+              ),
+            );
+          },
+        ),
       ),
     );
   }
-}
-
-Widget _buildUserText(String textStr, TextStyle textStyle) {
-  if (textStr.trim().isEmpty) return const SizedBox.shrink();
-  return Padding(
-    padding: const EdgeInsets.only(bottom: 2),
-    child: Text(
-      textStr,
-      style: textStyle,
-      overflow: TextOverflow.ellipsis,
-      maxLines: 1,
-      textAlign: TextAlign.center,
-    ),
-  );
 }

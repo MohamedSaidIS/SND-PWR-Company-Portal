@@ -6,11 +6,14 @@ import 'complaint_suggestion_form_screen.dart';
 import 'history_screen.dart';
 
 class ComplaintSuggestionScreen extends StatefulWidget {
-  final String userName;
-  const ComplaintSuggestionScreen({required this.userName, super.key});
+  final String userName, userId;
+
+  const ComplaintSuggestionScreen(
+      {required this.userName, required this.userId, super.key});
 
   @override
-  State<ComplaintSuggestionScreen> createState() => _ComplaintSuggestionScreenState();
+  State<ComplaintSuggestionScreen> createState() =>
+      _ComplaintSuggestionScreenState();
 }
 
 class _ComplaintSuggestionScreenState extends State<ComplaintSuggestionScreen> {
@@ -61,7 +64,8 @@ class _ComplaintSuggestionScreenState extends State<ComplaintSuggestionScreen> {
                         fontSize: 15, fontWeight: FontWeight.w500),
                     tabs: [
                       Tab(
-                        child: _tabChild(local.complaintSuggestionHeader, isTablet),
+                        child: _tabChild(
+                            local.complaintSuggestionHeader, isTablet),
                       ),
                       Tab(
                         child: _tabChild(local.history, isTablet),
@@ -74,8 +78,10 @@ class _ComplaintSuggestionScreenState extends State<ComplaintSuggestionScreen> {
           ),
           body: TabBarView(
             children: [
-              ComplaintSuggestionFormScreen(userName: widget.userName,),
-              const HistoryScreen(),
+              ComplaintSuggestionFormScreen(
+                userName: widget.userName,
+              ),
+              HistoryScreen(userId: widget.userId),
             ],
           ),
         ),
@@ -87,10 +93,9 @@ class _ComplaintSuggestionScreenState extends State<ComplaintSuggestionScreen> {
 Widget _tabChild(String text, bool isTablet) {
   return AutoSizeText(
     text,
-    style: TextStyle(fontSize: isTablet? 18 : 14),
+    style: TextStyle(fontSize: isTablet ? 18 : 14),
     maxLines: 1,
     minFontSize: 10,
     overflow: TextOverflow.ellipsis,
   );
 }
-

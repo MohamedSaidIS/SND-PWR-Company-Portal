@@ -17,11 +17,24 @@ class AppSeparators{
       ],
     );
   }
-  static Widget infoDivider(){
-    return const Divider(
-      color: Color(0xffff4a01),
-      thickness: 0.25,
+  static Widget infoDivider(ThemeData theme){
+    return  Padding(
+      padding: const EdgeInsets.symmetric(vertical: 15.0),
+      child: Divider(
+        color: theme.colorScheme.outline,
+        thickness: 1,
+        height: 5,
+      ),
     );
   }
+  static Widget separator(ThemeData theme) => Padding(
+    padding: const EdgeInsets.symmetric(vertical: 8.0),
+    child: Container(
+      margin: const EdgeInsets.symmetric(vertical: 10),
+      height: 1,                 // بيكسل كامل = خط حاد
+      width: double.infinity,
+      color: theme.colorScheme.outline, // لون ثابت وواضح
+    ),
+  );
 }
 
