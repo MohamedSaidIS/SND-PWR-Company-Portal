@@ -6,6 +6,7 @@ ThemeData lightMode = ThemeData(
     background: Color(0xfcfcf1e8),
     primary: Color(0xFF2E2E2E), // text
     secondary: Color(0xffba5f0f), //Color(0xFF1B818E),
+    outline: Color(0xffba5f0f),
   ),
   appBarTheme: const AppBarTheme(
     backgroundColor: Color(0x37fae9cf),
@@ -90,6 +91,7 @@ ThemeData darkMode = ThemeData(
     background: Color(0xFF151515),
     primary: Color(0xFFEDEAE3), // text
     secondary: Color(0xffd55c23),
+    outline: Color(0xffd55c23),
   ),
   appBarTheme: const AppBarTheme(
     backgroundColor: Color(0xFF151515),

@@ -24,6 +24,15 @@ class AppLocalizationsEn extends AppLocalizations {
   String get vacationBalanceRequest => 'Vacation \nBalance';
 
   @override
+  String get vacationRequestLine => 'Vacation Request';
+
+  @override
+  String get permissionRequestLine => 'Permission Request';
+
+  @override
+  String get vacationBalanceRequestLine => 'Vacation Balance';
+
+  @override
   String get selectDate => 'Select date';
 
   @override
@@ -70,9 +79,6 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get pleaseFillAllFields => 'Please fill all fields';
-
-  @override
-  String get vacationRequestTitle => 'Vacation Request';
 
   @override
   String get dashboard => 'Dashboard';
@@ -316,4 +322,10 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get editImage => 'Edit Image';
+
+  @override
+  String get openingApp => 'Opening App';
+
+  @override
+  String get issue_details => 'Issue Details';
 }

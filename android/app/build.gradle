@@ -13,9 +13,14 @@ if (keystorePropertiesFile.exists()) {
 
 android {
     namespace = "com.alsanidi.company_portal"
-    compileSdk = 35
-    ndkVersion = "27.0.12077973"
+    compileSdk 36
+    ndkVersion = '29.0.13599879 rc2'
 
+    packagingOptions {
+        jniLibs {
+            useLegacyPackaging true
+        }
+    }
 
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_1_8
@@ -30,8 +35,8 @@ android {
         applicationId = "com.alsanidi.sndpower"
         minSdk = flutter.minSdkVersion
         targetSdk = flutter.targetSdkVersion
-        versionCode = 1
-        versionName = '1.1'
+        versionCode = 4
+        versionName = '1.4'
     }
 
     signingConfigs{
@@ -58,6 +63,9 @@ flutter {
 
 dependencies {
     implementation 'com.microsoft.identity.client:msal:5.10.2'
+    implementation "androidx.appcompat:appcompat:1.7.1"
+    implementation "com.google.android.material:material:1.12.0"
+
 }
 
 

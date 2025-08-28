@@ -5,6 +5,9 @@
   "vacationRequest": "طلب إجازة",
   "permissionRequest": "طلب إذن",
   "vacationBalanceRequest": "رصيد الإجازة",
+  "vacationRequestLine": "طلب إجازة",
+  "permissionRequestLine": "طلب إذن",
+  "vacationBalanceRequestLine": "رصيد الإجازة",
   "selectDate": "حدد التاريخ",
   "managementName": "الإدارة",
   "departmentName": "القسم",
@@ -21,7 +24,6 @@
   "requiredField": "الحقل مطلوب",
   "vacationRequestSubmitted": "تم تقديم طلب الإجازة",
   "pleaseFillAllFields": "يرجى ملء جميع الحقول",
-  "vacationRequestTitle": "طلب إجازة",
   "dashboard": "الرئيسية",
   "apps": "التطبيقات",
   "kpis": "مؤشر الأداء",
@@ -43,7 +45,7 @@
   "name": "الاسم",
   "email": "البريد الإلكتروني",
   "thisAppIsNotExists": "هذا التطبيق غير موجود",
-  "ok": "نعم",
+  "ok": "تم",
   "undo": "التراجع",
   "cancel": "إلغاء",
   "english": "الانجليزية",
@@ -102,6 +104,8 @@
   "suggestion": "مقترح",
   "aR": "عربى",
   "eN": "EN",
-  "editImage" : "تعديل الصورة"
+  "editImage" : "تعديل الصورة",
+  "openingApp" : "جارٍ فتح التطبيق",
+  "issue_details" : " تفاصيل الشكوى"
 }
 

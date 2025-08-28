@@ -1,13 +1,13 @@
 class UserInfo {
   final String id;
-  final String displayName;
-  final String givenName;
-  final String surname;
-  final String jobTitle;
-  final String mail;
-  final String mobilePhone;
-  final String officeLocation;
-  final String userPrincipalName;
+  final String? displayName;
+  final String? givenName;
+  final String? surname;
+  final String? jobTitle;
+  final String? mail;
+  final String? mobilePhone;
+  final String? officeLocation;
+  final String? userPrincipalName;
 
   UserInfo({
     required this.id,

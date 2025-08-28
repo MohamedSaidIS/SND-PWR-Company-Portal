@@ -1,6 +1,7 @@
 import 'package:company_portal/utils/context_extensions.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import '../../common/custom_app_bar.dart';
 import '../../l10n/app_localizations.dart';
 import 'package:signature/signature.dart';
 
@@ -109,22 +110,15 @@ class _VacationRequestScreenState extends State<VacationRequestScreen> {
   Widget build(BuildContext context) {
     final theme = context.theme;
     final local = context.local;
-    final backIcon = context.backIcon;
     final alignment = context.alignment;
 
     return PopScope(
       canPop: false,
       child: Scaffold(
         backgroundColor: theme.colorScheme.background,
-        appBar: AppBar(
-          centerTitle: true,
-          backgroundColor: theme.appBarTheme.backgroundColor,
-          leading: IconButton(
-              onPressed: () => Navigator.pop(context),
-              icon: Icon(backIcon, color: theme.colorScheme.primary,)
-          ),
-          title: Text(local.vacationRequestTitle ,
-              style: theme.textTheme.headlineLarge),
+        appBar: CustomAppBar(
+          title: local.vacationRequestLine,
+          backBtn: true,
         ),
         body: Padding(
           padding: const EdgeInsets.all(16),
