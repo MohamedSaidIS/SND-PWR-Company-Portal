@@ -6,6 +6,8 @@ import 'package:provider/provider.dart';
 import '../../common/custom_app_bar.dart';
 import '../../providers/kpis_provider.dart';
 
+import '../../common/custom_app_bar.dart';
+
 class KpisScreen extends StatefulWidget {
   const KpisScreen({super.key});
 
