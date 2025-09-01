@@ -7,6 +7,8 @@ import 'package:provider/provider.dart';
 
 import '../../common/custom_app_bar.dart';
 import '../../providers/kpis_provider.dart';
+import '../../providers/user_info_provider.dart';
+import '../../service/sharedpref_service.dart';
 
 class KpiScreen extends StatefulWidget {
 
@@ -17,22 +19,34 @@ class KpiScreen extends StatefulWidget {
 }
 
 class _KpiScreenState extends State<KpiScreen> {
+  bool isUAT = false;
+  bool isLoading = false;
 
   @override
   void initState() {
     super.initState();
-    WidgetsBinding.instance.addPostFrameCallback((_){
-      final salesKpiProvider = context.read<KPIProvider>();
-      salesKpiProvider.getSalesKpi();
-    });
+    WidgetsBinding.instance.addPostFrameCallback((_) => fetchKpis());
+  }
+
+  Future<void> fetchKpis() async {
+
+    final userId = await SharedPrefsHelper().getUserData("UserId");
+    print("Fetching KPI for UserId: $userId, isUAT: $isUAT");
+
+    final salesKpiProvider = context.read<KPIProvider>();
+    await salesKpiProvider.getSalesKpi('{$userId}', isUAT: isUAT);
+
+    setState(() => isLoading = false);
   }
 
   @override
   Widget build(BuildContext context) {
     final salesKpisProvider = context.watch<KPIProvider>();
     final salesKpis = salesKpisProvider.kpiList;
+    final isLoading = salesKpisProvider.loading;
     final theme = context.theme;
     final local = context.local;
+
 
     final daily = KpiCalculator.calculateDailySales(salesKpis!);
     final weekly = KpiCalculator.calculateWeeklySales(salesKpis);
@@ -51,45 +65,73 @@ class _KpiScreenState extends State<KpiScreen> {
         title: local.kpis,
         backBtn: false,
       ),
-      body: Padding(
-        padding: const EdgeInsets.all(1),
-        child: GridView.builder(
-          gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-            crossAxisCount: 2,
-            childAspectRatio: 0.7,
+      body: Column(
+        crossAxisAlignment: CrossAxisAlignment.end,
+        children: [
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 8.0),
+            child: ElevatedButton(
+              style: ElevatedButton.styleFrom(
+                backgroundColor: isUAT ? Colors.green : Colors.orangeAccent,
+                padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 10),
+              ),
+              onPressed: () async {
+                setState(() {
+                  isUAT = !isUAT;
+                  print("ISUAT: $isUAT");
+                });
+                await fetchKpis();
+              },
+              child: Text(
+                isUAT ? 'UAT' : 'PROD',
+                style: const TextStyle(fontSize: 15),
+              ),
+            ),
           ),
-          itemCount: 3,
-          itemBuilder: (context, index) {
-            switch (index) {
-              case 0:
-                return KpiPieChart(
-                  title: "Daily KPI",
-                  achieved: daily,
-                  target: monthlyTarget.toDouble(),
-                  salesKpi: salesKpis,
-                  color: Colors.blue,
-                );
-              case 1:
-                return KpiPieChart(
-                  title: "Weekly KPI",
-                  achieved: weekly[0].totalSales,
-                  target: monthlyTarget.toDouble(),
-                  salesKpi: salesKpis,
-                  color: Colors.green,
-                );
-              case 2:
-                return KpiPieChart(
-                  title: "Monthly KPI",
-                  achieved: monthly,
-                  target: monthlyTarget.toDouble(),
-                  salesKpi: salesKpis,
-                  color: Colors.orange,
-                );
-              default:
-                return const SizedBox.shrink();
-            }
-          },
-        ),
+          isLoading ? const Center(child: CircularProgressIndicator())
+              : Expanded(
+            child: Padding(
+              padding: const EdgeInsets.all(1),
+              child: GridView.builder(
+                gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                  crossAxisCount: 2,
+                  childAspectRatio: 0.7,
+                ),
+                itemCount: 3,
+                itemBuilder: (context, index) {
+                  switch (index) {
+                    case 0:
+                      return KpiPieChart(
+                        title: "Daily KPI",
+                        achieved: daily,
+                        target: monthlyTarget.toDouble(),
+                        salesKpi: salesKpis,
+                        color: Colors.blue,
+                      );
+                    case 1:
+                      return KpiPieChart(
+                        title: "Weekly KPI",
+                        achieved: weekly[0].totalSales,
+                        target: monthlyTarget.toDouble(),
+                        salesKpi: salesKpis,
+                        color: Colors.green,
+                      );
+                    case 2:
+                      return KpiPieChart(
+                        title: "Monthly KPI",
+                        achieved: monthly,
+                        target: monthlyTarget.toDouble(),
+                        salesKpi: salesKpis,
+                        color: Colors.orange,
+                      );
+                    default:
+                      return const SizedBox.shrink();
+                  }
+                },
+              ),
+            ),
+          ),
+        ],
       ),
     );
   }

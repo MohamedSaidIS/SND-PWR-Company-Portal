@@ -17,14 +17,16 @@ class KPIProvider extends ChangeNotifier{
   bool get loading => _loading;
   String? get error => _error;
 
-  Future<void> getSalesKpi() async {
+  Future<void> getSalesKpi(String workerId, {required bool isUAT}) async {
     _loading = true;
     _error = null;
     notifyListeners();
 
     try {
       final response = await kpiDioClient.getRequest(
-          'https://alsenidiuat.sandbox.operations.dynamics.com/data/WorkerSalesCommission'
+        isUAT
+            ? 'https://alsenidiuat.sandbox.operations.dynamics.com/data/WorkerSalesCommission?\$filter Worker eq $workerId'
+            : 'https://alsanidi.operations.dynamics.com/data/WorkerSalesCommission?\$filter Worker eq $workerId',
       );
 
       if (response.statusCode == 200) {

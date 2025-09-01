@@ -1,6 +1,10 @@
+import 'package:company_portal/service/sharedpref_service.dart';
 import 'package:company_portal/utils/context_extensions.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_inappwebview/flutter_inappwebview.dart';
+import 'package:provider/provider.dart';
+
+import '../../providers/user_info_provider.dart';
 
 class DashboardScreen extends StatefulWidget {
   const DashboardScreen({super.key});
@@ -14,7 +18,25 @@ class _DashboardScreenState extends State<DashboardScreen> {
   double webProgress = 0;
 
   @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((_){
+      final userProvider = context.read<UserInfoProvider>();
+      userProvider.fetchUserInfo();
+
+    });
+  }
+
+  @override
   Widget build(BuildContext context) {
+    final userInfoProvider = context.watch<UserInfoProvider>();
+    final userInfo = userInfoProvider.userInfo;
+
+    if(userInfo != null){
+      print("User Info: ${userInfo.id}");
+      SharedPrefsHelper().saveUserData("UserId", userInfo.id);
+    }
+
     final theme = context.theme;
 
     return PopScope(
