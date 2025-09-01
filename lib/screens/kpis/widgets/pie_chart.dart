@@ -68,8 +68,8 @@ class KpiPieChart extends StatelessWidget {
                         value: achieved,
                         title: '${percent.toStringAsFixed(2)}%',
                         radius: 55,
-                        titleStyle: const TextStyle(
-                          color: Colors.white,
+                        titleStyle:  TextStyle(
+                          color: percent > 10?  Colors.white : Colors.black,
                           fontWeight: FontWeight.bold,
                           fontSize: 15,
                         ),

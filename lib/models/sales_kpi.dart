@@ -7,6 +7,7 @@ class SalesKPI {
   final double lastSalesAmount;
   final double dailySalesAmount;
   final double monthlyRate;
+  final double currentRate;
   final double monthlyTarget;
 
   SalesKPI({
@@ -16,6 +17,7 @@ class SalesKPI {
     required this.lastSalesAmount,
     required this.dailySalesAmount,
     required this.monthlyRate,
+    required this.currentRate,
     required this.monthlyTarget,
   });
 
@@ -27,6 +29,7 @@ class SalesKPI {
       lastSalesAmount: json ['LastSalesAmount'].toDouble(),
       dailySalesAmount: json ['DailySalesAmount'].toDouble(),
       monthlyRate: json ['MonthlyRate'].toDouble(),
+      currentRate: json ['CurrentRate'].toDouble(),
       monthlyTarget: json ['MonthlyTarget'].toDouble(),
     );
   }
