@@ -54,13 +54,12 @@ class KPIDioClient {
   }
 
   Future<Response> getRequest(
-    String url,
-
-    ) async {
+    String url, ) async {
     await ensureToken();
 
     return await dio.get(
       url,
+      //queryParameters: queryParameters,
       options: Options(headers: _buildHeaders()),
     );
   }
