@@ -1,29 +1,25 @@
 import 'dart:math';
-
 import 'package:company_portal/models/sales_kpi.dart';
 import 'package:company_portal/utils/app_notifier.dart';
 import 'package:flutter/material.dart';
+import 'package:week_number/iso.dart';
 
 class KpiCalculator {
-  static double calcDaily(List<SalesKPI> data) {
-    final subList = data.take(4);
-    return subList.fold(0, (sum, e) => sum + e.dailySalesAmount);
-  }
 
-  static double calcWeekly(List<SalesKPI> data) {
-    final now = DateTime(2025, 4, 8);
-    final startOfWeek = now.subtract(Duration(days: now.weekday - 1));
-    final endOfWeek = startOfWeek.add(const Duration(days: 6));
-    final subList = data.take(4);
-
-    AppNotifier.printFunction("Start Date", "$startOfWeek $endOfWeek");
-
-    final weekData = subList.where((e) =>
-        e.transDate.isAfter(startOfWeek.subtract(const Duration(days: 1))) &&
-        e.transDate.isBefore(endOfWeek.add(const Duration(days: 1))));
-
-    return weekData.fold(0, (sum, e) => sum + e.dailySalesAmount);
-  }
+  // static double calcWeekly(List<SalesKPI> data) {
+  //   final now = DateTime(2025, 4, 8);
+  //   final startOfWeek = now.subtract(Duration(days: now.weekday - 1));
+  //   final endOfWeek = startOfWeek.add(const Duration(days: 6));
+  //   final subList = data.take(4);
+  //
+  //   AppNotifier.printFunction("Start Date", "$startOfWeek $endOfWeek");
+  //
+  //   final weekData = subList.where((e) =>
+  //       e.transDate.isAfter(startOfWeek.subtract(const Duration(days: 1))) &&
+  //       e.transDate.isBefore(endOfWeek.add(const Duration(days: 1))));
+  //
+  //   return weekData.fold(0, (sum, e) => sum + e.dailySalesAmount);
+  // }
 
   static double calcMonthly(List<SalesKPI> data) {
     final subList = data.take(4);
@@ -105,6 +101,46 @@ class KpiCalculator {
     return weeks;
   }
 
+  /////////////////////////////////////////////////////////////////////
+  static double calculateDailySales(List<SalesKPI> data) {
+    if (data.isEmpty) return 0.0;
+
+    final subList = data.take(4).toList();
+    subList.sort((a, b) => a.transDate.compareTo(b.transDate));
+
+    return subList.last.dailySalesAmount;
+  }
+
+  static int getWeekNumber(DateTime date) {
+    return date.weekNumber;
+  }
+
+  static List<WeeklyKPI> calculateWeeklySales(List<SalesKPI> data) {
+    final Map<int, double> weeklyTotals = {};
+
+    for (var kpi in data.take(4)) {
+      final week = getWeekNumber(kpi.transDate);
+      weeklyTotals[week] = (weeklyTotals[week] ?? 0) + kpi.dailySalesAmount;
+    }
+
+    return weeklyTotals.entries
+        .map((entry) =>
+        WeeklyKPI(weekNumber: entry.key, totalSales: entry.value))
+        .toList()
+      ..sort((a, b) => a.weekNumber.compareTo(b.weekNumber));
+  }
+
+  static double calculateMonthlySales(List<SalesKPI> data) {
+    if (data.isEmpty) return 0.0;
+
+    final subList = data.take(4).toList();
+    subList.sort((a, b) => a.transDate.compareTo(b.transDate));
+
+    return subList.isNotEmpty ? subList.last.lastSalesAmount : 0.0;
+
+  }
+
+
 
 
 
@@ -149,4 +185,11 @@ class KpiCalculator {
     }
     return wantedColor;
   }
+}
+
+class WeeklyKPI {
+  final int weekNumber;
+  final double totalSales;
+
+  WeeklyKPI({required this.weekNumber, required this.totalSales});
 }

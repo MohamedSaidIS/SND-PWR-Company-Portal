@@ -34,9 +34,9 @@ class _KpiScreenState extends State<KpiScreen> {
     final theme = context.theme;
     final local = context.local;
 
-    final daily = KpiCalculator.calcDaily(salesKpis!);
-    final weekly = KpiCalculator.calcWeekly(salesKpis);
-    final monthly = KpiCalculator.calcMonthly(salesKpis);
+    final daily = KpiCalculator.calculateDailySales(salesKpis!);
+    final weekly = KpiCalculator.calculateWeeklySales(salesKpis);
+    final monthly = KpiCalculator.calculateMonthlySales(salesKpis);
 
 
     AppNotifier.printFunction("Daily", daily.toString());
@@ -72,7 +72,7 @@ class _KpiScreenState extends State<KpiScreen> {
               case 1:
                 return KpiPieChart(
                   title: "Weekly KPI",
-                  achieved: weekly,
+                  achieved: weekly[0].totalSales,
                   target: monthlyTarget.toDouble(),
                   salesKpi: salesKpis,
                   color: Colors.green,
