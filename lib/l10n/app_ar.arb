@@ -27,6 +27,7 @@
   "dashboard": "الرئيسية",
   "apps": "التطبيقات",
   "kpis": "مؤشر الأداء",
+  "kpisDetails": "تفاصيل مؤشر الأداء",
   "profile": "الملف الشخصى",
   "settings": "الإعدادات",
   "notifications": "الإشعارات",

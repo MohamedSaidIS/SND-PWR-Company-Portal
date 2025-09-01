@@ -90,6 +90,9 @@ class AppLocalizationsAr extends AppLocalizations {
   String get kpis => 'مؤشر الأداء';
 
   @override
+  String get kpisDetails => 'تفاصيل مؤشر الأداء';
+
+  @override
   String get profile => 'الملف الشخصى';
 
   @override

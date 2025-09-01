@@ -27,6 +27,7 @@
   "dashboard": "Dashboard",
   "apps": "Apps",
   "kpis": "KPIs",
+  "kpisDetails": "KPIs Details",
   "profile": "Profile",
   "settings": "Settings",
   "notifications": "Notifications",

@@ -1,6 +1,6 @@
 import 'package:company_portal/screens/dashboard/dashboard_screen.dart';
 import 'package:company_portal/screens/apps/apps_screen.dart';
-import 'package:company_portal/screens/kpis/kpis_screen.dart';
+import 'package:company_portal/screens/kpis/kpi_dashboard.dart';
 import 'package:company_portal/screens/request/requests_screen.dart';
 import 'package:company_portal/utils/context_extensions.dart';
 import 'package:flutter/material.dart';
@@ -25,7 +25,7 @@ class _HomeScreenState extends State<HomeScreen> {
     final List screens = [
       const DashboardScreen(),
       const AppsScreen(),
-      const KpisScreen(),
+      const KpiScreen(),
       const RequestsScreen(),
       const ProfileScreen(),
     ];
