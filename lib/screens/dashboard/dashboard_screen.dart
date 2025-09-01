@@ -42,6 +42,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
                       domStorageEnabled: true,
                       sharedCookiesEnabled: true,
                       thirdPartyCookiesEnabled: true,
+                      useHybridComposition: true
                     ),
                     onWebViewCreated: (controller) {
                       webViewController = controller;

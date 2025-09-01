@@ -257,6 +257,12 @@ abstract class AppLocalizations {
   /// **'KPIs'**
   String get kpis;
 
+  /// No description provided for @kpisDetails.
+  ///
+  /// In en, this message translates to:
+  /// **'KPIs Details'**
+  String get kpisDetails;
+
   /// No description provided for @profile.
   ///
   /// In en, this message translates to:

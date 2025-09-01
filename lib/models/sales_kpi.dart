@@ -2,7 +2,7 @@
 
 class SalesKPI {
   final String dataAreaId;
-  final String transDate;
+  final DateTime transDate;
   final String worker;
   final double lastSalesAmount;
   final double dailySalesAmount;
@@ -22,7 +22,7 @@ class SalesKPI {
   factory SalesKPI.fromJson(Map<String, dynamic> json){
     return SalesKPI(
       dataAreaId: json ['dataAreaId'],
-      transDate: json ['TransDate'],
+      transDate: DateTime.parse(json['TransDate']),
       worker: json ['Worker'],
       lastSalesAmount: json ['LastSalesAmount'].toDouble(),
       dailySalesAmount: json ['DailySalesAmount'].toDouble(),

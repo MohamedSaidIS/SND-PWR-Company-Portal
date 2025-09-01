@@ -90,6 +90,9 @@ class AppLocalizationsEn extends AppLocalizations {
   String get kpis => 'KPIs';
 
   @override
+  String get kpisDetails => 'KPIs Details';
+
+  @override
   String get profile => 'Profile';
 
   @override
