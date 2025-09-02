@@ -7,7 +7,6 @@ import 'package:provider/provider.dart';
 
 import '../../common/custom_app_bar.dart';
 import '../../providers/kpis_provider.dart';
-import '../../providers/user_info_provider.dart';
 import '../../service/sharedpref_service.dart';
 
 class KpiScreen extends StatefulWidget {
@@ -53,7 +52,7 @@ class _KpiScreenState extends State<KpiScreen> {
     final monthly = KpiCalculator.calculateMonthlySales(salesKpis);
 
     //ToDo: get current week number Change it to DateTime.now()
-    final currentWeekNumber = KpiCalculator.getWeekNumber(DateTime(2025, 4, 8));
+    final currentWeekNumber = KpiCalculator.getWeekNumber(DateTime(2025, 4, 17));
     var currentWeek = WeeklyKPI(weekNumber: 0, totalSales: 0.0);
     if (weekly.isNotEmpty) {
        currentWeek = weekly

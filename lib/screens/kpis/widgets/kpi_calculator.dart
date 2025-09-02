@@ -6,32 +6,12 @@ import 'package:week_number/iso.dart';
 
 class KpiCalculator {
 
-  // static double calcWeekly(List<SalesKPI> data) {
-  //   final now = DateTime(2025, 4, 8);
-  //   final startOfWeek = now.subtract(Duration(days: now.weekday - 1));
-  //   final endOfWeek = startOfWeek.add(const Duration(days: 6));
-  //   final subList = data.take(4);
-  //
-  //   AppNotifier.printFunction("Start Date", "$startOfWeek $endOfWeek");
-  //
-  //   final weekData = subList.where((e) =>
-  //       e.transDate.isAfter(startOfWeek.subtract(const Duration(days: 1))) &&
-  //       e.transDate.isBefore(endOfWeek.add(const Duration(days: 1))));
-  //
-  //   return weekData.fold(0, (sum, e) => sum + e.dailySalesAmount);
-  // }
-
   static double calcMonthly(List<SalesKPI> data) {
     final subList = data.take(4);
     return subList.isNotEmpty ? subList.last.lastSalesAmount : 0;
   }
 
-  static double calcMaxY(List<SalesKPI> data) {
-    if (data.isEmpty) return 0;
 
-    final maxVal = data.map((e) => e.dailySalesAmount).reduce(max);
-    return (maxVal + 5).ceil().toDouble();
-  }
 
   static List<String> getCurrentWeekDays(List<SalesKPI> data){
     final now = DateTime(2025, 4, 8);
@@ -65,7 +45,7 @@ class KpiCalculator {
 
     final List<double> weeklyValues = List.filled(7, 0);
 
-    final weekData = data.take(4).toList().where((e) =>
+    final weekData = data.where((e) =>
     e.transDate.isAfter(startOfWeek.subtract(const Duration(days: 1))) &&
         e.transDate.isBefore(endOfWeek.add(const Duration(days: 1))));
 
@@ -140,7 +120,83 @@ class KpiCalculator {
 
   }
 
+  static List<DailyKPI> calculateDailySalesPerWeek(List<SalesKPI> data) {
+    final now = DateTime(2025, 4, 8);
+    final startOfWeek = now.subtract(Duration(days: now.weekday - 1));
+    final endOfWeek = startOfWeek.add(const Duration(days: 6));
 
+    // الأيام السبعة
+    final List<DailyKPI> weeklyValues = List.generate(7, (index) {
+      final date = startOfWeek.add(Duration(days: index));
+      return DailyKPI(
+        dayName: _getDayName(date.weekday),
+        date: date,
+        totalSales: 0,
+      );
+    });
+
+    // صفي الداتا الخاصة بالأسبوع
+    final weekData = data.where((e) =>
+    e.transDate.isAfter(startOfWeek.subtract(const Duration(days: 1))) &&
+        e.transDate.isBefore(endOfWeek.add(const Duration(days: 1))));
+
+    // اجمع المبيعات في اليوم الصحيح
+    for (var kpi in weekData) {
+      final index = kpi.transDate.weekday - 1;
+      final old = weeklyValues[index];
+      weeklyValues[index] = DailyKPI(
+        dayName: old.dayName,
+        date: old.date,
+        totalSales: old.totalSales + kpi.dailySalesAmount,
+      );
+    }
+
+    return weeklyValues;
+  }
+
+
+  static double calcDailyMaxY(List<SalesKPI> data) {
+    if (data.isEmpty) return 0;
+
+    final maxVal = data.map((e) => e.dailySalesAmount).reduce(max);
+    return (maxVal + 5).ceil().toDouble();
+  }
+
+  static double calcWeeklyMaxY(List<SalesKPI> data) {
+    if (data.isEmpty) return 0;
+
+    final maxVal = data.map((e) => e.dailySalesAmount).reduce(max);
+    return (maxVal + 5).ceil().toDouble();
+  }
+
+  static double calcMonthlyMaxY(List<WeeklyKPI> data) {
+    if (data.isEmpty) return 0;
+
+    final maxVal = data.map((e) => e.totalSales).reduce(max);
+    return (maxVal + 5).ceil().toDouble();
+  }
+
+
+  static String _getDayName(int weekday) {
+    switch (weekday) {
+      case DateTime.monday:
+        return "Mon";
+      case DateTime.tuesday:
+        return "Tue";
+      case DateTime.wednesday:
+        return "Wed";
+      case DateTime.thursday:
+        return "Thu";
+      case DateTime.friday:
+        return "Fri";
+      case DateTime.saturday:
+        return "Sat";
+      case DateTime.sunday:
+        return "Sun";
+      default:
+        return "";
+    }
+  }
 
 
 
@@ -193,3 +249,18 @@ class WeeklyKPI {
 
   WeeklyKPI({required this.weekNumber, required this.totalSales});
 }
+
+class DailyKPI {
+  final String dayName;   // اسم اليوم (Mon, Tue...)
+  final DateTime date;    // تاريخ اليوم نفسه
+  final double totalSales;
+
+  DailyKPI({
+    required this.dayName,
+    required this.date,
+    required this.totalSales,
+  });
+}
+
+
+
