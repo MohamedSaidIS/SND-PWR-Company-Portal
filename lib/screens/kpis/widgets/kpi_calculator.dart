@@ -125,8 +125,8 @@ class KpiCalculator {
 
     return weeklyTotals.entries
         .map((entry) =>
-        WeeklyKPI(weekNumber: entry.key, totalSales: entry.value))
-        .toList()
+        WeeklyKPI(weekNumber: entry.key, totalSales: entry.value
+        )).toList()
       ..sort((a, b) => a.weekNumber.compareTo(b.weekNumber));
   }
 

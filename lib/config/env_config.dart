@@ -12,7 +12,8 @@ class EnvConfig {
   static String get kpiGrantType => dotenv.get('kpi_grant_type');
   static String get kpiClientId => dotenv.get('kpi_client_id');
   static String get kpiClientSecret => dotenv.get('kpi_client_secret');
-  static String get kpiResource => dotenv.get('kpi_resource');
+  static String get kpiUatResource => dotenv.get('kpi_uat_resource');
+  static String get kpiProdResource => dotenv.get('kpi_prod_resource');
 
   static Future<void> load() async {
     await dotenv.load(fileName: 'env/.env_dev');
