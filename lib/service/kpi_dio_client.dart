@@ -2,12 +2,15 @@ import 'package:company_portal/config/env_config.dart';
 import 'package:company_portal/utils/app_notifier.dart';
 import 'package:dio/dio.dart';
 
-
 class KPIDioClient {
   late final Dio dio;
-  String? _accessToken;
-  DateTime? _tokenSavedAt;
-  int _expiresIn = 3599;
+  String? _uatAccessToken;
+  DateTime? _uatTokenSavedAt;
+  int _uatExpiresIn = 3599;
+  String? _prodAccessToken;
+  DateTime? _prodTokenSavedAt;
+  int _prodExpiresIn = 3599;
+
 
   KPIDioClient() {
     dio = Dio(
@@ -18,58 +21,77 @@ class KPIDioClient {
     );
   }
 
-  Future<String?> getToken() async {
-
-    const url = "https://login.microsoftonline.com/3e2223b9-a7ca-4c74-9555-66e0cd43c412/oauth2/token";
+  Future<String?> getToken(bool isUAT) async {
+    print("UAT: $isUAT");
+    const url =
+        "https://login.microsoftonline.com/3e2223b9-a7ca-4c74-9555-66e0cd43c412/oauth2/token";
     final response = await dio.post(
       url,
       data: {
         "grant_type": EnvConfig.kpiGrantType,
         "client_id": EnvConfig.kpiClientId,
         "client_secret": EnvConfig.kpiClientSecret,
-        "resource": EnvConfig.kpiResource,
+        "resource": isUAT ? EnvConfig.kpiUatResource :EnvConfig.kpiProdResource,
       },
       options: Options(
         contentType: Headers.formUrlEncodedContentType, // important!
       ),
     );
-    _accessToken = response.data["access_token"];
-    _expiresIn = int.tryParse(response.data["expires_in"].toString()) ?? 3600;
-    _tokenSavedAt = DateTime.now();
-    AppNotifier.printFunction("AccessToken", _accessToken);
-    return _accessToken;
+    isUAT ? _uatAccessToken = response.data["access_token"]
+        : _prodAccessToken = response.data["access_token"];
+
+    isUAT ? _uatExpiresIn = int.tryParse(response.data["expires_in"].toString()) ?? 3600
+        : _prodExpiresIn = int.tryParse(response.data["expires_in"].toString()) ?? 3600;
+
+    isUAT ? _uatTokenSavedAt = DateTime.now()
+        : _prodTokenSavedAt = DateTime.now();
+
+    AppNotifier.printFunction("AccessToken", _uatAccessToken ?? _prodAccessToken);
+    return isUAT ? _uatAccessToken: _prodAccessToken;
   }
 
-  bool get isTokenExpired {
-    if (_accessToken == null || _tokenSavedAt == null) return true;
-    final expiryTime = _tokenSavedAt!.add(Duration(seconds: _expiresIn - 60));
+  bool get isUatTokenExpired {
+    if (_uatAccessToken == null || _uatTokenSavedAt == null) return true;
+    final expiryTime = _uatTokenSavedAt!.add(Duration(seconds: _uatExpiresIn - 60));
     return DateTime.now().isAfter(expiryTime);
   }
 
-  Future<String?> ensureToken() async {
-    if (isTokenExpired) {
-      return await getToken();
+  bool get isProdTokenExpired {
+    if (_prodAccessToken == null || _prodTokenSavedAt == null) return true;
+    final expiryTime = _prodTokenSavedAt!.add(Duration(seconds: _prodExpiresIn - 60));
+    return DateTime.now().isAfter(expiryTime);
+  }
+
+  Future<String?> ensureToken(bool isUAT) async {
+    if(isUAT && isUatTokenExpired){
+      return await getToken(isUAT);
+    }else if(!isUAT && isProdTokenExpired){
+      return await getToken(isUAT);
+    }else{
+      return isUAT ? _uatAccessToken: _prodAccessToken;
     }
-    return _accessToken;
   }
 
   Future<Response> getRequest(
-    String url, ) async {
-    await ensureToken();
+    String url,
+    bool isUAT,
+  ) async {
+    await ensureToken(isUAT);
 
     return await dio.get(
       url,
-      //queryParameters: queryParameters,
-      options: Options(headers: _buildHeaders()),
+      options: Options(headers: _buildHeaders(isUAT)),
     );
   }
 
-  Map<String, String> _buildHeaders() {
-    if (_accessToken == null) {
-      throw Exception("Access token is null");
+  Map<String, String> _buildHeaders(bool isUAT) {
+    if (isUAT && _uatAccessToken == null) {
+      throw Exception("UAT Access token is null");
+    }else if(!isUAT && _prodAccessToken == null){
+      throw Exception("Prod Access token is null");
     }
     return {
-      "Authorization": _accessToken != null ? "Bearer $_accessToken" : "",
+      "Authorization": isUAT ? "Bearer $_uatAccessToken" : "Bearer $_prodAccessToken",
       "Accept": "application/json",
       "Content-Type": "application/json",
     };

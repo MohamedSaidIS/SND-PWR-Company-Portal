@@ -11,15 +11,16 @@ import '../../providers/user_info_provider.dart';
 import '../../service/sharedpref_service.dart';
 
 class KpiScreen extends StatefulWidget {
-
-  const KpiScreen({super.key,});
+  const KpiScreen({
+    super.key,
+  });
 
   @override
   State<KpiScreen> createState() => _KpiScreenState();
 }
 
 class _KpiScreenState extends State<KpiScreen> {
-  bool isUAT = false;
+  bool isUAT = true;
   bool isLoading = false;
 
   @override
@@ -29,12 +30,12 @@ class _KpiScreenState extends State<KpiScreen> {
   }
 
   Future<void> fetchKpis() async {
-
     final userId = await SharedPrefsHelper().getUserData("UserId");
     print("Fetching KPI for UserId: $userId, isUAT: $isUAT");
 
     final salesKpiProvider = context.read<KPIProvider>();
-    await salesKpiProvider.getSalesKpi('{$userId}', isUAT: isUAT);
+    await salesKpiProvider.getSalesKpi('{00000000-0000-0000-0000-000000000000}',
+        isUAT: isUAT);
 
     setState(() => isLoading = false);
   }
@@ -47,17 +48,24 @@ class _KpiScreenState extends State<KpiScreen> {
     final theme = context.theme;
     final local = context.local;
 
-
     final daily = KpiCalculator.calculateDailySales(salesKpis!);
     final weekly = KpiCalculator.calculateWeeklySales(salesKpis);
     final monthly = KpiCalculator.calculateMonthlySales(salesKpis);
 
+    //ToDo: get current week number Change it to DateTime.now()
+    final currentWeekNumber = KpiCalculator.getWeekNumber(DateTime(2025, 4, 8));
+    var currentWeek = WeeklyKPI(weekNumber: 0, totalSales: 0.0);
+    if (weekly.isNotEmpty) {
+       currentWeek = weekly
+          .firstWhere((element) => element.weekNumber == currentWeekNumber);
+    }
 
     AppNotifier.printFunction("Daily", daily.toString());
     AppNotifier.printFunction("weekly", weekly.toString());
     AppNotifier.printFunction("Monthly", monthly.toString());
 
-    final monthlyTarget = salesKpis.isNotEmpty ? salesKpis.last.monthlyTarget : 0;
+    final monthlyTarget =
+        salesKpis.isNotEmpty ? salesKpis.last.monthlyTarget : 0;
 
     return Scaffold(
       backgroundColor: theme.colorScheme.background,
@@ -73,7 +81,8 @@ class _KpiScreenState extends State<KpiScreen> {
             child: ElevatedButton(
               style: ElevatedButton.styleFrom(
                 backgroundColor: isUAT ? Colors.green : Colors.orangeAccent,
-                padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 10),
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 15, vertical: 10),
               ),
               onPressed: () async {
                 setState(() {
@@ -88,52 +97,53 @@ class _KpiScreenState extends State<KpiScreen> {
               ),
             ),
           ),
-          isLoading ? const Center(child: CircularProgressIndicator())
+          isLoading
+              ? const Center(child: CircularProgressIndicator())
               : Expanded(
-            child: Padding(
-              padding: const EdgeInsets.all(1),
-              child: GridView.builder(
-                gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                  crossAxisCount: 2,
-                  childAspectRatio: 0.7,
+                  child: Padding(
+                    padding: const EdgeInsets.all(1),
+                    child: GridView.builder(
+                      gridDelegate:
+                          const SliverGridDelegateWithFixedCrossAxisCount(
+                        crossAxisCount: 2,
+                        childAspectRatio: 0.7,
+                      ),
+                      itemCount: 3,
+                      itemBuilder: (context, index) {
+                        switch (index) {
+                          case 0:
+                            return KpiPieChart(
+                              title: "Daily KPI",
+                              achieved: daily,
+                              target: monthlyTarget.toDouble(),
+                              salesKpi: salesKpis,
+                              color: Colors.blue,
+                            );
+                          case 1:
+                            return KpiPieChart(
+                              title: "Weekly KPI",
+                              achieved: currentWeek.totalSales,
+                              target: monthlyTarget.toDouble(),
+                              salesKpi: salesKpis,
+                              color: Colors.green,
+                            );
+                          case 2:
+                            return KpiPieChart(
+                              title: "Monthly KPI",
+                              achieved: monthly,
+                              target: monthlyTarget.toDouble(),
+                              salesKpi: salesKpis,
+                              color: Colors.orange,
+                            );
+                          default:
+                            return const SizedBox.shrink();
+                        }
+                      },
+                    ),
+                  ),
                 ),
-                itemCount: 3,
-                itemBuilder: (context, index) {
-                  switch (index) {
-                    case 0:
-                      return KpiPieChart(
-                        title: "Daily KPI",
-                        achieved: daily,
-                        target: monthlyTarget.toDouble(),
-                        salesKpi: salesKpis,
-                        color: Colors.blue,
-                      );
-                    case 1:
-                      return KpiPieChart(
-                        title: "Weekly KPI",
-                        achieved: weekly[0].totalSales,
-                        target: monthlyTarget.toDouble(),
-                        salesKpi: salesKpis,
-                        color: Colors.green,
-                      );
-                    case 2:
-                      return KpiPieChart(
-                        title: "Monthly KPI",
-                        achieved: monthly,
-                        target: monthlyTarget.toDouble(),
-                        salesKpi: salesKpis,
-                        color: Colors.orange,
-                      );
-                    default:
-                      return const SizedBox.shrink();
-                  }
-                },
-              ),
-            ),
-          ),
         ],
       ),
     );
   }
 }
-
