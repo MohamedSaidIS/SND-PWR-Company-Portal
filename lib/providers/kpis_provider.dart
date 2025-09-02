@@ -25,8 +25,8 @@ class KPIProvider extends ChangeNotifier{
     try {
       final response = await kpiDioClient.getRequest(
         isUAT
-            ? 'https://alsenidiuat.sandbox.operations.dynamics.com/data/WorkerSalesCommission/?\$filter= Worker eq $workerId'
-            : 'https://alsanidi.operations.dynamics.com/data/WorkerSalesCommission?\$filter Worker eq $workerId',
+            ? 'https://alsenidiuat.sandbox.operations.dynamics.com/data/WorkerSalesCommission/?\$filter= Worker eq {00000000-0000-0000-0000-000000000000}'
+            : 'https://alsanidi.operations.dynamics.com/data/WorkerSalesCommission/?\$filter= Worker eq' + '{' + '884CF78A-7457-467E-A2EA-E4CBCF0E5E0B' + '}' ,
           isUAT
       );
 

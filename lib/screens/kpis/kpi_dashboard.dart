@@ -33,7 +33,7 @@ class _KpiScreenState extends State<KpiScreen> {
     print("Fetching KPI for UserId: $userId, isUAT: $isUAT");
 
     final salesKpiProvider = context.read<KPIProvider>();
-    await salesKpiProvider.getSalesKpi('{00000000-0000-0000-0000-000000000000}',
+    await salesKpiProvider.getSalesKpi('$userId',
         isUAT: isUAT);
 
     setState(() => isLoading = false);
@@ -51,16 +51,17 @@ class _KpiScreenState extends State<KpiScreen> {
     final weekly = KpiCalculator.calculateWeeklySales(salesKpis);
     final monthly = KpiCalculator.calculateMonthlySales(salesKpis);
 
-    //ToDo: get current week number Change it to DateTime.now()
-    final currentWeekNumber = KpiCalculator.getWeekNumber(DateTime(2025, 4, 17));
+    final currentWeekNumber = KpiCalculator.getWeekNumber(DateTime.now());
     var currentWeek = WeeklyKPI(weekNumber: 0, totalSales: 0.0);
+
     if (weekly.isNotEmpty) {
        currentWeek = weekly
-          .firstWhere((element) => element.weekNumber == currentWeekNumber);
+          .firstWhere((element) => element.weekNumber == currentWeekNumber,
+          orElse: () => WeeklyKPI(weekNumber: 0, totalSales: 0.0));
     }
 
     AppNotifier.printFunction("Daily", daily.toString());
-    AppNotifier.printFunction("weekly", weekly.toString());
+    AppNotifier.printFunction("weekly", weekly.first.weekNumber.toString());
     AppNotifier.printFunction("Monthly", monthly.toString());
 
     final monthlyTarget =

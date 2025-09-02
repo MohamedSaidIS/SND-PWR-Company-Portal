@@ -1,94 +1,17 @@
 import 'dart:math';
 import 'package:company_portal/models/sales_kpi.dart';
-import 'package:company_portal/utils/app_notifier.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:week_number/iso.dart';
 
 class KpiCalculator {
 
-  static double calcMonthly(List<SalesKPI> data) {
-    final subList = data.take(4);
-    return subList.isNotEmpty ? subList.last.lastSalesAmount : 0;
-  }
-
-
-
-  static List<String> getCurrentWeekDays(List<SalesKPI> data){
-    final now = DateTime(2025, 4, 8);
-    final startOfWeek = now.subtract(Duration(days: now.weekday - 1));
-    final endOfWeek = startOfWeek.add(const Duration(days: 6));
-
-    const weekDayNames = {
-      1: "Mon",
-      2: "Tue",
-      3: "Wed",
-      4: "Thu",
-      5: "Fri",
-      6: "Sat",
-      7: "Sun",
-    };
-
-    final weekDays = data.take(4).toList().map((item){
-      return item.transDate;
-    }).where((data){
-      return data.isAfter(startOfWeek.subtract(const Duration(days: 1))) &&
-          data.isBefore(endOfWeek.add(const Duration(days: 1)));
-    }).toList();
-    AppNotifier.printFunction("Week Days", "$weekDays");
-    return weekDays.map((d)=> weekDayNames[d.weekday] ?? "").toList();
-  }
-
-  static List<double> getWeeklyKPIs(List<SalesKPI> data,) {
-    final now = DateTime(2025, 4, 8);
-    final startOfWeek = now.subtract(Duration(days: now.weekday - 1));
-    final endOfWeek = startOfWeek.add(const Duration(days: 6));
-
-    final List<double> weeklyValues = List.filled(7, 0);
-
-    final weekData = data.where((e) =>
-    e.transDate.isAfter(startOfWeek.subtract(const Duration(days: 1))) &&
-        e.transDate.isBefore(endOfWeek.add(const Duration(days: 1))));
-
-    for (var kpi in weekData) {
-      final index = kpi.transDate.weekday - 1;
-      weeklyValues[index] += kpi.dailySalesAmount;
-    }
-
-    return weeklyValues;
-  }
-
-
-  static List<double> getCurrentMonthWeeks(List<SalesKPI> kpis) {
-    if (kpis.isEmpty) return [];
-
-
-    final month = kpis.first.transDate.month;
-    final year = kpis.first.transDate.year;
-
-    final daysInMonth = DateUtils.getDaysInMonth(year, month);
-
-    final totalWeeks = ((daysInMonth - 1) ~/ 7) + 1;
-
-
-    List<double> weeks = List.filled(totalWeeks, 0);
-
-    for (var kpi in kpis) {
-      int weekOfMonth = ((kpi.transDate.day - 1) ~/ 7);
-      weeks[weekOfMonth] += kpi.dailySalesAmount;
-      AppNotifier.printFunction("Weekly Data", "$weekOfMonth ${weeks[weekOfMonth]}");
-    }
-
-    return weeks;
-  }
-
-  /////////////////////////////////////////////////////////////////////
   static double calculateDailySales(List<SalesKPI> data) {
     if (data.isEmpty) return 0.0;
 
-    final subList = data.take(4).toList();
-    subList.sort((a, b) => a.transDate.compareTo(b.transDate));
+    data.sort((a, b) => a.transDate.compareTo(b.transDate));
 
-    return subList.last.dailySalesAmount;
+    return data.last.dailySalesAmount;
   }
 
   static int getWeekNumber(DateTime date) {
@@ -98,7 +21,7 @@ class KpiCalculator {
   static List<WeeklyKPI> calculateWeeklySales(List<SalesKPI> data) {
     final Map<int, double> weeklyTotals = {};
 
-    for (var kpi in data.take(4)) {
+    for (var kpi in data) {
       final week = getWeekNumber(kpi.transDate);
       weeklyTotals[week] = (weeklyTotals[week] ?? 0) + kpi.dailySalesAmount;
     }
@@ -113,19 +36,17 @@ class KpiCalculator {
   static double calculateMonthlySales(List<SalesKPI> data) {
     if (data.isEmpty) return 0.0;
 
-    final subList = data.take(4).toList();
-    subList.sort((a, b) => a.transDate.compareTo(b.transDate));
+    data.sort((a, b) => a.transDate.compareTo(b.transDate));
 
-    return subList.isNotEmpty ? subList.last.lastSalesAmount : 0.0;
+    return data.isNotEmpty ? data.last.lastSalesAmount : 0.0;
 
   }
 
   static List<DailyKPI> calculateDailySalesPerWeek(List<SalesKPI> data) {
-    final now = DateTime(2025, 4, 8);
+    final now = DateTime.now();
     final startOfWeek = now.subtract(Duration(days: now.weekday - 1));
     final endOfWeek = startOfWeek.add(const Duration(days: 6));
 
-    // الأيام السبعة
     final List<DailyKPI> weeklyValues = List.generate(7, (index) {
       final date = startOfWeek.add(Duration(days: index));
       return DailyKPI(
@@ -135,12 +56,11 @@ class KpiCalculator {
       );
     });
 
-    // صفي الداتا الخاصة بالأسبوع
+
     final weekData = data.where((e) =>
     e.transDate.isAfter(startOfWeek.subtract(const Duration(days: 1))) &&
         e.transDate.isBefore(endOfWeek.add(const Duration(days: 1))));
 
-    // اجمع المبيعات في اليوم الصحيح
     for (var kpi in weekData) {
       final index = kpi.transDate.weekday - 1;
       final old = weeklyValues[index];
@@ -154,6 +74,21 @@ class KpiCalculator {
     return weeklyValues;
   }
 
+  static String getMonthName(List<SalesKPI> data) {
+    final now = data.last.transDate;
+    final monthName = DateFormat.yMMMM().format(now); // September
+    print(monthName);
+    return monthName;
+  }
+
+  static String getLastDayName(List<SalesKPI> data) {
+    final now = data.last.transDate;
+    final lastDayName = DateFormat.yMMMEd().format(now); // September
+    print(lastDayName);
+    return lastDayName;
+  }
+
+  /// //////////////////////////////////////////////////////////////////--------------------\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
 
   static double calcDailyMaxY(List<SalesKPI> data) {
     if (data.isEmpty) return 0;
@@ -198,7 +133,7 @@ class KpiCalculator {
     }
   }
 
-
+  /// //////////////////////////////////////////////////////////////////--------------------\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
 
   static Color getDailyKPiBarColor(SalesKPI kpi) {
     Color wantedColor = Colors.blue;
@@ -243,6 +178,8 @@ class KpiCalculator {
   }
 }
 
+/// //////////////////////////////////////////////////////////////////--------------------\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
+
 class WeeklyKPI {
   final int weekNumber;
   final double totalSales;
@@ -251,8 +188,8 @@ class WeeklyKPI {
 }
 
 class DailyKPI {
-  final String dayName;   // اسم اليوم (Mon, Tue...)
-  final DateTime date;    // تاريخ اليوم نفسه
+  final String dayName;
+  final DateTime date;
   final double totalSales;
 
   DailyKPI({

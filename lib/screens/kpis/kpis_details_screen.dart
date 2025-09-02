@@ -32,9 +32,9 @@ class _KpisDetailsScreenState extends State<KpisDetailsScreen> {
     weeksInMonth = KpiCalculator.calculateWeeklySales(salesKpis);
     daysInWeek = KpiCalculator.calculateDailySalesPerWeek(salesKpis);
   }
+
   List<BarChartGroupData> _buildDailyBarGroups(List<SalesKPI> data) {
-    final subList = data.take(4).toList();
-    return subList.asMap().entries.map((entry) {
+    return data.asMap().entries.map((entry) {
       final index = entry.key;
       final kpi = entry.value;
 
@@ -46,7 +46,7 @@ class _KpisDetailsScreenState extends State<KpisDetailsScreen> {
             color: KpiCalculator.getDailyKPiBarColor(kpi),
             borderRadius: const BorderRadius.only(
                 topLeft: Radius.circular(2), topRight: Radius.circular(2)),
-            width: 11,
+            width: 4,
           ),
         ],
       );
@@ -54,7 +54,6 @@ class _KpisDetailsScreenState extends State<KpisDetailsScreen> {
   }
 
   List<BarChartGroupData> _buildMonthlyBarGroups(List<SalesKPI> data) {
-    // weeksInMonth = KpiCalculator.calculateWeeklySales(data);
 
     AppNotifier.printFunction("MonthlyTotals", weeksInMonth.first.totalSales.toString());
 
@@ -78,7 +77,6 @@ class _KpisDetailsScreenState extends State<KpisDetailsScreen> {
   }
 
   List<BarChartGroupData> _buildWeeklyBarGroups(List<SalesKPI> data) {
-    // final weeklyTotals = KpiCalculator.getWeeklyKPIs(data);
 
     AppNotifier.printFunction("weeklyTotals", daysInWeek.first.totalSales.toString());
 
@@ -117,7 +115,17 @@ class _KpisDetailsScreenState extends State<KpisDetailsScreen> {
     if (title == "Daily KPI") {
       if (value.toInt() < salesKpis.length) {
         final date = salesKpis[value.toInt()].transDate;
-        widget = Text("${date.day}/${date.month}");
+       widget =  value % 2 != 0 ? Container() : Padding(
+         padding: const EdgeInsets.only(top: 5.0),
+         child: Transform.rotate(
+            angle: -0.8,
+            child: Text(
+              "${date.day}/${date.month}",
+              style: const TextStyle(fontSize: 10),
+            ),
+          ),
+       );
+        //widget = Text("${date.day}/${date.month}",style: TextStyle(fontSize: 5),);
       }
     } else if (title == "Monthly KPI") {
       if (weeksInMonth.isNotEmpty && value.toInt() < weeksInMonth.length) {
