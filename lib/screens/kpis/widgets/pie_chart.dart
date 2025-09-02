@@ -6,6 +6,8 @@ import 'package:company_portal/utils/context_extensions.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 
+import 'kpi_calculator.dart';
+
 class KpiPieChart extends StatelessWidget {
   final String title;
   final double achieved;
@@ -22,6 +24,16 @@ class KpiPieChart extends StatelessWidget {
     required this.color,
   });
 
+  String getKpiValueDueDate() {
+    if(title == "Daily KPI"){
+      return KpiCalculator.getLastDayName(salesKpi);
+    }else if(title == "Weekly KPI"){
+      return "Week: ${KpiCalculator.getWeekNumber(salesKpi.last.transDate)}";
+    }else{
+      return KpiCalculator.getMonthName(salesKpi);
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     final theme = context.theme;
@@ -32,7 +44,7 @@ class KpiPieChart extends StatelessWidget {
         borderRadius: BorderRadius.circular(20),
         color: theme.colorScheme.primary.withOpacity(0.1),
       ),
-      margin: const EdgeInsets.all(8),
+      margin: const EdgeInsets.all(5),
       child: InkWell(
         onTap: () => Navigator.of(context).push(
           MaterialPageRoute(
@@ -40,7 +52,7 @@ class KpiPieChart extends StatelessWidget {
           ),
         ),
         child: Column(
-          mainAxisSize: MainAxisSize.min,
+          mainAxisSize: MainAxisSize.max,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             const SizedBox(height: 15),
@@ -86,11 +98,19 @@ class KpiPieChart extends StatelessWidget {
               ),
             ),
             Padding(
-              padding: const EdgeInsets.symmetric(vertical: 12.0),
+              padding: const EdgeInsets.only(top: 5.0),
+              child: Text(
+                getKpiValueDueDate(),
+                style:
+                     TextStyle(fontSize: 15, fontWeight: FontWeight.w600, color: theme.colorScheme.secondary),
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.symmetric(vertical: 5.0),
               child: Text(
                 "Achieved: $achieved",
                 style:
-                    const TextStyle(fontSize: 15, fontWeight: FontWeight.w600),
+                const TextStyle(fontSize: 15, fontWeight: FontWeight.w600),
               ),
             ),
           ],
