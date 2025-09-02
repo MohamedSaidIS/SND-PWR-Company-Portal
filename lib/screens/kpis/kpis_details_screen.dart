@@ -1,3 +1,5 @@
+import 'dart:core';
+
 import 'package:company_portal/screens/kpis/widgets/kpi_calculator.dart';
 import 'package:company_portal/utils/context_extensions.dart';
 import 'package:fl_chart/fl_chart.dart';
@@ -18,6 +20,18 @@ class KpisDetailsScreen extends StatefulWidget {
 }
 
 class _KpisDetailsScreenState extends State<KpisDetailsScreen> {
+  late List<SalesKPI> salesKpis;
+  List<WeeklyKPI> weeksInMonth = [];
+  List<DailyKPI> daysInWeek = [];
+
+  @override
+  void initState() {
+    super.initState();
+    salesKpis = widget.salesKpis;
+
+    weeksInMonth = KpiCalculator.calculateWeeklySales(salesKpis);
+    daysInWeek = KpiCalculator.calculateDailySalesPerWeek(salesKpis);
+  }
   List<BarChartGroupData> _buildDailyBarGroups(List<SalesKPI> data) {
     final subList = data.take(4).toList();
     return subList.asMap().entries.map((entry) {
@@ -40,14 +54,13 @@ class _KpisDetailsScreenState extends State<KpisDetailsScreen> {
   }
 
   List<BarChartGroupData> _buildMonthlyBarGroups(List<SalesKPI> data) {
-    final subList = data.take(4).toList();
-    final weeklyTotals = KpiCalculator.getCurrentMonthWeeks(subList);
+    // weeksInMonth = KpiCalculator.calculateWeeklySales(data);
 
-    AppNotifier.printFunction("MonthlyTotals", weeklyTotals.toString());
+    AppNotifier.printFunction("MonthlyTotals", weeksInMonth.first.totalSales.toString());
 
-    return weeklyTotals.asMap().entries.map((entry) {
+    return weeksInMonth.asMap().entries.map((entry) {
       final weekIndex = entry.key;
-      final weekTotalKpi = entry.value;
+      final weekTotalKpi = entry.value.totalSales;
 
       return BarChartGroupData(
         x: weekIndex,
@@ -65,14 +78,13 @@ class _KpisDetailsScreenState extends State<KpisDetailsScreen> {
   }
 
   List<BarChartGroupData> _buildWeeklyBarGroups(List<SalesKPI> data) {
-    final subList = data.take(4).toList();
-    final weeklyTotals = KpiCalculator.getWeeklyKPIs(subList);
+    // final weeklyTotals = KpiCalculator.getWeeklyKPIs(data);
 
-    AppNotifier.printFunction("weeklyTotals", weeklyTotals.toString());
+    AppNotifier.printFunction("weeklyTotals", daysInWeek.first.totalSales.toString());
 
-    return weeklyTotals.asMap().entries.map((entry) {
+    return daysInWeek.asMap().entries.map((entry) {
       final dayIndex = entry.key;
-      final dayTotalKpi = entry.value;
+      final dayTotalKpi = entry.value.totalSales;
 
       return BarChartGroupData(
         x: dayIndex,
@@ -108,25 +120,34 @@ class _KpisDetailsScreenState extends State<KpisDetailsScreen> {
         widget = Text("${date.day}/${date.month}");
       }
     } else if (title == "Monthly KPI") {
-      final weekIndex = value.toInt();
-      widget = Text("Week ${weekIndex + 1}");
+      if (weeksInMonth.isNotEmpty && value.toInt() < weeksInMonth.length) {
+        return Text("W${weeksInMonth[value.toInt()].weekNumber}");
+      }
+      return const Text("");
     } else {
-      final weekDays = KpiCalculator.getCurrentWeekDays(salesKpis);
-      if (value.toInt() < weekDays.length) {
-        widget = Text(weekDays[value.toInt()]);
+      //final weekDays = KpiCalculator.getCurrentWeekDays(salesKpis);
+      if (daysInWeek.isNotEmpty && value.toInt() < daysInWeek.length) {
+        widget = Text(daysInWeek[value.toInt()].dayName);
       }
     }
     return widget;
   }
 
+  double getMaxValue(List<SalesKPI> data, List<WeeklyKPI> weeksData) {
+    if(widget.title == "Daily KPI"){
+      return KpiCalculator.calcDailyMaxY(data);
+    }else if(widget.title == "Monthly KPI"){
+      return KpiCalculator.calcMonthlyMaxY(weeksData);
+    }else{
+      return KpiCalculator.calcWeeklyMaxY(data);
+    }
+  }
 
 
   @override
   Widget build(BuildContext context) {
     final theme = context.theme;
     final local = context.local;
-
-    final maxY = KpiCalculator.calcMaxY(widget.salesKpis);
 
     return PopScope(
       canPop: false,
@@ -153,7 +174,7 @@ class _KpisDetailsScreenState extends State<KpisDetailsScreen> {
                 child: BarChart(
                   BarChartData(
                     alignment: BarChartAlignment.spaceAround,
-                    maxY: maxY,
+                    maxY: getMaxValue(widget.salesKpis, weeksInMonth),
                     barGroups: getSuitableBarGroups(widget.salesKpis, widget.title),
                     titlesData: FlTitlesData(
                       bottomTitles: AxisTitles(
