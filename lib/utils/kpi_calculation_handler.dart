@@ -1,10 +1,10 @@
 import 'dart:math';
-import 'package:company_portal/models/sales_kpi.dart';
+import 'package:company_portal/models/remote/sales_kpi.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:week_number/iso.dart';
 
-class KpiCalculator {
+class KpiCalculationHandler {
 
   static double calculateDailySales(List<SalesKPI> data) {
     if (data.isEmpty) return 0.0;
@@ -110,7 +110,6 @@ class KpiCalculator {
     final maxVal = data.map((e) => e.totalSales).reduce(max);
     return (maxVal + 5).ceil().toDouble();
   }
-
 
   static String _getDayName(int weekday) {
     switch (weekday) {

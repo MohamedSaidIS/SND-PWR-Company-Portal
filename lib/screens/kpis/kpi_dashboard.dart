@@ -1,4 +1,4 @@
-import 'package:company_portal/screens/kpis/widgets/kpi_calculator.dart';
+import 'package:company_portal/utils/kpi_calculation_handler.dart';
 import 'package:company_portal/screens/kpis/widgets/pie_chart.dart';
 import 'package:company_portal/utils/app_notifier.dart';
 import 'package:company_portal/utils/context_extensions.dart';
@@ -47,21 +47,21 @@ class _KpiScreenState extends State<KpiScreen> {
     final theme = context.theme;
     final local = context.local;
 
-    final daily = KpiCalculator.calculateDailySales(salesKpis!);
-    final weekly = KpiCalculator.calculateWeeklySales(salesKpis);
-    final monthly = KpiCalculator.calculateMonthlySales(salesKpis);
+    final daily = KpiCalculationHandler.calculateDailySales(salesKpis!);
+    final weekly = KpiCalculationHandler.calculateWeeklySales(salesKpis);
+    final monthly = KpiCalculationHandler.calculateMonthlySales(salesKpis);
 
-    final currentWeekNumber = KpiCalculator.getWeekNumber(DateTime.now());
+    final currentWeekNumber = KpiCalculationHandler.getWeekNumber(DateTime.now());
     var currentWeek = WeeklyKPI(weekNumber: 0, totalSales: 0.0);
 
     if (weekly.isNotEmpty) {
        currentWeek = weekly
           .firstWhere((element) => element.weekNumber == currentWeekNumber,
           orElse: () => WeeklyKPI(weekNumber: 0, totalSales: 0.0));
+       AppNotifier.printFunction("weekly", weekly.first.weekNumber.toString());
     }
 
     AppNotifier.printFunction("Daily", daily.toString());
-    AppNotifier.printFunction("weekly", weekly.first.weekNumber.toString());
     AppNotifier.printFunction("Monthly", monthly.toString());
 
     final monthlyTarget =
@@ -117,7 +117,6 @@ class _KpiScreenState extends State<KpiScreen> {
                               achieved: daily,
                               target: monthlyTarget.toDouble(),
                               salesKpi: salesKpis,
-                              color: Colors.blue,
                             );
                           case 1:
                             return KpiPieChart(
@@ -125,7 +124,6 @@ class _KpiScreenState extends State<KpiScreen> {
                               achieved: currentWeek.totalSales,
                               target: monthlyTarget.toDouble(),
                               salesKpi: salesKpis,
-                              color: Colors.green,
                             );
                           case 2:
                             return KpiPieChart(
@@ -133,7 +131,6 @@ class _KpiScreenState extends State<KpiScreen> {
                               achieved: monthly,
                               target: monthlyTarget.toDouble(),
                               salesKpi: salesKpis,
-                              color: Colors.orange,
                             );
                           default:
                             return const SizedBox.shrink();

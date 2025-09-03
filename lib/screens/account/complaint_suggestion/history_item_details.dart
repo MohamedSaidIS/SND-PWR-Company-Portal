@@ -5,7 +5,7 @@ import 'package:company_portal/screens/account/complaint_suggestion/widgets/stat
 import 'package:company_portal/screens/account/complaint_suggestion/widgets/time_widget.dart';
 import 'package:company_portal/utils/context_extensions.dart';
 import 'package:flutter/material.dart';
-import '../../../models/complaint_suggestion.dart';
+import '../../../models/remote/complaint_suggestion.dart';
 
 class HistoryItemDetails extends StatelessWidget {
   final ComplaintSuggestion item;

@@ -1,6 +1,6 @@
+import 'package:company_portal/models/local/request_model.dart';
 import 'package:flutter/material.dart';
 import '../l10n/app_localizations.dart';
-import '../models/request_model.dart';
 import '../screens/request/attend_leave_screen.dart';
 import '../screens/request/permission_screen.dart';
 import '../screens/request/vacation_balance_screen.dart';

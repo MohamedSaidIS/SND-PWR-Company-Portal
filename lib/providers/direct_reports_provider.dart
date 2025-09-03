@@ -1,4 +1,4 @@
-import 'package:company_portal/models/direct_report.dart';
+import 'package:company_portal/models/remote/direct_report.dart';
 import 'package:company_portal/service/dio_client.dart';
 import 'package:flutter/foundation.dart';
 import '../utils/app_notifier.dart';

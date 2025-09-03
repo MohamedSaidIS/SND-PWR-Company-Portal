@@ -1,6 +1,7 @@
-import 'package:company_portal/models/user_info.dart';
+
 import 'package:company_portal/utils/app_notifier.dart';
 import 'package:flutter/foundation.dart';
+import '../models/remote/user_info.dart';
 import '../service/dio_client.dart';
 
 class ManagerInfoProvider with ChangeNotifier{

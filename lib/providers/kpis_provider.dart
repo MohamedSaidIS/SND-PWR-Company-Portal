@@ -1,6 +1,7 @@
+
+import 'package:company_portal/models/remote/sales_kpi.dart';
 import 'package:flutter/foundation.dart';
 
-import '../models/sales_kpi.dart';
 import '../service/kpi_dio_client.dart';
 import '../utils/app_notifier.dart';
 
