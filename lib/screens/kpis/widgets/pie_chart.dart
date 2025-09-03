@@ -1,19 +1,19 @@
 import 'dart:ui';
 
-import 'package:company_portal/models/sales_kpi.dart';
+import 'package:company_portal/models/remote/sales_kpi.dart';
 import 'package:company_portal/screens/kpis/kpis_details_screen.dart';
 import 'package:company_portal/utils/context_extensions.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 
-import 'kpi_calculator.dart';
+
+import '../../../utils/kpi_calculation_handler.dart';
 
 class KpiPieChart extends StatelessWidget {
   final String title;
   final double achieved;
   final double target;
   final List<SalesKPI> salesKpi;
-  final Color color;
 
   const KpiPieChart({
     super.key,
@@ -21,16 +21,27 @@ class KpiPieChart extends StatelessWidget {
     required this.achieved,
     required this.target,
     required this.salesKpi,
-    required this.color,
   });
 
   String getKpiValueDueDate() {
     if(title == "Daily KPI"){
-      return KpiCalculator.getLastDayName(salesKpi);
+      return KpiCalculationHandler.getLastDayName(salesKpi);
     }else if(title == "Weekly KPI"){
-      return "Week: ${KpiCalculator.getWeekNumber(salesKpi.last.transDate)}";
+      return "Week: ${KpiCalculationHandler.getWeekNumber(salesKpi.last.transDate)}";
     }else{
-      return KpiCalculator.getMonthName(salesKpi);
+      return KpiCalculationHandler.getMonthName(salesKpi);
+    }
+  }
+
+  Color getPieChartColor(num percent){
+    if(percent >= 100){
+      return Colors.green;
+    }else if(percent >= 75){
+      return Colors.orange;
+    }else if(percent >= 50){
+      return Colors.yellow;
+    }else{
+      return Colors.red;
     }
   }
 
@@ -76,7 +87,7 @@ class KpiPieChart extends StatelessWidget {
                     sectionsSpace: 0,
                     sections: [
                       PieChartSectionData(
-                        color: color,
+                        color: getPieChartColor(percent),
                         value: achieved,
                         title: '${percent.toStringAsFixed(2)}%',
                         radius: 55,

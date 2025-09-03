@@ -1,5 +1,3 @@
-
-
 class SalesKPI {
   final String dataAreaId;
   final DateTime transDate;

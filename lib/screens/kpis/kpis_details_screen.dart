@@ -1,11 +1,12 @@
 import 'dart:core';
-
-import 'package:company_portal/screens/kpis/widgets/kpi_calculator.dart';
+import 'package:company_portal/models/remote/sales_kpi.dart';
+import 'package:company_portal/utils/kpi_calculation_handler.dart';
 import 'package:company_portal/utils/context_extensions.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import '../../common/custom_app_bar.dart';
-import '../../models/sales_kpi.dart';
+
 import '../../utils/app_notifier.dart';
 
 class KpisDetailsScreen extends StatefulWidget {
@@ -23,14 +24,41 @@ class _KpisDetailsScreenState extends State<KpisDetailsScreen> {
   late List<SalesKPI> salesKpis;
   List<WeeklyKPI> weeksInMonth = [];
   List<DailyKPI> daysInWeek = [];
+  bool salesKpiListOverLength = false;
 
   @override
   void initState() {
     super.initState();
     salesKpis = widget.salesKpis;
 
-    weeksInMonth = KpiCalculator.calculateWeeklySales(salesKpis);
-    daysInWeek = KpiCalculator.calculateDailySalesPerWeek(salesKpis);
+    salesKpiListOverLength = salesKpis.length > 10 ? true : false;
+
+    handleOrientation(salesKpiListOverLength);
+    weeksInMonth = KpiCalculationHandler.calculateWeeklySales(salesKpis);
+    daysInWeek = KpiCalculationHandler.calculateDailySalesPerWeek(salesKpis);
+  }
+
+  @override
+  void dispose() {
+    SystemChrome.setPreferredOrientations([
+      DeviceOrientation.portraitUp,
+      DeviceOrientation.portraitDown,
+    ]);
+    super.dispose();
+  }
+
+  void handleOrientation(bool salesKpiListOverLength) {
+    if (salesKpiListOverLength) {
+      SystemChrome.setPreferredOrientations([
+        DeviceOrientation.landscapeRight,
+        DeviceOrientation.landscapeLeft,
+      ]);
+    } else {
+      SystemChrome.setPreferredOrientations([
+        DeviceOrientation.portraitUp,
+        DeviceOrientation.portraitDown,
+      ]);
+    }
   }
 
   List<BarChartGroupData> _buildDailyBarGroups(List<SalesKPI> data) {
@@ -43,10 +71,10 @@ class _KpisDetailsScreenState extends State<KpisDetailsScreen> {
         barRods: [
           BarChartRodData(
             toY: kpi.dailySalesAmount,
-            color: KpiCalculator.getDailyKPiBarColor(kpi),
+            color: KpiCalculationHandler.getDailyKPiBarColor(kpi),
             borderRadius: const BorderRadius.only(
                 topLeft: Radius.circular(2), topRight: Radius.circular(2)),
-            width: 4,
+              width: salesKpiListOverLength ? 4 : 11 ,
           ),
         ],
       );
@@ -114,18 +142,7 @@ class _KpisDetailsScreenState extends State<KpisDetailsScreen> {
     Widget widget = const Text("");
     if (title == "Daily KPI") {
       if (value.toInt() < salesKpis.length) {
-        final date = salesKpis[value.toInt()].transDate;
-       widget =  value % 2 != 0 ? Container() : Padding(
-         padding: const EdgeInsets.only(top: 5.0),
-         child: Transform.rotate(
-            angle: -0.8,
-            child: Text(
-              "${date.day}/${date.month}",
-              style: const TextStyle(fontSize: 10),
-            ),
-          ),
-       );
-        //widget = Text("${date.day}/${date.month}",style: TextStyle(fontSize: 5),);
+       widget =  getDailyX_axisTitles(value, salesKpis);
       }
     } else if (title == "Monthly KPI") {
       if (weeksInMonth.isNotEmpty && value.toInt() < weeksInMonth.length) {
@@ -133,7 +150,6 @@ class _KpisDetailsScreenState extends State<KpisDetailsScreen> {
       }
       return const Text("");
     } else {
-      //final weekDays = KpiCalculator.getCurrentWeekDays(salesKpis);
       if (daysInWeek.isNotEmpty && value.toInt() < daysInWeek.length) {
         widget = Text(daysInWeek[value.toInt()].dayName);
       }
@@ -141,13 +157,30 @@ class _KpisDetailsScreenState extends State<KpisDetailsScreen> {
     return widget;
   }
 
+  Widget getDailyX_axisTitles(double value, List<SalesKPI> salesKpis){
+    final date = salesKpis[value.toInt()].transDate;
+    return Padding(
+      padding: const EdgeInsets.only(top: 5.0),
+      child: salesKpiListOverLength ? Transform.rotate(
+        angle: -0.8,
+        child: Text(
+          "${date.day}/${date.month}",
+          style: const TextStyle(fontSize: 10),
+        ),
+      ):  Text(
+        "${date.day}/${date.month}",
+        style: const TextStyle(fontSize: 10),
+      ),
+    );
+  }
+
   double getMaxValue(List<SalesKPI> data, List<WeeklyKPI> weeksData) {
     if(widget.title == "Daily KPI"){
-      return KpiCalculator.calcDailyMaxY(data);
+      return KpiCalculationHandler.calcDailyMaxY(data);
     }else if(widget.title == "Monthly KPI"){
-      return KpiCalculator.calcMonthlyMaxY(weeksData);
+      return KpiCalculationHandler.calcMonthlyMaxY(weeksData);
     }else{
-      return KpiCalculator.calcWeeklyMaxY(data);
+      return KpiCalculationHandler.calcWeeklyMaxY(data);
     }
   }
 

@@ -1,4 +1,4 @@
-import 'package:company_portal/models/complaint_suggestion.dart';
+import 'package:company_portal/models/remote/complaint_suggestion.dart';
 import 'package:company_portal/service/dio_client.dart';
 import 'package:flutter/foundation.dart';
 import '../utils/app_notifier.dart';

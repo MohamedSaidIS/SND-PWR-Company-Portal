@@ -1,4 +1,4 @@
-import 'package:company_portal/models/section.dart';
+import 'package:company_portal/models/local/section.dart';
 import 'package:company_portal/utils/context_extensions.dart';
 import 'package:flutter/material.dart';
 

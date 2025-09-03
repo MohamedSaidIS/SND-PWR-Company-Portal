@@ -1,6 +1,6 @@
-import 'package:company_portal/models/complaint_suggestion_created_by.dart';
-import 'package:company_portal/models/complaint_suggestion_fields.dart';
-import 'package:company_portal/models/complaint_suggestion_last_modified_by.dart';
+import 'package:company_portal/models/remote/complaint_suggestion_created_by.dart';
+import 'package:company_portal/models/remote/complaint_suggestion_fields.dart';
+import 'package:company_portal/models/remote/complaint_suggestion_last_modified_by.dart';
 
 class ComplaintSuggestion {
   final String? id;
