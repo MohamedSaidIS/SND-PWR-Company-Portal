@@ -12,9 +12,10 @@ import '../../utils/app_notifier.dart';
 class KpisDetailsScreen extends StatefulWidget {
   final List<SalesKPI> salesKpis;
   final String title;
+  final WeeklyKPI currentWeek;
 
   const KpisDetailsScreen(
-      {super.key, required this.salesKpis, required this.title});
+      {super.key, required this.salesKpis, required this.title, required this.currentWeek});
 
   @override
   State<KpisDetailsScreen> createState() => _KpisDetailsScreenState();
@@ -32,10 +33,12 @@ class _KpisDetailsScreenState extends State<KpisDetailsScreen> {
     salesKpis = widget.salesKpis;
 
     salesKpiListOverLength = salesKpis.length > 10 ? true : false;
+    print("SalesKpiListOverLength $salesKpiListOverLength");
 
     handleOrientation(salesKpiListOverLength);
-    weeksInMonth = KpiCalculationHandler.calculateWeeklySales(salesKpis);
-    daysInWeek = KpiCalculationHandler.calculateDailySalesPerWeek(salesKpis);
+    weeksInMonth = KpiCalculationHandler.calculateWeeklySales(salesKpis, DateTime.now().month);
+    print("CurrentWeek: ${widget.currentWeek.weekNumber}");
+    daysInWeek = KpiCalculationHandler.calculateDailySalesPerWeek(salesKpis,widget.currentWeek.weekNumber, 2025);
   }
 
   @override
@@ -48,7 +51,7 @@ class _KpisDetailsScreenState extends State<KpisDetailsScreen> {
   }
 
   void handleOrientation(bool salesKpiListOverLength) {
-    if (salesKpiListOverLength) {
+    if (salesKpiListOverLength && widget.title == "Daily KPI") {
       SystemChrome.setPreferredOrientations([
         DeviceOrientation.landscapeRight,
         DeviceOrientation.landscapeLeft,
@@ -83,7 +86,7 @@ class _KpisDetailsScreenState extends State<KpisDetailsScreen> {
 
   List<BarChartGroupData> _buildMonthlyBarGroups(List<SalesKPI> data) {
 
-    AppNotifier.printFunction("MonthlyTotals", weeksInMonth.first.totalSales.toString());
+    AppNotifier.printFunction("MonthlyTotals", weeksInMonth.last.totalSales.toString());
 
     return weeksInMonth.asMap().entries.map((entry) {
       final weekIndex = entry.key;
@@ -106,7 +109,10 @@ class _KpisDetailsScreenState extends State<KpisDetailsScreen> {
 
   List<BarChartGroupData> _buildWeeklyBarGroups(List<SalesKPI> data) {
 
-    AppNotifier.printFunction("weeklyTotals", daysInWeek.first.totalSales.toString());
+    for(var i in daysInWeek){
+      AppNotifier.printFunction("weeklyTotals","${i.date} ${i.totalSales}");
+    }
+
 
     return daysInWeek.asMap().entries.map((entry) {
       final dayIndex = entry.key;
