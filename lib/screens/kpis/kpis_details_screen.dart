@@ -86,7 +86,9 @@ class _KpisDetailsScreenState extends State<KpisDetailsScreen> {
 
   List<BarChartGroupData> _buildMonthlyBarGroups(List<SalesKPI> data) {
 
-    AppNotifier.printFunction("MonthlyTotals", weeksInMonth.last.totalSales.toString());
+    if(weeksInMonth.isNotEmpty){
+      AppNotifier.printFunction("MonthlyTotals", weeksInMonth.last.totalSales.toString());
+    }
 
     return weeksInMonth.asMap().entries.map((entry) {
       final weekIndex = entry.key;
