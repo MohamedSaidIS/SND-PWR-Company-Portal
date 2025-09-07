@@ -14,6 +14,9 @@ class KpiPieChart extends StatelessWidget {
   final double achieved;
   final double target;
   final List<SalesKPI> salesKpi;
+  final WeeklyKPI currentWeek;
+  final int selectedMonth;
+  final int? selectedWeek;
 
   const KpiPieChart({
     super.key,
@@ -21,15 +24,26 @@ class KpiPieChart extends StatelessWidget {
     required this.achieved,
     required this.target,
     required this.salesKpi,
+    required this.currentWeek,
+    required this.selectedMonth,
+    required this.selectedWeek,
   });
 
   String getKpiValueDueDate() {
     if(title == "Daily KPI"){
-      return KpiCalculationHandler.getLastDayName(salesKpi);
+      return KpiCalculationHandler.getLastDayName(salesKpi, selectedMonth, selectedWeek!);
     }else if(title == "Weekly KPI"){
-      return "Week: ${KpiCalculationHandler.getWeekNumber(salesKpi.last.transDate)}";
+      if(selectedWeek != null){
+        return "Week: $selectedWeek";
+      }else {
+        DateTime lastDate = DateTime.now();
+        if(salesKpi.isNotEmpty){
+          lastDate = salesKpi.last.transDate;
+        }
+        return "Week: ${KpiCalculationHandler.getWeekNumber(lastDate)}";
+      }
     }else{
-      return KpiCalculationHandler.getMonthName(salesKpi);
+      return KpiCalculationHandler.getMonthName(salesKpi, selectedMonth);
     }
   }
 
@@ -48,7 +62,10 @@ class KpiPieChart extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = context.theme;
-    final percent = (target == 0) ? 0 : (achieved / target * 100);
+    final percent = (target == 0) ? 0 : (achieved  / target * 100);
+    print("Week: $selectedWeek currentWeek: ${currentWeek.weekNumber}");
+
+    //print("target $target achieved $achieved percent $percent");
 
     return Container(
       decoration: BoxDecoration(
@@ -59,7 +76,7 @@ class KpiPieChart extends StatelessWidget {
       child: InkWell(
         onTap: () => Navigator.of(context).push(
           MaterialPageRoute(
-            builder: (context) => KpisDetailsScreen(salesKpis: salesKpi, title: title,),
+            builder: (context) => KpisDetailsScreen(salesKpis: salesKpi, title: title, currentWeek: currentWeek),
           ),
         ),
         child: Column(
@@ -119,7 +136,7 @@ class KpiPieChart extends StatelessWidget {
             Padding(
               padding: const EdgeInsets.symmetric(vertical: 5.0),
               child: Text(
-                "Achieved: $achieved",
+                "Achieved: ${achieved.toStringAsFixed(2)}",
                 style:
                 const TextStyle(fontSize: 15, fontWeight: FontWeight.w600),
               ),
