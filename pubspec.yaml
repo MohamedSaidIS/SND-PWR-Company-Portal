@@ -67,6 +67,8 @@ dependencies:
   week_number: ^1.1.1
   jiffy: ^6.2.1
   week_of_year: ^2.0.0
+  local_auth: ^2.1.7
+  flutter_secure_storage: ^9.0.0
 
 dev_dependencies:
   flutter_test:

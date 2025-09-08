@@ -76,7 +76,7 @@ class KpiPieChart extends StatelessWidget {
       child: InkWell(
         onTap: () => Navigator.of(context).push(
           MaterialPageRoute(
-            builder: (context) => KpisDetailsScreen(salesKpis: salesKpi, title: title, currentWeek: currentWeek),
+            builder: (context) => KpisDetailsScreen(salesKpis: salesKpi, title: title, currentWeek: currentWeek, selectedMonth: selectedMonth,),
           ),
         ),
         child: Column(
