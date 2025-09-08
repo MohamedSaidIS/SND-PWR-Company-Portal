@@ -13,9 +13,10 @@ class KpisDetailsScreen extends StatefulWidget {
   final List<SalesKPI> salesKpis;
   final String title;
   final WeeklyKPI currentWeek;
+  final int selectedMonth;
 
   const KpisDetailsScreen(
-      {super.key, required this.salesKpis, required this.title, required this.currentWeek});
+      {super.key, required this.salesKpis, required this.title, required this.currentWeek, required this.selectedMonth});
 
   @override
   State<KpisDetailsScreen> createState() => _KpisDetailsScreenState();
@@ -36,7 +37,7 @@ class _KpisDetailsScreenState extends State<KpisDetailsScreen> {
     print("SalesKpiListOverLength $salesKpiListOverLength");
 
     handleOrientation(salesKpiListOverLength);
-    weeksInMonth = KpiCalculationHandler.calculateWeeklySales(salesKpis, DateTime.now().month);
+    weeksInMonth = KpiCalculationHandler.calculateWeeklySales(salesKpis,widget.selectedMonth);
     print("CurrentWeek: ${widget.currentWeek.weekNumber}");
     daysInWeek = KpiCalculationHandler.calculateDailySalesPerWeek(salesKpis,widget.currentWeek.weekNumber, 2025);
   }

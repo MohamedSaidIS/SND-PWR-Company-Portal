@@ -5,9 +5,11 @@ import 'package:company_portal/providers/locale_provider.dart';
 import 'package:company_portal/screens/login/widgets/language_switcher.dart';
 import 'package:company_portal/screens/login/widgets/logo_carousel_widget.dart';
 import 'package:company_portal/screens/login/widgets/sign_in_button.dart';
+import 'package:company_portal/utils/biomertic_auth.dart';
 import 'package:company_portal/utils/context_extensions.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import '../../utils/secure_storage_service.dart';
 import '../home/home_screen.dart';
 
 class LoginScreenNew extends StatefulWidget {
@@ -21,20 +23,56 @@ class LoginScreenNew extends StatefulWidget {
 
 class _LoginScreenNewState extends State<LoginScreenNew> {
   bool _isLoading = false;
+  late final AuthController _authController;
+  // late final BiometricAuth _biometricAuth;
+
+  @override
+  void initState() {
+    super.initState();
+    final oauth = Provider.of<AadOAuth>(context, listen: false);
+    _authController = AuthController(oauth: oauth, context: context);
+    // _biometricAuth = BiometricAuth();
+
+    // _checkForBiometricLogin();
+  }
+
+  // Future<void> _checkForBiometricLogin() async {
+  //   print("Checking for biometric login");
+  //   final token = await SecureStorageService().getData("AccessToken");
+  //   if (token != null && token.isNotEmpty) {
+  //     final bioSuccess = await _biometricAuth.authenticateWithBiometrics();
+  //     print("Checking for biometric login");
+  //     if(bioSuccess && mounted){
+  //       _navigateToHome();
+  //     }
+  //   }
+  // }
+
 
   Future<void> _onSignInPressed() async {
     setState(() => _isLoading = true);
 
-    final oauth = Provider.of<AadOAuth>(context, listen: false);
-    final oathController = AuthController(oauth: oauth, context: context);
+    final token = await SecureStorageService().getData("AccessToken");
+    bool success = false;
+    String type = "";
 
-    final success = await oathController.handleMicrosoftLogin();
-    print("Success: $success");
+    if (token != null && token.isNotEmpty) {
+      type = "Biometric";
+      success = await _authController.loginWithBiometrics();
+      print("Biometric Login Success: $success");
+    }else{
+      type = "Microsoft";
+      success = await _authController.handleMicrosoftLogin();
+      print("Microsoft Login Success: $success");
+    }
+    print("$type Login Success: $success");
+
     if(success && mounted){
       _navigateToHome();
     }
     if (mounted) setState(() => _isLoading = false);
   }
+
 
   void _navigateToHome() {
     Navigator.push(

@@ -2,11 +2,15 @@ import 'package:aad_oauth/aad_oauth.dart';
 import 'package:flutter/cupertino.dart';
 import '../service/sharedpref_service.dart';
 import '../utils/app_notifier.dart';
+import '../utils/biomertic_auth.dart';
 import '../utils/enums.dart';
+import '../utils/secure_storage_service.dart';
 
 class AuthController {
   final AadOAuth oauth;
   final BuildContext context;
+  final SecureStorageService secureStorage = SecureStorageService();
+  final BiometricAuth biometricAuth = BiometricAuth();
 
   AuthController({
     required this.oauth,
@@ -25,8 +29,7 @@ class AuthController {
   }
 
   Future<void> _clearPreviousSession() async {
-    final sharedPrefHelper = SharedPrefsHelper();
-    sharedPrefHelper.clearData();
+    await secureStorage.deleteData();
   }
 
   Future<bool> _performMicrosoftLogin() async {
@@ -38,10 +41,7 @@ class AuthController {
         return Future.value(false);
       },
           (success) async {
-        final token = await _getAccessToken(
-          oauth,
-          SharedPrefsHelper(),
-        );
+        final token = await _getAccessToken();
         if (token == null) {
           _showError('Failed to retrieve access token');
           return false;
@@ -55,20 +55,29 @@ class AuthController {
     AppNotifier.snackBar(context, message, SnackBarType.error);
   }
 
-  Future<String?> _getAccessToken(
-      AadOAuth oauth,
-      SharedPrefsHelper sharedPrefHelper,
-      ) async {
+  Future<String?> _getAccessToken() async {
     try{
       final accessToken = await oauth.getAccessToken();
       if (accessToken != null) {
-        await sharedPrefHelper.saveUserData("AccessToken", accessToken);
-        await sharedPrefHelper.saveUserData("TokenSavedAt", DateTime.now().toIso8601String());
+        await secureStorage.saveData("AccessToken", accessToken);
+        await secureStorage.saveData("TokenSavedAt", DateTime.now().toIso8601String());
         return accessToken;
       }
     } catch (e) {
       _showError("Error getting access token: $e");
     }
     return null;
+  }
+
+  Future<bool> loginWithBiometrics() async {
+    final authenticated = await biometricAuth.authenticateWithBiometrics();
+    if(!authenticated) return false;
+
+    final token = await secureStorage.getData("AccessToken");
+    if (token == null) {
+      _showError("No saved token, please login with Microsoft first");
+      return false;
+    }
+    return true;
   }
 }

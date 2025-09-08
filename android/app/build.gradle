@@ -35,8 +35,8 @@ android {
         applicationId = "com.alsanidi.sndpower"
         minSdk = flutter.minSdkVersion
         targetSdk = flutter.targetSdkVersion
-        versionCode = 7
-        versionName = '1.7'
+        versionCode = 8
+        versionName = '1.8'
     }
 
     signingConfigs{
@@ -64,7 +64,8 @@ flutter {
 dependencies {
     implementation 'com.microsoft.identity.client:msal:5.10.2'
     implementation "androidx.appcompat:appcompat:1.7.1"
-    implementation "com.google.android.material:material:1.12.0"
+    implementation "com.google.android.material:material:1.13.0"
+    implementation "androidx.activity:activity-ktx:1.10.1"
 
 }
 
