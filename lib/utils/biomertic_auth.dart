@@ -5,8 +5,13 @@ class BiometricAuth {
 
   Future<bool> authenticateWithBiometrics() async {
     try {
+      final isAvailable = await auth.isDeviceSupported();
       final canCheck = await auth.canCheckBiometrics;
-      if (!canCheck) return false;
+
+      print("isAvailable: $isAvailable");
+      print("canCheckBiometrics: $canCheck");
+
+      if (!isAvailable || !canCheck) return false;
 
       final didAuthenticated = await auth.authenticate(
         localizedReason: 'Sign in using fingerprint or Face ID.',
