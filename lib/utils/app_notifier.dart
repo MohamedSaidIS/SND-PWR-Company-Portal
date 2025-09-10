@@ -1,6 +1,7 @@
 import 'package:aad_oauth/aad_oauth.dart';
 import 'package:company_portal/screens/login/login_screen_new.dart';
 import 'package:company_portal/utils/context_extensions.dart';
+import 'package:company_portal/utils/secure_storage_service.dart';
 import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
 import 'package:provider/provider.dart';
@@ -40,6 +41,7 @@ class AppNotifier {
             ),
             onPressed: () async {
               Navigator.pop(context);
+              SecureStorageService().deleteData();
               await oauth.logout();
               Navigator.pushReplacement(
                 context,

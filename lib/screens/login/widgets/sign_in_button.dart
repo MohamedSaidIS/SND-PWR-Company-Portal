@@ -18,56 +18,45 @@ class SignInButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = context.theme;
-    final positionRight = context.positionRight;
-    final positionLeft = context.positionLeft;
+    final isArabic = context.isArabic();
+
     final double screenWidth = context.screenWidth;
-    final double screenHeight = context.screenHeight;
+    final isTablet = context.isTablet();
 
-    final double buttonHeight = screenHeight * 0.1; // 10% of screen height
-    final double paddingValue = screenWidth * 0.04; // 4% of screen width
+    final double fontSize = screenWidth * (isArabic ? 0.035 : 0.04);
+    final double iconSize = isTablet ? 26 : 22;
 
-    return Positioned(
-      bottom: 0,
-      right: positionRight,
-      left: positionLeft,
-      child: Container(
-        height: buttonHeight,
-        color: theme.colorScheme.background,
-        padding: EdgeInsets.all(paddingValue),
-        child: isLoading
-            ? const Center(child: CircularProgressIndicator())
-            : ElevatedButton(
-          style: ElevatedButton.styleFrom(
+    return isLoading
+        ? const CircularProgressIndicator()
+        : FloatingActionButton.extended(
+            onPressed: isLoading ? null : handleMicrosoftLogin,
             backgroundColor: const Color(0xFF1B818E),
-            padding:
-            EdgeInsets.symmetric(
-              horizontal: screenWidth * 0.06,
-              vertical: screenHeight * 0.015,
-            ),
+            elevation: 4,
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(30),
             ),
-            elevation: 4,
-            shadowColor: Colors.black38,
-          ),
-          onPressed: isLoading ? null : handleMicrosoftLogin,
-          child: Row(
-            mainAxisSize: MainAxisSize.min,
-            mainAxisAlignment: MainAxisAlignment.end,
-            children: [
-              Text(
-                text,
-                style: theme.textTheme.labelSmall,
-              ),
-              SizedBox(width: screenWidth * 0.02),
-              Icon(
-                loginArrowIcon,
-                color: theme.colorScheme.background,
-              ),
-            ],
-          ),
-        ),
-      ),
-    );
+            label: Row(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Transform.translate(
+                  offset: const Offset(0, 0),
+                  child: Text(
+                    text,
+                    style: TextStyle(
+                      color: theme.colorScheme.background,
+                      fontWeight: FontWeight.w600,
+                      fontSize: fontSize,
+                    ),
+                  ),
+                ),
+                SizedBox(width: screenWidth * 0.02),
+                Icon(
+                  loginArrowIcon,
+                  color: theme.colorScheme.background,
+                  size: iconSize,
+                ),
+              ],
+            ),
+          );
   }
 }

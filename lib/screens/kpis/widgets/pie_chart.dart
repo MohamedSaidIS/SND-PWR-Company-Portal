@@ -53,7 +53,7 @@ class KpiPieChart extends StatelessWidget {
     }else if(percent >= 75){
       return Colors.orange;
     }else if(percent >= 50){
-      return Colors.yellow;
+      return Colors.amberAccent;
     }else{
       return Colors.red;
     }
@@ -109,7 +109,7 @@ class KpiPieChart extends StatelessWidget {
                         title: '${percent.toStringAsFixed(2)}%',
                         radius: 55,
                         titleStyle:  TextStyle(
-                          color: percent > 10?  Colors.white : Colors.black,
+                          color: percent > 15?  Colors.white : Colors.black,
                           fontWeight: FontWeight.bold,
                           fontSize: 15,
                         ),

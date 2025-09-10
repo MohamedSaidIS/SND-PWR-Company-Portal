@@ -6,7 +6,7 @@ import '../l10n/app_localizations.dart';
 import '../screens/login/widgets/section_widget.dart';
 
 List<Widget> getSections(AppLocalizations local, ThemeData theme,
-    BuildContext context) {
+    BuildContext context, double carouselHeight) {
   final isArabic = context.isArabic();
 
   final sections = [
@@ -30,5 +30,5 @@ List<Widget> getSections(AppLocalizations local, ThemeData theme,
     ),
   ];
 
-  return sections.map((s) => SectionWidget(section: s, theme: theme, isArabic: isArabic)).toList();
+  return sections.map((s) => SectionWidget(section: s, theme: theme, isArabic: isArabic, carouselHeight: carouselHeight,)).toList();
 }

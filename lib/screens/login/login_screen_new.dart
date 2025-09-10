@@ -5,7 +5,6 @@ import 'package:company_portal/providers/locale_provider.dart';
 import 'package:company_portal/screens/login/widgets/language_switcher.dart';
 import 'package:company_portal/screens/login/widgets/logo_carousel_widget.dart';
 import 'package:company_portal/screens/login/widgets/sign_in_button.dart';
-import 'package:company_portal/utils/biomertic_auth.dart';
 import 'package:company_portal/utils/context_extensions.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -95,19 +94,23 @@ class _LoginScreenNewState extends State<LoginScreenNew> {
       child: Scaffold(
         backgroundColor: theme.colorScheme.background,
         body: SafeArea(
-          child: Stack(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.end,
             children: [
               LanguageSwitcher(
                 localeProvider: localeProvider,
                 currentLocale: currentLocale,
                 onLanguageChanged: () => changeLanguage(localeProvider, currentLocale)
               ),
-              const LogoAndCarouselWidget(assetPath: 'assets/images/alsanidi_logo.png'),
-              SignInButton(
-                text: local.signIn,
-                isLoading: _isLoading,
-                handleMicrosoftLogin: _onSignInPressed,
-                loginArrowIcon: context.loginArrowIcon,
+              const Expanded(child: LogoAndCarouselWidget(assetPath: 'assets/images/alsanidi_logo.png')),
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: SignInButton(
+                  text: local.signIn,
+                  isLoading: _isLoading,
+                  handleMicrosoftLogin: _onSignInPressed,
+                  loginArrowIcon: context.loginArrowIcon,
+                ),
               )
             ],
           ),
