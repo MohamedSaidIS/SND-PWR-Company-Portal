@@ -78,7 +78,7 @@ class _KpiScreenState extends State<KpiScreen> {
 
     // AppNotifier.printFunction("Daily", daily.toString());
     // AppNotifier.printFunction("Monthly", monthly.toString());
-    //
+
     final currentWeekNumber =
         KpiCalculationHandler.getWeekNumber(DateTime.now());
     var currentWeek = WeeklyKPI(weekNumber: 0, totalSales: 0.0, monthNumber: 0);
@@ -219,7 +219,7 @@ class _KpiScreenState extends State<KpiScreen> {
                             );
                           case 1:
                             double achievedValue;
-                            if (currentWeek.weekNumber != 0) {
+                            if (currentWeek.weekNumber != 0 || selectedWeek == KpiCalculationHandler.getWeekNumber(DateTime.now())) {
                               if (currentWeek.totalSales == 0.0) {
                                 achievedValue = 0.0;
                               } else {

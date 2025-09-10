@@ -85,8 +85,7 @@ class KpiCalculationHandler {
     return getIsoWeekStart(year, weekNumber).add(const Duration(days: 6));
   }
 
-  static List<DailyKPI> calculateDailySalesPerWeek(
-      List<SalesKPI> data, int currentWeek, int year) {
+  static List<DailyKPI> calculateDailySalesPerWeek(List<SalesKPI> data, int currentWeek, int year) {
     final start = getIsoWeekStart(year, currentWeek);
     final end = getIsoWeekEnd(year, currentWeek);
 
@@ -126,6 +125,53 @@ class KpiCalculationHandler {
     }
     return weeklyValues;
   }
+
+  static int daysInMonthForYear(int year, int month) {
+    var beginningNextMonth = (month < 12)
+        ? DateTime(year, month + 1, 1)
+        : DateTime(year + 1, 1, 1);
+    return beginningNextMonth.subtract(const Duration(days: 1)).day;
+  }
+
+  static List<DailyKPI> calculateDailySalesPerMonth(List<SalesKPI> data, int month, int year) {
+    final start = DateTime(year, month, 1);
+    final totalDays = daysInMonthForYear(year, month);
+    final end = DateTime(year, month, totalDays);
+
+    print("Month Start: $start, End: $end");
+
+    final daysInMonth = List.generate(end.day, (index) {
+      final date = DateTime(year, month, index + 1);
+      return DailyKPI(
+        dayName: _getDayName(date.weekday),
+        date: date,
+        totalSales: 0,
+      );
+    });
+
+    DateTime onlyDate(DateTime dt) => DateTime(dt.year, dt.month, dt.day);
+
+    final monthData = data.where((e) {
+      final d = onlyDate(e.transDate);
+      return (d.isAtSameMomentAs(start) || d.isAtSameMomentAs(end)) ||
+          (d.isAfter(start) && d.isBefore(end));
+    });
+
+    print("monthData count: ${monthData.length}");
+
+    for (var kpi in monthData) {
+      final dayIndex = kpi.transDate.day - 1;
+      final old = daysInMonth[dayIndex];
+      daysInMonth[dayIndex] = DailyKPI(
+        dayName: old.dayName,
+        date: old.date,
+        totalSales: kpi.dailySalesAmount,
+      );
+    }
+
+    return daysInMonth.where((e) => e.totalSales > 0).toList();
+  }
+
 
   static String getMonthName(List<SalesKPI> data, int selectedMonth) {
     var now = DateTime.now();

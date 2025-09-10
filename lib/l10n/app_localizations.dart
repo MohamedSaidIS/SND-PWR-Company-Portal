@@ -548,7 +548,7 @@ abstract class AppLocalizations {
   /// No description provided for @sectionTextOne.
   ///
   /// In en, this message translates to:
-  /// **'Al-Sanidi is one of the foremost names in Saudi Arabia’s outdoor retail market, specializing in trekking tools, camping gear, and adventure equipment. Since its founding, the company has focused on delivering a wide range of durable, high-quality products that cater to the needs of both casual campers and seasoned outdoor enthusiasts. Its product portfolio includes essential items like tents, backpacks, sleeping bags, portable stoves, multi-tools, hiking boots, and other equipment designed to withstand harsh conditions and enhance the outdoor experience.'**
+  /// **'Al-Sanidi is one of the foremost names in Saudi Arabia’s outdoor retail market, specializing in trekking tools, camping gear, and adventure equipment. Since its founding, the company has focused on delivering a wide range of durable, high-quality products that cater to the needs of both casual campers and seasoned outdoor enthusiasts. Its product portfolio includes essential items like tents, backpacks, sleeping bags, portable stoves, multi-tools, hiking boots, and other equipment.'**
   String get sectionTextOne;
 
   /// No description provided for @sectionTitleTwo.
@@ -560,13 +560,13 @@ abstract class AppLocalizations {
   /// No description provided for @sectionTextTwo.
   ///
   /// In en, this message translates to:
-  /// **'Al-Sanidi’s vision is rooted in becoming the ultimate destination for adventurers, offering not only products but also expertise in outdoor activities. The company has grown from a single store to a robust network of physical retail outlets spread across multiple regions of Saudi Arabia, supported by a dynamic online platform that serves customers both locally and across the Middle East. By blending in-store services with e-commerce, Al-Sanidi offers a seamless omnichannel shopping experience.'**
+  /// **'Al-Sanidi’s vision is rooted in becoming the ultimate destination for adventurers, offering not only products but also expertise in outdoor activities. The company has grown from a single store to a robust network of physical retail outlets spread across multiple regions of Saudi Arabia, supported by a dynamic online platform that serves customers both locally and across the Middle East. By blending in-store services with e-commerce'**
   String get sectionTextTwo;
 
   /// No description provided for @sectionTextTwoPartTwo.
   ///
   /// In en, this message translates to:
-  /// **'In recent years, Al-Sanidi has increasingly focused on expanding its market share through innovative product offerings, such as high-tech camping gear, solar-powered gadgets, and eco-friendly tools. This has allowed the company to differentiate itself in a competitive retail landscape, while maintaining a reputation for reliability and innovative products.'**
+  /// **'Al-Sanidi offers a seamless omnichannel shopping experience. In recent years, Al-Sanidi has increasingly focused on expanding its market share through innovative product offerings, such as high-tech camping gear, solar-powered gadgets, and eco-friendly tools. This has allowed the company to differentiate itself in a competitive retail landscape, while maintaining a reputation for reliability and innovative products.'**
   String get sectionTextTwoPartTwo;
 
   /// No description provided for @sectionTitleThree.
@@ -578,13 +578,13 @@ abstract class AppLocalizations {
   /// No description provided for @sectionTextThree.
   ///
   /// In en, this message translates to:
-  /// **'Al-Sanidi is committed to ensuring that every product meets rigorous quality standards. This emphasis on quality is reflected in its partnerships with globally renowned brands known for their durability and innovation. Whether it is providing the most lightweight tents for backpackers or offering durable trekking poles for rugged terrains, Al-Sanidi focuses on curating products that align with the specific needs of outdoor adventurers in the Middle East.'**
+  /// **'Al-Sanidi is committed to ensuring that every product meets rigorous quality standards. This emphasis on quality is reflected in its partnerships with globally renowned brands known for their durability and innovation. Whether it is providing the most lightweight tents for backpackers or offering durable trekking poles for rugged terrains. Al-Sanidi focuses on curating products that align with the specific needs of outdoor adventurers in the Middle East.'**
   String get sectionTextThree;
 
   /// No description provided for @sectionTextThreePartThree.
   ///
   /// In en, this message translates to:
-  /// **'Moreover, customer experience remains at the heart of the company’s business strategy. With a diverse clientele ranging from families planning weekend camping trips to professional hikers exploring remote regions, Al-Sanidi takes pride in offering personalized recommendations and in-store consultations, bolstered by knowledgeable staff who are themselves passionate about outdoor activities.'**
+  /// **'Moreover, customer experience remains at the heart of the company’s business strategy. With a diverse clientele ranging from families planning weekend camping trips to professional hikers exploring remote regions, Al-Sanidi takes pride in offering personalized recommendations and in-store consultations.'**
   String get sectionTextThreePartThree;
 
   /// No description provided for @it.

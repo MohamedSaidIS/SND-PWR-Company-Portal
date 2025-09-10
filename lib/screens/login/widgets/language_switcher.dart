@@ -20,31 +20,24 @@ class LanguageSwitcher extends StatelessWidget {
     final local = context.local;
     final theme = context.theme;
 
-    return Positioned(
-      top: 10,
-      left: isArabic ? null : 0,
-      right: isArabic ? 0 : null,
-      child: Row(
-        children: [
-          IconButton(
-            onPressed: onLanguageChanged,
-            icon: const Icon(Icons.language, color: Color(0xFF1B818E), size: 30
-            ),
+    return Row(
+      children: [
+        IconButton(
+          onPressed: onLanguageChanged,
+          icon: Icon(Icons.language, color: const Color(0xFF1B818E), size: MediaQuery.of(context).size.width * 0.07
           ),
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 2.0),
-            child: Center(
-              child: Text(
-                currentLocale.toUpperCase() == "AR" ? local.aR : local.eN,
-                style: TextStyle(
-                    color: theme.colorScheme.primary,
-                    fontWeight: FontWeight.w500,
-                    fontSize: 18),
-              ),
-            ),
-          )
-        ],
-      ),
+        ),
+        Transform.translate(
+          offset: Offset(isArabic ? 7: -7, 0),
+          child: Text(
+            currentLocale.toUpperCase() == "AR" ? local.aR : local.eN,
+            style: TextStyle(
+                color: theme.colorScheme.primary,
+                fontWeight: FontWeight.w500,
+                fontSize: MediaQuery.of(context).size.width * 0.045),
+          ),
+        )
+      ],
     );
   }
 }

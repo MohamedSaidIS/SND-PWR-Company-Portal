@@ -1,6 +1,5 @@
 import 'package:aad_oauth/aad_oauth.dart';
 import 'package:flutter/cupertino.dart';
-import '../service/sharedpref_service.dart';
 import '../utils/app_notifier.dart';
 import '../utils/biomertic_auth.dart';
 import '../utils/enums.dart';

@@ -16,8 +16,8 @@ extension ContextHelper on BuildContext{
   IconData get loginArrowIcon => isArabic() ? LineAwesomeIcons.arrow_left_solid : LineAwesomeIcons.arrow_right_solid;
   IconData get themeIcon => isDark() ? LineAwesomeIcons.sun : LineAwesomeIcons.moon;
   Alignment get alignment => isArabic() ? Alignment.centerRight : Alignment.centerLeft;
-  double? get positionRight => isArabic() ? null : 0 ;
-  double? get positionLeft => isArabic() ? 0 : null;
+  double? get positionRight => isArabic() ? null : screenHeight * 0.01 ;
+  double? get positionLeft => isArabic() ? screenHeight * 0.01 : null;
   String currentLocale() => localeProvider.locale.languageCode;
   bool isDark() => themeProvider.isDark;
   bool isArabic() => currentLocale() == "ar";
