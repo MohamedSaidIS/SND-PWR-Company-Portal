@@ -3,18 +3,19 @@ import 'package:company_portal/service/sharedpref_service.dart';
 import 'package:company_portal/utils/app_notifier.dart';
 import 'package:company_portal/utils/secure_storage_service.dart';
 import 'package:dio/dio.dart';
+import 'package:flutter_appauth/flutter_appauth.dart';
 import '../config/env_config.dart';
 
 class DioClient {
   late final Dio dio;
-  final AadOAuth oauth;
+  final FlutterAppAuth appAuth;
   final SecureStorageService secureStorage = SecureStorageService();
 
-  DioClient({required this.oauth}) {
+  DioClient({required this.appAuth}) {
     dio = Dio(BaseOptions(
       baseUrl: EnvConfig.baseUrl,
-      connectTimeout: const Duration(seconds: 10),
-      receiveTimeout: const Duration(seconds: 10),
+      connectTimeout: const Duration(seconds: 30),
+      receiveTimeout: const Duration(seconds: 30),
       headers: {
         'Content-Type': 'application/json',
         'Accept': 'application/json',
@@ -62,16 +63,36 @@ class DioClient {
 
   Future<String?> _refreshToken() async {
     try {
-      final newToken = await oauth.getAccessToken();
-      if (newToken != null) {
-
-        await secureStorage.saveData("AccessToken", newToken.toString());
-        await secureStorage.saveData("TokenSavedAt", DateTime.now().toIso8601String());
-
-        print("Token Expired And New Token is $newToken");
-
-        return newToken.toString();
+      final refreshToken = await secureStorage.getData("RefreshToken");
+      if (refreshToken == null) {
+        AppNotifier.printFunction("RefreshToken missing", "User must login again");
+        return null;
       }
+
+      final TokenResponse result = await appAuth.token(
+        TokenRequest(
+          EnvConfig.msClientId,
+          EnvConfig.msRedirectUri,
+          discoveryUrl:
+          "https://login.microsoftonline.com/${EnvConfig.msTenantId}/v2.0/.well-known/openid-configuration",
+          refreshToken: refreshToken,
+          scopes: ["openid", "profile", "User.read", "offline_access"],
+        ),
+      );
+
+      if (result == null || result.accessToken == null) {
+        AppNotifier.printFunction("Refresh failed", "Null token response");
+        return null;
+      }
+
+      // Save tokens again
+      await secureStorage.saveData("AccessToken", result.accessToken!);
+      if (result.refreshToken != null) {
+        await secureStorage.saveData("RefreshToken", result.refreshToken!);
+      }
+      await secureStorage.saveData("TokenSavedAt", DateTime.now().toIso8601String());
+
+      return result.accessToken!;
     } catch (e) {
       AppNotifier.printFunction('Refresh token failed', '$e');
     }

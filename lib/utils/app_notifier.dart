@@ -5,6 +5,8 @@ import 'package:company_portal/utils/secure_storage_service.dart';
 import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
 import 'package:provider/provider.dart';
+import 'package:url_launcher/url_launcher.dart';
+import '../config/env_config.dart';
 import 'enums.dart';
 
 class AppNotifier {
@@ -40,15 +42,30 @@ class AppNotifier {
               ),
             ),
             onPressed: () async {
-              Navigator.pop(context);
-              SecureStorageService().deleteData();
-              await oauth.logout();
-              Navigator.pushReplacement(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => const LoginScreenNew(),
-                ),
-              );
+              try {
+                // 1️⃣ امسح كل الـ tokens المخزنة
+                await SecureStorageService().deleteData();
+
+                // 2️⃣ افتح Microsoft logout endpoint
+                final logoutUrl =
+                    "https://login.microsoftonline.com/${EnvConfig.msTenantId}/oauth2/v2.0/logout"
+                    "?post_logout_redirect_uri=${Uri.encodeComponent(EnvConfig.msRedirectUri)}";
+
+                final launched = await launchUrl(Uri.parse(logoutUrl));
+
+                if (!launched) {
+                  debugPrint("⚠️ Logout URL لم يُفتح بنجاح");
+                }
+
+                // 3️⃣ رجّع المستخدم لشاشة تسجيل الدخول
+                Navigator.pushAndRemoveUntil(
+                  context,
+                  MaterialPageRoute(builder: (_) => const LoginScreenNew()),
+                      (route) => false,
+                );
+              } catch (e) {
+              debugPrint("❌ Logout failed: $e");
+              }
             },
           )
         ],
