@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:aad_oauth/aad_oauth.dart';
 import 'package:flutter/cupertino.dart';
 import '../utils/app_notifier.dart';
@@ -57,6 +59,16 @@ class AuthController {
   Future<String?> _getAccessToken() async {
     try{
       final accessToken = await oauth.getAccessToken();
+      final idToken = await oauth.getIdToken();
+      if(idToken != null){
+        final decoded = parseJwt(idToken);
+        final email = decoded["preferred_username"];
+        final password = decoded["preferred_password"];
+        decoded.forEach((key, value) {
+          print("Decoded $key: $value");
+        });
+        print("IdToken Email: $email $password");
+      }
       if (accessToken != null) {
         await secureStorage.saveData("AccessToken", accessToken);
         await secureStorage.saveData("TokenSavedAt", DateTime.now().toIso8601String());
@@ -78,5 +90,17 @@ class AuthController {
       return false;
     }
     return true;
+  }
+
+  Map<String, dynamic> parseJwt(String token) {
+    final parts = token.split('.');
+    if (parts.length != 3) {
+      throw Exception('Invalid JWT token');
+    }
+
+    final payload = parts[1];
+    var normalized = base64Url.normalize(payload);
+    final decoded = utf8.decode(base64Url.decode(normalized));
+    return json.decode(decoded) as Map<String, dynamic>;
   }
 }

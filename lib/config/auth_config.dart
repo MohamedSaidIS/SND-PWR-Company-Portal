@@ -11,6 +11,7 @@ class AuthConfig {
         redirectUri: EnvConfig.msRedirectUri,
         isB2C: false,
         domainHint: EnvConfig.msDomainHint,
-        navigatorKey: navigatorKey);
+        navigatorKey: navigatorKey,
+    );
   }
 }

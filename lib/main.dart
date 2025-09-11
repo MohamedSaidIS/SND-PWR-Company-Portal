@@ -25,6 +25,7 @@ void main() async {
   final localeProvider = LocaleProvider();
   await localeProvider.loadSavedLocale();
 
+
   runApp(
     MultiProvider(
       providers: [
