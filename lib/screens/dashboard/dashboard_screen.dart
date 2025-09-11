@@ -22,6 +22,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
   late InAppWebViewController webViewController;
   double webProgress = 0;
   String? accessToken;
+  String? biometricLogin;
 
   @override
   void initState() {
@@ -31,6 +32,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
       userProvider.fetchUserInfo();
 
       await _restoreCookies();
+
       if (mounted) {
         webViewController.loadUrl(
           urlRequest: URLRequest(url: WebUri(sharepointUrl)),
@@ -38,8 +40,10 @@ class _DashboardScreenState extends State<DashboardScreen> {
       }
     });
     SecureStorageService().getData("AccessToken").then((value) {
-      print("Token: $value");
-      accessToken = value;
+      setState(() {
+        print("DashBoard Token: $value");
+        accessToken = value;
+      });
     });
   }
 
@@ -94,8 +98,6 @@ class _DashboardScreenState extends State<DashboardScreen> {
       "isSecure": c.isSecure,
       "isHttpOnly": c.isHttpOnly,
     }).toList();
-
-    // نخزنهم كـ JSON String
     final cookiesJson = jsonEncode(cookiesList);
 
     await SecureStorageService().saveData("savedCookies", cookiesJson);

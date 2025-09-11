@@ -23,13 +23,20 @@ class LoginScreenNew extends StatefulWidget {
 class _LoginScreenNewState extends State<LoginScreenNew> {
   bool _isLoading = false;
   late final AuthController _authController;
+  String? accessToken;
   // late final BiometricAuth _biometricAuth;
 
   @override
   void initState() {
     super.initState();
-    final oauth = Provider.of<AadOAuth>(context, listen: false);
-    _authController = AuthController(oauth: oauth, context: context);
+
+    WidgetsBinding.instance.addPostFrameCallback((_) async{
+      SecureStorageService().getData("AccessToken").then((value) {
+        print("Login Token: $value");
+        accessToken = value;
+      });
+    });
+      _authController = AuthController(context: context);
     // _biometricAuth = BiometricAuth();
 
     // _checkForBiometricLogin();
@@ -58,6 +65,7 @@ class _LoginScreenNewState extends State<LoginScreenNew> {
     if (token != null && token.isNotEmpty) {
       type = "Biometric";
       success = await _authController.loginWithBiometrics();
+      SecureStorageService().saveData("BiometricLogin", "$type $success");
       print("Biometric Login Success: $success");
     }else{
       type = "Microsoft";

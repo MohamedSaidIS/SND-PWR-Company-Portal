@@ -12,6 +12,7 @@ import 'package:company_portal/service/dio_client.dart';
 import 'package:company_portal/splash_screen.dart';
 import 'package:company_portal/theme/theme_provider.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_appauth/flutter_appauth.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:provider/provider.dart';
 import '../../l10n/app_localizations.dart';
@@ -32,8 +33,8 @@ void main() async {
         Provider<AadOAuth>(
             create: (_) =>
                 AadOAuth(AuthConfig.createMicrosoftConfig(navigatorKey))),
-        ProxyProvider<AadOAuth, DioClient>(
-          update: (_, oauth, __) => DioClient(oauth: oauth),
+        Provider<DioClient>(
+          create: (_) => DioClient(appAuth: const FlutterAppAuth()),
         ),
         Provider<KPIDioClient>(
           create: (_) => KPIDioClient(),
