@@ -27,7 +27,9 @@ class UserInfoProvider with ChangeNotifier{
       if(response.statusCode == 200){
         _userInfo = UserInfo.fromJson(response.data);
         AppNotifier.printFunction("User Info Fetching: ",_userInfo);
-      }else{
+      }else if(response.statusCode == 401){
+     _error = response.statusCode.toString();
+    }else{
         _error = 'Failed to load user data';
         AppNotifier.printFunction("User Info Error: ","$_error ${response.statusCode}");
       }

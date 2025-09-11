@@ -12,6 +12,7 @@ import 'package:provider/provider.dart';
 import '../../../common/custom_app_bar.dart';
 import '../../../utils/app_separators.dart';
 import '../../../utils/image_picker_handler.dart';
+import '../../login/login_screen_new.dart';
 
 class ProfileScreen extends StatefulWidget {
   const ProfileScreen({super.key});
@@ -84,10 +85,16 @@ class _ProfileScreenState extends State<ProfileScreen> {
         ),
         body: Builder(
           builder: (context) {
-            if (userInfoProvider.error != null) {
+            // if (userInfoProvider.error != null) {
+            //   return ErrorStateWidget(
+            //     error: userInfoProvider.error!,
+            //     onRetry: () => context.read<UserInfoProvider>().fetchUserInfo(),
+            //   );
+            // }
+            if(userImageProvider.error != null && userInfoProvider.error == "401"){
               return ErrorStateWidget(
-                error: userInfoProvider.error!,
-                onRetry: () => context.read<UserInfoProvider>().fetchUserInfo(),
+                  error: userImageProvider.error!,
+                  onRetry: _logout,
               );
             }
             return SingleChildScrollView(
@@ -104,13 +111,11 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       onPickImage: _showImagePickerOptions,
                       isLoading: userInfoProvider.loading,
                     ),
-
                     AppSeparators.dividerSeparate(),
-
                     MenuSection(
                       userInfo: userInfo,
                       onLogout: _logout,
-                    )
+                    ),
                   ],
                 ),
               ),
