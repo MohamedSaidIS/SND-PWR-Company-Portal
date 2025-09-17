@@ -8,7 +8,7 @@ import 'package:company_portal/screens/login/widgets/sign_in_button.dart';
 import 'package:company_portal/utils/context_extensions.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import '../../utils/secure_storage_service.dart';
+import '../../service/secure_storage_service.dart';
 import '../home/home_screen.dart';
 
 class LoginScreenNew extends StatefulWidget {
@@ -23,20 +23,27 @@ class LoginScreenNew extends StatefulWidget {
 class _LoginScreenNewState extends State<LoginScreenNew> {
   bool _isLoading = false;
   late final AuthController _authController;
-  String? accessToken;
+  late final graphToken;
+
+  late final spToken;
+
   // late final BiometricAuth _biometricAuth;
 
   @override
   void initState() {
     super.initState();
 
-    WidgetsBinding.instance.addPostFrameCallback((_) async{
-      SecureStorageService().getData("AccessToken").then((value) {
-        print("Login Token: $value");
-        accessToken = value;
+    WidgetsBinding.instance.addPostFrameCallback((_) async {
+      await SecureStorageService().getData("GraphAccessToken").then((value) {
+        print("✅ Graph Token: $value");
+        graphToken = value;
+      });
+      await SecureStorageService().getData("SharedAccessToken").then((value) {
+        print("SharedPoint Token: $value");
+        spToken = value;
       });
     });
-      _authController = AuthController(context: context);
+    _authController = AuthController(context: context);
     // _biometricAuth = BiometricAuth();
 
     // _checkForBiometricLogin();
@@ -54,32 +61,49 @@ class _LoginScreenNewState extends State<LoginScreenNew> {
   //   }
   // }
 
-
   Future<void> _onSignInPressed() async {
     setState(() => _isLoading = true);
 
-    final token = await SecureStorageService().getData("AccessToken");
+    final graphToken = await SecureStorageService().getData("GraphAccessToken");
+    final spToken = await SecureStorageService().getData("SharedAccessToken");
+
     bool success = false;
     String type = "";
 
-    if (token != null && token.isNotEmpty) {
+    if (graphToken.isNotEmpty && spToken.isNotEmpty) {
       type = "Biometric";
       success = await _authController.loginWithBiometrics();
       SecureStorageService().saveData("BiometricLogin", "$type $success");
-      print("Biometric Login Success: $success");
-    }else{
+      print("✅ Biometric Login Success: $success");
+    } else {
       type = "Microsoft";
-      success = await _authController.handleMicrosoftLogin();
-      print("Microsoft Login Success: $success");
+      success = await loginAll();
+      print("✅ Microsoft Login Success: $success");
     }
-    print("$type Login Success: $success");
+    print("✅ $type Login Success: $success");
 
-    if(success && mounted){
+    if (success && mounted) {
       _navigateToHome();
     }
     if (mounted) setState(() => _isLoading = false);
   }
 
+  Future<bool> loginAll() async {
+    final bool graphToken, spToken;
+
+    graphToken = await _authController.getGraphToken();
+    if (graphToken) {
+      print("✅ Graph token: $graphToken");
+
+      spToken = await _authController.getSharePointToken();
+      print("✅ SharePoint token: $spToken");
+
+      if (spToken == false) return false;
+    } else {
+      return false;
+    }
+    return graphToken && spToken ? true : false;
+  }
 
   void _navigateToHome() {
     Navigator.push(
@@ -106,11 +130,13 @@ class _LoginScreenNewState extends State<LoginScreenNew> {
             crossAxisAlignment: CrossAxisAlignment.end,
             children: [
               LanguageSwitcher(
-                localeProvider: localeProvider,
-                currentLocale: currentLocale,
-                onLanguageChanged: () => changeLanguage(localeProvider, currentLocale)
-              ),
-              const Expanded(child: LogoAndCarouselWidget(assetPath: 'assets/images/alsanidi_logo.png')),
+                  localeProvider: localeProvider,
+                  currentLocale: currentLocale,
+                  onLanguageChanged: () =>
+                      changeLanguage(localeProvider, currentLocale)),
+              const Expanded(
+                  child: LogoAndCarouselWidget(
+                      assetPath: 'assets/images/alsanidi_logo.png')),
               Padding(
                 padding: const EdgeInsets.all(8.0),
                 child: SignInButton(

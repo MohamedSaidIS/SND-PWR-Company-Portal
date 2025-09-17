@@ -13,20 +13,26 @@ import '../../../utils/enums.dart';
 
 class ComplaintSuggestionFormScreen extends StatefulWidget {
   final String userName;
+  final int ensureUserId;
 
-  const ComplaintSuggestionFormScreen({required this.userName, super.key});
+  const ComplaintSuggestionFormScreen({
+    required this.userName,
+    required this.ensureUserId,
+    super.key,
+  });
 
   @override
   State<ComplaintSuggestionFormScreen> createState() =>
       _ComplaintSuggestionFormScreenState();
 }
 
-class _ComplaintSuggestionFormScreenState  extends State<ComplaintSuggestionFormScreen> {
-
+class _ComplaintSuggestionFormScreenState
+    extends State<ComplaintSuggestionFormScreen> {
   final _formKey = GlobalKey<FormState>();
   final TextEditingController _nameController = TextEditingController();
   final TextEditingController _issueTitleController = TextEditingController();
-  final TextEditingController _issueDescriptionController = TextEditingController();
+  final TextEditingController _issueDescriptionController =
+      TextEditingController();
   String? selectedType, selectedCategory, selectedPriority = 'Normal';
   bool isChecked = true;
 
@@ -39,12 +45,13 @@ class _ComplaintSuggestionFormScreenState  extends State<ComplaintSuggestionForm
       } else {
         var successSend =
             await complaintSuggestionProvider.sendSuggestionsAndComplaints(
-          _issueTitleController.text,
-          _issueDescriptionController.text,
-          selectedPriority!,
-          selectedCategory!,
-          isChecked? _nameController.text.trim() : '',
-        );
+                _issueTitleController.text,
+                _issueDescriptionController.text,
+                selectedPriority!,
+                selectedCategory!,
+                isChecked ? _nameController.text.trim() : '',
+                widget.ensureUserId
+            );
 
         if (successSend) {
           clearData();
@@ -76,6 +83,7 @@ class _ComplaintSuggestionFormScreenState  extends State<ComplaintSuggestionForm
   Widget build(BuildContext context) {
     final complaintSuggestionProvider =
         context.read<ComplaintSuggestionProvider>();
+
     final theme = context.theme;
     final local = context.local;
     final categories = getCategories(local);
@@ -118,7 +126,7 @@ class _ComplaintSuggestionFormScreenState  extends State<ComplaintSuggestionForm
                       checkboxShape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(5),
                       ),
-                      title:  Transform.translate(
+                      title: Transform.translate(
                         offset: const Offset(-20, 0),
                         child: const Text("Show Name"),
                       ),

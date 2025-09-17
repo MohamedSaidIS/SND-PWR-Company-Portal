@@ -321,7 +321,7 @@ class AppLocalizationsAr extends AppLocalizations {
   String get aR => 'عربى';
 
   @override
-  String get eN => 'EN';
+  String get eN => 'انجليزى';
 
   @override
   String get editImage => 'تعديل الصورة';
@@ -331,4 +331,94 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get issue_details => ' تفاصيل الشكوى';
+
+  @override
+  String get exceeded => 'تجاوز';
+
+  @override
+  String get reached => 'وصل';
+
+  @override
+  String get near => 'قريب';
+
+  @override
+  String get below => 'أقل';
+
+  @override
+  String get mon => 'الاثنين';
+
+  @override
+  String get tue => 'الثلاثاء';
+
+  @override
+  String get wed => 'الأربعاء';
+
+  @override
+  String get thu => 'الخميس';
+
+  @override
+  String get fri => 'الجمعة';
+
+  @override
+  String get sat => 'السبت';
+
+  @override
+  String get sun => 'الأحد';
+
+  @override
+  String get dailyKpi => 'الأداء اليومي';
+
+  @override
+  String get weeklyKpi => 'الأداء الأسبوعى';
+
+  @override
+  String get monthlyKpi => 'الأداء الشهرى';
+
+  @override
+  String get uat => 'اختبار';
+
+  @override
+  String get prod => 'انتاج';
+
+  @override
+  String get january => 'يناير';
+
+  @override
+  String get february => 'فبراير';
+
+  @override
+  String get march => 'مارس';
+
+  @override
+  String get april => 'أبريل';
+
+  @override
+  String get may => 'مايو';
+
+  @override
+  String get june => 'يونيو';
+
+  @override
+  String get july => 'يوليو';
+
+  @override
+  String get august => 'أغسطس';
+
+  @override
+  String get september => 'سبتمبر';
+
+  @override
+  String get october => 'أكتوبر';
+
+  @override
+  String get november => 'نوفمبر';
+
+  @override
+  String get december => 'ديسمبر';
+
+  @override
+  String get week => 'اسبوع';
+
+  @override
+  String get achieved => 'تم تحقيق';
 }

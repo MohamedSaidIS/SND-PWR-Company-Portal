@@ -1,7 +1,7 @@
 import 'package:aad_oauth/aad_oauth.dart';
 import 'package:company_portal/service/sharedpref_service.dart';
 import 'package:company_portal/utils/app_notifier.dart';
-import 'package:company_portal/utils/secure_storage_service.dart';
+import 'package:company_portal/service/secure_storage_service.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter_appauth/flutter_appauth.dart';
 import '../config/env_config.dart';
@@ -25,16 +25,16 @@ class DioClient {
     dio.interceptors.add(
       InterceptorsWrapper(
         onRequest: (options, handler) async {
-          String? token = await secureStorage.getData("AccessToken");
+          String? token = await secureStorage.getData("GraphAccessToken");
 
           final expired = await isTokenExpired();
-          print("Token Expired $expired");
+          print("Graph AccessToken Expired $expired");
           if (expired) {
             token = await _refreshToken();
-            print("Token Expired And New Token is $token");
+            print("Graph AccessToken Expired And New Token is $token");
           }
           if (token != null) {
-            print("Token Expired And not null Token is $token");
+            print("Graph AccessToken Expired And not null Token is $token");
             options.headers['Authorization'] = 'Bearer $token';
           }
           handler.next(options);
@@ -48,7 +48,6 @@ class DioClient {
 
   Future<bool> isTokenExpired(
       {Duration expiryDuration = const Duration(hours: 1)}) async {
-
     String? savedAtStr = await secureStorage.getData("TokenSavedAt");
 
     if (savedAtStr == null) return true; // Token hadn't been saved yet
@@ -63,9 +62,10 @@ class DioClient {
 
   Future<String?> _refreshToken() async {
     try {
-      final refreshToken = await secureStorage.getData("RefreshToken");
+      final refreshToken = await secureStorage.getData("GraphRefreshToken");
       if (refreshToken == null) {
-        AppNotifier.printFunction("RefreshToken missing", "User must login again");
+        AppNotifier.printFunction(
+            "GraphRefreshToken missing", "User must login again");
         return null;
       }
 
@@ -74,27 +74,35 @@ class DioClient {
           EnvConfig.msClientId,
           EnvConfig.msRedirectUri,
           discoveryUrl:
-          "https://login.microsoftonline.com/${EnvConfig.msTenantId}/v2.0/.well-known/openid-configuration",
+              "https://login.microsoftonline.com/${EnvConfig.msTenantId}/v2.0/.well-known/openid-configuration",
           refreshToken: refreshToken,
-          scopes: ["openid", "profile", "User.read", "offline_access"],
+          scopes: [
+            "openid",
+            "profile",
+            "User.read",
+            "offline_access",
+            "https://graph.microsoft.com/.default"
+          ],
         ),
       );
 
       if (result == null || result.accessToken == null) {
-        AppNotifier.printFunction("Refresh failed", "Null token response");
+        AppNotifier.printFunction(
+            "GraphRefreshToken failed", "Null token response");
         return null;
       }
 
       // Save tokens again
-      await secureStorage.saveData("AccessToken", result.accessToken!);
+      await secureStorage.saveData("GraphAccessToken", result.accessToken!);
       if (result.refreshToken != null) {
-        await secureStorage.saveData("RefreshToken", result.refreshToken!);
+        await secureStorage.saveData("GraphRefreshToken", result.refreshToken!);
       }
-      await secureStorage.saveData("TokenSavedAt", DateTime.now().toIso8601String());
+      await secureStorage.saveData(
+          "TokenSavedAt", DateTime.now().toIso8601String());
 
       return result.accessToken!;
     } catch (e) {
-      AppNotifier.printFunction('Refresh token failed', '$e');
+      AppNotifier.printFunction('GraphRefreshToken token failed', '$e');
     }
     return null;
   }

@@ -2,6 +2,7 @@ import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 class EnvConfig {
   static String get baseUrl => dotenv.get("base_url");
+  static String get spBaseUrl => dotenv.get("sp_base_url");
   static String get msTenantId => dotenv.get('tenant_id');
   static String get msClientId => dotenv.get('client_id');
   static String get msScope => dotenv.get('scope');

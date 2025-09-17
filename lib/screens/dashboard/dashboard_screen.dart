@@ -7,7 +7,7 @@ import 'package:flutter_inappwebview/flutter_inappwebview.dart';
 import 'package:provider/provider.dart';
 
 import '../../providers/user_info_provider.dart';
-import '../../utils/secure_storage_service.dart';
+import '../../service/secure_storage_service.dart';
 
 class DashboardScreen extends StatefulWidget {
   const DashboardScreen({super.key});
@@ -18,30 +18,28 @@ class DashboardScreen extends StatefulWidget {
 
 class _DashboardScreenState extends State<DashboardScreen> {
   final CookieManager cookieManager = CookieManager.instance();
-  final String sharepointUrl = "https://alsanidi.sharepoint.com/";
+  final String sharepointUrl = "https://alsanidi.sharepoint.com";
   late InAppWebViewController webViewController;
   double webProgress = 0;
   String? accessToken;
-  String? biometricLogin;
 
   @override
   void initState() {
     super.initState();
-    WidgetsBinding.instance.addPostFrameCallback((_) async{
+    WidgetsBinding.instance.addPostFrameCallback((_) async {
       final userProvider = context.read<UserInfoProvider>();
       userProvider.fetchUserInfo();
 
       await _restoreCookies();
-
       if (mounted) {
         webViewController.loadUrl(
           urlRequest: URLRequest(url: WebUri(sharepointUrl)),
         );
       }
     });
-    SecureStorageService().getData("AccessToken").then((value) {
+    SecureStorageService().getData("SharedAccessToken").then((value) {
       setState(() {
-        print("DashBoard Token: $value");
+        print("Token: $value");
         accessToken = value;
       });
     });
@@ -57,6 +55,8 @@ class _DashboardScreenState extends State<DashboardScreen> {
       final value = c["value"];
       if (value != null && value.toString().isNotEmpty) {
         String domain = c["domain"];
+
+        print("✅ Restored Cookie: ${c["name"]} =========== $value");
 
         if (c["name"] == "FedAuth" || c["name"] == "rtFa") {
           domain = ".sharepoint.com";
@@ -90,14 +90,18 @@ class _DashboardScreenState extends State<DashboardScreen> {
       print("Restored Cookie: ${c.name}=${c.value}; domain=${c.domain}");
     }
 
-    final cookiesList = cookies.map((c) => {
-      "name": c.name,
-      "value": c.value,
-      "domain": c.domain,
-      "path": c.path,
-      "isSecure": c.isSecure,
-      "isHttpOnly": c.isHttpOnly,
-    }).toList();
+    final cookiesList = cookies
+        .map((c) => {
+              "name": c.name,
+              "value": c.value,
+              "domain": c.domain,
+              "path": c.path,
+              "isSecure": c.isSecure,
+              "isHttpOnly": c.isHttpOnly,
+            })
+        .toList();
+
+    // نخزنهم كـ JSON String
     final cookiesJson = jsonEncode(cookiesList);
 
     await SecureStorageService().saveData("savedCookies", cookiesJson);
@@ -110,7 +114,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
     final userInfoProvider = context.watch<UserInfoProvider>();
     final userInfo = userInfoProvider.userInfo;
 
-    if(userInfo != null){
+    if (userInfo != null) {
       print("User Info: ${userInfo.id}");
       SharedPrefsHelper().saveUserData("UserId", userInfo.id);
     }
@@ -127,37 +131,37 @@ class _DashboardScreenState extends State<DashboardScreen> {
               if (webProgress < 1)
                 LinearProgressIndicator(
                   value: webProgress,
-                  color: Colors.green,
+                  color: theme.colorScheme.secondary,
                   backgroundColor: Colors.grey[300],
                   minHeight: 4,
                 ),
               Expanded(
-                child: InAppWebView(
-                  initialUrlRequest: accessToken == null ? URLRequest(
-                    url: WebUri("https://alsanidi.sharepoint.com/"),
-                  ): null,
-                  initialSettings: InAppWebViewSettings(
-                    javaScriptEnabled: true,
-                    cacheEnabled: true,
-                    clearCache: false,
-                    domStorageEnabled: true,
-                    sharedCookiesEnabled: true,
-                    thirdPartyCookiesEnabled: true,
-                    useHybridComposition: true,
-                  ),
-                  onWebViewCreated: (controller) {
-                    webViewController = controller;
-                  },
-                  onLoadStop: (controller, url) async {
-                    print("Finished loading: $url");
-                    await _saveCookies();
-                  },
-                  onProgressChanged: (controller, progress) {
-                    setState(() {
-                      webProgress = progress / 100;
-                    });
-                  },
-                ),
+                child: accessToken == null
+                    ? const Center(child: CircularProgressIndicator())
+                    : InAppWebView(
+                        initialUrlRequest: URLRequest(url: WebUri(sharepointUrl),),
+                        initialSettings: InAppWebViewSettings(
+                          javaScriptEnabled: true,
+                          cacheEnabled: true,
+                          clearCache: false,
+                          domStorageEnabled: true,
+                          sharedCookiesEnabled: true,
+                          thirdPartyCookiesEnabled: true,
+                          useHybridComposition: true,
+                        ),
+                        onWebViewCreated: (controller) {
+                          webViewController = controller;
+                        },
+                        onLoadStop: (controller, url) async {
+                          print("Finished loading: $url");
+                          await _saveCookies();
+                        },
+                        onProgressChanged: (controller, progress) {
+                          setState(() {
+                            webProgress = progress / 100;
+                          });
+                        },
+                      ),
               ),
             ],
           ),

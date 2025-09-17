@@ -331,4 +331,94 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get issue_details => 'Issue Details';
+
+  @override
+  String get exceeded => 'Exceeded';
+
+  @override
+  String get reached => 'Reached';
+
+  @override
+  String get near => 'Near';
+
+  @override
+  String get below => 'Below';
+
+  @override
+  String get mon => 'Mon';
+
+  @override
+  String get tue => 'Tue';
+
+  @override
+  String get wed => 'Wed';
+
+  @override
+  String get thu => 'Thu';
+
+  @override
+  String get fri => 'Fri';
+
+  @override
+  String get sat => 'Sat';
+
+  @override
+  String get sun => 'Sun';
+
+  @override
+  String get dailyKpi => 'Daily KPI';
+
+  @override
+  String get weeklyKpi => 'Weekly KPI';
+
+  @override
+  String get monthlyKpi => 'Monthly KPI';
+
+  @override
+  String get uat => 'UAT';
+
+  @override
+  String get prod => 'Prod';
+
+  @override
+  String get january => 'January';
+
+  @override
+  String get february => 'February';
+
+  @override
+  String get march => 'March';
+
+  @override
+  String get april => 'April';
+
+  @override
+  String get may => 'May';
+
+  @override
+  String get june => 'June';
+
+  @override
+  String get july => 'July';
+
+  @override
+  String get august => 'August';
+
+  @override
+  String get september => 'September';
+
+  @override
+  String get october => 'October';
+
+  @override
+  String get november => 'November';
+
+  @override
+  String get december => 'December';
+
+  @override
+  String get week => 'Week';
+
+  @override
+  String get achieved => 'Achieved';
 }

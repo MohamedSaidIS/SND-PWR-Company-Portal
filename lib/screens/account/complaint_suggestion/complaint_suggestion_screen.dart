@@ -1,6 +1,8 @@
 import 'package:auto_size_text/auto_size_text.dart';
+import 'package:company_portal/providers/sp_ensure_user.dart';
 import 'package:company_portal/utils/context_extensions.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 import 'complaint_suggestion_form_screen.dart';
 import 'history_screen.dart';
@@ -17,12 +19,32 @@ class ComplaintSuggestionScreen extends StatefulWidget {
 }
 
 class _ComplaintSuggestionScreenState extends State<ComplaintSuggestionScreen> {
+
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      final provider = context.read<SPEnsureUserProvider>();
+
+      provider.fetchEnsureUser("SMD01@alsanidi.com.sa");
+
+    });
+  }
+
+
   @override
   Widget build(BuildContext context) {
+    final ensureUserProvider = context.watch<SPEnsureUserProvider>();
+    final ensureUser = ensureUserProvider.ensureUser;
+
     final theme = context.theme;
     final local = context.local;
     final backIcon = context.backIcon;
     final isTablet = context.isTablet();
+
+    if(!ensureUserProvider.loading && ensureUserProvider.error == null){
+      print("EnsureUser: ${ensureUser?.id} ${ensureUser?.email}");
+    }
 
     return PopScope(
       canPop: false,
@@ -80,6 +102,7 @@ class _ComplaintSuggestionScreenState extends State<ComplaintSuggestionScreen> {
             children: [
               ComplaintSuggestionFormScreen(
                 userName: widget.userName,
+                ensureUserId: ensureUser?.id ?? -1,
               ),
               HistoryScreen(userId: widget.userId),
             ],

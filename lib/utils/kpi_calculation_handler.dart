@@ -1,5 +1,7 @@
 import 'dart:math';
+import 'package:company_portal/l10n/app_localizations.dart';
 import 'package:company_portal/models/remote/sales_kpi.dart';
+import 'package:company_portal/utils/kpi_helper.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:week_number/iso.dart';
@@ -7,6 +9,10 @@ import 'package:jiffy/jiffy.dart';
 import 'package:week_of_year/date_week_extensions.dart';
 
 class KpiCalculationHandler {
+  final AppLocalizations local;
+
+  KpiCalculationHandler(this.local);
+
   static double calculateDailySales(List<SalesKPI> data, int selectedMonth, int selectedWeek) {
     if (data.isEmpty) return 0.0;
     final year = DateTime.now().year;
@@ -85,20 +91,20 @@ class KpiCalculationHandler {
     return getIsoWeekStart(year, weekNumber).add(const Duration(days: 6));
   }
 
-  static List<DailyKPI> calculateDailySalesPerWeek(List<SalesKPI> data, int currentWeek, int year) {
+  static List<DailyKPI> calculateDailySalesPerWeek(List<SalesKPI> data, int currentWeek, int year, List<DailyKPI> weeklyValues) {
     final start = getIsoWeekStart(year, currentWeek);
     final end = getIsoWeekEnd(year, currentWeek);
 
     print("Start: $start, End: $end");
 
-    final List<DailyKPI> weeklyValues = List.generate(7, (index) {
-      final date = start.add(Duration(days: index));
-      return DailyKPI(
-        dayName: _getDayName(date.weekday),
-        date: date,
-        totalSales: 0,
-      );
-    });
+    // final List<DailyKPI> weeklyValues = List.generate(7, (index) {
+    //   final date = start.add(Duration(days: index));
+    //   return DailyKPI(
+    //     dayName: getDayName(date.weekday),
+    //     date: date,
+    //     totalSales: 0,
+    //   );
+    // });
 
     DateTime onlyDate(DateTime dt) => DateTime(dt.year, dt.month, dt.day);
 
@@ -143,7 +149,7 @@ class KpiCalculationHandler {
     final daysInMonth = List.generate(end.day, (index) {
       final date = DateTime(year, month, index + 1);
       return DailyKPI(
-        dayName: _getDayName(date.weekday),
+        dayName: getDayNameForMonth(date.weekday),
         date: date,
         totalSales: 0,
       );
@@ -173,19 +179,21 @@ class KpiCalculationHandler {
   }
 
 
-  static String getMonthName(List<SalesKPI> data, int selectedMonth) {
+  static String getMonthName(List<SalesKPI> data, int selectedMonth, bool isArabic) {
     var now = DateTime.now();
-    var date = DateTime(now.year);
+    var date = DateTime(now.year, selectedMonth);
     if (data.isNotEmpty) {
       now = data.last.transDate;
       date = DateTime(now.year, selectedMonth);
     }
-    final monthName = DateFormat.yMMMM().format(date);
-    print(monthName);
+    print("Date: $date");
+    final monthName = isArabic ? DateFormat.yMMMM('ar').format(date) : DateFormat.yMMMM().format(date);
+    print("Month Name: $monthName");
     return monthName;
   }
 
-  static String getLastDayName(List<SalesKPI> data, int selectedMonth, int selectedWeek) {
+
+  static String getLastDayName(List<SalesKPI> data, int selectedMonth, int selectedWeek, bool isArabic) {
     if (data.isEmpty) return "";
 
     final startOfWeek = getIsoWeekStart(DateTime.now().year, selectedWeek);
@@ -208,7 +216,7 @@ class KpiCalculationHandler {
     if (weekData.isNotEmpty) {
       now = lastKpi.transDate;
     }
-    final lastDayName = DateFormat.yMMMEd().format(now);
+    final lastDayName = isArabic ? DateFormat.yMMMEd('ar').format(now) : DateFormat.yMMMEd().format(now);
     print(lastDayName);
     return lastDayName;
   }
@@ -245,24 +253,73 @@ class KpiCalculationHandler {
     if (data.isEmpty) return 0;
 
     final maxVal = data.map((e) => e.dailySalesAmount).reduce(max);
-    return (maxVal + 1000).ceil().toDouble();
+    double step = calculateStep(maxVal);
+    double roundedMax = (maxVal / step).ceil() * step;
+
+    return roundedMax;
   }
 
-  static double calcWeeklyMaxY(List<SalesKPI> data) {
+  static double calcWeeklyMaxY(List<DailyKPI> data) {
     if (data.isEmpty) return 0;
 
-    final maxVal = data.map((e) => e.dailySalesAmount).reduce(max);
-    return (maxVal + 1000).ceil().toDouble();
+    final maxVal = data.map((e) => e.totalSales).reduce(max);
+    double step = calculateStep(maxVal);
+    double roundedMax = (maxVal / step).ceil() * step;
+
+    return roundedMax;
   }
 
   static double calcMonthlyMaxY(List<WeeklyKPI> data) {
     if (data.isEmpty) return 0;
 
     final maxVal = data.map((e) => e.totalSales).reduce(max);
-    return (maxVal + 1000).ceil().toDouble();
+    double step = calculateStep(maxVal);
+    double roundedMax = (maxVal / step).ceil() * step;
+
+    return roundedMax;
+  }
+  static double calculateStep(double maxVal) {
+    if (maxVal <= 10000) return 1000;
+    if (maxVal <= 50000) return 5000;
+    if (maxVal <= 200000) return 10000;
+    if (maxVal <= 1000000) return 50000;
+    return 100000; // لو أرقام كبيرة جدًا
   }
 
-  static String _getDayName(int weekday) {
+  static List<DailyKPI> generateDays(DateTime start, AppLocalizations local){
+    final List<DailyKPI> weeklyValues = List.generate(7, (index) {
+      final date = start.add(Duration(days: index));
+      return DailyKPI(
+        dayName: getDayName(date.weekday, local),
+        date: date,
+        totalSales: 0,
+      );
+    });
+    return weeklyValues;
+  }
+
+  static String getDayName(int weekday, AppLocalizations local) {
+    switch (weekday) {
+      case DateTime.monday:
+        return local.mon;
+      case DateTime.tuesday:
+        return local.tue;
+      case DateTime.wednesday:
+        return local.wed;
+      case DateTime.thursday:
+        return local.thu;
+      case DateTime.friday:
+        return local.fri;
+      case DateTime.saturday:
+        return local.sat;
+      case DateTime.sunday:
+        return local.sun;
+      default:
+        return "";
+    }
+  }
+
+  static String getDayNameForMonth(int weekday) {
     switch (weekday) {
       case DateTime.monday:
         return "Mon";
@@ -283,46 +340,53 @@ class KpiCalculationHandler {
     }
   }
 
+
+
   /// //////////////////////////////////////////////////////////////////--------------------\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
 
-  static Color getDailyKPiBarColor(SalesKPI kpi) {
+  static Color getDailyKPiBarColor(DailyKPI kpi , double monthlyTarget) {
     Color wantedColor = Colors.blue;
-    if (kpi.dailySalesAmount > kpi.monthlyTarget / 30) {
-      wantedColor = Colors.green;
-    } else if (kpi.dailySalesAmount == kpi.monthlyTarget / 30) {
+    double dailyTarget = monthlyTarget / 30;
+
+    if (kpi.totalSales > dailyTarget) {
       wantedColor = Colors.blue;
-    } else if (kpi.dailySalesAmount < kpi.monthlyTarget / 30) {
+    } else if (kpi.totalSales == dailyTarget) {
+      wantedColor = Colors.green;
+    } else if (kpi.totalSales > dailyTarget / 2 && kpi.totalSales < dailyTarget) {
       wantedColor = Colors.orange;
-    } else if (kpi.dailySalesAmount == 0) {
+    } else if(kpi.totalSales < dailyTarget / 2){
       wantedColor = Colors.red;
     }
     return wantedColor;
   }
 
-  static Color getWeeklyKPiBarColor(SalesKPI kpi) {
+  static Color getWeeklyKPiBarColor(DailyKPI kpi, double monthlyTarget) {
     Color wantedColor = Colors.blue;
-    if (kpi.dailySalesAmount > kpi.monthlyTarget / 4) {
-      wantedColor = Colors.green;
-    } else if (kpi.dailySalesAmount == kpi.monthlyTarget / 4) {
+    double weeklyTarget = monthlyTarget / 4 ;
+
+    if (kpi.totalSales > weeklyTarget) {
       wantedColor = Colors.blue;
-    } else if (kpi.dailySalesAmount < kpi.monthlyTarget / 4) {
+    } else if (kpi.totalSales == weeklyTarget) {
+      wantedColor = Colors.green;
+    } else if (kpi.totalSales > weeklyTarget / 2 && kpi.totalSales < weeklyTarget ) {
       wantedColor = Colors.orange;
-    } else if (kpi.dailySalesAmount == 0) {
+    } else if (kpi.totalSales < weeklyTarget / 2 ) {
       wantedColor = Colors.red;
     }
     return wantedColor;
   }
 
-  static Color getMonthlyKPiBarColor(SalesKPI kpi) {
+  static Color getMonthlyKPiBarColor(WeeklyKPI kpi, double monthlyTarget) {
     Color wantedColor = Colors.blue;
-    if (kpi.dailySalesAmount > kpi.monthlyTarget) {
-      wantedColor = Colors.green;
-    } else if (kpi.dailySalesAmount == kpi.monthlyTarget) {
+
+    if (kpi.totalSales > monthlyTarget) {
       wantedColor = Colors.blue;
-    } else if (kpi.dailySalesAmount < kpi.monthlyTarget) {
+    } else if (kpi.totalSales == monthlyTarget) {
+      wantedColor = Colors.green;
+    } else if (kpi.totalSales > monthlyTarget / 2 && kpi.totalSales < monthlyTarget) {
       wantedColor = Colors.orange;
-    } else if (kpi.dailySalesAmount == 0) {
-      wantedColor = Colors.red;
+    } else if (kpi.totalSales < monthlyTarget / 2) {
+      wantedColor = Colors.orange;
     }
     return wantedColor;
   }

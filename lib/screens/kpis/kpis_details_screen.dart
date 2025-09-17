@@ -1,4 +1,5 @@
 import 'dart:core';
+import 'package:company_portal/l10n/app_localizations.dart';
 import 'package:company_portal/models/remote/sales_kpi.dart';
 import 'package:company_portal/utils/kpi_calculation_handler.dart';
 import 'package:company_portal/utils/context_extensions.dart';
@@ -14,13 +15,16 @@ class KpisDetailsScreen extends StatefulWidget {
   final String title;
   final WeeklyKPI currentWeek;
   final int selectedMonth;
+  final List<DailyKPI> weeklyValues;
 
-  const KpisDetailsScreen(
-      {super.key,
-      required this.salesKpis,
-      required this.title,
-      required this.currentWeek,
-      required this.selectedMonth});
+  const KpisDetailsScreen({
+    super.key,
+    required this.salesKpis,
+    required this.title,
+    required this.currentWeek,
+    required this.selectedMonth,
+    required this.weeklyValues,
+  });
 
   @override
   State<KpisDetailsScreen> createState() => _KpisDetailsScreenState();
@@ -28,29 +32,37 @@ class KpisDetailsScreen extends StatefulWidget {
 
 class _KpisDetailsScreenState extends State<KpisDetailsScreen> {
   late List<SalesKPI> salesKpis;
+  late double monthlyTarget;
   List<WeeklyKPI> weeksInMonth = [];
   List<DailyKPI> daysInWeek = [];
   List<DailyKPI> daysInMonth = [];
+  List<DailyKPI> weeklyValues = [];
   bool salesKpiListOverLength = false;
 
   @override
   void initState() {
     super.initState();
     salesKpis = widget.salesKpis;
+    weeklyValues = widget.weeklyValues;
+
+    monthlyTarget = salesKpis.first.monthlyTarget;
 
     weeksInMonth = KpiCalculationHandler.calculateWeeklySales(
         salesKpis, widget.selectedMonth);
     print("CurrentWeek: ${widget.currentWeek.weekNumber}");
+    print("WeeklyValues: ${weeklyValues.length}");
 
     daysInWeek = KpiCalculationHandler.calculateDailySalesPerWeek(
-        salesKpis, widget.currentWeek.weekNumber, 2025);
+        salesKpis, widget.currentWeek.weekNumber,
+        DateTime.now().year, weeklyValues);
+
     daysInMonth = KpiCalculationHandler.calculateDailySalesPerMonth(
-        salesKpis, widget.selectedMonth, 2025);
+        salesKpis, widget.selectedMonth, DateTime.now().year);
 
     salesKpiListOverLength = daysInMonth.length > 10 ? true : false;
     print("SalesKpiListOverLength $salesKpiListOverLength");
-    handleOrientation(salesKpiListOverLength);
 
+    handleOrientation(salesKpiListOverLength);
   }
 
   @override
@@ -63,7 +75,7 @@ class _KpisDetailsScreenState extends State<KpisDetailsScreen> {
   }
 
   void handleOrientation(bool salesKpiListOverLength) {
-    if (salesKpiListOverLength && widget.title == "Daily KPI") {
+    if (salesKpiListOverLength) {
       SystemChrome.setPreferredOrientations([
         DeviceOrientation.landscapeRight,
         DeviceOrientation.landscapeLeft,
@@ -85,9 +97,9 @@ class _KpisDetailsScreenState extends State<KpisDetailsScreen> {
         x: index,
         barRods: [
           BarChartRodData(
-            toY: kpi.totalSales,
-            color: Colors.green,
-            //KpiCalculationHandler.getDailyKPiBarColor(kpi),
+            toY: double.parse(kpi.totalSales.toStringAsFixed(2)),
+            color: KpiCalculationHandler.getDailyKPiBarColor(
+                daysInMonth[index], monthlyTarget),
             borderRadius: const BorderRadius.only(
                 topLeft: Radius.circular(2), topRight: Radius.circular(2)),
             width: salesKpiListOverLength ? 4 : 11,
@@ -111,8 +123,9 @@ class _KpisDetailsScreenState extends State<KpisDetailsScreen> {
         x: weekIndex,
         barRods: [
           BarChartRodData(
-            toY: weekTotalKpi,
-            color: Colors.orange,
+            toY: double.parse(weekTotalKpi.toStringAsFixed(2)),
+            color: KpiCalculationHandler.getMonthlyKPiBarColor(
+                weeksInMonth[weekIndex], monthlyTarget),
             borderRadius: const BorderRadius.only(
                 topLeft: Radius.circular(2), topRight: Radius.circular(2)),
             width: 11,
@@ -135,8 +148,9 @@ class _KpisDetailsScreenState extends State<KpisDetailsScreen> {
         x: dayIndex,
         barRods: [
           BarChartRodData(
-            toY: dayTotalKpi,
-            color: Colors.orange,
+            toY: double.parse(dayTotalKpi.toStringAsFixed(2)),
+            color: KpiCalculationHandler.getWeeklyKPiBarColor(
+                daysInWeek[dayIndex], monthlyTarget),
             borderRadius: const BorderRadius.only(
                 topLeft: Radius.circular(2), topRight: Radius.circular(2)),
             width: 11,
@@ -147,29 +161,40 @@ class _KpisDetailsScreenState extends State<KpisDetailsScreen> {
   }
 
   List<BarChartGroupData> getSuitableBarGroups(
-      List<SalesKPI> data, String title) {
-    if (title == "Daily KPI") {
+      List<SalesKPI> data, String title, AppLocalizations local) {
+    if (title == local.dailyKpi) {
       return _buildDailyBarGroups(data);
-    } else if (title == "Monthly KPI") {
+    } else if (title == local.monthlyKpi) {
       return _buildMonthlyBarGroups(data);
     } else {
       return _buildWeeklyBarGroups(data);
     }
   }
 
-  Widget getX_axisTitles(double value, String title, List<SalesKPI> salesKpis) {
+  Widget getX_axisTitles(double value, String title, List<SalesKPI> salesKpis, bool isArabic, AppLocalizations local) {
     Widget widget = const Text("");
-    if (title == "Daily KPI") {
-        print("Length ${salesKpis.length}");
-        widget = getDailyX_axisTitles(value, salesKpis);
-    } else if (title == "Monthly KPI") {
+    if (title == local.dailyKpi) {
+      print("Length ${salesKpis.length}");
+      widget = getDailyX_axisTitles(value, salesKpis);
+    } else if (title == local.monthlyKpi) {
       if (weeksInMonth.isNotEmpty && value.toInt() < weeksInMonth.length) {
         return Text("W${weeksInMonth[value.toInt()].weekNumber}");
       }
       return const Text("");
     } else {
       if (daysInWeek.isNotEmpty && value.toInt() < daysInWeek.length) {
-        widget = Text(daysInWeek[value.toInt()].dayName);
+        widget = isArabic
+            ? Padding(
+              padding: const EdgeInsets.only(top: 7.0),
+              child: Transform.rotate(
+                  angle: -0.4,
+                  child: Text(
+                    daysInWeek[value.toInt()].dayName,
+                    style: const TextStyle(fontSize: 10),
+                  ),
+                ),
+            )
+            : Text(daysInWeek[value.toInt()].dayName);
       }
     }
     return widget;
@@ -194,13 +219,14 @@ class _KpisDetailsScreenState extends State<KpisDetailsScreen> {
     );
   }
 
-  double getMaxValue(List<SalesKPI> data, List<WeeklyKPI> weeksData) {
-    if (widget.title == "Daily KPI") {
+  double getMaxValue(List<SalesKPI> data, List<WeeklyKPI> weeksInMonth,
+      List<DailyKPI> daysInWeek, AppLocalizations local) {
+    if (widget.title == local.dailyKpi) {
       return KpiCalculationHandler.calcDailyMaxY(data);
-    } else if (widget.title == "Monthly KPI") {
-      return KpiCalculationHandler.calcMonthlyMaxY(weeksData);
+    } else if (widget.title == local.monthlyKpi) {
+      return KpiCalculationHandler.calcMonthlyMaxY(weeksInMonth);
     } else {
-      return KpiCalculationHandler.calcWeeklyMaxY(data);
+      return KpiCalculationHandler.calcWeeklyMaxY(daysInWeek);
     }
   }
 
@@ -208,6 +234,7 @@ class _KpisDetailsScreenState extends State<KpisDetailsScreen> {
   Widget build(BuildContext context) {
     final theme = context.theme;
     final local = context.local;
+    final isArabic = context.isArabic();
 
     return PopScope(
       canPop: false,
@@ -222,40 +249,45 @@ class _KpisDetailsScreenState extends State<KpisDetailsScreen> {
             padding: const EdgeInsets.all(16.0),
             child: Column(
               children: [
-                // KPI summary cards
-                const Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    // KPIBox(title: "Sales", value: "12.3K", color: Colors.green),
-                    // KPIBox(title: "Leads", value: "875", color: Colors.blue),
+                    KPIBox(title: local.exceeded, color: Colors.blue),
+                    KPIBox(title: local.reached, color: Colors.green),
+                    KPIBox(title: local.near, color: Colors.orange),
+                    KPIBox(title: local.below, color: Colors.red),
                   ],
                 ),
-                const SizedBox(height: 20),
+                const SizedBox(height: 15),
                 Expanded(
-                  child: BarChart(
-                    BarChartData(
-                      alignment: BarChartAlignment.spaceAround,
-                      maxY: getMaxValue(widget.salesKpis, weeksInMonth),
-                      barGroups:
-                          getSuitableBarGroups(widget.salesKpis, widget.title),
-                      titlesData: FlTitlesData(
-                        bottomTitles: AxisTitles(
-                          sideTitles: SideTitles(
-                              showTitles: true,
-                              reservedSize: 20,
-                              getTitlesWidget: (value, meta) {
-                                return getX_axisTitles(
-                                    value, widget.title, widget.salesKpis);
-                              }),
-                        ),
-                        topTitles: const AxisTitles(
-                          sideTitles: SideTitles(showTitles: false),
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(vertical: 8.0),
+                    child: BarChart(
+                      BarChartData(
+                        alignment: BarChartAlignment.spaceAround,
+                        maxY: getMaxValue(
+                            widget.salesKpis, weeksInMonth, daysInWeek, local),
+                        barGroups: getSuitableBarGroups(
+                            widget.salesKpis, widget.title, local),
+                        titlesData: FlTitlesData(
+                          bottomTitles: AxisTitles(
+                            sideTitles: SideTitles(
+                                showTitles: true,
+                                reservedSize: 20,
+                                getTitlesWidget: (value, meta) {
+                                  return getX_axisTitles(value, widget.title,
+                                      widget.salesKpis, isArabic, local);
+                                }),
+                          ),
+                          topTitles: const AxisTitles(
+                            sideTitles: SideTitles(showTitles: false),
+                          ),
                         ),
                       ),
                     ),
                   ),
                 ),
-                const SizedBox(height: 20)
+                SizedBox(height: 7,)
               ],
             ),
           ),
@@ -267,37 +299,22 @@ class _KpisDetailsScreenState extends State<KpisDetailsScreen> {
 
 class KPIBox extends StatelessWidget {
   final String title;
-  final String value;
   final Color color;
 
-  const KPIBox(
-      {super.key,
-      required this.title,
-      required this.value,
-      required this.color});
+  const KPIBox({super.key, required this.title, required this.color});
 
   @override
   Widget build(BuildContext context) {
-    return Card(
-      elevation: 4,
-      color: color.withOpacity(0.1),
-      child: Container(
-        width: 150,
-        height: 80,
-        padding: const EdgeInsets.all(12),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(title,
-                style:
-                    const TextStyle(fontSize: 14, fontWeight: FontWeight.w600)),
-            const Spacer(),
-            Text(value,
-                style:
-                    const TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
-          ],
+    return Row(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Icon(
+          Icons.square,
+          color: color,
         ),
-      ),
+        Text(title,
+            style: const TextStyle(fontSize: 14, fontWeight: FontWeight.w600)),
+      ],
     );
   }
 }
