@@ -52,7 +52,7 @@ class ComplaintSuggestionProvider with ChangeNotifier {
     notifyListeners();
   }
 
-Future<bool> sendSuggestionsAndComplaints(String title, String description, String priority, String department, String name) async {
+Future<bool> sendSuggestionsAndComplaints(String title, String description, String priority, String department, String name, int ensureUserId) async {
   _loading = true;
   _error = null;
   notifyListeners();
@@ -68,6 +68,7 @@ Future<bool> sendSuggestionsAndComplaints(String title, String description, Stri
           "Department1": department,
           "Issue_x0020_logged_x0020_by1": name,
           "Status": "New",
+          "IssueloggedbyLookupId": "$ensureUserId",
         }
       }
     );

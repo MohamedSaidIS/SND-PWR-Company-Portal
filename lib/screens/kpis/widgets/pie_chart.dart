@@ -1,11 +1,10 @@
-import 'dart:ui';
-
+import 'package:company_portal/l10n/app_localizations.dart';
 import 'package:company_portal/models/remote/sales_kpi.dart';
 import 'package:company_portal/screens/kpis/kpis_details_screen.dart';
 import 'package:company_portal/utils/context_extensions.dart';
+import 'package:company_portal/utils/kpi_helper.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
-
 
 import '../../../utils/kpi_calculation_handler.dart';
 
@@ -17,6 +16,7 @@ class KpiPieChart extends StatelessWidget {
   final WeeklyKPI currentWeek;
   final int selectedMonth;
   final int? selectedWeek;
+  final List<DailyKPI> weeklyValues;
 
   const KpiPieChart({
     super.key,
@@ -27,45 +27,43 @@ class KpiPieChart extends StatelessWidget {
     required this.currentWeek,
     required this.selectedMonth,
     required this.selectedWeek,
+    this.weeklyValues = const [],
   });
 
-  String getKpiValueDueDate() {
-    if(title == "Daily KPI"){
-      return KpiCalculationHandler.getLastDayName(salesKpi, selectedMonth, selectedWeek!);
-    }else if(title == "Weekly KPI"){
-      if(selectedWeek != null){
-        return "Week: $selectedWeek";
-      }else {
+  String getKpiValueDueDate(AppLocalizations local, bool isArabic) {
+    print("Selected Month: $selectedMonth");
+    if (title == local.dailyKpi) {
+      return KpiCalculationHandler.getLastDayName(
+          salesKpi, selectedMonth, selectedWeek!, isArabic);
+    } else if (title == local.weeklyKpi) {
+      var translatedWeekNumber = "";
+      if (selectedWeek != null) {
+        translatedWeekNumber = convertedToArabicNumber(selectedWeek!, isArabic);
+        return "${local.week} : $translatedWeekNumber";
+      } else {
         DateTime lastDate = DateTime.now();
-        if(salesKpi.isNotEmpty){
+        if (salesKpi.isNotEmpty) {
           lastDate = salesKpi.last.transDate;
         }
-        return "Week: ${KpiCalculationHandler.getWeekNumber(lastDate)}";
+        translatedWeekNumber = convertedToArabicNumber(KpiCalculationHandler.getWeekNumber(lastDate), isArabic);
+        return "${local.week}: $translatedWeekNumber";
       }
-    }else{
-      return KpiCalculationHandler.getMonthName(salesKpi, selectedMonth);
+    } else {
+      return KpiCalculationHandler.getMonthName(salesKpi, selectedMonth, isArabic);
     }
   }
 
-  Color getPieChartColor(num percent){
-    if(percent >= 100){
-      return Colors.green;
-    }else if(percent >= 75){
-      return Colors.orange;
-    }else if(percent >= 50){
-      return Colors.amberAccent;
-    }else{
-      return Colors.red;
-    }
-  }
+
 
   @override
   Widget build(BuildContext context) {
     final theme = context.theme;
-    final percent = (target == 0) ? 0 : (achieved  / target * 100);
-    print("Week: $selectedWeek currentWeek: ${currentWeek.weekNumber}");
+    final local = context.local;
+    final isArabic = context.isArabic();
+    final percent = (target == 0) ? 0 : (achieved / target * 100);
 
-    //print("target $target achieved $achieved percent $percent");
+    print("Week: $selectedWeek currentWeek: ${currentWeek.weekNumber}");
+    print("PieChart: $title, $achieved, $target, $currentWeek, $salesKpi, $selectedMonth, $selectedWeek, $currentWeek");
 
     return Container(
       decoration: BoxDecoration(
@@ -76,7 +74,13 @@ class KpiPieChart extends StatelessWidget {
       child: InkWell(
         onTap: () => Navigator.of(context).push(
           MaterialPageRoute(
-            builder: (context) => KpisDetailsScreen(salesKpis: salesKpi, title: title, currentWeek: currentWeek, selectedMonth: selectedMonth,),
+            builder: (context) => KpisDetailsScreen(
+              salesKpis: salesKpi,
+              title: title,
+              currentWeek: currentWeek,
+              selectedMonth: selectedMonth,
+              weeklyValues: weeklyValues,
+            ),
           ),
         ),
         child: Column(
@@ -104,12 +108,12 @@ class KpiPieChart extends StatelessWidget {
                     sectionsSpace: 0,
                     sections: [
                       PieChartSectionData(
-                        color: getPieChartColor(percent),
-                        value: achieved,
-                        title: '${percent.toStringAsFixed(2)}%',
+                        color: achieved == 0.0 ?Colors.white.withOpacity(0.6):  KpiHelper.getPieChartColor(percent),
+                        value: achieved == 0.0 ? 1 : achieved,
+                        title: achieved == 0.0 ? '': '${convertedToArabicNumber(percent.toStringAsFixed(2), isArabic)}%',
                         radius: 55,
-                        titleStyle:  TextStyle(
-                          color: percent > 15?  Colors.white : Colors.black,
+                        titleStyle: TextStyle(
+                          color: percent > 15 ? Colors.white : Colors.black,
                           fontWeight: FontWeight.bold,
                           fontSize: 15,
                         ),
@@ -128,17 +132,19 @@ class KpiPieChart extends StatelessWidget {
             Padding(
               padding: const EdgeInsets.only(top: 5.0),
               child: Text(
-                getKpiValueDueDate(),
-                style:
-                     TextStyle(fontSize: 15, fontWeight: FontWeight.w600, color: theme.colorScheme.secondary),
+                getKpiValueDueDate(local, isArabic),
+                style: TextStyle(
+                    fontSize: 15,
+                    fontWeight: FontWeight.w600,
+                    color: theme.colorScheme.secondary),
               ),
             ),
             Padding(
               padding: const EdgeInsets.symmetric(vertical: 5.0),
               child: Text(
-                "Achieved: ${achieved.toStringAsFixed(2)}",
+                "${local.achieved}: ${convertedToArabicNumber(achieved.toStringAsFixed(2), isArabic)}",
                 style:
-                const TextStyle(fontSize: 15, fontWeight: FontWeight.w600),
+                    const TextStyle(fontSize: 15, fontWeight: FontWeight.w600),
               ),
             ),
           ],

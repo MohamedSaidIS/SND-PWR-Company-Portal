@@ -6,8 +6,9 @@ import '../config/env_config.dart';
 import '../utils/app_notifier.dart';
 import '../utils/biomertic_auth.dart';
 import '../utils/enums.dart';
-import '../utils/secure_storage_service.dart';
+import '../service/secure_storage_service.dart';
 
+// redirect_uri="com.alsanidi.sndpower://oauthredirect",
 class AuthController {
   final FlutterAppAuth appAuth = const FlutterAppAuth();
   final BuildContext context;
@@ -18,6 +19,88 @@ class AuthController {
     required this.context,
   });
 
+  Future<bool> getSharePointToken() async {
+    try {
+      final result = await appAuth.authorizeAndExchangeCode(
+        AuthorizationTokenRequest(
+          EnvConfig.msClientId,
+          EnvConfig.msRedirectUri,
+          discoveryUrl:
+          "https://login.microsoftonline.com/${EnvConfig.msTenantId}/v2.0/.well-known/openid-configuration",
+          scopes: [
+            "openid",
+            "profile",
+            "offline_access",
+            "https://alsanidi.sharepoint.com/.default" // important
+          ],
+          promptValues: ["select_account"],
+        ),
+      );
+      print("✅ SharePoint token: ${result.accessToken}");
+
+      final decoded = parseJwt(result.accessToken!);
+      print("✅ SharePoint Audience: ${decoded['aud']}");
+      print("✅ SharePoint Audience: ${decoded['aud']}");
+
+      if (result == null || result.accessToken == null) {
+        _showError("SharedPoint Login failed: No token received");
+        return false;
+      }
+      await secureStorage.saveData("SharedAccessToken", result.accessToken!);
+      if (result.refreshToken != null) {
+        await secureStorage.saveData("SharedRefreshToken", result.refreshToken!);
+      }
+      await secureStorage.saveData("SharedTokenSavedAt", DateTime.now().toIso8601String());
+
+      return true;
+    } catch (e) {
+      _showError("SharePoint login error: $e");
+      return false;
+    }
+  }
+
+  Future<bool> getGraphToken() async {
+    try {
+      await _clearPreviousSession();
+
+      final result = await appAuth.authorizeAndExchangeCode(
+        AuthorizationTokenRequest(
+          EnvConfig.msClientId,
+          EnvConfig.msRedirectUri,
+          discoveryUrl:
+          "https://login.microsoftonline.com/${EnvConfig.msTenantId}/v2.0/.well-known/openid-configuration",
+          scopes: [
+            "openid",
+            "profile",
+            "offline_access",
+            "https://graph.microsoft.com/.default"
+          ],
+          promptValues: ["select_account"],
+        ),
+      );
+
+      print("✅ Graph token: ${result.accessToken}");
+
+      final decoded = parseJwt(result.accessToken!);
+      print("✅ Graph Audience: ${decoded['aud']}");
+
+      if (result == null || result.accessToken == null) {
+        _showError("Graph Login failed: No token received");
+        return false;
+      }
+      await secureStorage.saveData("GraphAccessToken", result.accessToken!);
+      if (result.refreshToken != null) {
+        await secureStorage.saveData("GraphRefreshToken", result.refreshToken!);
+      }
+      await secureStorage.saveData(
+          "TokenSavedAt", DateTime.now().toIso8601String());
+
+      return true;
+    } catch (e) {
+      _showError("Graph login error: $e");
+      return false;
+    }
+  }
 
   Future<bool> handleMicrosoftLogin() async {
     try {
@@ -29,9 +112,13 @@ class AuthController {
           EnvConfig.msRedirectUri,
           discoveryUrl:
           "https://login.microsoftonline.com/${EnvConfig.msTenantId}/v2.0/.well-known/openid-configuration",
-          scopes: ["openid", "profile", "email", "offline_access"],
+          scopes: [
+            "openid",
+            "profile",
+            "email",
+            "offline_access",
+          ],
           promptValues: ["select_account"], // يضمن إن صفحة تسجيل الدخول تفتح
-
         ),
       );
 
@@ -64,18 +151,19 @@ class AuthController {
       return false;
     }
   }
+
   Future<void> _clearPreviousSession() async {
     await secureStorage.deleteData();
   }
 
   void _showError(String message) {
+    print("LoginError: $message");
     AppNotifier.snackBar(context, message, SnackBarType.error);
   }
 
-
   Future<bool> loginWithBiometrics() async {
     final authenticated = await biometricAuth.authenticateWithBiometrics();
-    if(!authenticated) return false;
+    if (!authenticated) return false;
 
     final token = await secureStorage.getData("AccessToken");
     if (token == null) {

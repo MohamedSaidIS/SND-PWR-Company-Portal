@@ -70,6 +70,7 @@ dependencies:
   local_auth: ^2.1.7
   flutter_secure_storage: ^9.0.0
   flutter_appauth: ^9.0.1
+  to_arabic_number: 1.0.0
 
 dev_dependencies:
   flutter_test:

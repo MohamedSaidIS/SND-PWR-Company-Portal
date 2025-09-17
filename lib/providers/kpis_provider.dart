@@ -27,10 +27,9 @@ class KPIProvider extends ChangeNotifier{
       final response = await kpiDioClient.getRequest(
         isUAT
             ? 'https://alsenidiuat.sandbox.operations.dynamics.com/data/WorkerSalesCommission/?\$filter= Worker eq {00000000-0000-0000-0000-000000000000}'
-            : 'https://alsanidi.operations.dynamics.com/data/WorkerSalesCommission/?\$filter= Worker eq' + '{' + '00000000-0000-0000-0000-000000000000' + '}' ,
+            : 'https://alsanidi.operations.dynamics.com/data/WorkerSalesCommission/?\$filter= Worker eq' + '{' + '$workerId' + '}' ,
           isUAT
       );
-
       if (response.statusCode == 200) {
         final parsedResponse = response.data;
         _kpiList = (parsedResponse['value'] as List)
@@ -39,9 +38,10 @@ class KPIProvider extends ChangeNotifier{
             .toList();
 
         // _kpiList.sort((a, b) => b.createdDateTime!.compareTo(a.createdDateTime!));
+        _kpiList.isNotEmpty
+            ? AppNotifier.printFunction("Sales KPI Fetching: ", "${response.statusCode} ${_kpiList[0].worker} ")
+            : AppNotifier.printFunction("Sales KPI Fetching: ", "${response.statusCode}");
 
-        AppNotifier.printFunction("Sales KPI Fetching: ",
-            "${response.statusCode} ${_kpiList[0].worker} ");
       } else {
         _error = 'Failed to load Sales KPI data';
         AppNotifier.printFunction(
