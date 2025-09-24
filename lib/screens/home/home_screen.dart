@@ -23,8 +23,8 @@ class _HomeScreenState extends State<HomeScreen> {
     final local = context.local;
 
     final List screens = [
-      const AppsScreen(),
       const DashboardScreen(),
+      const AppsScreen(),
       const KpiScreen(),
       const RequestsScreen(),
       const ProfileScreen(),
