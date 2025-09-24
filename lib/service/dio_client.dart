@@ -62,7 +62,7 @@ class DioClient {
 
   Future<String?> _refreshToken() async {
     try {
-      final refreshToken = await secureStorage.getData("GraphRefreshToken");
+      final refreshToken = await secureStorage.getData("RefreshToken");
       if (refreshToken == null) {
         AppNotifier.printFunction(
             "GraphRefreshToken missing", "User must login again");
@@ -95,7 +95,7 @@ class DioClient {
       // Save tokens again
       await secureStorage.saveData("GraphAccessToken", result.accessToken!);
       if (result.refreshToken != null) {
-        await secureStorage.saveData("GraphRefreshToken", result.refreshToken!);
+        await secureStorage.saveData("RefreshToken", result.refreshToken!);
       }
       await secureStorage.saveData(
           "TokenSavedAt", DateTime.now().toIso8601String());
