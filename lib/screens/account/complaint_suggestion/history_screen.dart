@@ -1,3 +1,6 @@
+
+import 'dart:typed_data';
+
 import 'package:company_portal/screens/account/complaint_suggestion/widgets/status_badge.dart';
 import 'package:company_portal/utils/context_extensions.dart';
 import 'package:flutter/material.dart';
@@ -7,9 +10,10 @@ import '../../../providers/complaint_suggestion_provider.dart';
 import 'history_item_details.dart';
 
 class HistoryScreen extends StatefulWidget {
-  final String userId;
+  final dynamic userInfo;
+  final Uint8List? userImage;
 
-  const HistoryScreen({required this.userId, super.key});
+  const HistoryScreen({required this.userInfo, required this.userImage, super.key});
 
   @override
   State<HistoryScreen> createState() => _HistoryScreenState();
@@ -22,7 +26,7 @@ class _HistoryScreenState extends State<HistoryScreen> {
       final complaintSuggestionProvider =
           context.read<ComplaintSuggestionProvider>();
 
-      complaintSuggestionProvider.fetchSuggestionsAndComplaints(widget.userId);
+      complaintSuggestionProvider.fetchSuggestionsAndComplaints(widget.userInfo.id);
     });
     super.initState();
   }
@@ -36,6 +40,8 @@ class _HistoryScreenState extends State<HistoryScreen> {
 
     final theme = context.theme;
     final local = context.local;
+
+    print("Image: ${widget.userImage != null}");
 
     return Scaffold(
       backgroundColor: theme.colorScheme.background,
@@ -52,6 +58,8 @@ class _HistoryScreenState extends State<HistoryScreen> {
                       MaterialPageRoute(
                         builder: (context) => HistoryItemDetails(
                           item: complaintSuggestionList[index],
+                          userImage: widget.userImage,
+                          userInfo: widget.userInfo,
                         ),
                       ),
                     );
@@ -63,7 +71,7 @@ class _HistoryScreenState extends State<HistoryScreen> {
                     ),
                     margin: const EdgeInsets.only(bottom: 10),
                     child: Padding(
-                      padding: const EdgeInsets.all(8.0),
+                      padding: const EdgeInsets.only(top: 8.0,bottom: 8.0),
                       child: ListTile(
                         title: Text(
                           complaintSuggestionList[index].fields!.title!,
@@ -80,8 +88,11 @@ class _HistoryScreenState extends State<HistoryScreen> {
                                 color: theme.colorScheme.secondary),
                           ),
                         ),
-                        trailing: StatusBadge(
-                          status: complaintSuggestionList[index].fields!.status!,
+                        trailing: Transform.translate(
+                          offset: const Offset(10, 0),
+                          child: StatusBadge(
+                            status: complaintSuggestionList[index].fields!.status!,
+                          ),
                         ),
                       ),
                     ),

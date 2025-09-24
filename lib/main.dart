@@ -28,7 +28,6 @@ void main() async {
   final localeProvider = LocaleProvider();
   await localeProvider.loadSavedLocale();
 
-
   runApp(
     MultiProvider(
       providers: [
@@ -48,24 +47,28 @@ void main() async {
           create: (context) => ThemeProvider(),
         ),
         ChangeNotifierProvider<UserInfoProvider>(
-          create: (context) =>
-              UserInfoProvider(dioClient: context.read<DioClient>(),),
+          create: (context) => UserInfoProvider(
+            dioClient: context.read<DioClient>(),
+          ),
         ),
         ChangeNotifierProvider(
-          create: (context) =>
-              ManagerInfoProvider(dioClient: context.read<DioClient>(),),
+          create: (context) => ManagerInfoProvider(
+            dioClient: context.read<DioClient>(),
+          ),
         ),
         ChangeNotifierProvider(
           create: (context) =>
               DirectReportsProvider(dioClient: context.read<DioClient>()),
         ),
         ChangeNotifierProvider(
-          create: (context) =>
-              UserImageProvider(dioClient: context.read<DioClient>(),),
+          create: (context) => UserImageProvider(
+            dioClient: context.read<DioClient>(),
+          ),
         ),
         ChangeNotifierProvider(
           create: (context) => ComplaintSuggestionProvider(
             dioClient: context.read<DioClient>(),
+            sharePointDioClient: context.read<SharePointDioClient>(),
           ),
         ),
         ChangeNotifierProvider(

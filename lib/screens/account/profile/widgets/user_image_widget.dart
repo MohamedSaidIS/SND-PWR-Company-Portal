@@ -55,28 +55,6 @@ class UserImageWidget extends StatelessWidget {
                     child: ClipRRect(
                       borderRadius: BorderRadius.circular(100),
                       child: _buildImageContent(),
-                      // child:!imageIsUploading && imageLoading
-                      //     ? const CircularProgressIndicator()
-                      //     :image != null
-                      //     ? Image.file(
-                      //         image!,
-                      //         width: 200,
-                      //         height: 200,
-                      //         fit: BoxFit.cover,
-                      //       )
-                      //     : imageLoading
-                      //         ? const Center(child: CircularProgressIndicator())
-                      //         : imageBytes != null
-                      //             ? Image.memory(
-                      //                 imageBytes!,
-                      //                 width: 200,
-                      //                 height: 200,
-                      //                 fit: BoxFit.cover,
-                      //               )
-                      //             : const Image(
-                      //                 image: AssetImage(
-                      //                     "assets/images/profile_avatar.png"),
-                      //               ),
                     ),
                   ),
                 ),

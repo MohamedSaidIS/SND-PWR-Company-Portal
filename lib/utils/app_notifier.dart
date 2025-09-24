@@ -17,7 +17,6 @@ class AppNotifier {
   static void showLogoutDialog(BuildContext context) {
     final theme = context.theme;
     final local = context.local;
-    final oauth = Provider.of<AadOAuth>(context, listen: false);
 
     showDialog(
       context: context,
@@ -43,21 +42,18 @@ class AppNotifier {
             ),
             onPressed: () async {
               try {
-                // 1️⃣ امسح كل الـ tokens المخزنة
                 await SecureStorageService().deleteData();
 
-                // 2️⃣ افتح Microsoft logout endpoint
-                final logoutUrl =
-                    "https://login.microsoftonline.com/${EnvConfig.msTenantId}/oauth2/v2.0/logout"
-                    "?post_logout_redirect_uri=${Uri.encodeComponent(EnvConfig.msRedirectUri)}";
+                // final logoutUrl =
+                //     "https://login.microsoftonline.com/${EnvConfig.msTenantId}/oauth2/v2.0/logout"
+                //     "?post_logout_redirect_uri=${Uri.encodeComponent(EnvConfig.msRedirectUri)}";
+                //
+                // final launched = await launchUrl(Uri.parse(logoutUrl));
+                //
+                // if (!launched) {
+                //   debugPrint("⚠️ Logout URL لم يُفتح بنجاح");
+                // }
 
-                final launched = await launchUrl(Uri.parse(logoutUrl));
-
-                if (!launched) {
-                  debugPrint("⚠️ Logout URL لم يُفتح بنجاح");
-                }
-
-                // 3️⃣ رجّع المستخدم لشاشة تسجيل الدخول
                 Navigator.pushAndRemoveUntil(
                   context,
                   MaterialPageRoute(builder: (_) => const LoginScreenNew()),
