@@ -1,3 +1,6 @@
+
+import 'dart:typed_data';
+
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:company_portal/providers/sp_ensure_user.dart';
 import 'package:company_portal/utils/context_extensions.dart';
@@ -8,10 +11,11 @@ import 'complaint_suggestion_form_screen.dart';
 import 'history_screen.dart';
 
 class ComplaintSuggestionScreen extends StatefulWidget {
-  final String userName, userId;
+  final dynamic userInfo;
+  final Uint8List? userImage;
 
   const ComplaintSuggestionScreen(
-      {required this.userName, required this.userId, super.key});
+      {required this.userInfo, required this.userImage, super.key});
 
   @override
   State<ComplaintSuggestionScreen> createState() =>
@@ -45,6 +49,8 @@ class _ComplaintSuggestionScreenState extends State<ComplaintSuggestionScreen> {
     if(!ensureUserProvider.loading && ensureUserProvider.error == null){
       print("EnsureUser: ${ensureUser?.id} ${ensureUser?.email}");
     }
+
+    print("Image: ${widget.userImage != null}");
 
     return PopScope(
       canPop: false,
@@ -101,10 +107,10 @@ class _ComplaintSuggestionScreenState extends State<ComplaintSuggestionScreen> {
           body: TabBarView(
             children: [
               ComplaintSuggestionFormScreen(
-                userName: widget.userName,
+                userName: "${widget.userInfo.givenName} ${widget.userInfo.surname}",
                 ensureUserId: ensureUser?.id ?? -1,
               ),
-              HistoryScreen(userId: widget.userId),
+              HistoryScreen(userInfo: widget.userInfo, userImage: widget.userImage),
             ],
           ),
         ),

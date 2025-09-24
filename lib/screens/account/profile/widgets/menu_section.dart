@@ -1,3 +1,5 @@
+import 'dart:typed_data';
+
 import 'package:company_portal/utils/context_extensions.dart';
 import 'package:flutter/material.dart';
 import 'package:line_awesome_flutter/line_awesome_flutter.dart';
@@ -12,17 +14,20 @@ import '../../user_info/user_info_details_screen.dart';
 class MenuSection extends StatelessWidget {
   final dynamic userInfo;
   final VoidCallback onLogout;
+  final Uint8List? userImage;
 
   const MenuSection({
     super.key,
     required this.userInfo,
     required this.onLogout,
+    this.userImage
   });
 
   @override
   Widget build(BuildContext context) {
     final theme = context.theme;
     final local = context.local;
+    print("Image: ${userImage}");
 
     return Column(
       children: [
@@ -45,7 +50,7 @@ class MenuSection extends StatelessWidget {
         MenuWidget(
           title: local.settings,
           icon: LineAwesomeIcons.cog_solid,
-          navigatedPage: () => SettingsScreen(),
+          navigatedPage: () => const SettingsScreen(),
           textColor: theme.colorScheme.primary,
         ),
         MenuWidget(
@@ -53,8 +58,8 @@ class MenuSection extends StatelessWidget {
           icon: LineAwesomeIcons.hands_helping_solid,
           //textColor: theme.colorScheme.primary,
           navigatedPage: () => ComplaintSuggestionScreen(
-            userName: "${userInfo.givenName} ${userInfo.surname}",
-            userId: "${userInfo.id}",),
+            userInfo: userInfo,
+            userImage: userImage),
         ),
         AppSeparators.dividerSeparate(),
         MenuWidget(

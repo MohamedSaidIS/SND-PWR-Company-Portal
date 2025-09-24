@@ -24,10 +24,8 @@ class _LoginScreenNewState extends State<LoginScreenNew> {
   bool _isLoading = false;
   late final AuthController _authController;
   late final graphToken;
-
   late final spToken;
 
-  // late final BiometricAuth _biometricAuth;
 
   @override
   void initState() {
@@ -44,33 +42,65 @@ class _LoginScreenNewState extends State<LoginScreenNew> {
       });
     });
     _authController = AuthController(context: context);
-    // _biometricAuth = BiometricAuth();
-
-    // _checkForBiometricLogin();
   }
 
-  // Future<void> _checkForBiometricLogin() async {
-  //   print("Checking for biometric login");
-  //   final token = await SecureStorageService().getData("AccessToken");
-  //   if (token != null && token.isNotEmpty) {
-  //     final bioSuccess = await _biometricAuth.authenticateWithBiometrics();
-  //     print("Checking for biometric login");
-  //     if(bioSuccess && mounted){
-  //       _navigateToHome();
-  //     }
+///Old Method
+  // Future<void> _onSignInPressed() async {
+  //   setState(() => _isLoading = true);
+  //
+  //   final graphToken = await SecureStorageService().getData("GraphAccessToken");
+  //   final spToken = await SecureStorageService().getData("SharedAccessToken");
+  //
+  //   bool success = false;
+  //   String type = "";
+  //
+  //   if (graphToken.isNotEmpty && spToken.isNotEmpty) {
+  //     type = "Biometric";
+  //     success = await _authController.loginWithBiometrics();
+  //     SecureStorageService().saveData("BiometricLogin", "$type $success");
+  //     print("✅ Biometric Login Success: $success");
+  //   } else {
+  //     type = "Microsoft";
+  //     success = await loginAll();
+  //     print("✅ Microsoft Login Success: $success");
   //   }
+  //   print("✅ $type Login Success: $success");
+  //
+  //   if (success && mounted) {
+  //     _navigateToHome();
+  //   }
+  //   if (mounted) setState(() => _isLoading = false);
   // }
+  //
+  // Future<bool> loginAll() async {
+  //   final bool graphToken, spToken;
+  //
+  //   graphToken = await _authController.getGraphToken();
+  //   if (graphToken) {
+  //     print("✅ Graph token: $graphToken");
+  //
+  //     spToken = await _authController.getSharePointToken();
+  //     print("✅ SharePoint token: $spToken");
+  //
+  //     if (spToken == false) return false;
+  //   } else {
+  //     return false;
+  //   }
+  //   return graphToken && spToken ? true : false;
+  // }
+
 
   Future<void> _onSignInPressed() async {
     setState(() => _isLoading = true);
 
     final graphToken = await SecureStorageService().getData("GraphAccessToken");
-    final spToken = await SecureStorageService().getData("SharedAccessToken");
+    final spToken = await SecureStorageService().getData("SharePointAccessToken");
 
     bool success = false;
     String type = "";
 
     if (graphToken.isNotEmpty && spToken.isNotEmpty) {
+
       type = "Biometric";
       success = await _authController.loginWithBiometrics();
       SecureStorageService().saveData("BiometricLogin", "$type $success");
@@ -80,30 +110,40 @@ class _LoginScreenNewState extends State<LoginScreenNew> {
       success = await loginAll();
       print("✅ Microsoft Login Success: $success");
     }
+
     print("✅ $type Login Success: $success");
 
     if (success && mounted) {
       _navigateToHome();
     }
+
     if (mounted) setState(() => _isLoading = false);
   }
 
   Future<bool> loginAll() async {
-    final bool graphToken, spToken;
+    try {
 
-    graphToken = await _authController.getGraphToken();
-    if (graphToken) {
-      print("✅ Graph token: $graphToken");
+      final loginSuccess = await _authController.loginMicrosoftOnce();
+      if (!loginSuccess) return false;
 
-      spToken = await _authController.getSharePointToken();
-      print("✅ SharePoint token: $spToken");
+      final graphToken = await _authController.getGraphToken();
+      if (graphToken == null) return false;
 
-      if (spToken == false) return false;
-    } else {
+      final spToken = await _authController.getSharePointToken();
+      if (spToken == null) return false;
+
+      print("✅ Graph token retrieved: $graphToken");
+      print("✅ SharePoint token retrieved: $spToken");
+
+      return true;
+    } catch (e) {
+      print("❌ loginAll error: $e");
       return false;
     }
-    return graphToken && spToken ? true : false;
   }
+
+
+
 
   void _navigateToHome() {
     Navigator.push(

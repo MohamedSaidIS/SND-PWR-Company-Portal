@@ -115,6 +115,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     MenuSection(
                       userInfo: userInfo,
                       onLogout: _logout,
+                      userImage: userImage,
                     ),
                   ],
                 ),

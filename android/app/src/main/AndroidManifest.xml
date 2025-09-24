@@ -61,8 +61,8 @@
                 <action android:name="android.intent.action.VIEW"/>
                 <category android:name="android.intent.category.DEFAULT"/>
                 <category android:name="android.intent.category.BROWSABLE"/>
-                <data android:scheme="msauth"
-                    android:host="com.alsanidi.company_portal"/>
+                <data android:scheme="com.alsanidi.sndpower"
+                    android:host="oauthredirect"/>
             </intent-filter>
         </activity>
 

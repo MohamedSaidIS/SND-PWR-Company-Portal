@@ -31,16 +31,16 @@ class _DashboardScreenState extends State<DashboardScreen> {
       userProvider.fetchUserInfo();
 
       await _restoreCookies();
-      if (mounted) {
-        webViewController.loadUrl(
-          urlRequest: URLRequest(url: WebUri(sharepointUrl)),
-        );
-      }
+      // if (mounted) {
+      //   webViewController.loadUrl(
+      //     urlRequest: URLRequest(url: WebUri(sharepointUrl)),
+      //   );
+      // }
     });
-    SecureStorageService().getData("SharedAccessToken").then((value) {
+    SecureStorageService().getData("SharePointAccessToken").then((value) {
       setState(() {
-        print("Token: $value");
-        accessToken = value;
+        print("DashBoard Token: $value");
+        accessToken = value.trim();
       });
     });
   }
@@ -60,6 +60,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
 
         if (c["name"] == "FedAuth" || c["name"] == "rtFa") {
           domain = ".sharepoint.com";
+          print("✅ Restored Cookie Domain: $domain");
         }
 
         await cookieManager.setCookie(
@@ -92,13 +93,13 @@ class _DashboardScreenState extends State<DashboardScreen> {
 
     final cookiesList = cookies
         .map((c) => {
-              "name": c.name,
-              "value": c.value,
-              "domain": c.domain,
-              "path": c.path,
-              "isSecure": c.isSecure,
-              "isHttpOnly": c.isHttpOnly,
-            })
+      "name": c.name,
+      "value": c.value,
+      "domain": c.domain,
+      "path": c.path,
+      "isSecure": c.isSecure,
+      "isHttpOnly": c.isHttpOnly,
+    })
         .toList();
 
     // نخزنهم كـ JSON String
@@ -139,29 +140,30 @@ class _DashboardScreenState extends State<DashboardScreen> {
                 child: accessToken == null
                     ? const Center(child: CircularProgressIndicator())
                     : InAppWebView(
-                        initialUrlRequest: URLRequest(url: WebUri(sharepointUrl),),
-                        initialSettings: InAppWebViewSettings(
-                          javaScriptEnabled: true,
-                          cacheEnabled: true,
-                          clearCache: false,
-                          domStorageEnabled: true,
-                          sharedCookiesEnabled: true,
-                          thirdPartyCookiesEnabled: true,
-                          useHybridComposition: true,
-                        ),
-                        onWebViewCreated: (controller) {
-                          webViewController = controller;
-                        },
-                        onLoadStop: (controller, url) async {
-                          print("Finished loading: $url");
-                          await _saveCookies();
-                        },
-                        onProgressChanged: (controller, progress) {
-                          setState(() {
-                            webProgress = progress / 100;
-                          });
-                        },
-                      ),
+                  initialUrlRequest: URLRequest(url: WebUri(sharepointUrl),
+                  ),
+                  initialSettings: InAppWebViewSettings(
+                    javaScriptEnabled: true,
+                    cacheEnabled: true,
+                    clearCache: false,
+                    domStorageEnabled: true,
+                    sharedCookiesEnabled: true,
+                    thirdPartyCookiesEnabled: true,
+                    useHybridComposition: true,
+                  ),
+                  onWebViewCreated: (controller) {
+                    webViewController = controller;
+                  },
+                  onLoadStop: (controller, url) async {
+                    print("Finished loading: $url");
+                    await _saveCookies();
+                  },
+                  onProgressChanged: (controller, progress) {
+                    setState(() {
+                      webProgress = progress / 100;
+                    });
+                  },
+                ),
               ),
             ],
           ),
