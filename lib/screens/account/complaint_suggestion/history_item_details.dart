@@ -111,7 +111,7 @@ class _HistoryItemDetailsState extends State<HistoryItemDetails> {
 
           // الجزء السفلي (ثابت)
           Container(
-            padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 6),
+            padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 10),
             decoration: BoxDecoration(
               borderRadius: const BorderRadius.only(
                   topLeft: Radius.circular(20), topRight: Radius.circular(20)),
@@ -123,7 +123,7 @@ class _HistoryItemDetailsState extends State<HistoryItemDetails> {
               decoration: InputDecoration(
                 fillColor: Colors.white,
                 border: InputBorder.none,
-                contentPadding: const EdgeInsets.only(left: 10, top: 10),
+                contentPadding: const EdgeInsets.only(left: 15, top: 10, bottom: 20),
                 hintText: "Add a comment",
                 suffixIcon: IconButton(
                   onPressed: () async{
