@@ -45,29 +45,23 @@ class CommentItem extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Row(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              mainAxisAlignment: MainAxisAlignment.start,
-              children: [
-                if (!isCurrentUser) _buildUserInfoRow(
-                  theme,
-                  image: const Image(
-                    image: AssetImage("assets/images/grey_avatar.png"),
-                    width: 35,
-                    height: 35,
-                    fit: BoxFit.cover,
-                  ),
-                ),
-                if (isCurrentUser) _buildUserInfoRow(
-                  theme,
-                  image: Image.memory(
-                    userImage!,
-                    width: 35,
-                    height: 35,
-                    fit: BoxFit.cover,
-                  ),
-                ),
-              ],
+            if (!isCurrentUser) _buildUserInfoRow(
+              theme,
+              image: const Image(
+                image: AssetImage("assets/images/grey_avatar.png"),
+                width: 35,
+                height: 35,
+                fit: BoxFit.cover,
+              ),
+            ),
+            if (isCurrentUser) _buildUserInfoRow(
+              theme,
+              image: Image.memory(
+                userImage!,
+                width: 35,
+                height: 35,
+                fit: BoxFit.cover,
+              ),
             ),
             const SizedBox(height: 8),
             _buildRichText(theme),
@@ -93,20 +87,25 @@ class CommentItem extends StatelessWidget {
 
   Widget _buildUserInfoRow(ThemeData theme, {required Image image}) {
     return Row(
+      crossAxisAlignment: CrossAxisAlignment.start, // عشان النص يلف كويس
       children: [
         ClipRRect(
           borderRadius: BorderRadius.circular(100),
           child: image,
         ),
         const SizedBox(width: 8),
-        Padding(
-          padding: const EdgeInsets.only(top: 8.0),
-          child: Text(
-            comment.author.name,
-            style: TextStyle(
-              fontSize: 14,
-              fontWeight: FontWeight.w600,
-              color: theme.colorScheme.primary,
+        Flexible(
+          child: Padding(
+            padding: const EdgeInsets.only(top: 4.0),
+            child: Text(
+              comment.author.name,
+              softWrap: true,
+              maxLines: null,
+              style: TextStyle(
+                fontSize: 14,
+                fontWeight: FontWeight.w600,
+                color: theme.colorScheme.primary,
+              ),
             ),
           ),
         ),
@@ -115,30 +114,33 @@ class CommentItem extends StatelessWidget {
   }
 
   Widget _buildRichText(ThemeData theme) {
-    return Text.rich(
-      TextSpan(
-        children: comment.parts.map((part) {
-          if (part is Mention) {
-            return TextSpan(
-              text: "@${part.name} ",
-              style: const TextStyle(
-                color: Color(0xFF2657AA),
-                fontWeight: FontWeight.w500,
-              ),
-              recognizer: TapGestureRecognizer()
-                ..onTap = () {
-                  print("Clicked on mention: ${part.name}");
-                },
-            );
-          } else {
-            return TextSpan(
-              text: "$part ",
-              style: TextStyle(
-                color: theme.colorScheme.onSurface,
-              ),
-            );
-          }
-        }).toList(),
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 8.0),
+      child: Text.rich(
+        TextSpan(
+          children: comment.parts.map((part) {
+            if (part is Mention) {
+              return TextSpan(
+                text: "@${part.name} ",
+                style: const TextStyle(
+                  color: Color(0xFF2657AA),
+                  fontWeight: FontWeight.w500,
+                ),
+                recognizer: TapGestureRecognizer()
+                  ..onTap = () {
+                    print("Clicked on mention: ${part.name}");
+                  },
+              );
+            } else {
+              return TextSpan(
+                text: "$part ",
+                style: TextStyle(
+                  color: theme.colorScheme.onSurface,
+                ),
+              );
+            }
+          }).toList(),
+        ),
       ),
     );
   }
