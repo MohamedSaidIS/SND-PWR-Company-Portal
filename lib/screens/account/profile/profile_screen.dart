@@ -85,22 +85,10 @@ class _ProfileScreenState extends State<ProfileScreen> {
         ),
         body: Builder(
           builder: (context) {
-            // if (userInfoProvider.error != null) {
-            //   return ErrorStateWidget(
-            //     error: userInfoProvider.error!,
-            //     onRetry: () => context.read<UserInfoProvider>().fetchUserInfo(),
-            //   );
-            // }
-            if(userImageProvider.error != null && userInfoProvider.error == "401"){
-              return ErrorStateWidget(
-                  error: userImageProvider.error!,
-                  onRetry: _logout,
-              );
-            }
             return SingleChildScrollView(
               child: Container(
                 padding:
-                    const EdgeInsets.symmetric(vertical: 15, horizontal: 45),
+                const EdgeInsets.symmetric(vertical: 15, horizontal: 45),
                 child: Column(
                   children: [
                     ProfileHeader(

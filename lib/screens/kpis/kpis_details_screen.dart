@@ -49,8 +49,8 @@ class _KpisDetailsScreenState extends State<KpisDetailsScreen> {
 
     weeksInMonth = KpiCalculationHandler.calculateWeeklySales(
         salesKpis, widget.selectedMonth);
-    print("CurrentWeek: ${widget.currentWeek.weekNumber}");
-    print("WeeklyValues: ${weeklyValues.length}");
+    AppNotifier.logWithScreen("KPI Details Screen","CurrentWeek: ${widget.currentWeek.weekNumber}");
+    AppNotifier.logWithScreen("KPI Details Screen","WeeklyValues: ${weeklyValues.length}");
 
     daysInWeek = KpiCalculationHandler.calculateDailySalesPerWeek(
         salesKpis, widget.currentWeek.weekNumber,
@@ -60,7 +60,7 @@ class _KpisDetailsScreenState extends State<KpisDetailsScreen> {
         salesKpis, widget.selectedMonth, DateTime.now().year);
 
     salesKpiListOverLength = daysInMonth.length > 10 ? true : false;
-    print("SalesKpiListOverLength $salesKpiListOverLength");
+    AppNotifier.logWithScreen("KPI Details Screen","SalesKpiListOverLength $salesKpiListOverLength");
 
     handleOrientation(salesKpiListOverLength);
   }
@@ -111,7 +111,7 @@ class _KpisDetailsScreenState extends State<KpisDetailsScreen> {
 
   List<BarChartGroupData> _buildMonthlyBarGroups(List<SalesKPI> data) {
     if (weeksInMonth.isNotEmpty) {
-      AppNotifier.printFunction(
+      AppNotifier.logWithScreen(
           "MonthlyTotals", weeksInMonth.last.totalSales.toString());
     }
 
@@ -137,7 +137,7 @@ class _KpisDetailsScreenState extends State<KpisDetailsScreen> {
 
   List<BarChartGroupData> _buildWeeklyBarGroups(List<SalesKPI> data) {
     for (var i in daysInWeek) {
-      AppNotifier.printFunction("weeklyTotals", "${i.date} ${i.totalSales}");
+      AppNotifier.logWithScreen("weeklyTotals", "${i.date} ${i.totalSales}");
     }
 
     return daysInWeek.asMap().entries.map((entry) {
@@ -174,7 +174,7 @@ class _KpisDetailsScreenState extends State<KpisDetailsScreen> {
   Widget getX_axisTitles(double value, String title, List<SalesKPI> salesKpis, bool isArabic, AppLocalizations local) {
     Widget widget = const Text("");
     if (title == local.dailyKpi) {
-      print("Length ${salesKpis.length}");
+      AppNotifier.logWithScreen("KPI Details Screen","Length ${salesKpis.length}");
       widget = getDailyX_axisTitles(value, salesKpis);
     } else if (title == local.monthlyKpi) {
       if (weeksInMonth.isNotEmpty && value.toInt() < weeksInMonth.length) {
@@ -185,15 +185,15 @@ class _KpisDetailsScreenState extends State<KpisDetailsScreen> {
       if (daysInWeek.isNotEmpty && value.toInt() < daysInWeek.length) {
         widget = isArabic
             ? Padding(
-              padding: const EdgeInsets.only(top: 7.0),
-              child: Transform.rotate(
-                  angle: -0.4,
-                  child: Text(
-                    daysInWeek[value.toInt()].dayName,
-                    style: const TextStyle(fontSize: 10),
-                  ),
-                ),
-            )
+          padding: const EdgeInsets.only(top: 7.0),
+          child: Transform.rotate(
+            angle: -0.4,
+            child: Text(
+              daysInWeek[value.toInt()].dayName,
+              style: const TextStyle(fontSize: 10),
+            ),
+          ),
+        )
             : Text(daysInWeek[value.toInt()].dayName);
       }
     }
@@ -206,16 +206,16 @@ class _KpisDetailsScreenState extends State<KpisDetailsScreen> {
       padding: const EdgeInsets.only(top: 5.0),
       child: salesKpiListOverLength
           ? Transform.rotate(
-              angle: -0.8,
-              child: Text(
-                "${date.day}/${date.month}",
-                style: const TextStyle(fontSize: 10),
-              ),
-            )
+        angle: -0.8,
+        child: Text(
+          "${date.day}/${date.month}",
+          style: const TextStyle(fontSize: 10),
+        ),
+      )
           : Text(
-              "${date.day}/${date.month}",
-              style: const TextStyle(fontSize: 10),
-            ),
+        "${date.day}/${date.month}",
+        style: const TextStyle(fontSize: 10),
+      ),
     );
   }
 
@@ -287,7 +287,7 @@ class _KpisDetailsScreenState extends State<KpisDetailsScreen> {
                     ),
                   ),
                 ),
-                SizedBox(height: 7,)
+                const SizedBox(height: 7,)
               ],
             ),
           ),

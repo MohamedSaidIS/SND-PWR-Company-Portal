@@ -32,7 +32,7 @@ class _ComplaintSuggestionFormScreenState
   final TextEditingController _nameController = TextEditingController();
   final TextEditingController _issueTitleController = TextEditingController();
   final TextEditingController _issueDescriptionController =
-      TextEditingController();
+  TextEditingController();
   String? selectedType, selectedCategory, selectedPriority = 'Normal';
   bool isChecked = true;
 
@@ -44,22 +44,18 @@ class _ComplaintSuggestionFormScreenState
         return;
       } else {
         var successSend =
-            await complaintSuggestionProvider.sendSuggestionsAndComplaints(
-                _issueTitleController.text,
-                _issueDescriptionController.text,
-                selectedPriority!,
-                selectedCategory!,
-                isChecked ? _nameController.text.trim() : '',
-                widget.ensureUserId
-            );
+        await complaintSuggestionProvider.sendSuggestionsAndComplaints(
+            _issueTitleController.text,
+            _issueDescriptionController.text,
+            selectedPriority!,
+            selectedCategory!,
+            isChecked ? _nameController.text.trim() : '',
+            widget.ensureUserId
+        );
 
         if (successSend) {
           clearData();
-          AppNotifier.snackBar(
-              context, local.fromSubmittedSuccessfully, SnackBarType.success);
-        } else {
-          AppNotifier.snackBar(
-              context, "SomeThing went wrong", SnackBarType.error);
+          AppNotifier.snackBar(context, local.fromSubmittedSuccessfully, SnackBarType.success);
         }
       }
     }
@@ -82,7 +78,7 @@ class _ComplaintSuggestionFormScreenState
   @override
   Widget build(BuildContext context) {
     final complaintSuggestionProvider =
-        context.read<ComplaintSuggestionProvider>();
+    context.read<ComplaintSuggestionProvider>();
 
     final theme = context.theme;
     final local = context.local;
@@ -185,7 +181,7 @@ class _ComplaintSuggestionFormScreenState
                       borderRadius: BorderRadius.circular(12),
                     )),
                 validator: (value) =>
-                    value == null ? local.pleaseSelectCategory : null,
+                value == null ? local.pleaseSelectCategory : null,
                 onChanged: (value) => setState(() => selectedCategory = value),
               ),
               const SizedBox(height: 16),
@@ -208,7 +204,7 @@ class _ComplaintSuggestionFormScreenState
                       borderRadius: BorderRadius.circular(12),
                     )),
                 validator: (value) =>
-                    value == null ? local.pleaseSelectPriority : null,
+                value == null ? local.pleaseSelectPriority : null,
                 onChanged: (value) => setState(() => selectedPriority = value),
               ),
               const SizedBox(height: 16),

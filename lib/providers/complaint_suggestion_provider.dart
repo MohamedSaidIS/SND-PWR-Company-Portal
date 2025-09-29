@@ -47,16 +47,17 @@ class ComplaintSuggestionProvider with ChangeNotifier {
         _complaintSuggestionList
             .sort((a, b) => b.createdDateTime!.compareTo(a.createdDateTime!));
 
-        AppNotifier.printFunction("ComplaintSuggestion Fetching: ",
-            "${response.statusCode} ${_complaintSuggestionList[0].fields?.priority} ");
-      } else {
+        AppNotifier.logWithScreen("ComplaintSuggestion Provider",
+            "ComplaintSuggestion Fetching: ${response.statusCode} ${_complaintSuggestionList[0].fields?.priority} ");
+      }  else {
         _error = 'Failed to load ComplaintSuggestion data';
-        AppNotifier.printFunction(
-            "ComplaintSuggestion Error: ", "$_error ${response.statusCode}");
+        AppNotifier.logWithScreen("ComplaintSuggestion Provider",
+            "ComplaintSuggestion Error: $_error ${response.statusCode}");
       }
     } catch (e) {
       _error = e.toString();
-      AppNotifier.printFunction("ComplaintSuggestion Exception: ", _error);
+      AppNotifier.logWithScreen("ComplaintSuggestion Provider",
+          "ComplaintSuggestion Exception: $_error");
     }
     _loading = false;
     notifyListeners();
@@ -84,23 +85,25 @@ class ComplaintSuggestionProvider with ChangeNotifier {
           });
 
       if (response.statusCode == 201) {
-        AppNotifier.printFunction(
-            "ComplaintSuggestion Send: ", "Success ${response.statusCode}");
+        AppNotifier.logWithScreen("ComplaintSuggestion Provider",
+            "ComplaintSuggestion Send: Success ${response.statusCode}");
         return true;
-      } else {
+      }  else {
         _error = 'Failed to send ComplaintSuggestion data';
-        AppNotifier.printFunction("ComplaintSuggestion Send Error: ",
-            "$_error ${response.statusCode}");
+        AppNotifier.logWithScreen("ComplaintSuggestion Provider",
+            "ComplaintSuggestion Send Error:$_error ${response.statusCode}");
         return false;
       }
     } catch (e) {
       _error = e.toString();
-      AppNotifier.printFunction("ComplaintSuggestion Send Exception: ", _error);
+      AppNotifier.logWithScreen("ComplaintSuggestion Provider",
+          "ComplaintSuggestion Send Exception: $_error");
     }
     _loading = false;
     notifyListeners();
     return true;
   }
+  /// ////////////////////////////////////////////// Comments /////////////////////////////////////////////////////
 
   Future<void> getComments(String ticketId) async {
     _loading = true;
@@ -110,51 +113,65 @@ class ComplaintSuggestionProvider with ChangeNotifier {
     try {
       final response = await sharePointDioClient.dio.get(
           "https://alsanidi.sharepoint.com/sites/IT-Requests/_api/web/lists(guid'$LIST_ID')/items($ticketId)/comments");
+
+
       if (response.statusCode == 200) {
         final parsedResponse = response.data["value"];
-        AppNotifier.printFunction(
-            "ComplaintComments Fetching: ", parsedResponse);
+        AppNotifier.logWithScreen("ComplaintSuggestion Provider", "Comments Fetching: $parsedResponse");
 
         _comments = (parsedResponse as List)
             .map((e) => ItemComments.fromJson(e as Map<String, dynamic>))
             .toList();
-        AppNotifier.printFunction(
-            "ComplaintComments Fetching parsed: ", parsedResponse);
-      } else {
-        _error = 'Failed to load ComplaintComments data';
-        AppNotifier.printFunction(
-            "ComplaintComments Error: ", "$_error ${response.statusCode}");
+        AppNotifier.logWithScreen("ComplaintSuggestion Provider",
+            "Comments Fetching parsed: $parsedResponse");
+      }  else {
+        _error = 'Failed to load Comments data';
+        AppNotifier.logWithScreen(
+            "Comments Error: ", "$_error ${response.statusCode}");
       }
+
+
     } catch (e) {
       _error = e.toString();
-      AppNotifier.printFunction("ComplaintComments Exception: ", _error);
+      AppNotifier.logWithScreen("ComplaintSuggestion Provider",
+          "Comments Exception: $_error");
     }
     _loading = false;
     notifyListeners();
   }
 
-  Future<bool> postComments(String ticketId, String comment) async {
+  Future<bool> postComments(String ticketId, String comment,
+      {required List<Map<String, dynamic>> mentions}) async {
     _loading = true;
     _error = null;
     notifyListeners();
 
+    AppNotifier.logWithScreen("ComplaintSuggestion Provider", "Mention $mentions");
+
     try {
       final response = await sharePointDioClient.dio.post(
-          "https://alsanidi.sharepoint.com/sites/IT-Requests/_api/web/lists(guid'$LIST_ID')/items($ticketId)/comments",
-          data: {
-            "text" : comment,
-          },
+        "https://alsanidi.sharepoint.com/sites/IT-Requests/_api/web/lists(guid'$LIST_ID')/items($ticketId)/comments",
+        data: {
+          "text": comment,
+          "mentions": mentions,
+        },
       );
 
-      if(response.statusCode == 201){
-        AppNotifier.printFunction("CommentSend: ", "Success ${response.statusCode}");
+      if (response.statusCode == 201) {
+        AppNotifier.logWithScreen("ComplaintSuggestion Provider",
+            "CommentSend: Success ${response.statusCode}");
         await getComments(ticketId);
 
         return true;
+      }  else {
+        _error = 'Failed to load Comments data';
+        AppNotifier.logWithScreen(
+            "Comments Error: ", "$_error ${response.statusCode}");
       }
     } catch (e) {
       _error = e.toString();
-      AppNotifier.printFunction("CommentSend Exception: ", _error);
+      AppNotifier.logWithScreen(
+          "ComplaintSuggestion Provider", "CommentSend Exception: $_error");
       return false;
     }
     _loading = false;

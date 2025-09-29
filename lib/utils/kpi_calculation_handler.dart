@@ -8,6 +8,8 @@ import 'package:week_number/iso.dart';
 import 'package:jiffy/jiffy.dart';
 import 'package:week_of_year/date_week_extensions.dart';
 
+import 'app_notifier.dart';
+
 class KpiCalculationHandler {
   final AppLocalizations local;
 
@@ -33,7 +35,7 @@ class KpiCalculationHandler {
     final lastKpi = weekData.reduce((a, b) =>
     onlyDate(a.transDate).isAfter(onlyDate(b.transDate)) ? a : b);
 
-    print("Last KPI Date: ${lastKpi.transDate}, Sales: ${lastKpi.dailySalesAmount}");
+    AppNotifier.logWithScreen("KpiCalculation Handler","Last KPI Date: ${lastKpi.transDate} Sales: ${lastKpi.dailySalesAmount}");
 
     return lastKpi.dailySalesAmount;
   }
@@ -57,10 +59,10 @@ class KpiCalculationHandler {
 
     return weeklyTotals.entries
         .map((entry) => WeeklyKPI(
-              weekNumber: entry.key,
-              totalSales: entry.value,
-              monthNumber: selectedMonth,
-            ))
+      weekNumber: entry.key,
+      totalSales: entry.value,
+      monthNumber: selectedMonth,
+    ))
         .toList()
       ..sort((a, b) => a.weekNumber.compareTo(b.weekNumber));
   }
@@ -70,13 +72,13 @@ class KpiCalculationHandler {
 
     final filteredData = data
         .where((e) =>
-            e.transDate.month == selectedMonth &&
-            e.transDate.year == DateTime.now().year)
+    e.transDate.month == selectedMonth &&
+        e.transDate.year == DateTime.now().year)
         .toList();
 
     filteredData.sort((a, b) => a.transDate.compareTo(b.transDate));
 
-    print("Filtered Data: ${filteredData.length}");
+    AppNotifier.logWithScreen("KpiCalculation Handler","Filtered Data: ${filteredData.length}");
 
     return filteredData.isNotEmpty ? filteredData.last.lastSalesAmount : 0.0;
   }
@@ -95,7 +97,7 @@ class KpiCalculationHandler {
     final start = getIsoWeekStart(year, currentWeek);
     final end = getIsoWeekEnd(year, currentWeek);
 
-    print("Start: $start, End: $end");
+    AppNotifier.logWithScreen("KpiCalculation Handler","Start: $start, End: $end");
 
     // final List<DailyKPI> weeklyValues = List.generate(7, (index) {
     //   final date = start.add(Duration(days: index));
@@ -118,7 +120,7 @@ class KpiCalculationHandler {
           (d.isAfter(startOnlyDate) && d.isBefore(endOnlyDate));
     });
 
-    print("weekData count: ${weekData.length}");
+    AppNotifier.logWithScreen("KpiCalculation Handler","weekData count: ${weekData.length}");
 
     for (var kpi in weekData) {
       final index = kpi.transDate.weekday - 1;
@@ -144,7 +146,7 @@ class KpiCalculationHandler {
     final totalDays = daysInMonthForYear(year, month);
     final end = DateTime(year, month, totalDays);
 
-    print("Month Start: $start, End: $end");
+    AppNotifier.logWithScreen("KpiCalculation Handler","Month Start: $start, End: $end");
 
     final daysInMonth = List.generate(end.day, (index) {
       final date = DateTime(year, month, index + 1);
@@ -163,7 +165,7 @@ class KpiCalculationHandler {
           (d.isAfter(start) && d.isBefore(end));
     });
 
-    print("monthData count: ${monthData.length}");
+    AppNotifier.logWithScreen("KpiCalculation Handler","monthData count: ${monthData.length}");
 
     for (var kpi in monthData) {
       final dayIndex = kpi.transDate.day - 1;
@@ -186,9 +188,9 @@ class KpiCalculationHandler {
       now = data.last.transDate;
       date = DateTime(now.year, selectedMonth);
     }
-    print("Date: $date");
+    AppNotifier.logWithScreen("KpiCalculation Handler","Date: $date");
     final monthName = isArabic ? DateFormat.yMMMM('ar').format(date) : DateFormat.yMMMM().format(date);
-    print("Month Name: $monthName");
+    AppNotifier.logWithScreen("KpiCalculation Handler","Month Name: $monthName");
     return monthName;
   }
 
@@ -210,14 +212,14 @@ class KpiCalculationHandler {
     if(weekData.isEmpty) return "";
 
     final lastKpi = weekData.reduce((a, b) =>
-        onlyDate(a.transDate).isAfter(onlyDate(b.transDate)) ? a : b);
+    onlyDate(a.transDate).isAfter(onlyDate(b.transDate)) ? a : b);
 
     var now = DateTime.now();
     if (weekData.isNotEmpty) {
       now = lastKpi.transDate;
     }
     final lastDayName = isArabic ? DateFormat.yMMMEd('ar').format(now) : DateFormat.yMMMEd().format(now);
-    print(lastDayName);
+    AppNotifier.logWithScreen("KpiCalculation Handler",lastDayName);
     return lastDayName;
   }
 
@@ -234,7 +236,7 @@ class KpiCalculationHandler {
     DateTime current = startOfMonth;
 
     while (
-        current.isBefore(endOfMonth) || current.isAtSameMomentAs(endOfMonth)) {
+    current.isBefore(endOfMonth) || current.isAtSameMomentAs(endOfMonth)) {
       final weekNum = Jiffy.parseFromDateTime(current).weekOfYear;
 
       if (!weekNumbers.contains(weekNum)) {
@@ -283,7 +285,7 @@ class KpiCalculationHandler {
     if (maxVal <= 50000) return 5000;
     if (maxVal <= 200000) return 10000;
     if (maxVal <= 1000000) return 50000;
-    return 100000; // لو أرقام كبيرة جدًا
+    return 100000;
   }
 
   static List<DailyKPI> generateDays(DateTime start, AppLocalizations local){
@@ -401,8 +403,8 @@ class WeeklyKPI {
 
   WeeklyKPI(
       {required this.weekNumber,
-      required this.totalSales,
-      required this.monthNumber});
+        required this.totalSales,
+        required this.monthNumber});
 }
 
 class DailyKPI {

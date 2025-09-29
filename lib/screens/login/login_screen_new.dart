@@ -1,13 +1,12 @@
 import 'dart:async';
-import 'package:aad_oauth/aad_oauth.dart';
 import 'package:company_portal/controllers/auth_controller.dart';
 import 'package:company_portal/providers/locale_provider.dart';
 import 'package:company_portal/screens/login/widgets/language_switcher.dart';
 import 'package:company_portal/screens/login/widgets/logo_carousel_widget.dart';
 import 'package:company_portal/screens/login/widgets/sign_in_button.dart';
+import 'package:company_portal/utils/app_notifier.dart';
 import 'package:company_portal/utils/context_extensions.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 import '../../service/secure_storage_service.dart';
 import '../home/home_screen.dart';
 
@@ -33,62 +32,16 @@ class _LoginScreenNewState extends State<LoginScreenNew> {
 
     WidgetsBinding.instance.addPostFrameCallback((_) async {
       await SecureStorageService().getData("GraphAccessToken").then((value) {
-        print("✅ Graph Token: $value");
+        AppNotifier.logWithScreen("LoginScreen", "✅ Graph Token: $value");
         graphToken = value;
       });
       await SecureStorageService().getData("SharedAccessToken").then((value) {
-        print("SharedPoint Token: $value");
+        AppNotifier.logWithScreen("LoginScreen","✅ SharedPoint Token: $value");
         spToken = value;
       });
     });
     _authController = AuthController(context: context);
   }
-
-///Old Method
-  // Future<void> _onSignInPressed() async {
-  //   setState(() => _isLoading = true);
-  //
-  //   final graphToken = await SecureStorageService().getData("GraphAccessToken");
-  //   final spToken = await SecureStorageService().getData("SharedAccessToken");
-  //
-  //   bool success = false;
-  //   String type = "";
-  //
-  //   if (graphToken.isNotEmpty && spToken.isNotEmpty) {
-  //     type = "Biometric";
-  //     success = await _authController.loginWithBiometrics();
-  //     SecureStorageService().saveData("BiometricLogin", "$type $success");
-  //     print("✅ Biometric Login Success: $success");
-  //   } else {
-  //     type = "Microsoft";
-  //     success = await loginAll();
-  //     print("✅ Microsoft Login Success: $success");
-  //   }
-  //   print("✅ $type Login Success: $success");
-  //
-  //   if (success && mounted) {
-  //     _navigateToHome();
-  //   }
-  //   if (mounted) setState(() => _isLoading = false);
-  // }
-  //
-  // Future<bool> loginAll() async {
-  //   final bool graphToken, spToken;
-  //
-  //   graphToken = await _authController.getGraphToken();
-  //   if (graphToken) {
-  //     print("✅ Graph token: $graphToken");
-  //
-  //     spToken = await _authController.getSharePointToken();
-  //     print("✅ SharePoint token: $spToken");
-  //
-  //     if (spToken == false) return false;
-  //   } else {
-  //     return false;
-  //   }
-  //   return graphToken && spToken ? true : false;
-  // }
-
 
   Future<void> _onSignInPressed() async {
     setState(() => _isLoading = true);
@@ -104,14 +57,14 @@ class _LoginScreenNewState extends State<LoginScreenNew> {
       type = "Biometric";
       success = await _authController.loginWithBiometrics();
       SecureStorageService().saveData("BiometricLogin", "$type $success");
-      print("✅ Biometric Login Success: $success");
+      AppNotifier.logWithScreen("LoginScreen","✅ Biometric Login Success: $success");
     } else {
       type = "Microsoft";
       success = await loginAll();
-      print("✅ Microsoft Login Success: $success");
+      AppNotifier.logWithScreen("LoginScreen","✅ Microsoft Login Success: $success");
     }
 
-    print("✅ $type Login Success: $success");
+    AppNotifier.logWithScreen("LoginScreen","✅ $type Login Success: $success");
 
     if (success && mounted) {
       _navigateToHome();
@@ -132,18 +85,15 @@ class _LoginScreenNewState extends State<LoginScreenNew> {
       final spToken = await _authController.getSharePointToken();
       if (spToken == null) return false;
 
-      print("✅ Graph token retrieved: $graphToken");
-      print("✅ SharePoint token retrieved: $spToken");
+      AppNotifier.logWithScreen("LoginScreen","✅ Graph token retrieved: $graphToken");
+      AppNotifier.logWithScreen("LoginScreen","✅ SharePoint token retrieved: $spToken");
 
       return true;
     } catch (e) {
-      print("❌ loginAll error: $e");
+      AppNotifier.logWithScreen("LoginScreen","❌ loginAll error: $e");
       return false;
     }
   }
-
-
-
 
   void _navigateToHome() {
     Navigator.push(
@@ -194,9 +144,9 @@ class _LoginScreenNewState extends State<LoginScreenNew> {
   }
 
   void changeLanguage(
-    LocaleProvider localeProvider,
-    String currentLocale,
-  ) {
+      LocaleProvider localeProvider,
+      String currentLocale,
+      ) {
     final newLanguageCode = currentLocale == 'en' ? 'ar' : 'en';
     localeProvider.setLocale(Locale(newLanguageCode));
   }

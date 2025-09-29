@@ -25,31 +25,30 @@ class KPIProvider extends ChangeNotifier{
 
     try {
       final response = await kpiDioClient.getRequest(
-        isUAT
-            ? 'https://alsenidiuat.sandbox.operations.dynamics.com/data/WorkerSalesCommission/?\$filter= Worker eq {00000000-0000-0000-0000-000000000000}'
-            : 'https://alsanidi.operations.dynamics.com/data/WorkerSalesCommission/?\$filter= Worker eq' + '{' + '$workerId' + '}' ,
+          isUAT
+              ? 'https://alsenidiuat.sandbox.operations.dynamics.com/data/WorkerSalesCommission/?\$filter= Worker eq {00000000-0000-0000-0000-000000000000}'
+              : 'https://alsanidi.operations.dynamics.com/data/WorkerSalesCommission/?\$filter= Worker eq' + '{' + '$workerId' + '}' ,
           isUAT
       );
       if (response.statusCode == 200) {
         final parsedResponse = response.data;
         _kpiList = (parsedResponse['value'] as List)
             .map((e) => SalesKPI.fromJson(e as Map<String, dynamic>))
-            // .where((cs) => cs.createdBy?.user?.id == userId)
+        // .where((cs) => cs.createdBy?.user?.id == userId)
             .toList();
 
         // _kpiList.sort((a, b) => b.createdDateTime!.compareTo(a.createdDateTime!));
         _kpiList.isNotEmpty
-            ? AppNotifier.printFunction("Sales KPI Fetching: ", "${response.statusCode} ${_kpiList[0].worker} ")
-            : AppNotifier.printFunction("Sales KPI Fetching: ", "${response.statusCode}");
+            ? AppNotifier.logWithScreen("Sales Kpi Provider","Sales KPI Fetching: ${response.statusCode} ${_kpiList[0].worker}")
+            : AppNotifier.logWithScreen("Sales Kpi Provider","Sales KPI Fetching: ${response.statusCode}");
 
       } else {
         _error = 'Failed to load Sales KPI data';
-        AppNotifier.printFunction(
-            "Sales KPI Error: ", "$_error ${response.statusCode}");
+        AppNotifier.logWithScreen("Sales Kpi Provider","Sales KPI Error: $_error ${response.statusCode}");
       }
     } catch (e) {
       _error = e.toString();
-      AppNotifier.printFunction("Sales KPI Exception: ", _error);
+      AppNotifier.logWithScreen("Sales Kpi Provider", "Sales KPI Exception: $_error" );
     }
     _loading = false;
     notifyListeners();

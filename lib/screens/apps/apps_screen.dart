@@ -130,7 +130,7 @@ Future<void> openAppOrRedirect({
 
         bool isInstalled = apps.any((app) =>
         app.packageName == androidPackageName);
-        print("Installed App: $isInstalled");
+        AppNotifier.logWithScreen("App Screen","Installed App: $isInstalled");
 
         if (isInstalled) {
           DeviceApps.openApp(androidPackageName);
@@ -174,7 +174,5 @@ Future<void> openAppOrRedirect({
       AppNotifier.hideLoadingDialog(context);
     }
   }
-
-
 }
 

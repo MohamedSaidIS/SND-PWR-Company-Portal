@@ -6,6 +6,7 @@ import 'package:company_portal/utils/kpi_helper.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 
+import '../../../utils/app_notifier.dart';
 import '../../../utils/kpi_calculation_handler.dart';
 
 class KpiPieChart extends StatelessWidget {
@@ -31,7 +32,8 @@ class KpiPieChart extends StatelessWidget {
   });
 
   String getKpiValueDueDate(AppLocalizations local, bool isArabic) {
-    print("Selected Month: $selectedMonth");
+    AppNotifier.logWithScreen("Pie Chart Screen","Selected Month: $selectedMonth");
+
     if (title == local.dailyKpi) {
       return KpiCalculationHandler.getLastDayName(
           salesKpi, selectedMonth, selectedWeek!, isArabic);
@@ -62,8 +64,7 @@ class KpiPieChart extends StatelessWidget {
     final isArabic = context.isArabic();
     final percent = (target == 0) ? 0 : (achieved / target * 100);
 
-    print("Week: $selectedWeek currentWeek: ${currentWeek.weekNumber}");
-    print("PieChart: $title, $achieved, $target, $currentWeek, $salesKpi, $selectedMonth, $selectedWeek, $currentWeek");
+    AppNotifier.logWithScreen("Pie Chart Screen","Week: $selectedWeek currentWeek: ${currentWeek.weekNumber}");
 
     return Container(
       decoration: BoxDecoration(
@@ -144,7 +145,7 @@ class KpiPieChart extends StatelessWidget {
               child: Text(
                 "${local.achieved}: ${convertedToArabicNumber(achieved.toStringAsFixed(2), isArabic)}",
                 style:
-                    const TextStyle(fontSize: 15, fontWeight: FontWeight.w600),
+                const TextStyle(fontSize: 15, fontWeight: FontWeight.w600),
               ),
             ),
           ],

@@ -1,11 +1,11 @@
-
 import 'package:company_portal/service/dio_client.dart';
 import 'package:flutter/foundation.dart';
 import '../models/remote/user_info.dart';
 import '../utils/app_notifier.dart';
 
-class UserInfoProvider with ChangeNotifier{
+class UserInfoProvider with ChangeNotifier {
   final DioClient dioClient;
+
   UserInfoProvider({required this.dioClient});
 
   UserInfo? _userInfo;
@@ -13,29 +13,32 @@ class UserInfoProvider with ChangeNotifier{
   String? _error;
 
   UserInfo? get userInfo => _userInfo;
+
   bool get loading => _loading;
+
   String? get error => _error;
 
-  Future<void> fetchUserInfo() async{
+  Future<void> fetchUserInfo() async {
     _loading = true;
     _error = null;
     notifyListeners();
 
-    try{
+    try {
       final response = await dioClient.get('/me');
-
-      if(response.statusCode == 200){
+      AppNotifier.logWithScreen("User Info Provider", "User Info eror: ${response.statusCode}");
+      if (response.statusCode == 200) {
         _userInfo = UserInfo.fromJson(response.data);
-        AppNotifier.printFunction("User Info Fetching: ",_userInfo);
-      }else if(response.statusCode == 401){
-     _error = response.statusCode.toString();
-    }else{
+        AppNotifier.logWithScreen(
+            "User Info Provider", "User Info Fetching: $_userInfo");
+      } else {
         _error = 'Failed to load user data';
-        AppNotifier.printFunction("User Info Error: ","$_error ${response.statusCode}");
+        AppNotifier.logWithScreen("User Info Provider",
+            "User Info Error: $_error ${response.statusCode}");
       }
-    }catch(e){
+    } catch (e) {
       _error = e.toString();
-      AppNotifier.printFunction("User Info Exception: ",_error);
+      AppNotifier.logWithScreen(
+          "User Info Provider", "User Info Exception: $_error");
     }
     _loading = false;
     notifyListeners();

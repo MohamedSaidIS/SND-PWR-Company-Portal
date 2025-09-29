@@ -8,6 +8,7 @@ import 'package:provider/provider.dart';
 
 import '../../providers/user_info_provider.dart';
 import '../../service/secure_storage_service.dart';
+import '../../utils/app_notifier.dart';
 
 class DashboardScreen extends StatefulWidget {
   const DashboardScreen({super.key});
@@ -19,7 +20,7 @@ class DashboardScreen extends StatefulWidget {
 class _DashboardScreenState extends State<DashboardScreen> {
   final CookieManager cookieManager = CookieManager.instance();
   final String sharepointUrl = "https://alsanidi.sharepoint.com";
-  late InAppWebViewController webViewController;
+  late InAppWebViewController? webViewController;
   double webProgress = 0;
   String? accessToken;
 
@@ -39,7 +40,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
     });
     SecureStorageService().getData("SharePointAccessToken").then((value) {
       setState(() {
-        print("DashBoard Token: $value");
+        AppNotifier.logWithScreen("Dashboard Screen","DashBoard Token: $value");
         accessToken = value.trim();
       });
     });
@@ -56,11 +57,11 @@ class _DashboardScreenState extends State<DashboardScreen> {
       if (value != null && value.toString().isNotEmpty) {
         String domain = c["domain"];
 
-        print("✅ Restored Cookie: ${c["name"]} =========== $value");
+        AppNotifier.logWithScreen("Dashboard Screen","✅ Restored Cookie: ${c["name"]} =========== $value");
 
         if (c["name"] == "FedAuth" || c["name"] == "rtFa") {
           domain = ".sharepoint.com";
-          print("✅ Restored Cookie Domain: $domain");
+          AppNotifier.logWithScreen("Dashboard Screen","✅ Restored Cookie Domain: $domain");
         }
 
         await cookieManager.setCookie(
@@ -72,23 +73,23 @@ class _DashboardScreenState extends State<DashboardScreen> {
           isSecure: c["isSecure"] ?? true,
           isHttpOnly: c["isHttpOnly"] ?? true,
         );
-        print("Restored Cookie: ${c["name"]}=$value; domain=$domain");
+        AppNotifier.logWithScreen("Dashboard Screen","Restored Cookie: ${c["name"]}=$value; domain=$domain");
       }
     }
 
     if (mounted) {
-      await webViewController.loadUrl(
+      await webViewController?.loadUrl(
         urlRequest: URLRequest(url: WebUri(sharepointUrl)),
       );
     }
 
-    print("✅ Cookies restored and WebView reloaded");
+    AppNotifier.logWithScreen("Dashboard Screen","✅ Cookies restored and WebView reloaded");
   }
 
   Future<void> _saveCookies() async {
     final cookies = await cookieManager.getCookies(url: WebUri(sharepointUrl));
     for (var c in cookies) {
-      print("Restored Cookie: ${c.name}=${c.value}; domain=${c.domain}");
+      AppNotifier.logWithScreen("Dashboard Screen","Restored Cookie: ${c.name}=${c.value}; domain=${c.domain}");
     }
 
     final cookiesList = cookies
@@ -107,16 +108,21 @@ class _DashboardScreenState extends State<DashboardScreen> {
 
     await SecureStorageService().saveData("savedCookies", cookiesJson);
 
-    print("Cookies saved to storage: $cookiesJson");
+    AppNotifier.logWithScreen("Dashboard Screen", "Cookies saved to storage: $cookiesJson");
   }
 
+  @override
+  void dispose() {
+    webViewController = null;
+    super.dispose();
+  }
   @override
   Widget build(BuildContext context) {
     final userInfoProvider = context.watch<UserInfoProvider>();
     final userInfo = userInfoProvider.userInfo;
 
     if (userInfo != null) {
-      print("User Info: ${userInfo.id}");
+      AppNotifier.logWithScreen("Dashboard Screen","User Info: ${userInfo.id}");
       SharedPrefsHelper().saveUserData("UserId", userInfo.id);
     }
 
@@ -155,10 +161,11 @@ class _DashboardScreenState extends State<DashboardScreen> {
                     webViewController = controller;
                   },
                   onLoadStop: (controller, url) async {
-                    print("Finished loading: $url");
+                    AppNotifier.logWithScreen("Dashboard Screen","Finished loading: $url");
                     await _saveCookies();
                   },
                   onProgressChanged: (controller, progress) {
+                    if (!mounted) return;
                     setState(() {
                       webProgress = progress / 100;
                     });

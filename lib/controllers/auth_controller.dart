@@ -1,8 +1,11 @@
 import 'dart:convert';
 
+import 'package:company_portal/utils/context_extensions.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_appauth/flutter_appauth.dart';
 import '../config/env_config.dart';
+import '../screens/login/login_screen_new.dart';
 import '../utils/app_notifier.dart';
 import '../utils/biomertic_auth.dart';
 import '../utils/enums.dart';
@@ -48,7 +51,7 @@ class AuthController {
       await secureStorage.saveData(
           "TokenSavedAt", DateTime.now().toIso8601String());
 
-      print("✅ Login successful, refresh token saved.");
+      AppNotifier.logWithScreen("Auth Controller", "✅ Login successful, refresh token saved.");
       return true;
     } catch (e) {
       _showError("Login error: $e");
@@ -77,7 +80,7 @@ class AuthController {
       final accessToken = result.accessToken;
       if (accessToken != null) {
         await secureStorage.saveData("GraphAccessToken", accessToken);
-        print("✅ Graph token retrieved");
+        AppNotifier.logWithScreen("Auth Controller","✅ Graph token retrieved");
       }
       return accessToken;
     } catch (e) {
@@ -107,7 +110,7 @@ class AuthController {
       final accessToken = result?.accessToken;
       if (accessToken != null) {
         await secureStorage.saveData("SharePointAccessToken", accessToken);
-        print("✅ SharePoint token retrieved");
+        AppNotifier.logWithScreen("Auth Controller","✅ SharePoint token retrieved");
       }
       return accessToken;
     } catch (e) {
@@ -121,7 +124,7 @@ class AuthController {
   }
 
   void _showError(String message) {
-    print("LoginError: $message");
+    AppNotifier.logWithScreen("Auth Controller", "LoginError: $message");
     AppNotifier.snackBar(context, message, SnackBarType.error);
   }
 

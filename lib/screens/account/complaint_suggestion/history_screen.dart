@@ -7,6 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:shimmer/shimmer.dart';
 import '../../../providers/complaint_suggestion_provider.dart';
+import '../../../utils/app_notifier.dart';
 import 'history_item_details.dart';
 
 class HistoryScreen extends StatefulWidget {
@@ -24,7 +25,7 @@ class _HistoryScreenState extends State<HistoryScreen> {
   void initState() {
     WidgetsBinding.instance.addPostFrameCallback((_) {
       final complaintSuggestionProvider =
-          context.read<ComplaintSuggestionProvider>();
+      context.read<ComplaintSuggestionProvider>();
 
       complaintSuggestionProvider.fetchSuggestionsAndComplaints(widget.userInfo.id);
     });
@@ -34,72 +35,76 @@ class _HistoryScreenState extends State<HistoryScreen> {
   @override
   Widget build(BuildContext context) {
     final complaintSuggestionProvider =
-        context.watch<ComplaintSuggestionProvider>();
+    context.watch<ComplaintSuggestionProvider>();
     final complaintSuggestionList =
-        complaintSuggestionProvider.complaintSuggestionList!.toList();
+    complaintSuggestionProvider.complaintSuggestionList!.toList();
+
+    if(complaintSuggestionProvider.error != null && complaintSuggestionProvider.error =="401"){
+      AppNotifier.loginAgain(context);
+    }
 
     final theme = context.theme;
     final local = context.local;
 
-    print("Image: ${widget.userImage != null}");
+    AppNotifier.logWithScreen("History Screen","Image: ${widget.userImage != null}");
 
     return Scaffold(
       backgroundColor: theme.colorScheme.background,
       body: complaintSuggestionProvider.loading
           ? _skeletonLoading(context)
           : ListView.builder(
-              padding: const EdgeInsets.all(10),
-              itemCount: complaintSuggestionList.length,
-              itemBuilder: (context, index) {
-                return InkWell(
-                  onTap: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => HistoryItemDetails(
-                          item: complaintSuggestionList[index],
-                          userImage: widget.userImage,
-                          userInfo: widget.userInfo,
-                        ),
-                      ),
-                    );
-                  },
-                  child: Container(
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(15),
-                      color: theme.colorScheme.primary.withOpacity(0.1),
-                    ),
-                    margin: const EdgeInsets.only(bottom: 10),
-                    child: Padding(
-                      padding: const EdgeInsets.only(top: 8.0,bottom: 8.0),
-                      child: ListTile(
-                        title: Text(
-                          complaintSuggestionList[index].fields!.title!,
-                          style: const TextStyle(
-                              fontSize: 15, fontWeight: FontWeight.bold),
-                        ),
-                        subtitle: Padding(
-                          padding: const EdgeInsets.symmetric(vertical: 5.0),
-                          child: Text(
-                            "${local.issueID}: ${complaintSuggestionList[index].id!}",
-                            style: TextStyle(
-                                fontSize: 15,
-                                fontWeight: FontWeight.w500,
-                                color: theme.colorScheme.secondary),
-                          ),
-                        ),
-                        trailing: Transform.translate(
-                          offset: const Offset(10, 0),
-                          child: StatusBadge(
-                            status: complaintSuggestionList[index].fields!.status!,
-                          ),
-                        ),
-                      ),
+        padding: const EdgeInsets.all(10),
+        itemCount: complaintSuggestionList.length,
+        itemBuilder: (context, index) {
+          return InkWell(
+            onTap: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => HistoryItemDetails(
+                    item: complaintSuggestionList[index],
+                    userImage: widget.userImage,
+                    userInfo: widget.userInfo,
+                  ),
+                ),
+              );
+            },
+            child: Container(
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(15),
+                color: theme.colorScheme.primary.withOpacity(0.1),
+              ),
+              margin: const EdgeInsets.only(bottom: 10),
+              child: Padding(
+                padding: const EdgeInsets.only(top: 8.0,bottom: 8.0),
+                child: ListTile(
+                  title: Text(
+                    complaintSuggestionList[index].fields!.title!,
+                    style: const TextStyle(
+                        fontSize: 15, fontWeight: FontWeight.bold),
+                  ),
+                  subtitle: Padding(
+                    padding: const EdgeInsets.symmetric(vertical: 5.0),
+                    child: Text(
+                      "${local.issueID}: ${complaintSuggestionList[index].id!}",
+                      style: TextStyle(
+                          fontSize: 15,
+                          fontWeight: FontWeight.w500,
+                          color: theme.colorScheme.secondary),
                     ),
                   ),
-                );
-              },
+                  trailing: Transform.translate(
+                    offset: const Offset(10, 0),
+                    child: StatusBadge(
+                      status: complaintSuggestionList[index].fields!.status!,
+                    ),
+                  ),
+                ),
+              ),
             ),
+          );
+        },
+      ),
     );
   }
 }

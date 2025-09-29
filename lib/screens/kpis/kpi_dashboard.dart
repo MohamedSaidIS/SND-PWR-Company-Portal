@@ -9,6 +9,7 @@ import '../../common/custom_app_bar.dart';
 import '../../data/user_data.dart';
 import '../../providers/kpis_provider.dart';
 import '../../service/sharedpref_service.dart';
+import '../../utils/app_notifier.dart';
 
 class KpiScreen extends StatefulWidget {
   const KpiScreen({
@@ -41,10 +42,10 @@ class _KpiScreenState extends State<KpiScreen> {
 
   Future<void> fetchKpis() async {
     final userId = await SharedPrefsHelper().getUserData("UserId");
-    print("Fetching KPI for UserId: $userId, isUAT: $isUAT");
+    AppNotifier.logWithScreen("KPI Dashboard Screen","Fetching KPI for UserId: $userId, isUAT: $isUAT");
 
     isTester = testerIds.contains(userId);
-    print("IsTaster: $isTester");
+    AppNotifier.logWithScreen("KPI Dashboard Screen","IsTaster: $isTester");
 
 
     final salesKpiProvider = context.read<KPIProvider>();
@@ -103,7 +104,7 @@ class _KpiScreenState extends State<KpiScreen> {
     final weeklyValue = KpiCalculationHandler.generateDays(startDate, local);
 
     if (salesKpis.isNotEmpty) {
-      print("SalesKpis: ${salesKpis[0].lastSalesAmount} ");
+      AppNotifier.logWithScreen("KPI Dashboard Screen","SalesKpis: ${salesKpis[0].lastSalesAmount} ");
 
       monthlyTarget = salesKpis.isNotEmpty ? salesKpis.last.monthlyTarget : 0.0;
       daily = KpiCalculationHandler.calculateDailySales(
@@ -116,22 +117,22 @@ class _KpiScreenState extends State<KpiScreen> {
 
       if (weekly.isNotEmpty) {
         for (var i in weekly) {
-          print("weekly: ${i.weekNumber}");
+          AppNotifier.logWithScreen("KPI Dashboard Screen","weekly: ${i.weekNumber}");
         }
         if (currentWeekNumber == selectedWeek) {
           currentWeek = weekly.firstWhere(
-              (element) => element.weekNumber == currentWeekNumber,
+                  (element) => element.weekNumber == currentWeekNumber,
               orElse: () => WeeklyKPI(weekNumber: 0, totalSales: 0.0, monthNumber: 0));
 
-          print("CurrentWeek Matching To SelectedWeek: ${currentWeek.weekNumber}");
+          AppNotifier.logWithScreen("KPI Dashboard Screen","CurrentWeek Matching To SelectedWeek: ${currentWeek.weekNumber}");
         } else {
           // filtered by week different with currentWeek
           currentWeek = weekly.firstWhere(
-              (element) => element.weekNumber == selectedWeek,
+                  (element) => element.weekNumber == selectedWeek,
               orElse: () => WeeklyKPI(
                   weekNumber: selectedWeek!, totalSales: 0.0, monthNumber: 0));
 
-          print("CurrentWeek Not Matching To SelectedWeek: ${currentWeek.weekNumber} ${currentWeek.totalSales}");
+          AppNotifier.logWithScreen("KPI Dashboard Screen","CurrentWeek Not Matching To SelectedWeek: ${currentWeek.weekNumber} ${currentWeek.totalSales}");
         }
       }
     }
@@ -157,59 +158,59 @@ class _KpiScreenState extends State<KpiScreen> {
           isLoading
               ? const Expanded(child: Center(child: CircularProgressIndicator()))
               : Expanded(
-                  child: Padding(
-                    padding: const EdgeInsets.all(1),
-                    child: GridView.builder(
-                      gridDelegate:
-                          const SliverGridDelegateWithFixedCrossAxisCount(
-                        crossAxisCount: 2,
-                        childAspectRatio: 0.7,
-                      ),
-                      itemCount: 3,
-                      itemBuilder: (context, index) {
-                        switch (index) {
-                          case 0:
-                            return KpiPieChart(
-                              title: local.dailyKpi,
-                              achieved: daily,
-                              target: monthlyTarget.toDouble(),
-                              salesKpi: salesKpis,
-                              currentWeek: currentWeek,
-                              selectedMonth: selectedMonth,
-                              selectedWeek: selectedWeek,
-                              weeklyValues: weeklyValue,
-                            );
-                          case 1:
-                            double achievedValue =
-                                getAchievedValue(currentWeek, weekly);
-                            return KpiPieChart(
-                              title: local.weeklyKpi,
-                              achieved: achievedValue,
-                              target: monthlyTarget.toDouble(),
-                              salesKpi: salesKpis,
-                              currentWeek: currentWeek,
-                              selectedMonth: selectedMonth,
-                              selectedWeek: selectedWeek,
-                              weeklyValues: weeklyValue,
-                            );
-                          case 2:
-                            return KpiPieChart(
-                              title: local.monthlyKpi,
-                              achieved: monthly,
-                              target: monthlyTarget.toDouble(),
-                              salesKpi: salesKpis,
-                              currentWeek: currentWeek,
-                              selectedMonth: selectedMonth,
-                              selectedWeek: selectedWeek,
-                              weeklyValues: weeklyValue,
-                            );
-                          default:
-                            return const SizedBox.shrink();
-                        }
-                      },
-                    ),
-                  ),
+            child: Padding(
+              padding: const EdgeInsets.all(1),
+              child: GridView.builder(
+                gridDelegate:
+                const SliverGridDelegateWithFixedCrossAxisCount(
+                  crossAxisCount: 2,
+                  childAspectRatio: 0.7,
                 ),
+                itemCount: 3,
+                itemBuilder: (context, index) {
+                  switch (index) {
+                    case 0:
+                      return KpiPieChart(
+                        title: local.dailyKpi,
+                        achieved: daily,
+                        target: monthlyTarget.toDouble(),
+                        salesKpi: salesKpis,
+                        currentWeek: currentWeek,
+                        selectedMonth: selectedMonth,
+                        selectedWeek: selectedWeek,
+                        weeklyValues: weeklyValue,
+                      );
+                    case 1:
+                      double achievedValue =
+                      getAchievedValue(currentWeek, weekly);
+                      return KpiPieChart(
+                        title: local.weeklyKpi,
+                        achieved: achievedValue,
+                        target: monthlyTarget.toDouble(),
+                        salesKpi: salesKpis,
+                        currentWeek: currentWeek,
+                        selectedMonth: selectedMonth,
+                        selectedWeek: selectedWeek,
+                        weeklyValues: weeklyValue,
+                      );
+                    case 2:
+                      return KpiPieChart(
+                        title: local.monthlyKpi,
+                        achieved: monthly,
+                        target: monthlyTarget.toDouble(),
+                        salesKpi: salesKpis,
+                        currentWeek: currentWeek,
+                        selectedMonth: selectedMonth,
+                        selectedWeek: selectedWeek,
+                        weeklyValues: weeklyValue,
+                      );
+                    default:
+                      return const SizedBox.shrink();
+                  }
+                },
+              ),
+            ),
+          ),
         ],
       ),
     );

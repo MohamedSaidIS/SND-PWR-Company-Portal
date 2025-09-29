@@ -2,16 +2,18 @@
 import 'dart:typed_data';
 
 import 'package:auto_size_text/auto_size_text.dart';
+import 'package:company_portal/models/remote/user_info.dart';
 import 'package:company_portal/providers/sp_ensure_user.dart';
 import 'package:company_portal/utils/context_extensions.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
+import '../../../utils/app_notifier.dart';
 import 'complaint_suggestion_form_screen.dart';
 import 'history_screen.dart';
 
 class ComplaintSuggestionScreen extends StatefulWidget {
-  final dynamic userInfo;
+  final UserInfo? userInfo;
   final Uint8List? userImage;
 
   const ComplaintSuggestionScreen(
@@ -30,7 +32,7 @@ class _ComplaintSuggestionScreenState extends State<ComplaintSuggestionScreen> {
     WidgetsBinding.instance.addPostFrameCallback((_) {
       final provider = context.read<SPEnsureUserProvider>();
 
-      provider.fetchEnsureUser("SMD01@alsanidi.com.sa");
+      provider.fetchEnsureUser("${widget.userInfo!.mail}");
 
     });
   }
@@ -47,10 +49,12 @@ class _ComplaintSuggestionScreenState extends State<ComplaintSuggestionScreen> {
     final isTablet = context.isTablet();
 
     if(!ensureUserProvider.loading && ensureUserProvider.error == null){
-      print("EnsureUser: ${ensureUser?.id} ${ensureUser?.email}");
+      AppNotifier.logWithScreen("ComplaintSuggestion Screen","EnsureUser: ${ensureUser?.id} ${ensureUser?.email}");
+    }else if(ensureUserProvider.error != null && ensureUserProvider.error == "401"){
+      AppNotifier.loginAgain(context);
     }
 
-    print("Image: ${widget.userImage != null}");
+    AppNotifier.logWithScreen("ComplaintSuggestion Screen","Image: ${widget.userImage != null}");
 
     return PopScope(
       canPop: false,
@@ -107,7 +111,7 @@ class _ComplaintSuggestionScreenState extends State<ComplaintSuggestionScreen> {
           body: TabBarView(
             children: [
               ComplaintSuggestionFormScreen(
-                userName: "${widget.userInfo.givenName} ${widget.userInfo.surname}",
+                userName: "${widget.userInfo?.givenName} ${widget.userInfo?.surname}",
                 ensureUserId: ensureUser?.id ?? -1,
               ),
               HistoryScreen(userInfo: widget.userInfo, userImage: widget.userImage),
