@@ -58,6 +58,7 @@ class _HistoryItemDetailsState extends State<HistoryItemDetails> {
 
     return Portal(
       child: Scaffold(
+        resizeToAvoidBottomInset: true,
         backgroundColor: theme.colorScheme.background,
         appBar: CustomAppBar(
           title: local.issue_details,

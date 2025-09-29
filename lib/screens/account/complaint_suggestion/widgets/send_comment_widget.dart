@@ -81,7 +81,7 @@ class _SendCommentWidgetState extends State<SendCommentWidget> {
       return mentions;
     }
     List<Map<String, dynamic>> extractMentionsByDisplay(String text, List<Map<String, dynamic>> mentionUsers,) {
-      final regex = RegExp(r'@([A-Za-z0-9 ()._-]+)');
+      final regex = RegExp(r'@(?:.+?\(([^)]+)\)|([A-Za-z0-9 ()._-]+))(?=\s|$)');
       final matches = regex.allMatches(text);
 
       mentionUsers.forEach((element) => AppNotifier.logWithScreen("SendComment Screen","Mention Element: $element"));
@@ -93,7 +93,7 @@ class _SendCommentWidgetState extends State<SendCommentWidget> {
         final displayName = match.group(1)?.trim(); // "Amira Mohamed"
         if (displayName != null) {
           final user = mentionUsers.firstWhere(
-                (u) => u['display'] == displayName,
+                (u) =>  (u['display'] as String).toLowerCase().contains(displayName.toLowerCase()),
             orElse: () => {},
           );
           AppNotifier.logWithScreen("SendComment Screen","Match User: $user");
@@ -110,13 +110,14 @@ class _SendCommentWidgetState extends State<SendCommentWidget> {
       child: Padding(
         padding: EdgeInsets.only(
           bottom: MediaQuery.of(context).viewInsets.bottom,
+          right: 10,
+          left: 10,
         ),
         child: Container(
-          padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 10),
+          padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 8),
           decoration: BoxDecoration(
-            borderRadius: const BorderRadius.only(
-              topLeft: Radius.circular(20),
-              topRight: Radius.circular(20),
+            borderRadius: const BorderRadius.all(
+              Radius.circular(25),
             ),
             color: theme.colorScheme.background,
             boxShadow: const [BoxShadow(color: Colors.grey, blurRadius: 10)],
@@ -137,7 +138,7 @@ class _SendCommentWidgetState extends State<SendCommentWidget> {
               fillColor: Colors.white,
               border: InputBorder.none,
               contentPadding:
-                  const EdgeInsets.only(left: 15, top: 10, bottom: 20),
+                  const EdgeInsets.only(left: 15, top: 10, bottom: 10),
               hintText: "Add a comment",
               suffixIcon: IconButton(
                 onPressed: () async {
