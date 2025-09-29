@@ -22,7 +22,7 @@ class KPIDioClient {
   }
 
   Future<String?> getToken(bool isUAT) async {
-    print("KpiUAT: $isUAT");
+    AppNotifier.logWithScreen("Kpi DioClient","KpiUAT: $isUAT");
     const url =
         "https://login.microsoftonline.com/3e2223b9-a7ca-4c74-9555-66e0cd43c412/oauth2/token";
     final response = await dio.post(
@@ -46,7 +46,7 @@ class KPIDioClient {
     isUAT ? _uatTokenSavedAt = DateTime.now()
         : _prodTokenSavedAt = DateTime.now();
 
-    AppNotifier.printFunction("KpiAccessToken", _uatAccessToken ?? _prodAccessToken);
+    AppNotifier.logWithScreen("KPI DioClient: ","KpiAccessToken ${_uatAccessToken ?? _prodAccessToken}" );
     return isUAT ? _uatAccessToken: _prodAccessToken;
   }
 
@@ -73,9 +73,9 @@ class KPIDioClient {
   }
 
   Future<Response> getRequest(
-    String url,
-    bool isUAT,
-  ) async {
+      String url,
+      bool isUAT,
+      ) async {
     await ensureToken(isUAT);
 
     return await dio.get(

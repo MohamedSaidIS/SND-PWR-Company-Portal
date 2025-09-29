@@ -1,3 +1,5 @@
+import 'dart:ui';
+
 import 'package:aad_oauth/aad_oauth.dart';
 import 'package:company_portal/service/sharedpref_service.dart';
 import 'package:company_portal/utils/app_notifier.dart';
@@ -11,7 +13,9 @@ class SharePointDioClient {
   final FlutterAppAuth appAuth;
   final SecureStorageService secureStorage = SecureStorageService();
 
-  SharePointDioClient({required this.appAuth}) {
+  final VoidCallback onUnauthorized;
+
+  SharePointDioClient({required this.appAuth, required this.onUnauthorized}) {
     dio = Dio(BaseOptions(
       baseUrl: EnvConfig.spBaseUrl,
       connectTimeout: const Duration(seconds: 30),
@@ -28,18 +32,23 @@ class SharePointDioClient {
           String? token = await secureStorage.getData("SharePointAccessToken");
 
           final expired = await isTokenExpired();
-          print("Shared AccessToken Expired $expired");
+          AppNotifier.logWithScreen("SharePoint DioClient","Shared AccessToken Expired $expired");
           if (expired) {
             token = await _refreshToken();
-            print("Shared AccessToken Expired And New Token is $token");
+            AppNotifier.logWithScreen("SharePoint DioClient","Shared AccessToken Expired And New Token is $token");
           }
           if (token != null) {
-            print("Shared AccessToken Expired And not null Token is $token");
+            AppNotifier.logWithScreen("SharePoint DioClient","Shared AccessToken Expired And not null Token is $token");
             options.headers['Authorization'] = 'Bearer $token';
           }
           handler.next(options);
         },
         onError: (error, handler) {
+          if (error.response?.statusCode == 401) {
+            // Logout or redirect to login
+            AppNotifier.logWithScreen("DioClient","Graph AccessToken Expired And Error 401");
+            onUnauthorized();
+          }
           return handler.next(error);
         },
       ),
@@ -64,7 +73,7 @@ class SharePointDioClient {
     try {
       final refreshToken = await secureStorage.getData("RefreshToken");
       if (refreshToken == null) {
-        AppNotifier.printFunction("SharedRefreshToken missing", "User must login again");
+        AppNotifier.logWithScreen("SharedRefreshToken missing", "User must login again");
         return null;
       }
 
@@ -82,7 +91,7 @@ class SharePointDioClient {
       );
 
       if (result.accessToken == null) {
-        AppNotifier.printFunction("SharedRefreshToken failed", "Null token response");
+        AppNotifier.logWithScreen("SharedRefreshToken failed", "Null token response");
         return null;
       }
 
@@ -95,7 +104,7 @@ class SharePointDioClient {
 
       return result.accessToken!;
     } catch (e) {
-      AppNotifier.printFunction('SharedRefreshToken token failed', '$e');
+      AppNotifier.logWithScreen('SharedRefreshToken token failed', '$e');
     }
     return null;
   }

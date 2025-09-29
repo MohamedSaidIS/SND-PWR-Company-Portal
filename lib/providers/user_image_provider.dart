@@ -32,25 +32,30 @@ class UserImageProvider extends ChangeNotifier {
     notifyListeners();
 
     try {
-      final response = await dioClient.dio.get('/me/photo/\$value',
-          options: Options(
-            responseType: ResponseType.bytes,
-            headers: {
-              'Content-Type': 'image/jpeg',
-            },
-          ),
+      final response = await dioClient.dio.get(
+        '/me/photo/\$value',
+        options: Options(
+          responseType: ResponseType.bytes,
+          headers: {
+            'Content-Type': 'image/jpeg',
+          },
+        ),
       );
 
       if (response.statusCode == 200) {
         _fetchedImageBytes = Uint8List.fromList(response.data);
-        AppNotifier.printFunction("User Image Fetching Success: ", _fetchedImageBytes);
-      }
-      else {
+        AppNotifier.logWithScreen("User Image Provider",
+            "User Image Fetching Success: $_fetchedImageBytes");
+      } else if (response.statusCode == 401) {
+        _error = response.statusMessage.toString();
+      } else {
         _error = 'Failed to load user image';
-        AppNotifier.printFunction("User Image Error: ", "$_error ${response.statusCode}");
+        AppNotifier.logWithScreen("User Image Provider",
+            "User Image Error: $_error ${response.statusCode}");
       }
     } catch (e) {
-      AppNotifier.printFunction("User Image Exception: ", e.toString());
+      AppNotifier.logWithScreen(
+          "User Image Provider", "User Image Exception: ${e.toString()}");
     }
 
     _loading = false;
@@ -66,31 +71,29 @@ class UserImageProvider extends ChangeNotifier {
     try {
       final imageBytes = await imageFile.readAsBytes();
 
-      final response = await dioClient.dio.put(
-        '/me/photo/\$value',
-        data: imageBytes,
-        options: Options(
-          headers: {
-            'Content-Type': 'image/jpeg',
-          },
-        )
-      );
+      final response = await dioClient.dio.put('/me/photo/\$value',
+          data: imageBytes,
+          options: Options(
+            headers: {
+              'Content-Type': 'image/jpeg',
+            },
+          ));
 
       if (response.statusCode == 200 || response.statusCode == 204) {
-        AppNotifier.printFunction(
-            "Upload Image Success", "Photo updated Successfully");
+        AppNotifier.logWithScreen("User Image Provider",
+            "Upload Image Success: Photo updated Successfully");
         return true;
       } else {
         _error = 'Failed to upload image to server';
-        AppNotifier.printFunction(
-            "Upload Image Error: ", "$_error ${response.statusCode}");
+        AppNotifier.logWithScreen("User Image Provider",
+            "Upload Image Error: $_error ${response.statusCode}");
       }
     } catch (e) {
-      AppNotifier.printFunction("Upload Image Exception: ", e.toString());
+      AppNotifier.logWithScreen(
+          "User Image Provider", "Upload Image Exception: ${e.toString()}");
     }
     _isUploading = false;
     notifyListeners();
     return false;
   }
-
 }

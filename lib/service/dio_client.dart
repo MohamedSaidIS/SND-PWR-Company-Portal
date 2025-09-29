@@ -1,3 +1,5 @@
+import 'dart:ui';
+
 import 'package:aad_oauth/aad_oauth.dart';
 import 'package:company_portal/service/sharedpref_service.dart';
 import 'package:company_portal/utils/app_notifier.dart';
@@ -11,7 +13,9 @@ class DioClient {
   final FlutterAppAuth appAuth;
   final SecureStorageService secureStorage = SecureStorageService();
 
-  DioClient({required this.appAuth}) {
+  final VoidCallback onUnauthorized;
+
+  DioClient({required this.appAuth, required this.onUnauthorized}) {
     dio = Dio(BaseOptions(
       baseUrl: EnvConfig.baseUrl,
       connectTimeout: const Duration(seconds: 30),
@@ -28,19 +32,24 @@ class DioClient {
           String? token = await secureStorage.getData("GraphAccessToken");
 
           final expired = await isTokenExpired();
-          print("Graph AccessToken Expired $expired");
+          AppNotifier.logWithScreen("DioClient","Graph AccessToken Expired $expired");
           if (expired) {
             token = await _refreshToken();
-            print("Graph AccessToken Expired And New Token is $token");
+            AppNotifier.logWithScreen("DioClient","Graph AccessToken Expired And New Token is $token");
           }
           if (token != null) {
-            print("Graph AccessToken Expired And not null Token is $token");
+            AppNotifier.logWithScreen("DioClient","Graph AccessToken Expired And not null Token is $token");
             options.headers['Authorization'] = 'Bearer $token';
           }
           handler.next(options);
         },
         onError: (error, handler) {
-          return handler.next(error);
+          if (error.response?.statusCode == 401) {
+            // Logout or redirect to login
+            AppNotifier.logWithScreen("DioClient","Graph AccessToken Expired And Error 401");
+            onUnauthorized();
+          }
+          handler.next(error);
         },
       ),
     );
@@ -64,8 +73,7 @@ class DioClient {
     try {
       final refreshToken = await secureStorage.getData("RefreshToken");
       if (refreshToken == null) {
-        AppNotifier.printFunction(
-            "GraphRefreshToken missing", "User must login again");
+        AppNotifier.logWithScreen("DioClient","GraphRefreshToken missing User must login again");
         return null;
       }
 
@@ -74,7 +82,7 @@ class DioClient {
           EnvConfig.msClientId,
           EnvConfig.msRedirectUri,
           discoveryUrl:
-              "https://login.microsoftonline.com/${EnvConfig.msTenantId}/v2.0/.well-known/openid-configuration",
+          "https://login.microsoftonline.com/${EnvConfig.msTenantId}/v2.0/.well-known/openid-configuration",
           refreshToken: refreshToken,
           scopes: [
             "openid",
@@ -87,8 +95,7 @@ class DioClient {
       );
 
       if (result == null || result.accessToken == null) {
-        AppNotifier.printFunction(
-            "GraphRefreshToken failed", "Null token response");
+        AppNotifier.logWithScreen("DioClient", "GraphRefreshToken failed Null token response");
         return null;
       }
 
@@ -102,7 +109,7 @@ class DioClient {
 
       return result.accessToken!;
     } catch (e) {
-      AppNotifier.printFunction('GraphRefreshToken token failed', '$e');
+      AppNotifier.logWithScreen("DioClient", "GraphRefreshToken token failed $e");
     }
     return null;
   }

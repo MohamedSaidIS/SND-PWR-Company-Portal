@@ -1,5 +1,6 @@
 import 'package:aad_oauth/aad_oauth.dart';
 import 'package:company_portal/config/env_config.dart';
+import 'package:company_portal/providers/all_organization_users_provider.dart';
 import 'package:company_portal/providers/complaint_suggestion_provider.dart';
 import 'package:company_portal/providers/direct_reports_provider.dart';
 import 'package:company_portal/providers/kpis_provider.dart';
@@ -13,6 +14,7 @@ import 'package:company_portal/service/dio_client.dart';
 import 'package:company_portal/service/shared_point_dio_client.dart';
 import 'package:company_portal/splash_screen.dart';
 import 'package:company_portal/theme/theme_provider.dart';
+import 'package:company_portal/utils/app_notifier.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_appauth/flutter_appauth.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
@@ -35,10 +37,20 @@ void main() async {
             create: (_) =>
                 AadOAuth(AuthConfig.createMicrosoftConfig(navigatorKey))),
         Provider<DioClient>(
-          create: (_) => DioClient(appAuth: const FlutterAppAuth()),
+          create: (context) => DioClient(
+            appAuth: const FlutterAppAuth(),
+            onUnauthorized: () {
+              AppNotifier.loginAgain(context);
+            },
+          ),
         ),
         Provider<SharePointDioClient>(
-          create: (_) => SharePointDioClient(appAuth: const FlutterAppAuth()),
+          create: (context) => SharePointDioClient(
+            appAuth: const FlutterAppAuth(),
+            onUnauthorized: () {
+              AppNotifier.loginAgain(context);
+            },
+          ),
         ),
         Provider<KPIDioClient>(
           create: (_) => KPIDioClient(),
@@ -79,6 +91,11 @@ void main() async {
         ChangeNotifierProvider(
           create: (context) => SPEnsureUserProvider(
             sharePointDioClient: context.read<SharePointDioClient>(),
+          ),
+        ),
+        ChangeNotifierProvider(
+          create: (context) => AllOrganizationUsersProvider(
+            dioClient: context.read<DioClient>(),
           ),
         ),
         ChangeNotifierProvider(

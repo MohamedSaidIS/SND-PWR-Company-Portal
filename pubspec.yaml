@@ -73,6 +73,7 @@ dependencies:
   to_arabic_number: 1.0.0
   html_unescape: ^2.0.0
   flutter_web_auth_2: ^4.1.0
+  flutter_mentions: ^2.0.1
 
 dev_dependencies:
   flutter_test:

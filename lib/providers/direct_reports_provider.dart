@@ -32,16 +32,17 @@ class DirectReportsProvider with ChangeNotifier {
             .map((redirectJson) => DirectReport.fromJson(redirectJson))
             .toList();
 
-        AppNotifier.printFunction("DirectReport Fetching: ",
-            "${response.statusCode} $_directReportList ");
+        AppNotifier.logWithScreen("DirectReport Provider",
+            "DirectReport Fetching: ${response.statusCode} $_directReportList ");
       } else {
         _error = 'Failed to load direct_report data';
-        AppNotifier.printFunction(
-            "DirectReport Error: ", "$_error ${response.statusCode}");
+        AppNotifier.logWithScreen("DirectReport Provider",
+            "DirectReport Error: $_error ${response.statusCode}");
       }
     } catch (e) {
       _error = e.toString();
-      AppNotifier.printFunction("DirectReport Exception: ", _error);
+      AppNotifier.logWithScreen(
+          "DirectReport Provider", "DirectReport Exception: $_error");
     }
     _loading = false;
     notifyListeners();

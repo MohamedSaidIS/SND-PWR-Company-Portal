@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
 import '../../../../models/remote/item_comments.dart';
+import '../../../../utils/app_notifier.dart';
 
 class CommentItem extends StatelessWidget {
   final ItemComments comment;
@@ -128,7 +129,7 @@ class CommentItem extends StatelessWidget {
                 ),
                 recognizer: TapGestureRecognizer()
                   ..onTap = () {
-                    print("Clicked on mention: ${part.name}");
+                    AppNotifier.logWithScreen("CommentItem Screen","Clicked on mention: ${part.name}");
                   },
               );
             } else {

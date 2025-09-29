@@ -1,9 +1,11 @@
 import 'dart:typed_data';
 
+import 'package:company_portal/models/remote/user_info.dart';
 import 'package:company_portal/utils/context_extensions.dart';
 import 'package:flutter/material.dart';
 import 'package:line_awesome_flutter/line_awesome_flutter.dart';
 
+import '../../../../utils/app_notifier.dart';
 import '../../../../utils/app_separators.dart';
 import '../../complaint_suggestion/complaint_suggestion_screen.dart';
 import 'menu_widget.dart';
@@ -12,7 +14,7 @@ import '../../redirect_reports/redirect_reports_screen.dart';
 import '../../user_info/user_info_details_screen.dart';
 
 class MenuSection extends StatelessWidget {
-  final dynamic userInfo;
+  final UserInfo? userInfo;
   final VoidCallback onLogout;
   final Uint8List? userImage;
 
@@ -27,7 +29,7 @@ class MenuSection extends StatelessWidget {
   Widget build(BuildContext context) {
     final theme = context.theme;
     final local = context.local;
-    print("Image: ${userImage}");
+    AppNotifier.logWithScreen("Menu Screen","Image: ${userImage}");
 
     return Column(
       children: [
@@ -35,9 +37,9 @@ class MenuSection extends StatelessWidget {
           title: local.userInformation,
           icon: LineAwesomeIcons.user,
           navigatedPage: () => UserInfoDetailsScreen(
-              userName: "${userInfo.givenName} ${userInfo.surname}",
-              userPhone: userInfo.mobilePhone,
-              userOfficeLocation: userInfo.officeLocation),
+              userName: "${userInfo?.givenName} ${userInfo?.surname}",
+              userPhone: userInfo?.mobilePhone ?? "",
+              userOfficeLocation: userInfo?.officeLocation ?? ""),
           textColor: theme.colorScheme.primary,
         ),
         MenuWidget(
@@ -58,8 +60,8 @@ class MenuSection extends StatelessWidget {
           icon: LineAwesomeIcons.hands_helping_solid,
           //textColor: theme.colorScheme.primary,
           navigatedPage: () => ComplaintSuggestionScreen(
-            userInfo: userInfo,
-            userImage: userImage),
+              userInfo: userInfo,
+              userImage: userImage),
         ),
         AppSeparators.dividerSeparate(),
         MenuWidget(

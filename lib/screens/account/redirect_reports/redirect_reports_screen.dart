@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import '../../../common/custom_app_bar.dart';
+import '../../../utils/app_notifier.dart';
 
 class DirectReportsScreen extends StatefulWidget {
   const DirectReportsScreen({super.key,});
@@ -20,7 +21,7 @@ class _DirectReportsScreenState extends State<DirectReportsScreen> {
 
     WidgetsBinding.instance.addPostFrameCallback((_) {
       final directReportProvider =
-          Provider.of<DirectReportsProvider>(context, listen: false);
+      Provider.of<DirectReportsProvider>(context, listen: false);
       if (directReportProvider.directReportList == null) {
         directReportProvider.fetchRedirectReport();
       }
@@ -29,8 +30,7 @@ class _DirectReportsScreenState extends State<DirectReportsScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final directReportListProvider =
-        Provider.of<DirectReportsProvider>(context);
+    final directReportListProvider = Provider.of<DirectReportsProvider>(context);
     final directReportList = directReportListProvider.directReportList;
     final theme = context.theme;
     final local = context.local;
@@ -48,61 +48,61 @@ class _DirectReportsScreenState extends State<DirectReportsScreen> {
           child: directReportListProvider.loading
               ? const Center(child: CircularProgressIndicator())
               : directReportListProvider.error != null
-                  ? Center(
-                      child: Text("Error: ${directReportListProvider.error}"))
-                  : directReportListProvider.directReportList == null
+              ? Center(
+              child: Text("Error: ${directReportListProvider.error}"))
+              : directReportListProvider.directReportList == null
               ? const Center(child: CircularProgressIndicator())
               : directReportListProvider.directReportList!.isNotEmpty
-                      ? Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            SizedBox(
-                              height: 50,
-                              child: Text(
-                                "${local.yourTeamMembers}:",
-                                style: theme.textTheme.headlineMedium,
-                              ),
-                            ),
-                            Expanded(
-                              child: ListView.builder(
-                                itemCount: directReportList!.length,
-                                itemBuilder: (BuildContext context, int index) {
-                                  return Padding(
-                                    padding: const EdgeInsets.symmetric(
-                                        horizontal: 8.0),
-                                    child: DirectReportCardWidget(
-                                        directReportItem:
-                                            directReportList[index]),
-                                  );
-                                },
-                              ),
-                            ),
-                          ],
-                        )
-                      : Center(
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              SizedBox(
-                                height: 220,
-                                child: Image.asset(
-                                    "assets/images/no_team_member.png"),
-                              ),
-                              const SizedBox(height: 30),
-                              Text(
-                                local.noTeamMembersAssigned,
-                                style: theme.textTheme.displayLarge,
-                              ),
-                              const SizedBox(height: 8),
-                              Text(
-                                local
-                                    .thereAreCurrentlyNoTeamMembersAssignedToYouForDisplay,
-                                style: theme.textTheme.displaySmall,
-                                textAlign: TextAlign.center,
-                              ),
-                            ],
-                          ),
-                        ),
+              ? Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              SizedBox(
+                height: 50,
+                child: Text(
+                  "${local.yourTeamMembers}:",
+                  style: theme.textTheme.headlineMedium,
+                ),
+              ),
+              Expanded(
+                child: ListView.builder(
+                  itemCount: directReportList!.length,
+                  itemBuilder: (BuildContext context, int index) {
+                    return Padding(
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 8.0),
+                      child: DirectReportCardWidget(
+                          directReportItem:
+                          directReportList[index]),
+                    );
+                  },
+                ),
+              ),
+            ],
+          )
+              : Center(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                SizedBox(
+                  height: 220,
+                  child: Image.asset(
+                      "assets/images/no_team_member.png"),
+                ),
+                const SizedBox(height: 30),
+                Text(
+                  local.noTeamMembersAssigned,
+                  style: theme.textTheme.displayLarge,
+                ),
+                const SizedBox(height: 8),
+                Text(
+                  local
+                      .thereAreCurrentlyNoTeamMembersAssignedToYouForDisplay,
+                  style: theme.textTheme.displaySmall,
+                  textAlign: TextAlign.center,
+                ),
+              ],
+            ),
+          ),
         ),
       ),
     );

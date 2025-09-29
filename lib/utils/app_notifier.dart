@@ -1,17 +1,14 @@
-import 'package:aad_oauth/aad_oauth.dart';
 import 'package:company_portal/screens/login/login_screen_new.dart';
 import 'package:company_portal/utils/context_extensions.dart';
 import 'package:company_portal/service/secure_storage_service.dart';
 import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
-import 'package:provider/provider.dart';
-import 'package:url_launcher/url_launcher.dart';
-import '../config/env_config.dart';
 import 'enums.dart';
 
 class AppNotifier {
-  static void printFunction(String text, dynamic value) {
-    print("$text: $value");
+
+  static void logWithScreen(String screen, String message) {
+    print("[$screen] $message");
   }
 
   static void showLogoutDialog(BuildContext context) {
@@ -22,50 +19,59 @@ class AppNotifier {
       context: context,
       builder: (_) => FocusScope(
           child: AlertDialog(
-        title: Text(local.logout),
-        content: Text(local.areYouSureYouWantToLogout),
-        actions: <Widget>[
-          TextButton(
-            onPressed: () => Navigator.pop(context),
-            child: Text(
-              local.cancel,
-              style: const TextStyle(fontSize: 15),
-            ),
-          ),
-          TextButton(
-            child: Text(
-              local.logout,
-              style: TextStyle(
-                fontSize: 15,
-                color: theme.colorScheme.secondary,
+            title: Text(local.logout),
+            content: Text(local.areYouSureYouWantToLogout),
+            actions: <Widget>[
+              TextButton(
+                onPressed: () => Navigator.pop(context),
+                child: Text(
+                  local.cancel,
+                  style: const TextStyle(fontSize: 15),
+                ),
               ),
-            ),
-            onPressed: () async {
-              try {
-                await SecureStorageService().deleteData();
+              TextButton(
+                child: Text(
+                  local.logout,
+                  style: TextStyle(
+                    fontSize: 15,
+                    color: theme.colorScheme.secondary,
+                  ),
+                ),
+                onPressed: () async {
+                  try {
+                    await SecureStorageService().deleteData();
 
-                // final logoutUrl =
-                //     "https://login.microsoftonline.com/${EnvConfig.msTenantId}/oauth2/v2.0/logout"
-                //     "?post_logout_redirect_uri=${Uri.encodeComponent(EnvConfig.msRedirectUri)}";
-                //
-                // final launched = await launchUrl(Uri.parse(logoutUrl));
-                //
-                // if (!launched) {
-                //   debugPrint("⚠️ Logout URL لم يُفتح بنجاح");
-                // }
+                    // final logoutUrl =
+                    //     "https://login.microsoftonline.com/${EnvConfig.msTenantId}/oauth2/v2.0/logout"
+                    //     "?post_logout_redirect_uri=${Uri.encodeComponent(EnvConfig.msRedirectUri)}";
+                    //
+                    // final launched = await launchUrl(Uri.parse(logoutUrl));
+                    //
+                    // if (!launched) {
+                    //   debugPrint("⚠️ Logout URL لم يُفتح بنجاح");
+                    // }
 
-                Navigator.pushAndRemoveUntil(
-                  context,
-                  MaterialPageRoute(builder: (_) => const LoginScreenNew()),
-                      (route) => false,
-                );
-              } catch (e) {
-              debugPrint("❌ Logout failed: $e");
-              }
-            },
-          )
-        ],
-      )),
+                    Navigator.pushAndRemoveUntil(
+                      context,
+                      MaterialPageRoute(builder: (_) => const LoginScreenNew()),
+                          (route) => false,
+                    );
+                  } catch (e) {
+                    AppNotifier.logWithScreen("Logout Dialog", "Logout Failed: $e");
+                  }
+                },
+              )
+            ],
+          )),
+    );
+  }
+
+  static void loginAgain(BuildContext context) async {
+    await SecureStorageService().deleteData();
+    Navigator.pushAndRemoveUntil(
+      context,
+      MaterialPageRoute(builder: (_) => const LoginScreenNew()),
+          (route) => false,
     );
   }
 
