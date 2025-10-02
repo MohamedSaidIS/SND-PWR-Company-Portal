@@ -53,3 +53,7 @@ apk_unpacked/assets/flutter_assets/env/.env_dev
 # Ignore all env files
 *.env
 .env*
+
+# Ignore Firebase config
+android/app/google-services.json
+ios/Runner/GoogleService-Info.plist

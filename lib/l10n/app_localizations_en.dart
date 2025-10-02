@@ -421,4 +421,25 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get achieved => 'Achieved';
+
+  @override
+  String get leavesBalance => 'Leaves Balance';
+
+  @override
+  String get totalBalance => 'Total Balance';
+
+  @override
+  String get currentBalance => 'Current Balance';
+
+  @override
+  String get remainLeaves => 'Remain Leaves';
+
+  @override
+  String get annualLeave => 'Annual Leaves';
+
+  @override
+  String get leavesTransactions => 'Leaves Transactions';
+
+  @override
+  String get days => 'Days';
 }

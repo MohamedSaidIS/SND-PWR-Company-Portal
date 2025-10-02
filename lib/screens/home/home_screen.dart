@@ -1,4 +1,4 @@
-import 'package:company_portal/data/user_data.dart';
+
 import 'package:company_portal/models/remote/group_info.dart';
 import 'package:company_portal/screens/dashboard/dashboard_screen.dart';
 import 'package:company_portal/screens/apps/apps_screen.dart';
@@ -91,6 +91,13 @@ class _HomeScreenState extends State<HomeScreen> {
             selectedIndex: _currentIndex,
             backgroundColor: theme.colorScheme.background,
             shadowColor: const Color(0xfc070707),
+            labelTextStyle: const WidgetStatePropertyAll(
+              TextStyle(
+                fontSize: 11,
+                fontWeight: FontWeight.w600,
+                color: Colors.black,
+              ),
+            ),
             destinations: [
               NavigationDestination(
                 label: local.dashboard,

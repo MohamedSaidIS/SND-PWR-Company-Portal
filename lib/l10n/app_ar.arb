@@ -137,6 +137,13 @@
   "november": "نوفمبر",
   "december": "ديسمبر",
   "week" : "اسبوع",
-  "achieved" : "تم تحقيق"
+  "achieved" : "تم تحقيق",
+  "leavesBalance": "رصيد الإجازات",
+  "totalBalance": "الرصيد الكلي",
+  "currentBalance": "الرصيد الحالي",
+  "remainLeaves": "الإجازات المتبقية",
+  "annualLeave": "الإجازات السنوية",
+  "leavesTransactions": "سجل الإجازات",
+  "days": "أيام"
 }
 

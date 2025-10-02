@@ -137,5 +137,12 @@
   "november": "November",
   "december": "December",
   "week" : "Week",
-  "achieved" : "Achieved"
+  "achieved" : "Achieved",
+  "leavesBalance": "Leaves Balance",
+  "totalBalance": "Total Balance",
+  "currentBalance": "Current Balance",
+  "remainLeaves": "Remain Leaves",
+  "annualLeave": "Annual Leaves",
+  "leavesTransactions": "Leaves Transactions",
+  "days": "Days"
 }

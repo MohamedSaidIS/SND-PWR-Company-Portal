@@ -421,4 +421,25 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get achieved => 'تم تحقيق';
+
+  @override
+  String get leavesBalance => 'رصيد الإجازات';
+
+  @override
+  String get totalBalance => 'الرصيد الكلي';
+
+  @override
+  String get currentBalance => 'الرصيد الحالي';
+
+  @override
+  String get remainLeaves => 'الإجازات المتبقية';
+
+  @override
+  String get annualLeave => 'الإجازات السنوية';
+
+  @override
+  String get leavesTransactions => 'سجل الإجازات';
+
+  @override
+  String get days => 'أيام';
 }

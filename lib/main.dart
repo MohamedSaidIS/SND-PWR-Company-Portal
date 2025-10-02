@@ -133,6 +133,7 @@ class MyApp extends StatelessWidget {
 
     return Builder(builder: (context) {
       return MaterialApp(
+        showPerformanceOverlay: true,
         locale: localeProvider.locale,
         supportedLocales: [localeProvider.locale],
         localizationsDelegates: const [

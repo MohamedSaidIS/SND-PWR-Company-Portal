@@ -922,6 +922,48 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Achieved'**
   String get achieved;
+
+  /// No description provided for @leavesBalance.
+  ///
+  /// In en, this message translates to:
+  /// **'Leaves Balance'**
+  String get leavesBalance;
+
+  /// No description provided for @totalBalance.
+  ///
+  /// In en, this message translates to:
+  /// **'Total Balance'**
+  String get totalBalance;
+
+  /// No description provided for @currentBalance.
+  ///
+  /// In en, this message translates to:
+  /// **'Current Balance'**
+  String get currentBalance;
+
+  /// No description provided for @remainLeaves.
+  ///
+  /// In en, this message translates to:
+  /// **'Remain Leaves'**
+  String get remainLeaves;
+
+  /// No description provided for @annualLeave.
+  ///
+  /// In en, this message translates to:
+  /// **'Annual Leaves'**
+  String get annualLeave;
+
+  /// No description provided for @leavesTransactions.
+  ///
+  /// In en, this message translates to:
+  /// **'Leaves Transactions'**
+  String get leavesTransactions;
+
+  /// No description provided for @days.
+  ///
+  /// In en, this message translates to:
+  /// **'Days'**
+  String get days;
 }
 
 class _AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> {

@@ -27,7 +27,7 @@ class _SalesKpiScreenState extends State<SalesKpiScreen> {
   int?  selectedWeek;
   late List<int> weeksPerMonth;
   List<String> testerIds = [];
-  bool isTester = false; // Change this to true for tester
+  bool isTester = false;
 
   @override
   void initState() {
