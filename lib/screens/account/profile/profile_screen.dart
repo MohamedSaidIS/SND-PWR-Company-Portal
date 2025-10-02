@@ -1,7 +1,6 @@
 import 'dart:io';
 import 'package:company_portal/providers/user_image_provider.dart';
 import 'package:company_portal/providers/user_info_provider.dart';
-import 'package:company_portal/screens/account/profile/widgets/error_state_widget.dart';
 import 'package:company_portal/screens/account/profile/widgets/menu_section.dart';
 import 'package:company_portal/screens/account/profile/widgets/profile_header.dart';
 import 'package:company_portal/utils/app_notifier.dart';
@@ -12,7 +11,6 @@ import 'package:provider/provider.dart';
 import '../../../common/custom_app_bar.dart';
 import '../../../utils/app_separators.dart';
 import '../../../utils/image_picker_handler.dart';
-import '../../login/login_screen_new.dart';
 
 class ProfileScreen extends StatefulWidget {
   const ProfileScreen({super.key});

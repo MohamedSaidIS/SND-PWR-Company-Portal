@@ -1,12 +1,11 @@
 import 'dart:math';
 import 'package:company_portal/l10n/app_localizations.dart';
 import 'package:company_portal/models/remote/sales_kpi.dart';
-import 'package:company_portal/utils/kpi_helper.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:week_number/iso.dart';
 import 'package:jiffy/jiffy.dart';
-import 'package:week_of_year/date_week_extensions.dart';
+
 
 import 'app_notifier.dart';
 

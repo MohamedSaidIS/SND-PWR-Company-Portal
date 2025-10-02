@@ -3,7 +3,7 @@ import 'package:company_portal/config/env_config.dart';
 import 'package:company_portal/providers/all_organization_users_provider.dart';
 import 'package:company_portal/providers/complaint_suggestion_provider.dart';
 import 'package:company_portal/providers/direct_reports_provider.dart';
-import 'package:company_portal/providers/kpis_provider.dart';
+import 'package:company_portal/providers/sales_kpis_provider.dart';
 import 'package:company_portal/providers/locale_provider.dart';
 import 'package:company_portal/providers/manager_info_provider.dart';
 import 'package:company_portal/providers/sp_ensure_user.dart';
@@ -15,6 +15,8 @@ import 'package:company_portal/service/shared_point_dio_client.dart';
 import 'package:company_portal/splash_screen.dart';
 import 'package:company_portal/theme/theme_provider.dart';
 import 'package:company_portal/utils/app_notifier.dart';
+import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_appauth/flutter_appauth.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
@@ -23,9 +25,22 @@ import '../../l10n/app_localizations.dart';
 
 import 'config/auth_config.dart';
 
+
+Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
+  await Firebase.initializeApp();
+  debugPrint("📩 Handling background message: ${message.messageId}");
+}
+
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await EnvConfig.load();
+
+  // ✅ Firebase init
+  await Firebase.initializeApp();
+
+  // ✅ background handler
+  FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
+
 
   final localeProvider = LocaleProvider();
   await localeProvider.loadSavedLocale();
@@ -84,7 +99,7 @@ void main() async {
           ),
         ),
         ChangeNotifierProvider(
-          create: (context) => KPIProvider(
+          create: (context) => SalesKPIProvider(
             kpiDioClient: context.read<KPIDioClient>(),
           ),
         ),

@@ -1,7 +1,5 @@
 import 'dart:ui';
 
-import 'package:aad_oauth/aad_oauth.dart';
-import 'package:company_portal/service/sharedpref_service.dart';
 import 'package:company_portal/utils/app_notifier.dart';
 import 'package:company_portal/service/secure_storage_service.dart';
 import 'package:dio/dio.dart';

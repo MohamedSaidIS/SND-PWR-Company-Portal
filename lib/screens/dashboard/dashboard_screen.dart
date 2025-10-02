@@ -30,6 +30,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
     WidgetsBinding.instance.addPostFrameCallback((_) async {
       final userProvider = context.read<UserInfoProvider>();
       userProvider.fetchUserInfo();
+      // userProvider.getGroupId();
 
       await _restoreCookies();
       // if (mounted) {
@@ -120,6 +121,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
   Widget build(BuildContext context) {
     final userInfoProvider = context.watch<UserInfoProvider>();
     final userInfo = userInfoProvider.userInfo;
+
 
     if (userInfo != null) {
       AppNotifier.logWithScreen("Dashboard Screen","User Info: ${userInfo.id}");

@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "525564474419",
+    "project_id": "sndpowerapp",
+    "storage_bucket": "sndpowerapp.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:525564474419:android:a36e9755c065534007df46",
+        "android_client_info": {
+          "package_name": "com.alsanidi.company_portal"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDgIziVFGiz_Vq0lLWSozKnTI_Yttl3O8M"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:525564474419:android:3de85660b02d72b307df46",
+        "android_client_info": {
+          "package_name": "com.alsanidi.sndpower"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDgIziVFGiz_Vq0lLWSozKnTI_Yttl3O8M"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -52,7 +52,7 @@ class _LoginScreenNewState extends State<LoginScreenNew> {
     bool success = false;
     String type = "";
 
-    if (graphToken.isEmpty && spToken.isNotEmpty) {
+    if (graphToken.isNotEmpty && spToken.isNotEmpty) {
 
       type = "Biometric";
       success = await _authController.loginWithBiometrics();

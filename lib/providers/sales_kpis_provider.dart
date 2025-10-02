@@ -5,10 +5,10 @@ import 'package:flutter/foundation.dart';
 import '../service/kpi_dio_client.dart';
 import '../utils/app_notifier.dart';
 
-class KPIProvider extends ChangeNotifier{
+class SalesKPIProvider extends ChangeNotifier{
   final KPIDioClient kpiDioClient;
 
-  KPIProvider({required this.kpiDioClient});
+  SalesKPIProvider({required this.kpiDioClient});
 
   List<SalesKPI> _kpiList = [];
   bool _loading = false;

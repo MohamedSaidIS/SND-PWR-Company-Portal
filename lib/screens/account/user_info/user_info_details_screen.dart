@@ -6,7 +6,7 @@ import 'package:line_awesome_flutter/line_awesome_flutter.dart';
 import 'package:provider/provider.dart';
 
 import '../../../common/custom_app_bar.dart';
-import '../../../utils/app_notifier.dart';
+
 
 class UserInfoDetailsScreen extends StatefulWidget {
   const UserInfoDetailsScreen(

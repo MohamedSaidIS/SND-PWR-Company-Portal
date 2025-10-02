@@ -1,4 +1,3 @@
-import 'package:company_portal/models/remote/all_organization_user.dart';
 import 'package:company_portal/providers/all_organization_users_provider.dart';
 import 'package:company_portal/utils/context_extensions.dart';
 import 'package:flutter/material.dart';
@@ -108,13 +107,9 @@ class _SendCommentWidgetState extends State<SendCommentWidget> {
 
     return SafeArea(
       child: Padding(
-        padding: EdgeInsets.only(
-          bottom: MediaQuery.of(context).viewInsets.bottom,
-          right: 10,
-          left: 10,
-        ),
+        padding: const EdgeInsets.only(left: 8.0, right: 8.0, bottom: 8.0,),
         child: Container(
-          padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 8),
+          padding: const EdgeInsets.symmetric(horizontal: 5, vertical: 5),
           decoration: BoxDecoration(
             borderRadius: const BorderRadius.all(
               Radius.circular(25),

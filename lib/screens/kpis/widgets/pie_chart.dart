@@ -1,6 +1,6 @@
 import 'package:company_portal/l10n/app_localizations.dart';
 import 'package:company_portal/models/remote/sales_kpi.dart';
-import 'package:company_portal/screens/kpis/kpis_details_screen.dart';
+import 'package:company_portal/screens/kpis/sales_kpis_details_screen.dart';
 import 'package:company_portal/utils/context_extensions.dart';
 import 'package:company_portal/utils/kpi_helper.dart';
 import 'package:fl_chart/fl_chart.dart';
@@ -75,7 +75,7 @@ class KpiPieChart extends StatelessWidget {
       child: InkWell(
         onTap: () => Navigator.of(context).push(
           MaterialPageRoute(
-            builder: (context) => KpisDetailsScreen(
+            builder: (context) => SalesKpisDetailsScreen(
               salesKpis: salesKpi,
               title: title,
               currentWeek: currentWeek,

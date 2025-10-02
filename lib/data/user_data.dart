@@ -7,3 +7,10 @@ List<String> getTesterIds() {
     "e662e0d0-25d6-41a1-8bf3-55326a51cc16", //Eng.Amira
   ];
 }
+
+List<String> getGroupsIds() {
+  return [
+    "1ea1d494-a377-4071-beac-301a99746d2a", //Information Systems Team
+    "9876abcd-4321-aaaa-9999-bbbbbccccddd"
+  ];
+}

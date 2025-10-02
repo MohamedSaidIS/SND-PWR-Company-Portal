@@ -5,7 +5,6 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import '../../../common/custom_app_bar.dart';
-import '../../../utils/app_notifier.dart';
 
 class DirectReportsScreen extends StatefulWidget {
   const DirectReportsScreen({super.key,});

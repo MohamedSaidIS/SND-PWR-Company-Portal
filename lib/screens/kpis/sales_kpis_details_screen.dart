@@ -10,14 +10,14 @@ import '../../common/custom_app_bar.dart';
 
 import '../../utils/app_notifier.dart';
 
-class KpisDetailsScreen extends StatefulWidget {
+class SalesKpisDetailsScreen extends StatefulWidget {
   final List<SalesKPI> salesKpis;
   final String title;
   final WeeklyKPI currentWeek;
   final int selectedMonth;
   final List<DailyKPI> weeklyValues;
 
-  const KpisDetailsScreen({
+  const SalesKpisDetailsScreen({
     super.key,
     required this.salesKpis,
     required this.title,
@@ -27,10 +27,10 @@ class KpisDetailsScreen extends StatefulWidget {
   });
 
   @override
-  State<KpisDetailsScreen> createState() => _KpisDetailsScreenState();
+  State<SalesKpisDetailsScreen> createState() => _SalesKpisDetailsScreenState();
 }
 
-class _KpisDetailsScreenState extends State<KpisDetailsScreen> {
+class _SalesKpisDetailsScreenState extends State<SalesKpisDetailsScreen> {
   late List<SalesKPI> salesKpis;
   late double monthlyTarget;
   List<WeeklyKPI> weeksInMonth = [];

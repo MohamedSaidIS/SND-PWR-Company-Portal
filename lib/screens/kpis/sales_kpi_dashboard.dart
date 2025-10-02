@@ -7,20 +7,20 @@ import 'package:provider/provider.dart';
 
 import '../../common/custom_app_bar.dart';
 import '../../data/user_data.dart';
-import '../../providers/kpis_provider.dart';
+import '../../providers/sales_kpis_provider.dart';
 import '../../service/sharedpref_service.dart';
 import '../../utils/app_notifier.dart';
 
-class KpiScreen extends StatefulWidget {
-  const KpiScreen({
+class SalesKpiScreen extends StatefulWidget {
+  const SalesKpiScreen({
     super.key,
   });
 
   @override
-  State<KpiScreen> createState() => _KpiScreenState();
+  State<SalesKpiScreen> createState() => _SalesKpiScreenState();
 }
 
-class _KpiScreenState extends State<KpiScreen> {
+class _SalesKpiScreenState extends State<SalesKpiScreen> {
   bool isUAT = false;
   bool isLoading = false;
   int selectedMonth = DateTime.now().month;
@@ -48,7 +48,7 @@ class _KpiScreenState extends State<KpiScreen> {
     AppNotifier.logWithScreen("KPI Dashboard Screen","IsTaster: $isTester");
 
 
-    final salesKpiProvider = context.read<KPIProvider>();
+    final salesKpiProvider = context.read<SalesKPIProvider>();
     await salesKpiProvider.getSalesKpi('$userId', isUAT: isUAT);
 
     setState(() => isLoading = false);
@@ -89,7 +89,7 @@ class _KpiScreenState extends State<KpiScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final salesKpisProvider = context.watch<KPIProvider>();
+    final salesKpisProvider = context.watch<SalesKPIProvider>();
     final salesKpis = salesKpisProvider.kpiList ?? [];
     final isLoading = salesKpisProvider.loading;
     final theme = context.theme;

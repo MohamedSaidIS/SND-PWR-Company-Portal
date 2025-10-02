@@ -1,17 +1,14 @@
 import 'dart:convert';
 
-import 'package:company_portal/utils/context_extensions.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_appauth/flutter_appauth.dart';
 import '../config/env_config.dart';
-import '../screens/login/login_screen_new.dart';
 import '../utils/app_notifier.dart';
 import '../utils/biomertic_auth.dart';
 import '../utils/enums.dart';
 import '../service/secure_storage_service.dart';
 
-// redirect_uri="msauth://com.alsanidi.company_portal/LosFLVyyTnw%2B0SkLIA3%2Bil9WsBE%3D",
 class AuthController {
   final FlutterAppAuth appAuth = const FlutterAppAuth();
   final BuildContext context;
@@ -107,7 +104,7 @@ class AuthController {
         scopes: ["https://alsanidi.sharepoint.com/.default"],
       ));
 
-      final accessToken = result?.accessToken;
+      final accessToken = result.accessToken;
       if (accessToken != null) {
         await secureStorage.saveData("SharePointAccessToken", accessToken);
         AppNotifier.logWithScreen("Auth Controller","✅ SharePoint token retrieved");
