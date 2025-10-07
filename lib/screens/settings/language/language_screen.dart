@@ -17,7 +17,7 @@ class LanguageScreen extends StatelessWidget {
     return PopScope(
       canPop: false,
       child: Scaffold(
-        backgroundColor: theme.colorScheme.background,
+        backgroundColor: theme.colorScheme.surface,
         appBar: CustomAppBar(
           title: local.language,
          backBtn: true,
@@ -51,8 +51,8 @@ Widget _languageOption(String languageCode, String languageName,
     },
     shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
     tileColor: isSelected
-        ? theme.colorScheme.secondary.withOpacity(0.1)
-        : theme.colorScheme.primary.withOpacity(0.1),
+        ? theme.colorScheme.secondary.withValues(alpha:0.1)
+        : theme.colorScheme.primary.withValues(alpha:0.1),
     leading: Icon(
       isSelected ? Icons.check_circle : Icons.circle_outlined,
       color:

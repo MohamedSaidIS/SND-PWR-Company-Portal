@@ -1,12 +1,12 @@
 import 'dart:io';
 import 'dart:typed_data';
-import 'package:company_portal/service/dio_client.dart';
+import 'package:company_portal/service/graph_dio_client.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import '../utils/app_notifier.dart';
 
 class UserImageProvider extends ChangeNotifier {
-  final DioClient dioClient;
+  final GraphDioClient dioClient;
 
   UserImageProvider({required this.dioClient});
 

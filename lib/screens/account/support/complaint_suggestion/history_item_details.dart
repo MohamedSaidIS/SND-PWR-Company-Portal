@@ -1,18 +1,21 @@
 import 'dart:typed_data';
 
 import 'package:company_portal/common/custom_app_bar.dart';
-import 'package:company_portal/screens/account/complaint_suggestion/widgets/comments_widget.dart';
-import 'package:company_portal/screens/account/complaint_suggestion/widgets/priority_badge.dart';
-import 'package:company_portal/screens/account/complaint_suggestion/widgets/send_comment_widget.dart';
-import 'package:company_portal/screens/account/complaint_suggestion/widgets/status_badge.dart';
-import 'package:company_portal/screens/account/complaint_suggestion/widgets/time_widget.dart';
+import 'package:company_portal/screens/account/support/complaint_suggestion/widgets/comments_widget.dart';
+import 'package:company_portal/screens/account/support/complaint_suggestion/widgets/priority_badge.dart';
+import 'package:company_portal/screens/account/support/complaint_suggestion/widgets/send_comment_widget.dart';
+import 'package:company_portal/screens/account/support/complaint_suggestion/widgets/status_badge.dart';
+import 'package:company_portal/screens/account/support/complaint_suggestion/widgets/time_widget.dart';
+
 import 'package:company_portal/utils/context_extensions.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mentions/flutter_mentions.dart';
 import 'package:provider/provider.dart';
-import '../../../models/remote/complaint_suggestion.dart';
-import '../../../providers/complaint_suggestion_provider.dart';
-import '../../../utils/app_notifier.dart';
+
+import '../../../../models/remote/complaint_suggestion.dart';
+import '../../../../providers/complaint_suggestion_provider.dart';
+import '../../../../utils/app_notifier.dart';
+
 
 class HistoryItemDetails extends StatefulWidget {
   final ComplaintSuggestion item;
@@ -59,7 +62,7 @@ class _HistoryItemDetailsState extends State<HistoryItemDetails> {
     return Portal(
       child: Scaffold(
         resizeToAvoidBottomInset: true,
-        backgroundColor: theme.colorScheme.background,
+        backgroundColor: theme.colorScheme.surface,
         appBar: CustomAppBar(
           title: local.issue_details,
           backBtn: true,

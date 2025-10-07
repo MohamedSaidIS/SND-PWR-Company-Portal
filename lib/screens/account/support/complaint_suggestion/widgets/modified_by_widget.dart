@@ -29,7 +29,7 @@ class ModifiedByWidget extends StatelessWidget {
           contentPadding: EdgeInsets.zero,
           leading: CircleAvatar(
             backgroundColor:
-            theme.colorScheme.primary.withOpacity(0.2),
+            theme.colorScheme.primary.withValues(alpha:0.2),
             child:
             Icon(Icons.person, color: theme.colorScheme.primary),
           ),

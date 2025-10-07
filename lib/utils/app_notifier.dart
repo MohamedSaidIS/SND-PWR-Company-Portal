@@ -50,7 +50,7 @@ class AppNotifier {
                     // if (!launched) {
                     //   debugPrint("⚠️ Logout URL لم يُفتح بنجاح");
                     // }
-
+                    if (!context.mounted) return;
                     Navigator.pushAndRemoveUntil(
                       context,
                       MaterialPageRoute(builder: (_) => const LoginScreenNew()),
@@ -68,6 +68,7 @@ class AppNotifier {
 
   static void loginAgain(BuildContext context) async {
     await SecureStorageService().deleteData();
+    if (!context.mounted) return;
     Navigator.pushAndRemoveUntil(
       context,
       MaterialPageRoute(builder: (_) => const LoginScreenNew()),
@@ -137,7 +138,7 @@ class AppNotifier {
           child: Container(
             padding: const EdgeInsets.all(10),
             decoration: BoxDecoration(
-              color: theme.colorScheme.background.withOpacity(0.7),
+              color: theme.colorScheme.surface.withValues(alpha:0.7),
               borderRadius: BorderRadius.circular(15),
             ),
             child: Column(

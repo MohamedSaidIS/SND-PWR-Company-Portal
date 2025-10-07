@@ -24,7 +24,7 @@ class CustomAppBar extends StatelessWidget implements PreferredSize {
 
     return AppBar(
       centerTitle: true,
-      backgroundColor: theme.colorScheme.background,
+      backgroundColor: theme.colorScheme.surface,
       automaticallyImplyLeading: false,
       leading: backBtn
           ? IconButton(

@@ -6,6 +6,8 @@ import 'package:company_portal/utils/kpi_helper.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 
+import '../../../models/local/daily_kpi.dart';
+import '../../../models/local/weekly_kpi.dart';
 import '../../../utils/app_notifier.dart';
 import '../../../utils/kpi_calculation_handler.dart';
 
@@ -69,7 +71,7 @@ class KpiPieChart extends StatelessWidget {
     return Container(
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(20),
-        color: theme.colorScheme.primary.withOpacity(0.1),
+        color: theme.colorScheme.primary.withValues(alpha:0.1),
       ),
       margin: const EdgeInsets.all(5),
       child: InkWell(
@@ -109,7 +111,7 @@ class KpiPieChart extends StatelessWidget {
                     sectionsSpace: 0,
                     sections: [
                       PieChartSectionData(
-                        color: achieved == 0.0 ?Colors.white.withOpacity(0.6):  KpiHelper.getPieChartColor(percent),
+                        color: achieved == 0.0 ?Colors.white.withValues(alpha:0.6):  KpiUIHelper.getPieChartColor(percent),
                         value: achieved == 0.0 ? 1 : achieved,
                         title: achieved == 0.0 ? '': '${convertedToArabicNumber(percent.toStringAsFixed(2), isArabic)}%',
                         radius: 55,
@@ -120,7 +122,7 @@ class KpiPieChart extends StatelessWidget {
                         ),
                       ),
                       PieChartSectionData(
-                        color: Colors.white.withOpacity(0.6),
+                        color: Colors.white.withValues(alpha:0.6),
                         value: (target - achieved).clamp(0, target),
                         title: '',
                         radius: 45,

@@ -25,7 +25,7 @@ class _VacationBalanceScreenState extends State<VacationBalanceScreen> {
     return PopScope(
       canPop: false,
       child: Scaffold(
-        backgroundColor: theme.colorScheme.background,
+        backgroundColor: theme.colorScheme.surface,
         appBar: CustomAppBar(
           title: local.vacationBalanceRequestLine,
           backBtn: true,
@@ -104,7 +104,7 @@ class _VacationBalanceScreenState extends State<VacationBalanceScreen> {
       child: Container(
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(10),
-          color: theme.colorScheme.primary.withOpacity(0.1),
+          color: theme.colorScheme.primary.withValues(alpha:0.1),
         ),
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 12.0, vertical: 10.0),
@@ -139,8 +139,8 @@ class _VacationBalanceScreenState extends State<VacationBalanceScreen> {
             width: 1,
           ),
           color: leaveText == local.annualLeave
-              ? theme.colorScheme.secondary.withOpacity(0.15)
-              : theme.colorScheme.primary.withOpacity(0.15),
+              ? theme.colorScheme.secondary.withValues(alpha:0.15)
+              : theme.colorScheme.primary.withValues(alpha:0.15),
         ),
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 12.0, vertical: 5.0),

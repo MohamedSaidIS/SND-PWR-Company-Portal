@@ -6,6 +6,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_inappwebview/flutter_inappwebview.dart';
 import 'package:provider/provider.dart';
 
+import '../../providers/all_organization_users_provider.dart';
+import '../../providers/direct_reports_provider.dart';
+import '../../providers/manager_info_provider.dart';
+import '../../providers/user_image_provider.dart';
 import '../../providers/user_info_provider.dart';
 import '../../service/secure_storage_service.dart';
 import '../../utils/app_notifier.dart';
@@ -28,9 +32,8 @@ class _DashboardScreenState extends State<DashboardScreen> {
   void initState() {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((_) async {
-      final userProvider = context.read<UserInfoProvider>();
-      userProvider.fetchUserInfo();
-      // userProvider.getGroupId();
+
+      initialDataValues();
 
       await _restoreCookies();
       // if (mounted) {
@@ -47,9 +50,27 @@ class _DashboardScreenState extends State<DashboardScreen> {
     });
   }
 
+  void initialDataValues() {
+    final userProvider = context.read<UserInfoProvider>();
+    final imageProvider = context.read<UserImageProvider>();
+    final managerProvider = context.read<ManagerInfoProvider>();
+    final directReportProvider = context.read<DirectReportsProvider>();
+    final allUsersProvider = context.read<AllOrganizationUsersProvider>();
+
+
+    userProvider.fetchUserInfo();
+    imageProvider.fetchImage();
+    managerProvider.fetchManagerInfo();
+    allUsersProvider.getAllUsers();
+    if (directReportProvider.directReportList == null) {
+      directReportProvider.fetchRedirectReport();
+    }
+  }
+
+
+
   Future<void> _restoreCookies() async {
     final cookiesJson = await SecureStorageService().getData("savedCookies");
-    if (cookiesJson == null) return;
 
     final cookiesList = jsonDecode(cookiesJson) as List;
 
@@ -133,7 +154,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
     return PopScope(
       canPop: false,
       child: Scaffold(
-        backgroundColor: theme.colorScheme.background,
+        backgroundColor: theme.colorScheme.surface,
         body: SafeArea(
           child: Column(
             children: [
@@ -180,4 +201,6 @@ class _DashboardScreenState extends State<DashboardScreen> {
       ),
     );
   }
+
+
 }

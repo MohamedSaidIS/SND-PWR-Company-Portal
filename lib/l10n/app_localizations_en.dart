@@ -442,4 +442,37 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get days => 'Days';
+
+  @override
+  String get support => 'Support';
+
+  @override
+  String get dynamicsSupportCase => 'Dynamics365 - SC';
+
+  @override
+  String get ecommerceSupportCase => 'Ecommerce - SC';
+
+  @override
+  String get userNewRequest => 'User New Requests';
+
+  @override
+  String get addComment => 'Add a comment';
+
+  @override
+  String get yes => 'Yes';
+
+  @override
+  String get no => 'No';
+
+  @override
+  String get currentEmail => 'Current Email';
+
+  @override
+  String get laptop => 'Laptop';
+
+  @override
+  String get desktop => 'Desktop';
+
+  @override
+  String get nA => 'NA';
 }

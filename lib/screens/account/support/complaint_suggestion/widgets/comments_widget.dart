@@ -2,12 +2,13 @@ import 'dart:typed_data';
 
 import 'package:company_portal/models/remote/item_comments.dart';
 import 'package:company_portal/providers/complaint_suggestion_provider.dart';
-import 'package:company_portal/screens/account/complaint_suggestion/widgets/no_comments.dart';
+
 import 'package:company_portal/utils/context_extensions.dart';
 import 'package:flutter/material.dart';
 import 'package:line_awesome_flutter/line_awesome_flutter.dart';
-import '../../../../models/remote/complaint_suggestion.dart';
+import '../../../../../models/remote/complaint_suggestion.dart';
 import 'comment_item.dart';
+import 'no_comments.dart';
 
 class CommentsWidget extends StatefulWidget {
   final ComplaintSuggestion item;

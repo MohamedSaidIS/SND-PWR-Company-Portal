@@ -89,7 +89,7 @@ class _HomeScreenState extends State<HomeScreen> {
               }
             },
             selectedIndex: _currentIndex,
-            backgroundColor: theme.colorScheme.background,
+            backgroundColor: theme.colorScheme.surface,
             shadowColor: const Color(0xfc070707),
             labelTextStyle: const WidgetStatePropertyAll(
               TextStyle(

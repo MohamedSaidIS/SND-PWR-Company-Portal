@@ -1,7 +1,7 @@
 import 'package:company_portal/utils/context_extensions.dart';
 import 'package:flutter/material.dart';
 
-import '../../../../data/complain_and_suggestion_data.dart';
+import '../../../../../data/support_forms_data.dart';
 
 class PriorityBadge extends StatelessWidget {
   final String priority;
@@ -15,7 +15,7 @@ class PriorityBadge extends StatelessWidget {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 8),
       decoration: BoxDecoration(
-        color: color.withOpacity(0.15),
+        color: color.withValues(alpha:0.15),
         borderRadius: BorderRadius.circular(22),
       ),
       child: Row(

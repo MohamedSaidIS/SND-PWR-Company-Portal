@@ -964,6 +964,72 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Days'**
   String get days;
+
+  /// No description provided for @support.
+  ///
+  /// In en, this message translates to:
+  /// **'Support'**
+  String get support;
+
+  /// No description provided for @dynamicsSupportCase.
+  ///
+  /// In en, this message translates to:
+  /// **'Dynamics365 - SC'**
+  String get dynamicsSupportCase;
+
+  /// No description provided for @ecommerceSupportCase.
+  ///
+  /// In en, this message translates to:
+  /// **'Ecommerce - SC'**
+  String get ecommerceSupportCase;
+
+  /// No description provided for @userNewRequest.
+  ///
+  /// In en, this message translates to:
+  /// **'User New Requests'**
+  String get userNewRequest;
+
+  /// No description provided for @addComment.
+  ///
+  /// In en, this message translates to:
+  /// **'Add a comment'**
+  String get addComment;
+
+  /// No description provided for @yes.
+  ///
+  /// In en, this message translates to:
+  /// **'Yes'**
+  String get yes;
+
+  /// No description provided for @no.
+  ///
+  /// In en, this message translates to:
+  /// **'No'**
+  String get no;
+
+  /// No description provided for @currentEmail.
+  ///
+  /// In en, this message translates to:
+  /// **'Current Email'**
+  String get currentEmail;
+
+  /// No description provided for @laptop.
+  ///
+  /// In en, this message translates to:
+  /// **'Laptop'**
+  String get laptop;
+
+  /// No description provided for @desktop.
+  ///
+  /// In en, this message translates to:
+  /// **'Desktop'**
+  String get desktop;
+
+  /// No description provided for @nA.
+  ///
+  /// In en, this message translates to:
+  /// **'NA'**
+  String get nA;
 }
 
 class _AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> {

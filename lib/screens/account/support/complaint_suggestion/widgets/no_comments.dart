@@ -14,7 +14,7 @@ class NoCommentsWidget extends StatelessWidget {
         children: [
           CircleAvatar(
             radius: 30,
-            backgroundColor: theme.colorScheme.primary.withOpacity(0.1),
+            backgroundColor: theme.colorScheme.primary.withValues(alpha:0.1),
             child: Icon(
               Icons.chat_bubble_outline,
               color: theme.colorScheme.primary,
@@ -27,7 +27,7 @@ class NoCommentsWidget extends StatelessWidget {
             style: TextStyle(
               fontSize: 16,
               fontWeight: FontWeight.w500,
-              color: theme.colorScheme.primary.withOpacity(0.8),
+              color: theme.colorScheme.primary.withValues(alpha:0.8),
             ),
           ),
           const SizedBox(height: 4),
@@ -35,7 +35,7 @@ class NoCommentsWidget extends StatelessWidget {
             "Be the first to add a comment!",
             style: TextStyle(
               fontSize: 14,
-              color: theme.colorScheme.primary.withOpacity(0.6),
+              color: theme.colorScheme.primary.withValues(alpha:0.6),
             ),
           ),
         ],

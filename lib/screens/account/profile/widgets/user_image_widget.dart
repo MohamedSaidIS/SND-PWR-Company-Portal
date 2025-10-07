@@ -73,7 +73,7 @@ class UserImageWidget extends StatelessWidget {
                     ),
                     child: Icon(
                       LineAwesomeIcons.pencil_alt_solid,
-                      color: theme.colorScheme.background,
+                      color: theme.colorScheme.surface,
                     ),
                   ),
                 ),

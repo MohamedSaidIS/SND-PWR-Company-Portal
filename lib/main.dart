@@ -10,7 +10,7 @@ import 'package:company_portal/providers/sp_ensure_user.dart';
 import 'package:company_portal/providers/user_image_provider.dart';
 import 'package:company_portal/providers/user_info_provider.dart';
 import 'package:company_portal/service/kpi_dio_client.dart';
-import 'package:company_portal/service/dio_client.dart';
+import 'package:company_portal/service/graph_dio_client.dart';
 import 'package:company_portal/service/shared_point_dio_client.dart';
 import 'package:company_portal/splash_screen.dart';
 import 'package:company_portal/theme/theme_provider.dart';
@@ -51,8 +51,8 @@ void main() async {
         Provider<AadOAuth>(
             create: (_) =>
                 AadOAuth(AuthConfig.createMicrosoftConfig(navigatorKey))),
-        Provider<DioClient>(
-          create: (context) => DioClient(
+        Provider<GraphDioClient>(
+          create: (context) => GraphDioClient(
             appAuth: const FlutterAppAuth(),
             onUnauthorized: () {
               AppNotifier.loginAgain(context);
@@ -75,26 +75,26 @@ void main() async {
         ),
         ChangeNotifierProvider<UserInfoProvider>(
           create: (context) => UserInfoProvider(
-            dioClient: context.read<DioClient>(),
+            dioClient: context.read<GraphDioClient>(),
           ),
         ),
         ChangeNotifierProvider(
           create: (context) => ManagerInfoProvider(
-            dioClient: context.read<DioClient>(),
+            dioClient: context.read<GraphDioClient>(),
           ),
         ),
         ChangeNotifierProvider(
           create: (context) =>
-              DirectReportsProvider(dioClient: context.read<DioClient>()),
+              DirectReportsProvider(dioClient: context.read<GraphDioClient>()),
         ),
         ChangeNotifierProvider(
           create: (context) => UserImageProvider(
-            dioClient: context.read<DioClient>(),
+            dioClient: context.read<GraphDioClient>(),
           ),
         ),
         ChangeNotifierProvider(
           create: (context) => ComplaintSuggestionProvider(
-            dioClient: context.read<DioClient>(),
+            dioClient: context.read<GraphDioClient>(),
             sharePointDioClient: context.read<SharePointDioClient>(),
           ),
         ),
@@ -110,7 +110,7 @@ void main() async {
         ),
         ChangeNotifierProvider(
           create: (context) => AllOrganizationUsersProvider(
-            dioClient: context.read<DioClient>(),
+            dioClient: context.read<GraphDioClient>(),
           ),
         ),
         ChangeNotifierProvider(
@@ -133,7 +133,7 @@ class MyApp extends StatelessWidget {
 
     return Builder(builder: (context) {
       return MaterialApp(
-        showPerformanceOverlay: true,
+     //   showPerformanceOverlay: true,
         locale: localeProvider.locale,
         supportedLocales: [localeProvider.locale],
         localizationsDelegates: const [

@@ -12,7 +12,7 @@ class NoKpiScreen extends StatelessWidget {
     final local = context.local;
 
     return Scaffold(
-      backgroundColor: theme.colorScheme.background,
+      backgroundColor: theme.colorScheme.surface,
       appBar: CustomAppBar(
         title: local.kpis,
         backBtn: false,
@@ -32,7 +32,7 @@ class NoKpiScreen extends StatelessWidget {
               ),
               const SizedBox(height: 24),
               Text(
-                "You are not involved in any group",
+                "You’re not a member of any group yet.",
                 textAlign: TextAlign.center,
                 style: theme.textTheme.headlineSmall?.copyWith(
                   fontWeight: FontWeight.bold,
@@ -41,10 +41,10 @@ class NoKpiScreen extends StatelessWidget {
               ),
               const SizedBox(height: 12),
               Text(
-                "Contact with HR Department to help you.",
+                "Reach out to the HR Department if you need help.",
                 textAlign: TextAlign.center,
                 style: theme.textTheme.bodyMedium?.copyWith(
-                  color: theme.colorScheme.onSurface.withOpacity(0.7),
+                  color: theme.colorScheme.onSurface.withValues(alpha:0.7),
                 ),
               ),
             ],

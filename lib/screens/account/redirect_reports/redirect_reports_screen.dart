@@ -14,22 +14,21 @@ class DirectReportsScreen extends StatefulWidget {
 }
 
 class _DirectReportsScreenState extends State<DirectReportsScreen> {
-  @override
-  void initState() {
-    super.initState();
-
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      final directReportProvider =
-      Provider.of<DirectReportsProvider>(context, listen: false);
-      if (directReportProvider.directReportList == null) {
-        directReportProvider.fetchRedirectReport();
-      }
-    });
-  }
+  // @override
+  // void initState() {
+  //   super.initState();
+  //
+  //   WidgetsBinding.instance.addPostFrameCallback((_) {
+  //     final directReportProvider = context.read<DirectReportsProvider>();
+  //     if (directReportProvider.directReportList == null) {
+  //       directReportProvider.fetchRedirectReport();
+  //     }
+  //   });
+  // }
 
   @override
   Widget build(BuildContext context) {
-    final directReportListProvider = Provider.of<DirectReportsProvider>(context);
+    final directReportListProvider = context.watch<DirectReportsProvider>();
     final directReportList = directReportListProvider.directReportList;
     final theme = context.theme;
     final local = context.local;
@@ -37,7 +36,7 @@ class _DirectReportsScreenState extends State<DirectReportsScreen> {
     return PopScope(
       canPop: false,
       child: Scaffold(
-        backgroundColor: theme.colorScheme.background,
+        backgroundColor: theme.colorScheme.surface,
         appBar: CustomAppBar(
           title: local.directReport,
           backBtn: true,

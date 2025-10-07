@@ -1,5 +1,4 @@
 import 'package:company_portal/utils/context_extensions.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 import '../../../common/custom_app_bar.dart';
@@ -15,7 +14,7 @@ class NotificationScreen extends StatelessWidget {
     return PopScope(
       canPop: false,
       child: Scaffold(
-        backgroundColor: theme.colorScheme.background,
+        backgroundColor: theme.colorScheme.surface,
         appBar: CustomAppBar(
           title: local.notifications,
          backBtn: true,

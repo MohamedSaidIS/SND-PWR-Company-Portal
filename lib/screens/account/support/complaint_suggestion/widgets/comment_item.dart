@@ -5,8 +5,9 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
-import '../../../../models/remote/item_comments.dart';
-import '../../../../utils/app_notifier.dart';
+import '../../../../../models/remote/item_comments.dart';
+import '../../../../../utils/app_notifier.dart';
+
 
 class CommentItem extends StatelessWidget {
   final ItemComments comment;
@@ -21,7 +22,7 @@ class CommentItem extends StatelessWidget {
 
   String _formatTimeAgo(DateTime dt) {
     final diff = DateTime.now().difference(dt);
-    if (diff.inSeconds < 60) return "${diff.inSeconds}s";
+    if (diff.inSeconds < 60) return "${diff.inSeconds+1}s";
     if (diff.inMinutes < 60) return "${diff.inMinutes}m";
     if (diff.inHours < 24) return "${diff.inHours}h";
     return DateFormat("MMM d").format(dt);
@@ -39,8 +40,8 @@ class CommentItem extends StatelessWidget {
         margin: const EdgeInsets.only(right: 14),
         decoration: BoxDecoration(
           color: isCurrentUser
-              ? theme.colorScheme.primary.withOpacity(0.2)
-              : theme.colorScheme.surfaceVariant,
+              ? theme.colorScheme.primary.withValues(alpha:0.2)
+              : theme.colorScheme.surfaceContainerHighest,
           borderRadius: const BorderRadius.all(Radius.circular(4)),
         ),
         child: Column(
@@ -74,7 +75,7 @@ class CommentItem extends StatelessWidget {
                 child: Text(
                   _formatTimeAgo(comment.createdDate!),
                   style: TextStyle(
-                    color: theme.colorScheme.primary.withOpacity(0.6),
+                    color: theme.colorScheme.primary.withValues(alpha:0.6),
                     fontSize: 11,
                   ),
                 ),
@@ -88,7 +89,7 @@ class CommentItem extends StatelessWidget {
 
   Widget _buildUserInfoRow(ThemeData theme, {required Image image}) {
     return Row(
-      crossAxisAlignment: CrossAxisAlignment.start, // عشان النص يلف كويس
+      crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         ClipRRect(
           borderRadius: BorderRadius.circular(100),

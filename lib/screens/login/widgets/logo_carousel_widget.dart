@@ -1,4 +1,3 @@
-import 'package:company_portal/utils/context_extensions.dart';
 import 'package:flutter/material.dart';
 
 import 'carousel_slider.dart';
@@ -21,9 +20,7 @@ class LogoAndCarouselWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     final screenSize = MediaQuery.of(context).size;
     final double logoHeight = screenSize.height * heightFactor;
-    final double topPadding = screenSize.height * topFactor;
     final double horizontalPadding = screenSize.width * horizontalPaddingFactor;
-    final isTablet = context.isTablet();
 
 
     return Column(children: [

@@ -1,10 +1,10 @@
 import 'package:company_portal/models/remote/direct_report.dart';
-import 'package:company_portal/service/dio_client.dart';
+import 'package:company_portal/service/graph_dio_client.dart';
 import 'package:flutter/foundation.dart';
 import '../utils/app_notifier.dart';
 
 class DirectReportsProvider with ChangeNotifier {
-  final DioClient dioClient;
+  final GraphDioClient dioClient;
 
   DirectReportsProvider({required this.dioClient});
 
@@ -28,9 +28,12 @@ class DirectReportsProvider with ChangeNotifier {
 
       if (response.statusCode == 200) {
         final parsedResponse = response.data;
-        _directReportList = (parsedResponse['value'] as List)
-            .map((redirectJson) => DirectReport.fromJson(redirectJson))
-            .toList();
+        _directReportList = await compute(
+          (final data) => (data['value'] as List)
+              .map((redirectJson) => DirectReport.fromJson(redirectJson))
+              .toList(),
+          parsedResponse,
+        );
 
         AppNotifier.logWithScreen("DirectReport Provider",
             "DirectReport Fetching: ${response.statusCode} $_directReportList ");

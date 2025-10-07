@@ -26,7 +26,7 @@ class _AppsScreenState extends State<AppsScreen> {
     return PopScope(
       canPop: false,
       child: Scaffold(
-          backgroundColor: theme.colorScheme.background,
+          backgroundColor: theme.colorScheme.surface,
           appBar: CustomAppBar(
             title: local.apps,
             backBtn: false,
@@ -62,38 +62,41 @@ Widget _buildAppCard(Widget child, String packageName, String iosAppId,
             androidPackageName: packageName,
             iosAppId: iosAppId,
             context: context,
-            local: local, theme: theme);
+            local: local,
+            theme: theme);
       },
       child: Padding(
         padding: const EdgeInsets.all(5.0),
         child: Container(
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(20),
-            color: theme.colorScheme.primary.withOpacity(0.1),
+            color: theme.colorScheme.primary.withValues(alpha: 0.1),
           ),
           child: child,
         ),
-      ));
+      ),
+  );
 }
 
 Widget _buildCardInfo(String iconStr, String text, bool isTablet) {
   return Column(
-      crossAxisAlignment: CrossAxisAlignment.center,
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: [
-        Image.asset(
-          iconStr,
-          scale: isTablet ? 1 : 1.4,
+    crossAxisAlignment: CrossAxisAlignment.center,
+    mainAxisAlignment: MainAxisAlignment.center,
+    children: [
+      Image.asset(
+        iconStr,
+        scale: isTablet ? 1 : 1.4,
+      ),
+      Padding(
+        padding: const EdgeInsets.only(top: 10.0),
+        child: Text(
+          text,
+          style: TextStyle(
+              fontSize: isTablet ? 20 : 15, fontWeight: FontWeight.w600),
         ),
-        Padding(
-          padding: const EdgeInsets.only(top: 10.0),
-          child: Text(
-            text,
-            style: TextStyle(
-                fontSize: isTablet ? 20 : 15, fontWeight: FontWeight.w600),
-          ),
-        ),
-      ]);
+      ),
+    ],
+  );
 }
 
 Future<void> openAppOrRedirect({
@@ -104,8 +107,6 @@ Future<void> openAppOrRedirect({
   required ThemeData theme,
   String? iosCustomScheme, // optional, e.g. "fb://"
 }) async {
-
-
   if (androidPackageName.isEmpty && iosAppId.isEmpty) {
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
@@ -118,7 +119,7 @@ Future<void> openAppOrRedirect({
         ),
       ),
     );
-  }else{
+  } else {
     AppNotifier.showLoadingDialog(context, local.openingApp, theme);
 
     try {
@@ -128,9 +129,9 @@ Future<void> openAppOrRedirect({
           onlyAppsWithLaunchIntent: false,
         );
 
-        bool isInstalled = apps.any((app) =>
-        app.packageName == androidPackageName);
-        AppNotifier.logWithScreen("App Screen","Installed App: $isInstalled");
+        bool isInstalled =
+            apps.any((app) => app.packageName == androidPackageName);
+        AppNotifier.logWithScreen("App Screen", "Installed App: $isInstalled");
 
         if (isInstalled) {
           DeviceApps.openApp(androidPackageName);
@@ -163,16 +164,16 @@ Future<void> openAppOrRedirect({
 
         if (!opened) {
           final Uri appStoreUri =
-          Uri.parse("https://apps.apple.com/eg/app/$iosAppId");
-          if (!await launchUrl(
-              appStoreUri, mode: LaunchMode.externalApplication)) {
+              Uri.parse("https://apps.apple.com/eg/app/$iosAppId");
+          if (!await launchUrl(appStoreUri,
+              mode: LaunchMode.externalApplication)) {
             throw 'Could not launch $appStoreUri';
           }
         }
       }
-    }finally{
+    } finally {
+      if (!context.mounted) return;
       AppNotifier.hideLoadingDialog(context);
     }
   }
 }
-

@@ -43,7 +43,7 @@ class SignInButton extends StatelessWidget {
                   child: Text(
                     text,
                     style: TextStyle(
-                      color: theme.colorScheme.background,
+                      color: theme.colorScheme.surface,
                       fontWeight: FontWeight.w600,
                       fontSize: fontSize,
                     ),
@@ -52,7 +52,7 @@ class SignInButton extends StatelessWidget {
                 SizedBox(width: screenWidth * 0.02),
                 Icon(
                   loginArrowIcon,
-                  color: theme.colorScheme.background,
+                  color: theme.colorScheme.surface,
                   size: iconSize,
                 ),
               ],

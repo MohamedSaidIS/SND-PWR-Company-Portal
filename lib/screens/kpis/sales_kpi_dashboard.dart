@@ -7,6 +7,7 @@ import 'package:provider/provider.dart';
 
 import '../../common/custom_app_bar.dart';
 import '../../data/user_data.dart';
+import '../../models/local/weekly_kpi.dart';
 import '../../providers/sales_kpis_provider.dart';
 import '../../service/sharedpref_service.dart';
 import '../../utils/app_notifier.dart';
@@ -47,7 +48,7 @@ class _SalesKpiScreenState extends State<SalesKpiScreen> {
     isTester = testerIds.contains(userId);
     AppNotifier.logWithScreen("KPI Dashboard Screen","IsTaster: $isTester");
 
-
+    if (!context.mounted) return;
     final salesKpiProvider = context.read<SalesKPIProvider>();
     await salesKpiProvider.getSalesKpi('$userId', isUAT: isUAT);
 
@@ -138,7 +139,7 @@ class _SalesKpiScreenState extends State<SalesKpiScreen> {
     }
 
     return Scaffold(
-      backgroundColor: theme.colorScheme.background,
+      backgroundColor: theme.colorScheme.surface,
       appBar: CustomAppBar(
         title: local.kpis,
         backBtn: false,

@@ -3,11 +3,14 @@ import 'package:company_portal/l10n/app_localizations.dart';
 import 'package:company_portal/models/remote/sales_kpi.dart';
 import 'package:company_portal/utils/kpi_calculation_handler.dart';
 import 'package:company_portal/utils/context_extensions.dart';
+import 'package:company_portal/utils/kpi_helper.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import '../../common/custom_app_bar.dart';
 
+import '../../models/local/daily_kpi.dart';
+import '../../models/local/weekly_kpi.dart';
 import '../../utils/app_notifier.dart';
 
 class SalesKpisDetailsScreen extends StatefulWidget {
@@ -98,7 +101,7 @@ class _SalesKpisDetailsScreenState extends State<SalesKpisDetailsScreen> {
         barRods: [
           BarChartRodData(
             toY: double.parse(kpi.totalSales.toStringAsFixed(2)),
-            color: KpiCalculationHandler.getDailyKPiBarColor(
+            color: KpiUIHelper.getDailyKPiBarColor(
                 daysInMonth[index], monthlyTarget),
             borderRadius: const BorderRadius.only(
                 topLeft: Radius.circular(2), topRight: Radius.circular(2)),
@@ -124,7 +127,7 @@ class _SalesKpisDetailsScreenState extends State<SalesKpisDetailsScreen> {
         barRods: [
           BarChartRodData(
             toY: double.parse(weekTotalKpi.toStringAsFixed(2)),
-            color: KpiCalculationHandler.getMonthlyKPiBarColor(
+            color: KpiUIHelper.getMonthlyKPiBarColor(
                 weeksInMonth[weekIndex], monthlyTarget),
             borderRadius: const BorderRadius.only(
                 topLeft: Radius.circular(2), topRight: Radius.circular(2)),
@@ -149,7 +152,7 @@ class _SalesKpisDetailsScreenState extends State<SalesKpisDetailsScreen> {
         barRods: [
           BarChartRodData(
             toY: double.parse(dayTotalKpi.toStringAsFixed(2)),
-            color: KpiCalculationHandler.getWeeklyKPiBarColor(
+            color: KpiUIHelper.getWeeklyKPiBarColor(
                 daysInWeek[dayIndex], monthlyTarget),
             borderRadius: const BorderRadius.only(
                 topLeft: Radius.circular(2), topRight: Radius.circular(2)),
@@ -171,11 +174,11 @@ class _SalesKpisDetailsScreenState extends State<SalesKpisDetailsScreen> {
     }
   }
 
-  Widget getX_axisTitles(double value, String title, List<SalesKPI> salesKpis, bool isArabic, AppLocalizations local) {
+  Widget getXAxisTitles(double value, String title, List<SalesKPI> salesKpis, bool isArabic, AppLocalizations local) {
     Widget widget = const Text("");
     if (title == local.dailyKpi) {
       AppNotifier.logWithScreen("KPI Details Screen","Length ${salesKpis.length}");
-      widget = getDailyX_axisTitles(value, salesKpis);
+      widget = getDailyXAxisTitles(value, salesKpis);
     } else if (title == local.monthlyKpi) {
       if (weeksInMonth.isNotEmpty && value.toInt() < weeksInMonth.length) {
         return Text("W${weeksInMonth[value.toInt()].weekNumber}");
@@ -200,7 +203,7 @@ class _SalesKpisDetailsScreenState extends State<SalesKpisDetailsScreen> {
     return widget;
   }
 
-  Widget getDailyX_axisTitles(double value, List<SalesKPI> salesKpis) {
+  Widget getDailyXAxisTitles(double value, List<SalesKPI> salesKpis) {
     final date = daysInMonth.elementAt(value.toInt()).date;
     return Padding(
       padding: const EdgeInsets.only(top: 5.0),
@@ -239,7 +242,7 @@ class _SalesKpisDetailsScreenState extends State<SalesKpisDetailsScreen> {
     return PopScope(
       canPop: false,
       child: Scaffold(
-        backgroundColor: theme.colorScheme.background,
+        backgroundColor: theme.colorScheme.surface,
         appBar: CustomAppBar(
           title: local.kpisDetails,
           backBtn: true,
@@ -275,7 +278,7 @@ class _SalesKpisDetailsScreenState extends State<SalesKpisDetailsScreen> {
                                 showTitles: true,
                                 reservedSize: 20,
                                 getTitlesWidget: (value, meta) {
-                                  return getX_axisTitles(value, widget.title,
+                                  return getXAxisTitles(value, widget.title,
                                       widget.salesKpis, isArabic, local);
                                 }),
                           ),

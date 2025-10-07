@@ -19,7 +19,7 @@ class _AttendLeaveScreenState extends State<AttendLeaveScreen> {
     return PopScope(
       canPop: false,
       child: Scaffold(
-        backgroundColor: theme.colorScheme.background,
+        backgroundColor: theme.colorScheme.surface,
         appBar: CustomAppBar(
           title: local.attendLeaveRequest,
           backBtn: true,

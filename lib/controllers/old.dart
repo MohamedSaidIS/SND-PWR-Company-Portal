@@ -4,7 +4,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter_appauth/flutter_appauth.dart';
 import '../config/env_config.dart';
 import '../utils/app_notifier.dart';
-import '../utils/biomertic_auth.dart';
+import 'biometric_auth_controller.dart';
 import '../utils/enums.dart';
 import '../service/secure_storage_service.dart';
 
@@ -12,7 +12,7 @@ class AuthController {
   final FlutterAppAuth appAuth = const FlutterAppAuth();
   final BuildContext context;
   final SecureStorageService secureStorage = SecureStorageService();
-  final BiometricAuth biometricAuth = BiometricAuth();
+  final BiometricAuthController biometricAuth = BiometricAuthController();
 
   AuthController({
     required this.context,
@@ -35,13 +35,13 @@ class AuthController {
           promptValues: ["select_account"],
         ),
       );
-      print("✅ SharePoint token: ${result.accessToken}");
+      AppNotifier.logWithScreen("Old Auth Controller", "✅ SharePoint token: ${result.accessToken}");
 
       final decoded = parseJwt(result.accessToken!);
-      print("✅ SharePoint Audience: ${decoded['aud']}");
-      print("✅ SharePoint Audience: ${decoded['aud']}");
+      AppNotifier.logWithScreen("Old Auth Controller","✅ SharePoint Audience: ${decoded['aud']}");
+      AppNotifier.logWithScreen("Old Auth Controller","✅ SharePoint Audience: ${decoded['aud']}");
 
-      if (result == null || result.accessToken == null) {
+      if (result.accessToken == null) {
         _showError("SharedPoint Login failed: No token received");
         return false;
       }
@@ -78,12 +78,12 @@ class AuthController {
         ),
       );
 
-      print("✅ Graph token: ${result.accessToken}");
+      AppNotifier.logWithScreen("Old Auth Controller","✅ Graph token: ${result.accessToken}");
 
       final decoded = parseJwt(result.accessToken!);
-      print("✅ Graph Audience: ${decoded['aud']}");
+      AppNotifier.logWithScreen("Old Auth Controller","✅ Graph Audience: ${decoded['aud']}");
 
-      if (result == null || result.accessToken == null) {
+      if (result.accessToken == null) {
         _showError("Graph Login failed: No token received");
         return false;
       }
@@ -121,7 +121,7 @@ class AuthController {
         ),
       );
 
-      if (result == null || result.accessToken == null) {
+      if (result.accessToken == null) {
         _showError("Login failed: No token received");
         return false;
       }
@@ -139,9 +139,9 @@ class AuthController {
         final decoded = parseJwt(result.idToken!);
         final email = decoded["preferred_username"] ?? decoded["email"];
         decoded.forEach((key, value) {
-          print("Decoded $key: $value");
+          AppNotifier.logWithScreen("Old Auth Controller","Decoded $key: $value");
         });
-        print("IdToken Email: $email");
+        AppNotifier.logWithScreen("Old Auth Controller","IdToken Email: $email");
       }
 
       return true;
@@ -156,7 +156,7 @@ class AuthController {
   }
 
   void _showError(String message) {
-    print("LoginError: $message");
+    AppNotifier.logWithScreen("Old Auth Controller","LoginError: $message");
     AppNotifier.snackBar(context, message, SnackBarType.error);
   }
 
@@ -165,7 +165,7 @@ class AuthController {
     if (!authenticated) return false;
 
     final token = await secureStorage.getData("AccessToken");
-    if (token == null) {
+    if (token == "") {
       _showError("No saved token, please login with Microsoft first");
       return false;
     }

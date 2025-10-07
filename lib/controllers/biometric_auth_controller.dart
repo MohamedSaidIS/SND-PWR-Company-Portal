@@ -1,8 +1,8 @@
 import 'package:local_auth/local_auth.dart';
 
-import 'app_notifier.dart';
+import '../utils/app_notifier.dart';
 
-class BiometricAuth {
+class BiometricAuthController {
   final LocalAuthentication auth = LocalAuthentication();
 
   Future<bool> authenticateWithBiometrics() async {
@@ -10,8 +10,8 @@ class BiometricAuth {
       final isAvailable = await auth.isDeviceSupported();
       final canCheck = await auth.canCheckBiometrics;
 
-      AppNotifier.logWithScreen("Biometric Auth","isAvailable: $isAvailable");
-      AppNotifier.logWithScreen("Biometric Auth","canCheckBiometrics: $canCheck");
+      AppNotifier.logWithScreen("Biometric Auth Controller","isAvailable: $isAvailable");
+      AppNotifier.logWithScreen("Biometric Auth Controller","canCheckBiometrics: $canCheck");
 
       if (!isAvailable || !canCheck) return false;
 
@@ -25,7 +25,7 @@ class BiometricAuth {
 
       return didAuthenticated;
     } catch (e) {
-      AppNotifier.logWithScreen("Biometric Auth", 'Error during biometric authentication: $e');
+      AppNotifier.logWithScreen("Biometric Auth Controller", 'Error during biometric authentication: $e');
       return false;
     }
   }

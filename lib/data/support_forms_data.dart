@@ -23,6 +23,22 @@ List<Map<String, String>> getPriorities(AppLocalizations local) {
   ];
 }
 
+List<Map<String, String>> getDeviceType(AppLocalizations local) {
+  return [
+    {'value': 'Laptop', 'label': local.laptop},
+    {'value': 'Desktop', 'label': local.desktop},
+    {'value': 'NA', 'label': local.nA},
+  ];
+}
+
+List<Map<String, String>> getIfNewEmailNeeded(AppLocalizations local) {
+  return [
+    {'value': 'Yes', 'label': local.yes},
+    {'value': 'No', 'label': local.no},
+    {'value': 'Current Email', 'label': local.currentEmail},
+  ];
+}
+
 IconData getStatusIcon(String status) {
   switch (status.toLowerCase()) {
     case "new":
@@ -83,15 +99,15 @@ String getTranslatedStatus(BuildContext context, String status, AppLocalizations
 Color getPriorityColor(String priority) {
   switch (priority.toLowerCase()) {
     case "critical":
-      return Colors.red; // خطير جداً
+      return Colors.red;
     case "high":
-      return Colors.orange; // عالي
+      return Colors.orange;
     case "low":
-      return Colors.amber; // منخفض
+      return Colors.amber;
     case "normal":
-      return Colors.green; // عادي
+      return Colors.green;
     default:
-      return Colors.grey; // غير معروف
+      return Colors.grey;
   }
 }
 

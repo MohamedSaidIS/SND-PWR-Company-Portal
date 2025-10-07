@@ -57,7 +57,7 @@ class SharePointDioClient {
       {Duration expiryDuration = const Duration(hours: 1)}) async {
     String? savedAtStr = await secureStorage.getData("SharedTokenSavedAt");
 
-    if (savedAtStr == null) return true; // Token hadn't been saved yet
+    if (savedAtStr == "") return true; // Token hadn't been saved yet
 
     final savedAt = DateTime.tryParse(savedAtStr);
     if (savedAt == null) return true;
@@ -70,7 +70,7 @@ class SharePointDioClient {
   Future<String?> _refreshToken() async {
     try {
       final refreshToken = await secureStorage.getData("RefreshToken");
-      if (refreshToken == null) {
+      if (refreshToken == "") {
         AppNotifier.logWithScreen("SharedRefreshToken missing", "User must login again");
         return null;
       }

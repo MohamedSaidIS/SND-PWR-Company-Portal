@@ -144,5 +144,16 @@
   "remainLeaves": "Remain Leaves",
   "annualLeave": "Annual Leaves",
   "leavesTransactions": "Leaves Transactions",
-  "days": "Days"
+  "days": "Days",
+  "support": "Support",
+  "dynamicsSupportCase": "Dynamics365 - SC",
+  "ecommerceSupportCase": "Ecommerce - SC",
+  "userNewRequest": "User New Requests",
+  "addComment": "Add a comment",
+  "yes": "Yes",
+  "no": "No",
+  "currentEmail": "Current Email",
+  "laptop": "Laptop",
+  "desktop": "Desktop",
+  "nA": "NA"
 }

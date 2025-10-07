@@ -1,10 +1,10 @@
 import 'package:company_portal/utils/app_notifier.dart';
 import 'package:flutter/foundation.dart';
 import '../models/remote/user_info.dart';
-import '../service/dio_client.dart';
+import '../service/graph_dio_client.dart';
 
 class ManagerInfoProvider with ChangeNotifier {
-  final DioClient dioClient;
+  final GraphDioClient dioClient;
 
   ManagerInfoProvider({required this.dioClient});
 
@@ -27,7 +27,10 @@ class ManagerInfoProvider with ChangeNotifier {
       final response = await dioClient.get('/me/manager');
 
       if (response.statusCode == 200) {
-        _managerInfo = UserInfo.fromJson(response.data);
+        _managerInfo = await compute(
+          (Map<String, dynamic> data) => UserInfo.fromJson(data),
+          Map<String, dynamic>.from(response.data),
+        );
         AppNotifier.logWithScreen("Manager Info Provider",
             "Manager Info Fetching Success: $_managerInfo");
       } else {

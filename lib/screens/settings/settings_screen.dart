@@ -22,7 +22,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
     return PopScope(
       canPop: false,
       child: Scaffold(
-        backgroundColor: theme.colorScheme.background,
+        backgroundColor: theme.colorScheme.surface,
         appBar: CustomAppBar(
           title: local.settings,
           backBtn: true,

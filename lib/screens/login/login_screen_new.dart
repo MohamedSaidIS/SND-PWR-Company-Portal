@@ -22,8 +22,8 @@ class LoginScreenNew extends StatefulWidget {
 class _LoginScreenNewState extends State<LoginScreenNew> {
   bool _isLoading = false;
   late final AuthController _authController;
-  late final graphToken;
-  late final spToken;
+  late String graphToken;
+  late String spToken;
 
 
   @override
@@ -37,6 +37,10 @@ class _LoginScreenNewState extends State<LoginScreenNew> {
       });
       await SecureStorageService().getData("SharedAccessToken").then((value) {
         AppNotifier.logWithScreen("LoginScreen","✅ SharedPoint Token: $value");
+        spToken = value;
+      });
+      await SecureStorageService().getData("MySharedAccessToken").then((value) {
+        AppNotifier.logWithScreen("LoginScreen","✅ MySharedPoint Token: $value");
         spToken = value;
       });
     });
@@ -85,8 +89,13 @@ class _LoginScreenNewState extends State<LoginScreenNew> {
       final spToken = await _authController.getSharePointToken();
       if (spToken == null) return false;
 
+
+      final mySpToken = await _authController.getMySharePointToken();
+      if (mySpToken == null) return false;
+
       AppNotifier.logWithScreen("LoginScreen","✅ Graph token retrieved: $graphToken");
       AppNotifier.logWithScreen("LoginScreen","✅ SharePoint token retrieved: $spToken");
+      AppNotifier.logWithScreen("LoginScreen","✅ MySharePoint token retrieved: $mySpToken");
 
       return true;
     } catch (e) {
@@ -114,7 +123,7 @@ class _LoginScreenNewState extends State<LoginScreenNew> {
     return PopScope(
       canPop: false,
       child: Scaffold(
-        backgroundColor: theme.colorScheme.background,
+        backgroundColor: theme.colorScheme.surface,
         body: SafeArea(
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.end,

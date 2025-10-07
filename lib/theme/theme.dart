@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 ThemeData lightMode = ThemeData(
   brightness: Brightness.light,
   colorScheme: const ColorScheme.light(
-    background: Color(0xfcfcf1e8),
+    surface: Color(0xfcfcf1e8),
     primary: Color(0xFF2E2E2E), // text
     secondary: Color(0xffba5f0f), //Color(0xFF1B818E),
     outline: Color(0xffba5f0f),
@@ -15,7 +15,7 @@ ThemeData lightMode = ThemeData(
     backgroundColor: Color(0xffffffff),
   ),
   navigationBarTheme: NavigationBarThemeData(
-    labelTextStyle: MaterialStateProperty.resolveWith<TextStyle>((states) {
+    labelTextStyle: WidgetStateProperty.resolveWith<TextStyle>((states) {
       return const TextStyle(fontSize: 13, fontWeight: FontWeight.bold);
     }),
   ),
@@ -88,7 +88,7 @@ ThemeData lightMode = ThemeData(
 ThemeData darkMode = ThemeData(
   brightness: Brightness.dark,
   colorScheme: const ColorScheme.dark(
-    background: Color(0xFF151515),
+    surface: Color(0xFF151515),
     primary: Color(0xFFEDEAE3), // text
     secondary: Color(0xffd55c23),
     outline: Color(0xffd55c23),

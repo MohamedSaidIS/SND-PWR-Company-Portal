@@ -18,7 +18,7 @@ class ImagePickerHandler {
       shape: const RoundedRectangleBorder(
         borderRadius: BorderRadius.vertical(top: Radius.circular(16)),
       ),
-      backgroundColor: theme.colorScheme.background,
+      backgroundColor: theme.colorScheme.surface,
       builder: (_) {
         return SafeArea(
           child: Wrap(
@@ -62,6 +62,7 @@ class ImagePickerHandler {
         onImagePicked(File(pickedFile.path));
       // }
     }
+    if (!context.mounted) return;
     Navigator.pop(context);
   }
 }

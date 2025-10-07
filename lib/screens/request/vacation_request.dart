@@ -115,7 +115,7 @@ class _VacationRequestScreenState extends State<VacationRequestScreen> {
     return PopScope(
       canPop: false,
       child: Scaffold(
-        backgroundColor: theme.colorScheme.background,
+        backgroundColor: theme.colorScheme.surface,
         appBar: CustomAppBar(
           title: local.vacationRequestLine,
           backBtn: true,
@@ -233,7 +233,7 @@ Widget _buildSubmitButton(String btnText, ThemeData theme, void Function() btnFu
         borderRadius: BorderRadius.circular(5),
       ),
     ),
-    child: Text(btnText, style: TextStyle(fontSize: 16, color: theme.colorScheme.background),),
+    child: Text(btnText, style: TextStyle(fontSize: 16, color: theme.colorScheme.surface),),
   );
 }
 

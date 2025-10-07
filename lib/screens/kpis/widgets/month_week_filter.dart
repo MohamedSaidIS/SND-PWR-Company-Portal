@@ -33,7 +33,7 @@ class MonthWeekFilter extends StatelessWidget {
           padding: const EdgeInsets.symmetric(horizontal: 12),
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(10),
-            color: theme.colorScheme.primary.withOpacity(0.1),
+            color: theme.colorScheme.primary.withValues(alpha:0.1),
           ),
           child: DropdownButton<int>(
             value: selectedMonth,
@@ -58,7 +58,7 @@ class MonthWeekFilter extends StatelessWidget {
           padding: const EdgeInsets.symmetric(horizontal: 12),
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(10),
-            color: theme.colorScheme.primary.withOpacity(0.1),
+            color: theme.colorScheme.primary.withValues(alpha:0.1),
           ),
           child: DropdownButton<int>(
             value:

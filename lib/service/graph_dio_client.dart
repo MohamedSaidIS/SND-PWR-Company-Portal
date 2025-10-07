@@ -6,14 +6,14 @@ import 'package:dio/dio.dart';
 import 'package:flutter_appauth/flutter_appauth.dart';
 import '../config/env_config.dart';
 
-class DioClient {
+class GraphDioClient {
   late final Dio dio;
   final FlutterAppAuth appAuth;
   final SecureStorageService secureStorage = SecureStorageService();
 
   final VoidCallback onUnauthorized;
 
-  DioClient({required this.appAuth, required this.onUnauthorized}) {
+  GraphDioClient({required this.appAuth, required this.onUnauthorized}) {
     dio = Dio(BaseOptions(
       baseUrl: EnvConfig.baseUrl,
       connectTimeout: const Duration(seconds: 30),
@@ -30,13 +30,13 @@ class DioClient {
           String? token = await secureStorage.getData("GraphAccessToken");
 
           final expired = await isTokenExpired();
-          AppNotifier.logWithScreen("DioClient","Graph AccessToken Expired $expired");
+          AppNotifier.logWithScreen("GraphDioClient","Graph AccessToken Expired $expired");
           if (expired) {
             token = await _refreshToken();
-            AppNotifier.logWithScreen("DioClient","Graph AccessToken Expired And New Token is $token");
+            AppNotifier.logWithScreen("GraphDioClient","Graph AccessToken Expired And New Token is $token");
           }
           if (token != null) {
-            AppNotifier.logWithScreen("DioClient","Graph AccessToken Expired And not null Token is $token");
+            AppNotifier.logWithScreen("GraphDioClient","Graph AccessToken Expired And not null Token is $token");
             options.headers['Authorization'] = 'Bearer $token';
           }
           handler.next(options);
@@ -44,7 +44,7 @@ class DioClient {
         onError: (error, handler) {
           if (error.response?.statusCode == 401) {
             // Logout or redirect to login
-            AppNotifier.logWithScreen("DioClient","Graph AccessToken Expired And Error 401");
+            AppNotifier.logWithScreen("GraphDioClient","Graph AccessToken Expired And Error 401");
             onUnauthorized();
           }
           handler.next(error);
@@ -57,7 +57,7 @@ class DioClient {
       {Duration expiryDuration = const Duration(hours: 1)}) async {
     String? savedAtStr = await secureStorage.getData("TokenSavedAt");
 
-    if (savedAtStr == null) return true; // Token hadn't been saved yet
+    if (savedAtStr == "") return true; // Token hadn't been saved yet
 
     final savedAt = DateTime.tryParse(savedAtStr);
     if (savedAt == null) return true;
@@ -70,8 +70,8 @@ class DioClient {
   Future<String?> _refreshToken() async {
     try {
       final refreshToken = await secureStorage.getData("RefreshToken");
-      if (refreshToken == null) {
-        AppNotifier.logWithScreen("DioClient","GraphRefreshToken missing User must login again");
+      if (refreshToken == "") {
+        AppNotifier.logWithScreen("GraphDioClient","GraphRefreshToken missing User must login again");
         return null;
       }
 
@@ -92,8 +92,8 @@ class DioClient {
         ),
       );
 
-      if (result == null || result.accessToken == null) {
-        AppNotifier.logWithScreen("DioClient", "GraphRefreshToken failed Null token response");
+      if (result.accessToken == null) {
+        AppNotifier.logWithScreen("GraphDioClient", "GraphRefreshToken failed Null token response");
         return null;
       }
 
@@ -107,7 +107,7 @@ class DioClient {
 
       return result.accessToken!;
     } catch (e) {
-      AppNotifier.logWithScreen("DioClient", "GraphRefreshToken token failed $e");
+      AppNotifier.logWithScreen("GraphDioClient", "GraphRefreshToken token failed $e");
     }
     return null;
   }

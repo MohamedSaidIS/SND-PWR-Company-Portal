@@ -1,11 +1,11 @@
 import 'package:company_portal/models/remote/all_organization_user.dart';
-import 'package:company_portal/service/dio_client.dart';
+import 'package:company_portal/service/graph_dio_client.dart';
 import 'package:flutter/foundation.dart';
 
 import '../utils/app_notifier.dart';
 
 class AllOrganizationUsersProvider extends ChangeNotifier {
-  DioClient dioClient;
+  GraphDioClient dioClient;
 
   AllOrganizationUsersProvider({required this.dioClient});
 
@@ -28,9 +28,12 @@ class AllOrganizationUsersProvider extends ChangeNotifier {
 
       if (response.statusCode == 200) {
         final parsedResponse = response.data;
-        _allUsers = (parsedResponse['value'] as List)
-            .map((allUsersJson) =>  AllOrganizationUsers.fromJson(allUsersJson))
-            .toList();
+        _allUsers = await compute(
+            (final data) => (data['value'] as List)
+                .map((allUsersJson) =>  AllOrganizationUsers.fromJson(allUsersJson))
+                .toList(),
+          parsedResponse
+        );
 
         AppNotifier.logWithScreen("All Users Provider: ", "All Users Fetching: ${allUsers.length}");
       } else {

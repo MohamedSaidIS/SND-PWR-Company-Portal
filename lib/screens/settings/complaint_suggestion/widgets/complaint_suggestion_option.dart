@@ -22,8 +22,8 @@ class ComplaintSuggestionOption extends StatelessWidget {
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
       contentPadding: const EdgeInsets.symmetric(horizontal: 5.0),
       tileColor: groupValue == value
-          ? theme.colorScheme.secondary.withOpacity(0.1)
-          : theme.colorScheme.primary.withOpacity(0.1),
+          ? theme.colorScheme.secondary.withValues(alpha:0.1)
+          : theme.colorScheme.primary.withValues(alpha:0.1),
       leading: Radio<String>(
         value: value,
         groupValue: groupValue,

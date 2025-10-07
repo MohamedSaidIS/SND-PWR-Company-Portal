@@ -22,21 +22,21 @@ class UserInfoDetailsScreen extends StatefulWidget {
 }
 
 class _UserInfoDetailsScreenState extends State<UserInfoDetailsScreen> {
-  @override
-  void initState() {
-    super.initState();
 
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      final managerProvider =
-      Provider.of<ManagerInfoProvider>(context, listen: false);
-
-      managerProvider.fetchManagerInfo();
-    });
-  }
+  // @override
+  // void initState() {
+  //   super.initState();
+  //
+  //   WidgetsBinding.instance.addPostFrameCallback((_) {
+  //     final managerProvider = Provider.of<ManagerInfoProvider>(context, listen: false);
+  //
+  //     managerProvider.fetchManagerInfo();
+  //   });
+  // }
 
   @override
   Widget build(BuildContext context) {
-    final managerInfoProvider = Provider.of<ManagerInfoProvider>(context);
+    final managerInfoProvider = context.watch<ManagerInfoProvider>();
     final managerInfo = managerInfoProvider.managerInfo;
     final theme = context.theme;
     final local = context.local;
@@ -44,7 +44,7 @@ class _UserInfoDetailsScreenState extends State<UserInfoDetailsScreen> {
     return PopScope(
       canPop: false,
       child: Scaffold(
-        backgroundColor: theme.colorScheme.background,
+        backgroundColor: theme.colorScheme.surface,
         appBar: CustomAppBar(
           title: local.userInfo,
           backBtn: true,

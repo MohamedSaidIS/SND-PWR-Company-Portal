@@ -1,18 +1,18 @@
 import 'package:company_portal/models/remote/complaint_suggestion.dart';
 import 'package:company_portal/models/remote/item_comments.dart';
-import 'package:company_portal/service/dio_client.dart';
+import 'package:company_portal/service/graph_dio_client.dart';
 import 'package:flutter/foundation.dart';
 import '../service/shared_point_dio_client.dart';
 import '../utils/app_notifier.dart';
 
 class ComplaintSuggestionProvider with ChangeNotifier {
-  final DioClient dioClient;
+  final GraphDioClient dioClient;
   final SharePointDioClient sharePointDioClient;
 
   ComplaintSuggestionProvider(
       {required this.dioClient, required this.sharePointDioClient});
 
-  static String LIST_ID = '35274cd8-ad05-4d42-adc1-20a127aad3d3';
+  static const listId = '35274cd8-ad05-4d42-adc1-20a127aad3d3';
 
   List<ComplaintSuggestion> _complaintSuggestionList = [];
   List<ItemComments> _comments = [];
@@ -39,17 +39,31 @@ class ComplaintSuggestionProvider with ChangeNotifier {
 
       if (response.statusCode == 200) {
         final parsedResponse = response.data;
-        _complaintSuggestionList = (parsedResponse['value'] as List)
-            .map((e) => ComplaintSuggestion.fromJson(e as Map<String, dynamic>))
-            .where((cs) => cs.createdBy?.user?.id == userId)
-            .toList();
 
-        _complaintSuggestionList
-            .sort((a, b) => b.createdDateTime!.compareTo(a.createdDateTime!));
+        _complaintSuggestionList = await compute(
+          (Map<String, dynamic> input) {
+            final data = input['data'] as Map<String, dynamic>;
+            final userId = input['userId'] as String?;
+
+            final list = (data['value'] as List)
+                .map((e) =>
+                    ComplaintSuggestion.fromJson(e as Map<String, dynamic>))
+                .where((cs) => cs.createdBy?.user?.id == userId)
+                .toList();
+
+            list.sort(
+                (a, b) => b.createdDateTime!.compareTo(a.createdDateTime!));
+            return list;
+          },
+          {
+            'data': parsedResponse,
+            'userId': userId,
+          },
+        );
 
         AppNotifier.logWithScreen("ComplaintSuggestion Provider",
             "ComplaintSuggestion Fetching: ${response.statusCode} ${_complaintSuggestionList[0].fields?.priority} ");
-      }  else {
+      } else {
         _error = 'Failed to load ComplaintSuggestion data';
         AppNotifier.logWithScreen("ComplaintSuggestion Provider",
             "ComplaintSuggestion Error: $_error ${response.statusCode}");
@@ -88,7 +102,7 @@ class ComplaintSuggestionProvider with ChangeNotifier {
         AppNotifier.logWithScreen("ComplaintSuggestion Provider",
             "ComplaintSuggestion Send: Success ${response.statusCode}");
         return true;
-      }  else {
+      } else {
         _error = 'Failed to send ComplaintSuggestion data';
         AppNotifier.logWithScreen("ComplaintSuggestion Provider",
             "ComplaintSuggestion Send Error:$_error ${response.statusCode}");
@@ -103,6 +117,7 @@ class ComplaintSuggestionProvider with ChangeNotifier {
     notifyListeners();
     return true;
   }
+
   /// ////////////////////////////////////////////// Comments /////////////////////////////////////////////////////
 
   Future<void> getComments(String ticketId) async {
@@ -112,29 +127,31 @@ class ComplaintSuggestionProvider with ChangeNotifier {
 
     try {
       final response = await sharePointDioClient.dio.get(
-          "https://alsanidi.sharepoint.com/sites/IT-Requests/_api/web/lists(guid'$LIST_ID')/items($ticketId)/comments");
-
+          "https://alsanidi.sharepoint.com/sites/IT-Requests/_api/web/lists(guid'$listId')/items($ticketId)/comments");
 
       if (response.statusCode == 200) {
         final parsedResponse = response.data["value"];
-        AppNotifier.logWithScreen("ComplaintSuggestion Provider", "Comments Fetching: $parsedResponse");
+        AppNotifier.logWithScreen("ComplaintSuggestion Provider",
+            "Comments Fetching: $parsedResponse");
 
-        _comments = (parsedResponse as List)
-            .map((e) => ItemComments.fromJson(e as Map<String, dynamic>))
-            .toList();
+        _comments = await compute(
+          (final data) => (data as List)
+              .map((e) => ItemComments.fromJson(e as Map<String, dynamic>))
+              .toList(),
+          parsedResponse,
+        );
+
         AppNotifier.logWithScreen("ComplaintSuggestion Provider",
             "Comments Fetching parsed: $parsedResponse");
-      }  else {
+      } else {
         _error = 'Failed to load Comments data';
         AppNotifier.logWithScreen(
             "Comments Error: ", "$_error ${response.statusCode}");
       }
-
-
     } catch (e) {
       _error = e.toString();
-      AppNotifier.logWithScreen("ComplaintSuggestion Provider",
-          "Comments Exception: $_error");
+      AppNotifier.logWithScreen(
+          "ComplaintSuggestion Provider", "Comments Exception: $_error");
     }
     _loading = false;
     notifyListeners();
@@ -146,11 +163,9 @@ class ComplaintSuggestionProvider with ChangeNotifier {
     _error = null;
     notifyListeners();
 
-    AppNotifier.logWithScreen("ComplaintSuggestion Provider", "Mention $mentions");
-
     try {
       final response = await sharePointDioClient.dio.post(
-        "https://alsanidi.sharepoint.com/sites/IT-Requests/_api/web/lists(guid'$LIST_ID')/items($ticketId)/comments",
+        "https://alsanidi.sharepoint.com/sites/IT-Requests/_api/web/lists(guid'$listId')/items($ticketId)/comments",
         data: {
           "text": comment,
           "mentions": mentions,
@@ -160,22 +175,24 @@ class ComplaintSuggestionProvider with ChangeNotifier {
       if (response.statusCode == 201) {
         AppNotifier.logWithScreen("ComplaintSuggestion Provider",
             "CommentSend: Success ${response.statusCode}");
-        await getComments(ticketId);
+
+        Future.microtask(() => getComments(ticketId));
 
         return true;
-      }  else {
-        _error = 'Failed to load Comments data';
-        AppNotifier.logWithScreen(
-            "Comments Error: ", "$_error ${response.statusCode}");
+
+      } else {
+        _error = 'Failed to send comment. Status code: ${response.statusCode}';
+        AppNotifier.logWithScreen("Comments Error: ", "$_error");
+        return false;
       }
     } catch (e) {
       _error = e.toString();
       AppNotifier.logWithScreen(
           "ComplaintSuggestion Provider", "CommentSend Exception: $_error");
       return false;
+    }finally {
+      _loading = false;
+      notifyListeners();
     }
-    _loading = false;
-    notifyListeners();
-    return true;
   }
 }

@@ -40,8 +40,8 @@ class MenuWidget extends StatelessWidget {
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(100),
           color: textColor != null
-              ? textColor!.withOpacity(0.1)
-              : theme.colorScheme.primary.withOpacity(0.1),
+              ? textColor!.withValues(alpha:0.1)
+              : theme.colorScheme.primary.withValues(alpha:0.1),
         ),
         child: Icon(
           icon,
@@ -58,7 +58,7 @@ class MenuWidget extends StatelessWidget {
               height: 30,
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(100),
-                color: theme.colorScheme.primary.withOpacity(0.1),
+                color: theme.colorScheme.primary.withValues(alpha:0.1),
               ),
               child: Icon(
                 itemArrowIcon,

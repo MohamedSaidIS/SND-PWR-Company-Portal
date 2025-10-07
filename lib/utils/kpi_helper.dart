@@ -1,41 +1,10 @@
-import 'dart:ui';
-
 import 'package:flutter/material.dart';
 import 'package:to_arabic_number/to_arabic_number.dart';
 
-import '../l10n/app_localizations.dart';
+import '../models/local/daily_kpi.dart';
+import '../models/local/weekly_kpi.dart';
 
-class KpiHelper{
-  static String getMonthName(String month, AppLocalizations local) {
-    switch (month) {
-      case "January":
-        return local.january;
-      case "February":
-        return local.february;
-      case "March":
-        return local.march;
-      case "April":
-        return local.april;
-      case "May":
-        return local.may;
-      case "June":
-        return local.june;
-      case "July":
-        return local.july;
-      case "August":
-        return local.august;
-      case "September":
-        return local.september;
-      case "October":
-        return local.october;
-      case "November":
-        return local.november;
-      case "December":
-        return local.december;
-      default:
-        return "";
-    }
-  }
+class KpiUIHelper{
 
   static Color getPieChartColor(num percent){
     if(percent >= 100){
@@ -48,7 +17,55 @@ class KpiHelper{
       return Colors.red;
     }
   }
+  static Color getDailyKPiBarColor(DailyKPI kpi , double monthlyTarget) {
+    Color wantedColor = Colors.blue;
+    double dailyTarget = monthlyTarget / 30;
+
+    if (kpi.totalSales > dailyTarget) {
+      wantedColor = Colors.blue;
+    } else if (kpi.totalSales == dailyTarget) {
+      wantedColor = Colors.green;
+    } else if (kpi.totalSales > dailyTarget / 2 && kpi.totalSales < dailyTarget) {
+      wantedColor = Colors.orange;
+    } else if(kpi.totalSales < dailyTarget / 2){
+      wantedColor = Colors.red;
+    }
+    return wantedColor;
+  }
+
+  static Color getWeeklyKPiBarColor(DailyKPI kpi, double monthlyTarget) {
+    Color wantedColor = Colors.blue;
+    double weeklyTarget = monthlyTarget / 4 ;
+
+    if (kpi.totalSales > weeklyTarget) {
+      wantedColor = Colors.blue;
+    } else if (kpi.totalSales == weeklyTarget) {
+      wantedColor = Colors.green;
+    } else if (kpi.totalSales > weeklyTarget / 2 && kpi.totalSales < weeklyTarget ) {
+      wantedColor = Colors.orange;
+    } else if (kpi.totalSales < weeklyTarget / 2 ) {
+      wantedColor = Colors.red;
+    }
+    return wantedColor;
+  }
+
+  static Color getMonthlyKPiBarColor(WeeklyKPI kpi, double monthlyTarget) {
+    Color wantedColor = Colors.blue;
+
+    if (kpi.totalSales > monthlyTarget) {
+      wantedColor = Colors.blue;
+    } else if (kpi.totalSales == monthlyTarget) {
+      wantedColor = Colors.green;
+    } else if (kpi.totalSales > monthlyTarget / 2 && kpi.totalSales < monthlyTarget) {
+      wantedColor = Colors.orange;
+    } else if (kpi.totalSales < monthlyTarget / 2) {
+      wantedColor = Colors.orange;
+    }
+    return wantedColor;
+  }
 }
+
+
 String convertedToArabicNumber(var weekNumber, isArabic) {
   return isArabic ? Arabic.number(weekNumber.toString()) : weekNumber.toString();
 }

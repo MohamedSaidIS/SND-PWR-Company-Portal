@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_appauth/flutter_appauth.dart';
 import '../config/env_config.dart';
 import '../utils/app_notifier.dart';
-import '../utils/biomertic_auth.dart';
+import 'biometric_auth_controller.dart';
 import '../utils/enums.dart';
 import '../service/secure_storage_service.dart';
 
@@ -13,7 +13,7 @@ class AuthController {
   final FlutterAppAuth appAuth = const FlutterAppAuth();
   final BuildContext context;
   final SecureStorageService secureStorage = SecureStorageService();
-  final BiometricAuth biometricAuth = BiometricAuth();
+  final BiometricAuthController biometricAuth = BiometricAuthController();
 
   AuthController({required this.context});
 
@@ -27,7 +27,7 @@ class AuthController {
           EnvConfig.msClientId,
           EnvConfig.msRedirectUri,
           discoveryUrl:
-          "https://login.microsoftonline.com/${EnvConfig.msTenantId}/v2.0/.well-known/openid-configuration",
+              "https://login.microsoftonline.com/${EnvConfig.msTenantId}/v2.0/.well-known/openid-configuration",
           scopes: [
             "openid",
             "profile",
@@ -38,7 +38,7 @@ class AuthController {
         ),
       );
 
-      if (result == null || result.refreshToken == null) {
+      if (result.refreshToken == null) {
         _showError("Login failed: No refresh token received");
         return false;
       }
@@ -48,7 +48,8 @@ class AuthController {
       await secureStorage.saveData(
           "TokenSavedAt", DateTime.now().toIso8601String());
 
-      AppNotifier.logWithScreen("Auth Controller", "✅ Login successful, refresh token saved.");
+      AppNotifier.logWithScreen(
+          "Auth Controller", "✅ Login successful, refresh token saved.");
       return true;
     } catch (e) {
       _showError("Login error: $e");
@@ -60,7 +61,7 @@ class AuthController {
   Future<String?> getGraphToken() async {
     try {
       final refreshToken = await secureStorage.getData("RefreshToken");
-      if (refreshToken == null) {
+      if (refreshToken == "") {
         _showError("No refresh token found, login required");
         return null;
       }
@@ -70,14 +71,14 @@ class AuthController {
         EnvConfig.msRedirectUri,
         refreshToken: refreshToken,
         discoveryUrl:
-        "https://login.microsoftonline.com/${EnvConfig.msTenantId}/v2.0/.well-known/openid-configuration",
+            "https://login.microsoftonline.com/${EnvConfig.msTenantId}/v2.0/.well-known/openid-configuration",
         scopes: ["https://graph.microsoft.com/.default"],
-      ));
+      ),);
 
       final accessToken = result.accessToken;
       if (accessToken != null) {
         await secureStorage.saveData("GraphAccessToken", accessToken);
-        AppNotifier.logWithScreen("Auth Controller","✅ Graph token retrieved");
+        AppNotifier.logWithScreen("Auth Controller", "✅ Graph token retrieved");
       }
       return accessToken;
     } catch (e) {
@@ -90,7 +91,8 @@ class AuthController {
   Future<String?> getSharePointToken() async {
     try {
       final refreshToken = await secureStorage.getData("RefreshToken");
-      if (refreshToken == null) {
+
+      if (refreshToken == "") {
         _showError("No refresh token found, login required");
         return null;
       }
@@ -100,18 +102,52 @@ class AuthController {
         EnvConfig.msRedirectUri,
         refreshToken: refreshToken,
         discoveryUrl:
-        "https://login.microsoftonline.com/${EnvConfig.msTenantId}/v2.0/.well-known/openid-configuration",
+            "https://login.microsoftonline.com/${EnvConfig.msTenantId}/v2.0/.well-known/openid-configuration",
         scopes: ["https://alsanidi.sharepoint.com/.default"],
-      ));
+      ),);
 
       final accessToken = result.accessToken;
       if (accessToken != null) {
         await secureStorage.saveData("SharePointAccessToken", accessToken);
-        AppNotifier.logWithScreen("Auth Controller","✅ SharePoint token retrieved");
+        AppNotifier.logWithScreen(
+            "Auth Controller", "✅ SharePoint token retrieved");
       }
       return accessToken;
     } catch (e) {
       _showError("SharePoint token error: $e");
+      return null;
+    }
+  }
+  /// احصل على MySharePoint Token باستخدام refresh token
+  Future<String?> getMySharePointToken() async {
+    try {
+      final refreshToken = await secureStorage.getData("RefreshToken");
+
+      if (refreshToken == "") {
+        _showError("No refresh token found, login required");
+        return null;
+      }
+
+      final result = await appAuth.token(
+        TokenRequest(
+          EnvConfig.msClientId,
+          EnvConfig.msRedirectUri,
+          refreshToken: refreshToken,
+          discoveryUrl:
+              "https://login.microsoftonline.com/${EnvConfig.msTenantId}/v2.0/.well-known/openid-configuration",
+          scopes: ["https://alsanidi-my.sharepoint.com/.default"],
+        ),
+      );
+
+      final accessToken = result.accessToken;
+      if (accessToken != null) {
+        await secureStorage.saveData("MySharePointAccessToken", accessToken);
+        AppNotifier.logWithScreen(
+            "Auth Controller", "✅ MySharePoint token retrieved");
+      }
+      return accessToken;
+    } catch (e) {
+      _showError("MySharePoint token error: $e");
       return null;
     }
   }
@@ -143,6 +179,4 @@ class AuthController {
 
     return true;
   }
-
 }
-

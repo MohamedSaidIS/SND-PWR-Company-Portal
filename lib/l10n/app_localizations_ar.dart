@@ -442,4 +442,37 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get days => 'أيام';
+
+  @override
+  String get support => 'الدعم الفنى';
+
+  @override
+  String get dynamicsSupportCase => 'دعم Dynamics365';
+
+  @override
+  String get ecommerceSupportCase => 'دعم التجارة الإلكترونية';
+
+  @override
+  String get userNewRequest => 'طلبات المستخدم الجديدة';
+
+  @override
+  String get addComment => 'أضافة تعليق';
+
+  @override
+  String get yes => 'نعم';
+
+  @override
+  String get no => 'لا';
+
+  @override
+  String get currentEmail => 'البريد الإلكتروني الحالي';
+
+  @override
+  String get laptop => 'حاسوب محمول';
+
+  @override
+  String get desktop => 'حاسوب مكتبي';
+
+  @override
+  String get nA => 'غير متوفر';
 }

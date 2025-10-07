@@ -144,6 +144,17 @@
   "remainLeaves": "الإجازات المتبقية",
   "annualLeave": "الإجازات السنوية",
   "leavesTransactions": "سجل الإجازات",
-  "days": "أيام"
+  "days": "أيام",
+  "support": "الدعم الفنى",
+  "dynamicsSupportCase": "دعم Dynamics365",
+  "ecommerceSupportCase": "دعم التجارة الإلكترونية",
+  "userNewRequest": "طلبات المستخدم الجديدة",
+  "addComment": "أضافة تعليق",
+  "yes": "نعم",
+  "no": "لا",
+  "currentEmail": "البريد الإلكتروني الحالي",
+  "laptop": "حاسوب محمول",
+  "desktop": "حاسوب مكتبي",
+  "nA": "غير متوفر"
 }
 

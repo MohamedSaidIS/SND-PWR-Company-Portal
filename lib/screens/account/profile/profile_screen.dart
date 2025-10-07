@@ -22,17 +22,17 @@ class ProfileScreen extends StatefulWidget {
 class _ProfileScreenState extends State<ProfileScreen> {
   File? _image;
 
-  @override
-  void initState() {
-    super.initState();
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      final userProvider = context.read<UserInfoProvider>();
-      final imageProvider = context.read<UserImageProvider>();
-
-      userProvider.fetchUserInfo();
-      imageProvider.fetchImage();
-    });
-  }
+  // @override
+  // void initState() {
+  //   super.initState();
+  //   WidgetsBinding.instance.addPostFrameCallback((_) {
+  //     final userProvider = context.read<UserInfoProvider>();
+  //     final imageProvider = context.read<UserImageProvider>();
+  //
+  //     userProvider.fetchUserInfo();
+  //     imageProvider.fetchImage();
+  //   });
+  // }
 
   void _handleImagePick(File pickedImage) async {
     setState(() => _image = pickedImage);
@@ -46,11 +46,12 @@ class _ProfileScreenState extends State<ProfileScreen> {
       await imageProvider.fetchImage();
       setState(() => _image = null);
 
-      AppNotifier.snackBar(
-          context, local.profilePhotoUpdated, SnackBarType.success);
+      if (!context.mounted) return;
+
+      AppNotifier.snackBar(context, local.profilePhotoUpdated, SnackBarType.success);
     } else {
-      AppNotifier.snackBar(
-          context, local.uploadPhotoFailed, SnackBarType.error);
+
+      AppNotifier.snackBar(context, local.uploadPhotoFailed, SnackBarType.error);
     }
   }
 
@@ -65,7 +66,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
   @override
   Widget build(BuildContext context) {
     final userInfoProvider = context.watch<UserInfoProvider>();
-    final userImageProvider = Provider.of<UserImageProvider>(context);
+    final userImageProvider = context.watch<UserImageProvider>();
 
     final userInfo = userInfoProvider.userInfo;
     final userImage = userImageProvider.imageBytes;
@@ -76,7 +77,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
     return PopScope(
       canPop: false,
       child: Scaffold(
-        backgroundColor: theme.colorScheme.background,
+        backgroundColor: theme.colorScheme.surface,
         appBar: CustomAppBar(
           title: local.profile,
           themeBtn: true,
