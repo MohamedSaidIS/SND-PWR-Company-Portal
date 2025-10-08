@@ -155,6 +155,20 @@
   "currentEmail": "البريد الإلكتروني الحالي",
   "laptop": "حاسوب محمول",
   "desktop": "حاسوب مكتبي",
-  "nA": "غير متوفر"
+  "nA": "غير متوفر",
+  "title": "العنوان",
+  "phoneNo": "رقم الهاتف",
+  "directManager": "المدير المباشر",
+  "enName": "الاسم بالإنجليزية",
+  "arName": "الاسم بالعربية",
+  "joiningDate": "تاريخ الانضمام",
+  "pleaseEnterLocation": "الرجاء إدخال الموقع",
+  "pleaseEnterPhoneNo": "الرجاء إدخال رقم الهاتف",
+  "pleaseEnterEnName": "الرجاء إدخال الاسم بالإنجليزية",
+  "pleaseEnterArName": "الرجاء إدخال الاسم بالعربية",
+  "pleaseEnterJoiningDate": "الرجاء إدخال تاريخ الانضمام",
+  "pleaseEnterJobTitle": "الرجاء إدخال المسمى الوظيفي",
+  "pleaseEnterDepartment": "الرجاء إدخال القسم"
+
 }
 

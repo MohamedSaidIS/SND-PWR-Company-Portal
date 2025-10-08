@@ -1030,6 +1030,84 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'NA'**
   String get nA;
+
+  /// No description provided for @title.
+  ///
+  /// In en, this message translates to:
+  /// **'Title'**
+  String get title;
+
+  /// No description provided for @phoneNo.
+  ///
+  /// In en, this message translates to:
+  /// **'Phone Number'**
+  String get phoneNo;
+
+  /// No description provided for @directManager.
+  ///
+  /// In en, this message translates to:
+  /// **'Direct Manager'**
+  String get directManager;
+
+  /// No description provided for @enName.
+  ///
+  /// In en, this message translates to:
+  /// **'English Name'**
+  String get enName;
+
+  /// No description provided for @arName.
+  ///
+  /// In en, this message translates to:
+  /// **'Arabic Name'**
+  String get arName;
+
+  /// No description provided for @joiningDate.
+  ///
+  /// In en, this message translates to:
+  /// **'Joining Date'**
+  String get joiningDate;
+
+  /// No description provided for @pleaseEnterLocation.
+  ///
+  /// In en, this message translates to:
+  /// **'Please enter location'**
+  String get pleaseEnterLocation;
+
+  /// No description provided for @pleaseEnterPhoneNo.
+  ///
+  /// In en, this message translates to:
+  /// **'Please enter phone Number'**
+  String get pleaseEnterPhoneNo;
+
+  /// No description provided for @pleaseEnterEnName.
+  ///
+  /// In en, this message translates to:
+  /// **'Please enter English Name'**
+  String get pleaseEnterEnName;
+
+  /// No description provided for @pleaseEnterArName.
+  ///
+  /// In en, this message translates to:
+  /// **'Please enter Arabic Name'**
+  String get pleaseEnterArName;
+
+  /// No description provided for @pleaseEnterJoiningDate.
+  ///
+  /// In en, this message translates to:
+  /// **'Please enter joining date'**
+  String get pleaseEnterJoiningDate;
+
+  /// No description provided for @pleaseEnterJobTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Please enter job title'**
+  String get pleaseEnterJobTitle;
+
+  /// No description provided for @pleaseEnterDepartment.
+  ///
+  /// In en, this message translates to:
+  /// **'Please enter department'**
+  String get pleaseEnterDepartment;
 }
 
 class _AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> {

@@ -8,6 +8,11 @@ class SharedPrefsHelper {
     await prefs.setString(key, value);
   }
 
+  Future<void> saveBoolData(String key, bool value) async {
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.setBool(key, value);
+  }
+
 // Read Data
   Future<String?> getUserData(String key) async {
     final prefs = await SharedPreferences.getInstance();

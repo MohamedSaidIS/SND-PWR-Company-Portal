@@ -155,5 +155,19 @@
   "currentEmail": "Current Email",
   "laptop": "Laptop",
   "desktop": "Desktop",
-  "nA": "NA"
+  "nA": "NA",
+  "title": "Title *",
+  "phoneNo": "Phone Number *",
+  "directManager": "Direct Manager *",
+  "enName": "English Name *",
+  "arName": "Arabic Name *",
+  "joiningDate": "Joining Date *",
+  "pleaseEnterLocation": "Please enter location",
+  "pleaseEnterPhoneNo": "Please enter phone Number",
+  "pleaseEnterEnName": "Please enter English Name",
+  "pleaseEnterArName": "Please enter Arabic Name",
+  "pleaseEnterJoiningDate": "Please enter joining date",
+  "pleaseEnterJobTitle": "Please enter job title",
+  "pleaseEnterDepartment": "Please enter department"
+
 }

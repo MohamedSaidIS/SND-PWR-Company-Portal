@@ -29,7 +29,7 @@ class _HomeScreenState extends State<HomeScreen> {
     super.initState();
      WidgetsBinding.instance.addPostFrameCallback((_) async {
        final userProvider = context.read<UserInfoProvider>();
-       userProvider.getGroupId();
+       userProvider.getGroupId(false);
      });
   }
 
@@ -42,14 +42,14 @@ class _HomeScreenState extends State<HomeScreen> {
     switch (userGroupIds.groupId) {
       case "1ea1d494-a377-4071-beac-301a99746d2a": // Management
         return const ManagementKpiScreen();
-      case "9876abcd-4321-aaaa-9999-bbbbbccccddd": // Sales
+      case "4053f91a-d9a0-4a65-8057-1a816e498d0f": // Sales
         return const SalesKpiScreen();
-      case "9876abcd-4321-aaaa-9999-bbbbb1111ddd": // Sales
-        return const SalesKpiScreen();
-      case "9876abcd-4321-aaaa-9999-bbbbbcc11ddd": // Sales
-        return const SalesKpiScreen();
+      // case "9876abcd-4321-aaaa-9999-bbbbb1111ddd": // Sales
+      //   return const SalesKpiScreen();
+      // case "9876abcd-4321-aaaa-9999-bbbbbcc11ddd": // Sales
+      //   return const SalesKpiScreen();
       default:
-        return const NoKpiScreen();
+        return const SalesKpiScreen();
     }
   }
 
@@ -85,7 +85,7 @@ class _HomeScreenState extends State<HomeScreen> {
               });
               if (newIndex == 2) {
                 final userProvider = context.read<UserInfoProvider>();
-                await userProvider.getGroupId();
+                await userProvider.getGroupId(false);
               }
             },
             selectedIndex: _currentIndex,

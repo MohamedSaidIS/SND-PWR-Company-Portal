@@ -475,4 +475,43 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get nA => 'NA';
+
+  @override
+  String get title => 'Title';
+
+  @override
+  String get phoneNo => 'Phone Number';
+
+  @override
+  String get directManager => 'Direct Manager';
+
+  @override
+  String get enName => 'English Name';
+
+  @override
+  String get arName => 'Arabic Name';
+
+  @override
+  String get joiningDate => 'Joining Date';
+
+  @override
+  String get pleaseEnterLocation => 'Please enter location';
+
+  @override
+  String get pleaseEnterPhoneNo => 'Please enter phone Number';
+
+  @override
+  String get pleaseEnterEnName => 'Please enter English Name';
+
+  @override
+  String get pleaseEnterArName => 'Please enter Arabic Name';
+
+  @override
+  String get pleaseEnterJoiningDate => 'Please enter joining date';
+
+  @override
+  String get pleaseEnterJobTitle => 'Please enter job title';
+
+  @override
+  String get pleaseEnterDepartment => 'Please enter department';
 }

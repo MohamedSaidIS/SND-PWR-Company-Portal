@@ -32,7 +32,6 @@ class _DashboardScreenState extends State<DashboardScreen> {
   void initState() {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((_) async {
-
       initialDataValues();
 
       await _restoreCookies();
@@ -44,7 +43,8 @@ class _DashboardScreenState extends State<DashboardScreen> {
     });
     SecureStorageService().getData("SharePointAccessToken").then((value) {
       setState(() {
-        AppNotifier.logWithScreen("Dashboard Screen","DashBoard Token: $value");
+        AppNotifier.logWithScreen(
+            "Dashboard Screen", "DashBoard Token: $value");
         accessToken = value.trim();
       });
     });
@@ -57,8 +57,9 @@ class _DashboardScreenState extends State<DashboardScreen> {
     final directReportProvider = context.read<DirectReportsProvider>();
     final allUsersProvider = context.read<AllOrganizationUsersProvider>();
 
-
     userProvider.fetchUserInfo();
+    userProvider.getGroupId(true);
+    userProvider.getGroupMembers("4053f91a-d9a0-4a65-8057-1a816e498d0f");
     imageProvider.fetchImage();
     managerProvider.fetchManagerInfo();
     allUsersProvider.getAllUsers();
@@ -66,8 +67,6 @@ class _DashboardScreenState extends State<DashboardScreen> {
       directReportProvider.fetchRedirectReport();
     }
   }
-
-
 
   Future<void> _restoreCookies() async {
     final cookiesJson = await SecureStorageService().getData("savedCookies");
@@ -79,11 +78,13 @@ class _DashboardScreenState extends State<DashboardScreen> {
       if (value != null && value.toString().isNotEmpty) {
         String domain = c["domain"];
 
-        AppNotifier.logWithScreen("Dashboard Screen","✅ Restored Cookie: ${c["name"]} =========== $value");
+        AppNotifier.logWithScreen("Dashboard Screen",
+            "✅ Restored Cookie: ${c["name"]} =========== $value");
 
         if (c["name"] == "FedAuth" || c["name"] == "rtFa") {
           domain = ".sharepoint.com";
-          AppNotifier.logWithScreen("Dashboard Screen","✅ Restored Cookie Domain: $domain");
+          AppNotifier.logWithScreen(
+              "Dashboard Screen", "✅ Restored Cookie Domain: $domain");
         }
 
         await cookieManager.setCookie(
@@ -95,7 +96,8 @@ class _DashboardScreenState extends State<DashboardScreen> {
           isSecure: c["isSecure"] ?? true,
           isHttpOnly: c["isHttpOnly"] ?? true,
         );
-        AppNotifier.logWithScreen("Dashboard Screen","Restored Cookie: ${c["name"]}=$value; domain=$domain");
+        AppNotifier.logWithScreen("Dashboard Screen",
+            "Restored Cookie: ${c["name"]}=$value; domain=$domain");
       }
     }
 
@@ -105,24 +107,26 @@ class _DashboardScreenState extends State<DashboardScreen> {
       );
     }
 
-    AppNotifier.logWithScreen("Dashboard Screen","✅ Cookies restored and WebView reloaded");
+    AppNotifier.logWithScreen(
+        "Dashboard Screen", "✅ Cookies restored and WebView reloaded");
   }
 
   Future<void> _saveCookies() async {
     final cookies = await cookieManager.getCookies(url: WebUri(sharepointUrl));
     for (var c in cookies) {
-      AppNotifier.logWithScreen("Dashboard Screen","Restored Cookie: ${c.name}=${c.value}; domain=${c.domain}");
+      AppNotifier.logWithScreen("Dashboard Screen",
+          "Restored Cookie: ${c.name}=${c.value}; domain=${c.domain}");
     }
 
     final cookiesList = cookies
         .map((c) => {
-      "name": c.name,
-      "value": c.value,
-      "domain": c.domain,
-      "path": c.path,
-      "isSecure": c.isSecure,
-      "isHttpOnly": c.isHttpOnly,
-    })
+              "name": c.name,
+              "value": c.value,
+              "domain": c.domain,
+              "path": c.path,
+              "isSecure": c.isSecure,
+              "isHttpOnly": c.isHttpOnly,
+            })
         .toList();
 
     // نخزنهم كـ JSON String
@@ -130,7 +134,8 @@ class _DashboardScreenState extends State<DashboardScreen> {
 
     await SecureStorageService().saveData("savedCookies", cookiesJson);
 
-    AppNotifier.logWithScreen("Dashboard Screen", "Cookies saved to storage: $cookiesJson");
+    AppNotifier.logWithScreen(
+        "Dashboard Screen", "Cookies saved to storage: $cookiesJson");
   }
 
   @override
@@ -138,15 +143,19 @@ class _DashboardScreenState extends State<DashboardScreen> {
     webViewController = null;
     super.dispose();
   }
+
   @override
   Widget build(BuildContext context) {
     final userInfoProvider = context.watch<UserInfoProvider>();
     final userInfo = userInfoProvider.userInfo;
+    final managerOfSalesGroup = userInfoProvider.groupInfo;
 
+    if (userInfo != null && managerOfSalesGroup != null) {
+      AppNotifier.logWithScreen("Dashboard Screen",
+          "User Info: ${userInfo.id} ${managerOfSalesGroup.groupId}");
 
-    if (userInfo != null) {
-      AppNotifier.logWithScreen("Dashboard Screen","User Info: ${userInfo.id}");
       SharedPrefsHelper().saveUserData("UserId", userInfo.id);
+      SharedPrefsHelper().saveUserData("managerOfSalesGroup", managerOfSalesGroup.groupId);
     }
 
     final theme = context.theme;
@@ -169,31 +178,33 @@ class _DashboardScreenState extends State<DashboardScreen> {
                 child: accessToken == null
                     ? const Center(child: CircularProgressIndicator())
                     : InAppWebView(
-                  initialUrlRequest: URLRequest(url: WebUri(sharepointUrl),
-                  ),
-                  initialSettings: InAppWebViewSettings(
-                    javaScriptEnabled: true,
-                    cacheEnabled: true,
-                    clearCache: false,
-                    domStorageEnabled: true,
-                    sharedCookiesEnabled: true,
-                    thirdPartyCookiesEnabled: true,
-                    useHybridComposition: true,
-                  ),
-                  onWebViewCreated: (controller) {
-                    webViewController = controller;
-                  },
-                  onLoadStop: (controller, url) async {
-                    AppNotifier.logWithScreen("Dashboard Screen","Finished loading: $url");
-                    await _saveCookies();
-                  },
-                  onProgressChanged: (controller, progress) {
-                    if (!mounted) return;
-                    setState(() {
-                      webProgress = progress / 100;
-                    });
-                  },
-                ),
+                        initialUrlRequest: URLRequest(
+                          url: WebUri(sharepointUrl),
+                        ),
+                        initialSettings: InAppWebViewSettings(
+                          javaScriptEnabled: true,
+                          cacheEnabled: true,
+                          clearCache: false,
+                          domStorageEnabled: true,
+                          sharedCookiesEnabled: true,
+                          thirdPartyCookiesEnabled: true,
+                          useHybridComposition: true,
+                        ),
+                        onWebViewCreated: (controller) {
+                          webViewController = controller;
+                        },
+                        onLoadStop: (controller, url) async {
+                          AppNotifier.logWithScreen(
+                              "Dashboard Screen", "Finished loading: $url");
+                          await _saveCookies();
+                        },
+                        onProgressChanged: (controller, progress) {
+                          if (!mounted) return;
+                          setState(() {
+                            webProgress = progress / 100;
+                          });
+                        },
+                      ),
               ),
             ],
           ),
@@ -201,6 +212,4 @@ class _DashboardScreenState extends State<DashboardScreen> {
       ),
     );
   }
-
-
 }

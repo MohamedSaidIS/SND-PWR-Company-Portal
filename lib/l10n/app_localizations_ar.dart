@@ -475,4 +475,43 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get nA => 'غير متوفر';
+
+  @override
+  String get title => 'العنوان';
+
+  @override
+  String get phoneNo => 'رقم الهاتف';
+
+  @override
+  String get directManager => 'المدير المباشر';
+
+  @override
+  String get enName => 'الاسم بالإنجليزية';
+
+  @override
+  String get arName => 'الاسم بالعربية';
+
+  @override
+  String get joiningDate => 'تاريخ الانضمام';
+
+  @override
+  String get pleaseEnterLocation => 'الرجاء إدخال الموقع';
+
+  @override
+  String get pleaseEnterPhoneNo => 'الرجاء إدخال رقم الهاتف';
+
+  @override
+  String get pleaseEnterEnName => 'الرجاء إدخال الاسم بالإنجليزية';
+
+  @override
+  String get pleaseEnterArName => 'الرجاء إدخال الاسم بالعربية';
+
+  @override
+  String get pleaseEnterJoiningDate => 'الرجاء إدخال تاريخ الانضمام';
+
+  @override
+  String get pleaseEnterJobTitle => 'الرجاء إدخال المسمى الوظيفي';
+
+  @override
+  String get pleaseEnterDepartment => 'الرجاء إدخال القسم';
 }

@@ -1,3 +1,5 @@
+import 'package:company_portal/models/remote/group_member.dart';
+import 'package:company_portal/screens/kpis/widgets/employee_filter.dart';
 import 'package:company_portal/screens/kpis/widgets/month_week_filter.dart';
 import 'package:company_portal/utils/kpi_calculation_handler.dart';
 import 'package:company_portal/screens/kpis/widgets/pie_chart.dart';
@@ -25,10 +27,12 @@ class _SalesKpiScreenState extends State<SalesKpiScreen> {
   bool isUAT = false;
   bool isLoading = false;
   int selectedMonth = DateTime.now().month;
-  int?  selectedWeek;
+  int? selectedWeek;
+  GroupMember? selectedEmployee = GroupMember(memberId: "", displayName: "", givenName: "", surname: "", mail: "", jobTitle: "") ;
   late List<int> weeksPerMonth;
   List<String> testerIds = [];
   bool isTester = false;
+  bool isManager = false;
 
   @override
   void initState() {
@@ -38,15 +42,21 @@ class _SalesKpiScreenState extends State<SalesKpiScreen> {
     _rebuildWeeks();
 
     WidgetsBinding.instance.addPostFrameCallback((_) => fetchKpis());
-
   }
 
   Future<void> fetchKpis() async {
     final userId = await SharedPrefsHelper().getUserData("UserId");
-    AppNotifier.logWithScreen("KPI Dashboard Screen","Fetching KPI for UserId: $userId, isUAT: $isUAT");
+    final managerOfSalesGroup =
+        await SharedPrefsHelper().getUserData("managerOfSalesGroup");
+    AppNotifier.logWithScreen("KPI Dashboard Screen",
+        "Fetching KPI for UserId: $userId, isUAT: $isUAT $managerOfSalesGroup");
+
+    isManager = (managerOfSalesGroup == "6ca3fd12-cda4-4c3a-882d-a5da6a1e3c1b")
+        ? true
+        : false;
 
     isTester = testerIds.contains(userId);
-    AppNotifier.logWithScreen("KPI Dashboard Screen","IsTaster: $isTester");
+    AppNotifier.logWithScreen("KPI Dashboard Screen", "IsTaster: $isTester");
 
     if (!context.mounted) return;
     final salesKpiProvider = context.read<SalesKPIProvider>();
@@ -69,9 +79,27 @@ class _SalesKpiScreenState extends State<SalesKpiScreen> {
       _rebuildWeeks();
     });
   }
+
   void _onWeekChanged(int week) {
     setState(() {
       selectedWeek = week;
+    });
+  }
+
+  void _onEmployeeChanged(GroupMember member) async {
+    setState(() {
+      selectedEmployee = member;
+      isLoading = true;
+    });
+
+    AppNotifier.logWithScreen("KPI Dashboard Screen",
+        "selectedEmployee: ${member.memberId} ${member.displayName} ${member.memberId} ${member.memberId} ${member.memberId} ${member.memberId}");
+
+    final salesKpiProvider = context.read<SalesKPIProvider>();
+    await salesKpiProvider.getSalesKpi(member.memberId, isUAT: isUAT);
+
+    setState(() {
+      isLoading = false;
     });
   }
 
@@ -100,12 +128,14 @@ class _SalesKpiScreenState extends State<SalesKpiScreen> {
     List<WeeklyKPI> weekly = [];
     var currentWeek = WeeklyKPI(weekNumber: 0, totalSales: 0.0, monthNumber: 0);
 
-    final startDate = KpiCalculationHandler.getIsoWeekStart(DateTime.now().year, selectedWeek!);
+    final startDate = KpiCalculationHandler.getIsoWeekStart(
+        DateTime.now().year, selectedWeek!);
 
     final weeklyValue = KpiCalculationHandler.generateDays(startDate, local);
 
     if (salesKpis.isNotEmpty) {
-      AppNotifier.logWithScreen("KPI Dashboard Screen","SalesKpis: ${salesKpis[0].lastSalesAmount} ");
+      AppNotifier.logWithScreen("KPI Dashboard Screen",
+          "SalesKpis: ${salesKpis[0].lastSalesAmount} ");
 
       monthlyTarget = salesKpis.isNotEmpty ? salesKpis.last.monthlyTarget : 0.0;
       daily = KpiCalculationHandler.calculateDailySales(
@@ -118,22 +148,26 @@ class _SalesKpiScreenState extends State<SalesKpiScreen> {
 
       if (weekly.isNotEmpty) {
         for (var i in weekly) {
-          AppNotifier.logWithScreen("KPI Dashboard Screen","weekly: ${i.weekNumber}");
+          AppNotifier.logWithScreen(
+              "KPI Dashboard Screen", "weekly: ${i.weekNumber}");
         }
         if (currentWeekNumber == selectedWeek) {
           currentWeek = weekly.firstWhere(
-                  (element) => element.weekNumber == currentWeekNumber,
-              orElse: () => WeeklyKPI(weekNumber: 0, totalSales: 0.0, monthNumber: 0));
+              (element) => element.weekNumber == currentWeekNumber,
+              orElse: () =>
+                  WeeklyKPI(weekNumber: 0, totalSales: 0.0, monthNumber: 0));
 
-          AppNotifier.logWithScreen("KPI Dashboard Screen","CurrentWeek Matching To SelectedWeek: ${currentWeek.weekNumber}");
+          AppNotifier.logWithScreen("KPI Dashboard Screen",
+              "CurrentWeek Matching To SelectedWeek: ${currentWeek.weekNumber}");
         } else {
           // filtered by week different with currentWeek
           currentWeek = weekly.firstWhere(
-                  (element) => element.weekNumber == selectedWeek,
+              (element) => element.weekNumber == selectedWeek,
               orElse: () => WeeklyKPI(
                   weekNumber: selectedWeek!, totalSales: 0.0, monthNumber: 0));
 
-          AppNotifier.logWithScreen("KPI Dashboard Screen","CurrentWeek Not Matching To SelectedWeek: ${currentWeek.weekNumber} ${currentWeek.totalSales}");
+          AppNotifier.logWithScreen("KPI Dashboard Screen",
+              "CurrentWeek Not Matching To SelectedWeek: ${currentWeek.weekNumber} ${currentWeek.totalSales}");
         }
       }
     }
@@ -144,87 +178,95 @@ class _SalesKpiScreenState extends State<SalesKpiScreen> {
         title: local.kpis,
         backBtn: false,
       ),
-      body: Column(
-        crossAxisAlignment: CrossAxisAlignment.end,
-        children: [
-          isTester? _buildUatProd() : const SizedBox.shrink(),
-          MonthWeekFilter(
-              selectedMonth: selectedMonth,
-              selectedWeek: selectedWeek,
-              weeksPerMonth: weeksPerMonth,
-              onMonthChanged: _onMonthChanged,
-              onWeekChanged: _onWeekChanged
-          ),
-          const SizedBox(height: 5),
-          isLoading
-              ? const Expanded(child: Center(child: CircularProgressIndicator()))
-              : Expanded(
-            child: Padding(
-              padding: const EdgeInsets.all(1),
-              child: GridView.builder(
-                gridDelegate:
-                const SliverGridDelegateWithFixedCrossAxisCount(
-                  crossAxisCount: 2,
-                  childAspectRatio: 0.7,
-                ),
-                itemCount: 3,
-                itemBuilder: (context, index) {
-                  switch (index) {
-                    case 0:
-                      return KpiPieChart(
-                        title: local.dailyKpi,
-                        achieved: daily,
-                        target: monthlyTarget.toDouble(),
-                        salesKpi: salesKpis,
-                        currentWeek: currentWeek,
-                        selectedMonth: selectedMonth,
-                        selectedWeek: selectedWeek,
-                        weeklyValues: weeklyValue,
-                      );
-                    case 1:
-                      double achievedValue =
-                      getAchievedValue(currentWeek, weekly);
-                      return KpiPieChart(
-                        title: local.weeklyKpi,
-                        achieved: achievedValue,
-                        target: monthlyTarget.toDouble(),
-                        salesKpi: salesKpis,
-                        currentWeek: currentWeek,
-                        selectedMonth: selectedMonth,
-                        selectedWeek: selectedWeek,
-                        weeklyValues: weeklyValue,
-                      );
-                    case 2:
-                      return KpiPieChart(
-                        title: local.monthlyKpi,
-                        achieved: monthly,
-                        target: monthlyTarget.toDouble(),
-                        salesKpi: salesKpis,
-                        currentWeek: currentWeek,
-                        selectedMonth: selectedMonth,
-                        selectedWeek: selectedWeek,
-                        weeklyValues: weeklyValue,
-                      );
-                    default:
-                      return const SizedBox.shrink();
-                  }
-                },
-              ),
-            ),
-          ),
-        ],
+      body: SingleChildScrollView(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.end,
+          children: [
+            isTester ? _buildUatProd() : const SizedBox.shrink(),
+            isManager
+                ? EmployeeFilter(
+                    selectedEmployee: selectedEmployee!,
+                    onEmployeeChanged: _onEmployeeChanged)
+                : const SizedBox.shrink(),
+            const SizedBox(height: 5),
+            MonthWeekFilter(
+                selectedMonth: selectedMonth,
+                selectedWeek: selectedWeek,
+                weeksPerMonth: weeksPerMonth,
+                onMonthChanged: _onMonthChanged,
+                onWeekChanged: _onWeekChanged),
+            const SizedBox(height: 5),
+            isLoading
+                ? const Center(child: CircularProgressIndicator())
+                : SizedBox(
+              height: 700,
+                    child: Padding(
+                      padding: const EdgeInsets.all(1),
+                      child: GridView.builder(
+                        physics: const NeverScrollableScrollPhysics(),
+                        gridDelegate:
+                            const SliverGridDelegateWithFixedCrossAxisCount(
+                          crossAxisCount: 2,
+                          childAspectRatio: 0.7,
+                        ),
+                        itemCount: 3,
+                        itemBuilder: (context, index) {
+                          switch (index) {
+                            case 0:
+                              return KpiPieChart(
+                                title: local.dailyKpi,
+                                achieved: daily,
+                                target: monthlyTarget.toDouble(),
+                                salesKpi: salesKpis,
+                                currentWeek: currentWeek,
+                                selectedMonth: selectedMonth,
+                                selectedWeek: selectedWeek,
+                                weeklyValues: weeklyValue,
+                              );
+                            case 1:
+                              double achievedValue =
+                                  getAchievedValue(currentWeek, weekly);
+                              return KpiPieChart(
+                                title: local.weeklyKpi,
+                                achieved: achievedValue,
+                                target: monthlyTarget.toDouble(),
+                                salesKpi: salesKpis,
+                                currentWeek: currentWeek,
+                                selectedMonth: selectedMonth,
+                                selectedWeek: selectedWeek,
+                                weeklyValues: weeklyValue,
+                              );
+                            case 2:
+                              return KpiPieChart(
+                                title: local.monthlyKpi,
+                                achieved: monthly,
+                                target: monthlyTarget.toDouble(),
+                                salesKpi: salesKpis,
+                                currentWeek: currentWeek,
+                                selectedMonth: selectedMonth,
+                                selectedWeek: selectedWeek,
+                                weeklyValues: weeklyValue,
+                              );
+                            default:
+                              return const SizedBox.shrink();
+                          }
+                        },
+                      ),
+                    ),
+                  ),
+          ],
+        ),
       ),
     );
   }
 
-  Widget _buildUatProd(){
+  Widget _buildUatProd() {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 8.0),
       child: ElevatedButton(
         style: ElevatedButton.styleFrom(
           backgroundColor: isUAT ? Colors.green : Colors.orangeAccent,
-          padding:
-          const EdgeInsets.symmetric(horizontal: 15, vertical: 10),
+          padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 10),
         ),
         onPressed: () async {
           setState(() {

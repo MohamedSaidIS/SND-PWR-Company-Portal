@@ -1,7 +1,7 @@
+import 'package:company_portal/screens/account/support/common_form_funcs.dart';
 import 'package:company_portal/utils/context_extensions.dart';
 import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:provider/provider.dart';
 
 import '../../../../data/support_forms_data.dart';
@@ -122,10 +122,9 @@ class _ComplaintSuggestionFormScreenState
                       value: category['value'],
                       child: Text(category['label']!));
                 }).toList(),
-                decoration: textFormFieldDecoration(local.category),
-                dropdownStyleData: dropDownDecoration(),
-                validator: (value) =>
-                    textFormFieldValidation(value, local.pleaseSelectCategory),
+                decoration: CommonTextFieldForm.textFormFieldDecoration(local.category),
+                dropdownStyleData: CommonTextFieldForm.dropDownDecoration(),
+                validator: (value) => CommonTextFieldForm.textFormFieldValidation(value, local.pleaseSelectCategory),
                 onChanged: (value) => setState(() => selectedCategory = value),
               ),
               const SizedBox(height: 16),
@@ -136,26 +135,24 @@ class _ComplaintSuggestionFormScreenState
                       value: priority['value'],
                       child: Text(priority['label']!));
                 }).toList(),
-                decoration: textFormFieldDecoration(local.priority),
-                dropdownStyleData: dropDownDecoration(),
-                validator: (value) =>
-                    textFormFieldValidation(value, local.pleaseSelectPriority),
+                decoration: CommonTextFieldForm.textFormFieldDecoration(local.priority),
+                dropdownStyleData: CommonTextFieldForm.dropDownDecoration(),
+                validator: (value) => CommonTextFieldForm.textFormFieldValidation(value, local.pleaseSelectPriority),
                 onChanged: (value) => setState(() => selectedPriority = value),
               ),
               const SizedBox(height: 16),
               TextFormField(
                 controller: _issueTitleController,
-                decoration: textFormFieldDecoration(local.issueTitle),
+                decoration: CommonTextFieldForm.textFormFieldDecoration(local.issueTitle),
                 maxLines: 2,
-                validator: (value) =>
-                    textFormFieldValidation(value, local.pleaseEnterTitle),
+                validator: (value) => CommonTextFieldForm.textFormFieldValidation(value, local.pleaseEnterTitle),
               ),
               const SizedBox(height: 16),
               TextFormField(
                 controller: _issueDescriptionController,
-                decoration: textFormFieldDecoration(local.issueDescription),
+                decoration: CommonTextFieldForm.textFormFieldDecoration(local.issueDescription),
                 maxLines: 10,
-                validator: (value) => textFormFieldValidation(
+                validator: (value) => CommonTextFieldForm.textFormFieldValidation(
                     value, local.pleaseEnterYourDescription),
               ),
               const SizedBox(height: 16),
@@ -212,7 +209,7 @@ Widget sendNameAsOptional(
       Expanded(
         child: TextFormField(
           controller: nameController,
-          decoration: textFormFieldDecoration(local.nameOptional),
+          decoration: CommonTextFieldForm.textFormFieldDecoration(local.nameOptional),
           enabled: false,
           readOnly: true,
         ),
@@ -238,24 +235,4 @@ Widget sendNameAsOptional(
   );
 }
 
-String? textFormFieldValidation(String? value, String validateText) {
-  return (value == null || value.trim().isEmpty) ? validateText : null;
-}
 
-InputDecoration textFormFieldDecoration(String labelText) {
-  return InputDecoration(
-    labelText: labelText,
-    border: const OutlineInputBorder(
-      borderRadius: BorderRadius.all(Radius.circular(7)),
-    ),
-  );
-}
-
-DropdownStyleData dropDownDecoration() {
-  return DropdownStyleData(
-    isOverButton: false,
-    decoration: BoxDecoration(
-      borderRadius: BorderRadius.circular(12),
-    ),
-  );
-}

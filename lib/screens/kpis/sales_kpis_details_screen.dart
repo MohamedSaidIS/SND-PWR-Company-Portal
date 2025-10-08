@@ -35,7 +35,7 @@ class SalesKpisDetailsScreen extends StatefulWidget {
 
 class _SalesKpisDetailsScreenState extends State<SalesKpisDetailsScreen> {
   late List<SalesKPI> salesKpis;
-  late double monthlyTarget;
+  late double monthlyTarget = 0.0;
   List<WeeklyKPI> weeksInMonth = [];
   List<DailyKPI> daysInWeek = [];
   List<DailyKPI> daysInMonth = [];
@@ -48,7 +48,7 @@ class _SalesKpisDetailsScreenState extends State<SalesKpisDetailsScreen> {
     salesKpis = widget.salesKpis;
     weeklyValues = widget.weeklyValues;
 
-    monthlyTarget = salesKpis.first.monthlyTarget;
+    if(salesKpis.isNotEmpty) monthlyTarget = salesKpis.first.monthlyTarget;
 
     weeksInMonth = KpiCalculationHandler.calculateWeeklySales(
         salesKpis, widget.selectedMonth);
