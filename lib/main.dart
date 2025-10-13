@@ -3,12 +3,14 @@ import 'package:company_portal/config/env_config.dart';
 import 'package:company_portal/providers/all_organization_users_provider.dart';
 import 'package:company_portal/providers/complaint_suggestion_provider.dart';
 import 'package:company_portal/providers/direct_reports_provider.dart';
+import 'package:company_portal/providers/new_user_request_provider.dart';
 import 'package:company_portal/providers/sales_kpis_provider.dart';
 import 'package:company_portal/providers/locale_provider.dart';
 import 'package:company_portal/providers/manager_info_provider.dart';
 import 'package:company_portal/providers/sp_ensure_user.dart';
 import 'package:company_portal/providers/user_image_provider.dart';
 import 'package:company_portal/providers/user_info_provider.dart';
+import 'package:company_portal/providers/vacation_balance_provider.dart';
 import 'package:company_portal/service/kpi_dio_client.dart';
 import 'package:company_portal/service/graph_dio_client.dart';
 import 'package:company_portal/service/shared_point_dio_client.dart';
@@ -25,7 +27,6 @@ import '../../l10n/app_localizations.dart';
 
 import 'config/auth_config.dart';
 
-
 Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
   await Firebase.initializeApp();
   debugPrint("📩 Handling background message: ${message.messageId}");
@@ -40,7 +41,6 @@ void main() async {
 
   // ✅ background handler
   FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
-
 
   final localeProvider = LocaleProvider();
   await localeProvider.loadSavedLocale();
@@ -109,6 +109,16 @@ void main() async {
           ),
         ),
         ChangeNotifierProvider(
+          create: (context) => NewUserRequestProvider(
+            sharePointDioClient: context.read<SharePointDioClient>(),
+          ),
+        ),
+        ChangeNotifierProvider(
+          create: (context) => VacationBalanceProvider(
+            kpiDioClient: context.read<KPIDioClient>(),
+          ),
+        ),
+        ChangeNotifierProvider(
           create: (context) => AllOrganizationUsersProvider(
             dioClient: context.read<GraphDioClient>(),
           ),
@@ -133,7 +143,7 @@ class MyApp extends StatelessWidget {
 
     return Builder(builder: (context) {
       return MaterialApp(
-     //   showPerformanceOverlay: true,
+        //   showPerformanceOverlay: true,
         locale: localeProvider.locale,
         supportedLocales: [localeProvider.locale],
         localizationsDelegates: const [

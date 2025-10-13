@@ -75,9 +75,9 @@ class _VacationRequestScreenState extends State<VacationRequestScreen> {
     }
   }
 
-  String formatDate(DateTime? date, AppLocalizations local) {
+  String formatDate(DateTime? date, AppLocalizations local, bool isArabic) {
     if (date == null) return local.selectDate;
-    return DateFormat('dd-MM-yyyy').format(date);
+    return isArabic? DateFormat('dd-MM-yyyy', 'ar').format(date) : DateFormat('dd-MM-yyyy').format(date);
   }
 
   void submitRequest(AppLocalizations local) {
@@ -111,6 +111,7 @@ class _VacationRequestScreenState extends State<VacationRequestScreen> {
     final theme = context.theme;
     final local = context.local;
     final alignment = context.alignment;
+    final isArabic = context.isArabic();
 
     return PopScope(
       canPop: false,
@@ -147,7 +148,7 @@ class _VacationRequestScreenState extends State<VacationRequestScreen> {
                             borderRadius: BorderRadius.circular(5),
                           ),
                         ),
-                        child: _buildDateText(local.startDate, formatDate(startDate, local), theme)
+                        child: _buildDateText(local.startDate, formatDate(startDate, local, isArabic), theme)
                       ),
                     ),
                     const SizedBox(width: 8),
@@ -163,7 +164,7 @@ class _VacationRequestScreenState extends State<VacationRequestScreen> {
                             borderRadius: BorderRadius.circular(5),
                           ),
                         ),
-                        child: _buildDateText(local.endDate, formatDate(endDate,local), theme),
+                        child: _buildDateText(local.endDate, formatDate(endDate,local, isArabic), theme),
                       ),
                     ),
                   ],

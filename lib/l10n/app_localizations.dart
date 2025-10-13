@@ -947,11 +947,11 @@ abstract class AppLocalizations {
   /// **'Remain Leaves'**
   String get remainLeaves;
 
-  /// No description provided for @annualLeave.
+  /// No description provided for @annualLeaves.
   ///
   /// In en, this message translates to:
   /// **'Annual Leaves'**
-  String get annualLeave;
+  String get annualLeaves;
 
   /// No description provided for @leavesTransactions.
   ///
@@ -1040,32 +1040,62 @@ abstract class AppLocalizations {
   /// No description provided for @phoneNo.
   ///
   /// In en, this message translates to:
-  /// **'Phone Number'**
+  /// **'Phone Number *'**
   String get phoneNo;
 
   /// No description provided for @directManager.
   ///
   /// In en, this message translates to:
-  /// **'Direct Manager'**
+  /// **'Direct Manager *'**
   String get directManager;
 
   /// No description provided for @enName.
   ///
   /// In en, this message translates to:
-  /// **'English Name'**
+  /// **'English Name *'**
   String get enName;
 
   /// No description provided for @arName.
   ///
   /// In en, this message translates to:
-  /// **'Arabic Name'**
+  /// **'Arabic Name *'**
   String get arName;
 
   /// No description provided for @joiningDate.
   ///
   /// In en, this message translates to:
-  /// **'Joining Date'**
+  /// **'Joining Date *'**
   String get joiningDate;
+
+  /// No description provided for @locationStr.
+  ///
+  /// In en, this message translates to:
+  /// **'Location *'**
+  String get locationStr;
+
+  /// No description provided for @jobTitlesStr.
+  ///
+  /// In en, this message translates to:
+  /// **'Job Title *'**
+  String get jobTitlesStr;
+
+  /// No description provided for @laptopBusinessNeedForApproval.
+  ///
+  /// In en, this message translates to:
+  /// **'Laptop business need for approval'**
+  String get laptopBusinessNeedForApproval;
+
+  /// No description provided for @currentEmailToUse.
+  ///
+  /// In en, this message translates to:
+  /// **'Current Email to use'**
+  String get currentEmailToUse;
+
+  /// No description provided for @specifyTheBusinessNeedForNewEmail.
+  ///
+  /// In en, this message translates to:
+  /// **'Specify business need for new Email'**
+  String get specifyTheBusinessNeedForNewEmail;
 
   /// No description provided for @pleaseEnterLocation.
   ///
@@ -1108,6 +1138,132 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Please enter department'**
   String get pleaseEnterDepartment;
+
+  /// No description provided for @pleaseEnterDeviceType.
+  ///
+  /// In en, this message translates to:
+  /// **'Please select a device type'**
+  String get pleaseEnterDeviceType;
+
+  /// No description provided for @pleaseEnterNeedNewEMail.
+  ///
+  /// In en, this message translates to:
+  /// **'Please select email'**
+  String get pleaseEnterNeedNewEMail;
+
+  /// No description provided for @sickLeave.
+  ///
+  /// In en, this message translates to:
+  /// **'Sick Leave'**
+  String get sickLeave;
+
+  /// No description provided for @from.
+  ///
+  /// In en, this message translates to:
+  /// **'From'**
+  String get from;
+
+  /// No description provided for @to.
+  ///
+  /// In en, this message translates to:
+  /// **'To'**
+  String get to;
+
+  /// No description provided for @mission.
+  ///
+  /// In en, this message translates to:
+  /// **'Mission'**
+  String get mission;
+
+  /// No description provided for @compensatoryLeave.
+  ///
+  /// In en, this message translates to:
+  /// **'Compensatory Leave'**
+  String get compensatoryLeave;
+
+  /// No description provided for @umrahLeave.
+  ///
+  /// In en, this message translates to:
+  /// **'Umrah Leave'**
+  String get umrahLeave;
+
+  /// No description provided for @bereavementLeave.
+  ///
+  /// In en, this message translates to:
+  /// **'Bereavement Leave'**
+  String get bereavementLeave;
+
+  /// No description provided for @annualLeave.
+  ///
+  /// In en, this message translates to:
+  /// **'Annual Leave'**
+  String get annualLeave;
+
+  /// No description provided for @remainBalance.
+  ///
+  /// In en, this message translates to:
+  /// **'Remain Balance'**
+  String get remainBalance;
+
+  /// No description provided for @consumedLeaves.
+  ///
+  /// In en, this message translates to:
+  /// **'Consumed Leaves'**
+  String get consumedLeaves;
+
+  /// No description provided for @deviceRequestedType.
+  ///
+  /// In en, this message translates to:
+  /// **'Device Requested Type *'**
+  String get deviceRequestedType;
+
+  /// No description provided for @newEmailRequested.
+  ///
+  /// In en, this message translates to:
+  /// **'New Email Requested *'**
+  String get newEmailRequested;
+
+  /// No description provided for @requestPhoneLine.
+  ///
+  /// In en, this message translates to:
+  /// **'Request Phone Line'**
+  String get requestPhoneLine;
+
+  /// No description provided for @requestAnAccountForMSDynamics.
+  ///
+  /// In en, this message translates to:
+  /// **'Request an account for MSDynamics'**
+  String get requestAnAccountForMSDynamics;
+
+  /// No description provided for @specifyTheRoleMSDynamices.
+  ///
+  /// In en, this message translates to:
+  /// **'Specify the role MSDynamices'**
+  String get specifyTheRoleMSDynamices;
+
+  /// No description provided for @specificSoftwareNeeded.
+  ///
+  /// In en, this message translates to:
+  /// **'Specific software needed'**
+  String get specificSoftwareNeeded;
+
+  /// No description provided for @requestSpecialSpecsForApproval.
+  ///
+  /// In en, this message translates to:
+  /// **'Request special specs for approval'**
+  String get requestSpecialSpecsForApproval;
+
+  /// No description provided for @update.
+  ///
+  /// In en, this message translates to:
+  /// **'update'**
+  String get update;
+
+  /// No description provided for @newUserRequestDetails.
+  ///
+  /// In en, this message translates to:
+  /// **'New User Request Details'**
+  String get newUserRequestDetails;
 }
 
 class _AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> {

@@ -435,7 +435,7 @@ class AppLocalizationsAr extends AppLocalizations {
   String get remainLeaves => 'الإجازات المتبقية';
 
   @override
-  String get annualLeave => 'الإجازات السنوية';
+  String get annualLeaves => 'الإجازات السنوية';
 
   @override
   String get leavesTransactions => 'سجل الإجازات';
@@ -480,19 +480,34 @@ class AppLocalizationsAr extends AppLocalizations {
   String get title => 'العنوان';
 
   @override
-  String get phoneNo => 'رقم الهاتف';
+  String get phoneNo => 'رقم الهاتف *';
 
   @override
-  String get directManager => 'المدير المباشر';
+  String get directManager => 'المدير المباشر *';
 
   @override
-  String get enName => 'الاسم بالإنجليزية';
+  String get enName => 'الاسم بالإنجليزية *';
 
   @override
-  String get arName => 'الاسم بالعربية';
+  String get arName => 'الاسم بالعربية *';
 
   @override
-  String get joiningDate => 'تاريخ الانضمام';
+  String get joiningDate => 'تاريخ الانضمام *';
+
+  @override
+  String get locationStr => 'الموقع *';
+
+  @override
+  String get jobTitlesStr => 'المسمى الوظيفى *';
+
+  @override
+  String get laptopBusinessNeedForApproval => 'أسباب طلب جهاز محمول';
+
+  @override
+  String get currentEmailToUse => 'البريد الإلكتروني الحالي للإستخدام';
+
+  @override
+  String get specifyTheBusinessNeedForNewEmail => 'أسباب طلب لبريد الإلكتروني جديد';
 
   @override
   String get pleaseEnterLocation => 'الرجاء إدخال الموقع';
@@ -514,4 +529,67 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get pleaseEnterDepartment => 'الرجاء إدخال القسم';
+
+  @override
+  String get pleaseEnterDeviceType => 'يرجى اختيار نوع الجهاز';
+
+  @override
+  String get pleaseEnterNeedNewEMail => 'يرجى اختيار البريد الإلكتروني';
+
+  @override
+  String get sickLeave => 'إجازة مرضية';
+
+  @override
+  String get from => 'من';
+
+  @override
+  String get to => 'إلى';
+
+  @override
+  String get mission => 'مأمورية';
+
+  @override
+  String get compensatoryLeave => 'بدل راحة';
+
+  @override
+  String get umrahLeave => 'إجازة عمرة';
+
+  @override
+  String get bereavementLeave => 'إجازة وفاة';
+
+  @override
+  String get annualLeave => 'إجازة سنوية';
+
+  @override
+  String get remainBalance => 'الرصيد المتبقي';
+
+  @override
+  String get consumedLeaves => 'الإجازات المستهلكة';
+
+  @override
+  String get deviceRequestedType => 'نوع الجهاز المطلوب *';
+
+  @override
+  String get newEmailRequested => 'البريد الإلكتروني الجديد المطلوب *';
+
+  @override
+  String get requestPhoneLine => 'طلب خط هاتف';
+
+  @override
+  String get requestAnAccountForMSDynamics => 'طلب حساب لـ MSDynamics';
+
+  @override
+  String get specifyTheRoleMSDynamices => 'حدد الدور في نظام MSDynamics';
+
+  @override
+  String get specificSoftwareNeeded => 'البرامج المطلوبة المحددة';
+
+  @override
+  String get requestSpecialSpecsForApproval => 'طلب مواصفات خاصة للموافقة';
+
+  @override
+  String get update => 'تحديث';
+
+  @override
+  String get newUserRequestDetails => 'تفاصيل طلب المستخدم الجديد';
 }

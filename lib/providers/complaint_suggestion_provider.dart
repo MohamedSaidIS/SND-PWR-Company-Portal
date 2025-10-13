@@ -85,18 +85,19 @@ class ComplaintSuggestionProvider with ChangeNotifier {
 
     try {
       final response = await dioClient.dio.post(
-          '/sites/a871adfa-9f2f-4347-8e57-dcc2e63d86b0/lists/35274cd8-ad05-4d42-adc1-20a127aad3d3/items',
-          data: {
-            "fields": {
-              "Title": title,
-              "Description": description,
-              "Priority": priority,
-              "Department1": department,
-              "Issue_x0020_logged_x0020_by1": name,
-              "Status": "New",
-              "IssueloggedbyLookupId": "$ensureUserId",
-            }
-          });
+        '/sites/a871adfa-9f2f-4347-8e57-dcc2e63d86b0/lists/35274cd8-ad05-4d42-adc1-20a127aad3d3/items',
+        data: {
+          "fields": {
+            "Title": title,
+            "Description": description,
+            "Priority": priority,
+            "Department1": department,
+            "Issue_x0020_logged_x0020_by1": name,
+            "Status": "New",
+            "IssueloggedbyLookupId": "$ensureUserId",
+          }
+        },
+      );
 
       if (response.statusCode == 201) {
         AppNotifier.logWithScreen("ComplaintSuggestion Provider",
@@ -179,7 +180,6 @@ class ComplaintSuggestionProvider with ChangeNotifier {
         Future.microtask(() => getComments(ticketId));
 
         return true;
-
       } else {
         _error = 'Failed to send comment. Status code: ${response.statusCode}';
         AppNotifier.logWithScreen("Comments Error: ", "$_error");
@@ -190,7 +190,7 @@ class ComplaintSuggestionProvider with ChangeNotifier {
       AppNotifier.logWithScreen(
           "ComplaintSuggestion Provider", "CommentSend Exception: $_error");
       return false;
-    }finally {
+    } finally {
       _loading = false;
       notifyListeners();
     }

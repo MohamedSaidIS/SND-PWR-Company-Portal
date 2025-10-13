@@ -1,5 +1,6 @@
 import 'dart:typed_data';
 
+import 'package:company_portal/screens/account/support/user_new_requests/new_user_request_history.dart';
 import 'package:company_portal/screens/account/support/user_new_requests/user_new_request_form_screen.dart';
 import 'package:company_portal/utils/context_extensions.dart';
 import 'package:flutter/material.dart';
@@ -7,7 +8,6 @@ import 'package:provider/provider.dart';
 
 import '../../../../models/remote/user_info.dart';
 import '../../../../providers/sp_ensure_user.dart';
-import '../complaint_suggestion/history_screen.dart';
 import '../widget/common_support_appbar.dart';
 
 
@@ -32,11 +32,9 @@ class UserNewRequestScreen extends StatelessWidget {
           UserNewRequestFormScreen(
             userName: "${userInfo?.givenName} ${userInfo?.surname}",
             ensureUserId: ensureUser?.id ?? -1,
+            newUserRequest: null,
           ),
-          HistoryScreen(
-            userInfo: userInfo,
-            userImage: userImage,
-          ),
+          const NewUserRequestHistory(),
         ],
       ),
     );

@@ -93,7 +93,7 @@ class _SalesKpiScreenState extends State<SalesKpiScreen> {
     });
 
     AppNotifier.logWithScreen("KPI Dashboard Screen",
-        "selectedEmployee: ${member.memberId} ${member.displayName} ${member.memberId} ${member.memberId} ${member.memberId} ${member.memberId}");
+        "selectedEmployee: ${member.memberId} ${member.displayName}");
 
     final salesKpiProvider = context.read<SalesKPIProvider>();
     await salesKpiProvider.getSalesKpi(member.memberId, isUAT: isUAT);

@@ -435,7 +435,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get remainLeaves => 'Remain Leaves';
 
   @override
-  String get annualLeave => 'Annual Leaves';
+  String get annualLeaves => 'Annual Leaves';
 
   @override
   String get leavesTransactions => 'Leaves Transactions';
@@ -480,19 +480,34 @@ class AppLocalizationsEn extends AppLocalizations {
   String get title => 'Title';
 
   @override
-  String get phoneNo => 'Phone Number';
+  String get phoneNo => 'Phone Number *';
 
   @override
-  String get directManager => 'Direct Manager';
+  String get directManager => 'Direct Manager *';
 
   @override
-  String get enName => 'English Name';
+  String get enName => 'English Name *';
 
   @override
-  String get arName => 'Arabic Name';
+  String get arName => 'Arabic Name *';
 
   @override
-  String get joiningDate => 'Joining Date';
+  String get joiningDate => 'Joining Date *';
+
+  @override
+  String get locationStr => 'Location *';
+
+  @override
+  String get jobTitlesStr => 'Job Title *';
+
+  @override
+  String get laptopBusinessNeedForApproval => 'Laptop business need for approval';
+
+  @override
+  String get currentEmailToUse => 'Current Email to use';
+
+  @override
+  String get specifyTheBusinessNeedForNewEmail => 'Specify business need for new Email';
 
   @override
   String get pleaseEnterLocation => 'Please enter location';
@@ -514,4 +529,67 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get pleaseEnterDepartment => 'Please enter department';
+
+  @override
+  String get pleaseEnterDeviceType => 'Please select a device type';
+
+  @override
+  String get pleaseEnterNeedNewEMail => 'Please select email';
+
+  @override
+  String get sickLeave => 'Sick Leave';
+
+  @override
+  String get from => 'From';
+
+  @override
+  String get to => 'To';
+
+  @override
+  String get mission => 'Mission';
+
+  @override
+  String get compensatoryLeave => 'Compensatory Leave';
+
+  @override
+  String get umrahLeave => 'Umrah Leave';
+
+  @override
+  String get bereavementLeave => 'Bereavement Leave';
+
+  @override
+  String get annualLeave => 'Annual Leave';
+
+  @override
+  String get remainBalance => 'Remain Balance';
+
+  @override
+  String get consumedLeaves => 'Consumed Leaves';
+
+  @override
+  String get deviceRequestedType => 'Device Requested Type *';
+
+  @override
+  String get newEmailRequested => 'New Email Requested *';
+
+  @override
+  String get requestPhoneLine => 'Request Phone Line';
+
+  @override
+  String get requestAnAccountForMSDynamics => 'Request an account for MSDynamics';
+
+  @override
+  String get specifyTheRoleMSDynamices => 'Specify the role MSDynamices';
+
+  @override
+  String get specificSoftwareNeeded => 'Specific software needed';
+
+  @override
+  String get requestSpecialSpecsForApproval => 'Request special specs for approval';
+
+  @override
+  String get update => 'update';
+
+  @override
+  String get newUserRequestDetails => 'New User Request Details';
 }

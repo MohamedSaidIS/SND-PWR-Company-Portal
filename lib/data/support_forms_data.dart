@@ -39,6 +39,13 @@ List<Map<String, String>> getIfNewEmailNeeded(AppLocalizations local) {
   ];
 }
 
+List<Map<String, String>> getYesNoList(AppLocalizations local) {
+  return [
+    {'value': 'Yes', 'label': local.yes},
+    {'value': 'No', 'label': local.no},
+  ];
+}
+
 IconData getStatusIcon(String status) {
   switch (status.toLowerCase()) {
     case "new":
