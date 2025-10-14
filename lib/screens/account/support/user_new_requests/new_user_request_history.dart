@@ -42,6 +42,8 @@ class _NewUserRequestHistoryState extends State<NewUserRequestHistory>
     _controller.dispose();
     super.dispose();
   }
+
+
   @override
   Widget build(BuildContext context) {
     final newUserRequestProvider = context.watch<NewUserRequestProvider>();

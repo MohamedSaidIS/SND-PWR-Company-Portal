@@ -32,8 +32,7 @@ class _ComplaintSuggestionFormScreenState
   final _formKey = GlobalKey<FormState>();
   final TextEditingController _nameController = TextEditingController();
   final TextEditingController _issueTitleController = TextEditingController();
-  final TextEditingController _issueDescriptionController =
-      TextEditingController();
+  final TextEditingController _issueDescriptionController = TextEditingController();
   String? selectedType, selectedCategory, selectedPriority = 'Normal';
   bool isChecked = true;
 
@@ -77,9 +76,16 @@ class _ComplaintSuggestionFormScreenState
   }
 
   @override
+  void dispose() {
+    _issueTitleController.dispose();
+    _issueDescriptionController.dispose();
+    _nameController.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
-    final complaintSuggestionProvider =
-        context.watch<ComplaintSuggestionProvider>();
+    final complaintSuggestionProvider = context.watch<ComplaintSuggestionProvider>();
 
     final theme = context.theme;
     final local = context.local;
@@ -122,7 +128,7 @@ class _ComplaintSuggestionFormScreenState
                       value: category['value'],
                       child: Text(category['label']!));
                 }).toList(),
-                decoration: CommonTextFieldForm.textFormFieldDecoration(local.category),
+                decoration: CommonTextFieldForm.textFormFieldDecoration(local.category, local),
                 dropdownStyleData: CommonTextFieldForm.dropDownDecoration(),
                 validator: (value) => CommonTextFieldForm.textFormFieldValidation(value, local.pleaseSelectCategory),
                 onChanged: (value) => setState(() => selectedCategory = value),
@@ -135,7 +141,7 @@ class _ComplaintSuggestionFormScreenState
                       value: priority['value'],
                       child: Text(priority['label']!));
                 }).toList(),
-                decoration: CommonTextFieldForm.textFormFieldDecoration(local.priority),
+                decoration: CommonTextFieldForm.textFormFieldDecoration(local.priority, local),
                 dropdownStyleData: CommonTextFieldForm.dropDownDecoration(),
                 validator: (value) => CommonTextFieldForm.textFormFieldValidation(value, local.pleaseSelectPriority),
                 onChanged: (value) => setState(() => selectedPriority = value),
@@ -143,14 +149,14 @@ class _ComplaintSuggestionFormScreenState
               const SizedBox(height: 16),
               TextFormField(
                 controller: _issueTitleController,
-                decoration: CommonTextFieldForm.textFormFieldDecoration(local.issueTitle),
+                decoration: CommonTextFieldForm.textFormFieldDecoration(local.issueTitle, local),
                 maxLines: 2,
                 validator: (value) => CommonTextFieldForm.textFormFieldValidation(value, local.pleaseEnterTitle),
               ),
               const SizedBox(height: 16),
               TextFormField(
                 controller: _issueDescriptionController,
-                decoration: CommonTextFieldForm.textFormFieldDecoration(local.issueDescription),
+                decoration: CommonTextFieldForm.textFormFieldDecoration(local.issueDescription, local),
                 maxLines: 10,
                 validator: (value) => CommonTextFieldForm.textFormFieldValidation(
                     value, local.pleaseEnterYourDescription),
@@ -209,7 +215,7 @@ Widget sendNameAsOptional(
       Expanded(
         child: TextFormField(
           controller: nameController,
-          decoration: CommonTextFieldForm.textFormFieldDecoration(local.nameOptional),
+          decoration: CommonTextFieldForm.textFormFieldDecoration(local.nameOptional, local),
           enabled: false,
           readOnly: true,
         ),
