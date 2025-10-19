@@ -41,7 +41,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
       //   );
       // }
     });
-    SecureStorageService().getData("SharePointAccessToken").then((value) {
+    SecureStorageService().getData("SPAccessToken").then((value) {
       setState(() {
         AppNotifier.logWithScreen(
             "Dashboard Screen", "DashBoard Token: $value");

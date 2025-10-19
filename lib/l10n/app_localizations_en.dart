@@ -576,10 +576,10 @@ class AppLocalizationsEn extends AppLocalizations {
   String get requestPhoneLine => 'Request Phone Line';
 
   @override
-  String get requestAnAccountForMSDynamics => 'Request an account for MSDynamics';
+  String get requestAnAccountForMSDynamics => 'Request account for Dynamics';
 
   @override
-  String get specifyTheRoleMSDynamices => 'Specify the role MSDynamices';
+  String get specifyTheRoleMSDynamics => 'Specify the role MSDynamics';
 
   @override
   String get specificSoftwareNeeded => 'Specific software needed';
@@ -592,4 +592,34 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get newUserRequestDetails => 'New User Request Details';
+
+  @override
+  String get ios => 'IOS';
+
+  @override
+  String get android => 'Android';
+
+  @override
+  String get web => 'Web';
+
+  @override
+  String get theSessionHasExpiredPleaseLogInAgain => 'The session has expired, please log in again.';
+
+  @override
+  String get somethingWentWrong => 'Something went wrong';
+
+  @override
+  String get basicInformation => 'Basic Information';
+
+  @override
+  String get employeeInformation => 'Employee Information';
+
+  @override
+  String get deviceAndEmailRequests => 'Device and Email Requests';
+
+  @override
+  String get additionalRequests => 'Additional Requests';
+
+  @override
+  String get newUserRequestForm => 'NewUserRequest Form';
 }

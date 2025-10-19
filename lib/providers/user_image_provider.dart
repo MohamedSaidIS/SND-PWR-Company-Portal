@@ -87,13 +87,15 @@ class UserImageProvider extends ChangeNotifier {
         _error = 'Failed to upload image to server';
         AppNotifier.logWithScreen("User Image Provider",
             "Upload Image Error: $_error ${response.statusCode}");
+        return false;
       }
     } catch (e) {
       AppNotifier.logWithScreen(
           "User Image Provider", "Upload Image Exception: ${e.toString()}");
+      return false;
+    } finally {
+      _isUploading = false;
+      notifyListeners();
     }
-    _isUploading = false;
-    notifyListeners();
-    return false;
   }
 }

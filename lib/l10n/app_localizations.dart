@@ -1232,14 +1232,14 @@ abstract class AppLocalizations {
   /// No description provided for @requestAnAccountForMSDynamics.
   ///
   /// In en, this message translates to:
-  /// **'Request an account for MSDynamics'**
+  /// **'Request account for Dynamics'**
   String get requestAnAccountForMSDynamics;
 
-  /// No description provided for @specifyTheRoleMSDynamices.
+  /// No description provided for @specifyTheRoleMSDynamics.
   ///
   /// In en, this message translates to:
-  /// **'Specify the role MSDynamices'**
-  String get specifyTheRoleMSDynamices;
+  /// **'Specify the role MSDynamics'**
+  String get specifyTheRoleMSDynamics;
 
   /// No description provided for @specificSoftwareNeeded.
   ///
@@ -1264,6 +1264,66 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'New User Request Details'**
   String get newUserRequestDetails;
+
+  /// No description provided for @ios.
+  ///
+  /// In en, this message translates to:
+  /// **'IOS'**
+  String get ios;
+
+  /// No description provided for @android.
+  ///
+  /// In en, this message translates to:
+  /// **'Android'**
+  String get android;
+
+  /// No description provided for @web.
+  ///
+  /// In en, this message translates to:
+  /// **'Web'**
+  String get web;
+
+  /// No description provided for @theSessionHasExpiredPleaseLogInAgain.
+  ///
+  /// In en, this message translates to:
+  /// **'The session has expired, please log in again.'**
+  String get theSessionHasExpiredPleaseLogInAgain;
+
+  /// No description provided for @somethingWentWrong.
+  ///
+  /// In en, this message translates to:
+  /// **'Something went wrong'**
+  String get somethingWentWrong;
+
+  /// No description provided for @basicInformation.
+  ///
+  /// In en, this message translates to:
+  /// **'Basic Information'**
+  String get basicInformation;
+
+  /// No description provided for @employeeInformation.
+  ///
+  /// In en, this message translates to:
+  /// **'Employee Information'**
+  String get employeeInformation;
+
+  /// No description provided for @deviceAndEmailRequests.
+  ///
+  /// In en, this message translates to:
+  /// **'Device and Email Requests'**
+  String get deviceAndEmailRequests;
+
+  /// No description provided for @additionalRequests.
+  ///
+  /// In en, this message translates to:
+  /// **'Additional Requests'**
+  String get additionalRequests;
+
+  /// No description provided for @newUserRequestForm.
+  ///
+  /// In en, this message translates to:
+  /// **'NewUserRequest Form'**
+  String get newUserRequestForm;
 }
 
 class _AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> {

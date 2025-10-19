@@ -170,4 +170,54 @@ class AppNotifier {
       Navigator.pop(context);
     }
   }
+
+  static bool _isLoading = false;
+
+  static void showLoading(BuildContext? context, String message) {
+    if (_isLoading || context == null) return;
+    _isLoading = true;
+
+    showDialog(
+      context: context,
+      barrierDismissible: false,
+      builder: (_) => Center(
+        child: Container(
+          padding: const EdgeInsets.all(24),
+          decoration: BoxDecoration(
+            color: Colors.white,
+            borderRadius: BorderRadius.circular(16),
+          ),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              const CircularProgressIndicator(),
+              const SizedBox(height: 16),
+              Text(
+                message,
+                style: const TextStyle(fontSize: 16),
+                textAlign: TextAlign.center,
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+
+  static void hideLoading(BuildContext? context) {
+    if (!_isLoading || context == null) return;
+    _isLoading = false;
+    Navigator.of(context, rootNavigator: true).pop();
+  }
+
+  static Widget loadingWidget(ThemeData theme) {
+    return Center(
+      child: CircularProgressIndicator(
+        backgroundColor: theme.colorScheme.primary.withValues(alpha: 0.5),
+        strokeWidth: 2.5,
+        color: theme.colorScheme.secondary,
+      ),
+    );
+  }
+
 }

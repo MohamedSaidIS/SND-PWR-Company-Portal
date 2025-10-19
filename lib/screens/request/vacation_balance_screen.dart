@@ -1,7 +1,7 @@
 import 'package:company_portal/l10n/app_localizations.dart';
-import 'package:company_portal/models/remote/vacation_balance.dart';
 import 'package:company_portal/models/remote/vacation_transaction.dart';
 import 'package:company_portal/providers/vacation_balance_provider.dart';
+import 'package:company_portal/utils/app_notifier.dart';
 import 'package:company_portal/utils/context_extensions.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
@@ -62,7 +62,7 @@ class _VacationBalanceScreenState extends State<VacationBalanceScreen> {
                 ),
               ),
               vacationBalanceProvider.loading
-                  ? loadingWidget(theme)
+                  ? SliverToBoxAdapter(child: AppNotifier.loadingWidget(theme))
                   : SliverGrid(
                 delegate: SliverChildListDelegate(
                   [
@@ -93,7 +93,7 @@ class _VacationBalanceScreenState extends State<VacationBalanceScreen> {
                 ),
               ),
               vacationBalanceProvider.loading
-                  ?loadingWidget(theme)
+                  ? SliverToBoxAdapter(child: AppNotifier.loadingWidget(theme))
                   : SliverGrid(
                 delegate: SliverChildListDelegate(
                   [
@@ -120,7 +120,7 @@ class _VacationBalanceScreenState extends State<VacationBalanceScreen> {
                 ),
               ),
               vacationBalanceProvider.loading
-                  ? loadingWidget(theme)
+                  ? SliverToBoxAdapter(child: AppNotifier.loadingWidget(theme))
                   : SliverList.builder(
                 itemCount: vacationTransactionsList.length,
                 itemBuilder: (context, index) {
@@ -135,17 +135,7 @@ class _VacationBalanceScreenState extends State<VacationBalanceScreen> {
     );
   }
 
-  Widget loadingWidget(ThemeData theme) {
-    return SliverToBoxAdapter(
-      child: Center(
-        child: CircularProgressIndicator(
-          backgroundColor: theme.colorScheme.primary.withValues(alpha: 0.5),
-          strokeWidth: 2.5,
-          color: theme.colorScheme.secondary,
-        ),
-      ),
-    );
-  }
+
 
   String getAbsenceCodeHeader(String absenceCode, AppLocalizations local) {
     var absenceCodeHeader = "";

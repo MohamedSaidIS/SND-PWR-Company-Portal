@@ -190,12 +190,20 @@
   "newEmailRequested": "البريد الإلكتروني الجديد المطلوب *",
   "requestPhoneLine": "طلب خط هاتف",
   "requestAnAccountForMSDynamics": "طلب حساب لـ MSDynamics",
-  "specifyTheRoleMSDynamices": "حدد الدور في نظام MSDynamics",
+  "specifyTheRoleMSDynamics": "حدد الدور في نظام MSDynamics",
   "specificSoftwareNeeded": "البرامج المطلوبة المحددة",
   "requestSpecialSpecsForApproval": "طلب مواصفات خاصة للموافقة",
   "update": "تحديث",
-  "newUserRequestDetails": "تفاصيل طلب المستخدم الجديد"
-
-
+  "newUserRequestDetails": "تفاصيل طلب المستخدم الجديد",
+  "ios": "آي أو إس",
+  "android": "أندرويد",
+  "web": "الويب",
+  "theSessionHasExpiredPleaseLogInAgain": "انتهت الجلسة، يرجى تسجيل الدخول مجددًا",
+  "somethingWentWrong": "حدث خطأ ما",
+  "basicInformation": "المعلومات الأساسية",
+  "employeeInformation": "معلومات الموظف",
+  "deviceAndEmailRequests": "طلبات الأجهزة والبريد الإلكتروني",
+  "additionalRequests": "طلبات إضافية",
+  "newUserRequestForm": "نموذج طلب مستخدم جديد"
 }
 

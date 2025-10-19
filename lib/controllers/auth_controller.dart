@@ -108,7 +108,7 @@ class AuthController {
 
       final accessToken = result.accessToken;
       if (accessToken != null) {
-        await secureStorage.saveData("SharePointAccessToken", accessToken);
+        await secureStorage.saveData("SPAccessToken", accessToken);
         AppNotifier.logWithScreen(
             "Auth Controller", "✅ SharePoint token retrieved");
       }
@@ -141,7 +141,7 @@ class AuthController {
 
       final accessToken = result.accessToken;
       if (accessToken != null) {
-        await secureStorage.saveData("MySharePointAccessToken", accessToken);
+        await secureStorage.saveData("MySPAccessToken", accessToken);
         AppNotifier.logWithScreen(
             "Auth Controller", "✅ MySharePoint token retrieved");
       }

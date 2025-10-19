@@ -46,6 +46,14 @@ List<Map<String, String>> getYesNoList(AppLocalizations local) {
   ];
 }
 
+List<Map<String, String>> getAppList(AppLocalizations local) {
+  return [
+    {'value': 'Ios', 'label': local.ios},
+    {'value': 'Android', 'label': local.android},
+    {'value': 'Web', 'label': local.web},
+  ];
+}
+
 IconData getStatusIcon(String status) {
   switch (status.toLowerCase()) {
     case "new":

@@ -189,11 +189,20 @@
   "deviceRequestedType": "Device Requested Type *",
   "newEmailRequested": "New Email Requested *",
   "requestPhoneLine": "Request Phone Line",
-  "requestAnAccountForMSDynamics": "Request an account for MSDynamics",
-  "specifyTheRoleMSDynamices": "Specify the role MSDynamices",
+  "requestAnAccountForMSDynamics": "Request account for Dynamics",
+  "specifyTheRoleMSDynamics": "Specify the role MSDynamics",
   "specificSoftwareNeeded": "Specific software needed",
   "requestSpecialSpecsForApproval": "Request special specs for approval",
   "update": "update",
-  "newUserRequestDetails": "New User Request Details"
-
+  "newUserRequestDetails": "New User Request Details",
+  "ios": "IOS",
+  "android":"Android",
+  "web": "Web",
+  "theSessionHasExpiredPleaseLogInAgain": "The session has expired, please log in again.",
+  "somethingWentWrong": "Something went wrong",
+  "basicInformation": "Basic Information",
+  "employeeInformation": "Employee Information",
+  "deviceAndEmailRequests": "Device and Email Requests",
+  "additionalRequests": "Additional Requests",
+  "newUserRequestForm": "NewUserRequest Form"
 }

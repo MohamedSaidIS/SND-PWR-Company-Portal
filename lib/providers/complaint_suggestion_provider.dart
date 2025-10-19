@@ -1,8 +1,8 @@
-import 'package:company_portal/models/remote/complaint_suggestion.dart';
+import 'package:company_portal/models/remote/complaint_suggestion_item.dart';
 import 'package:company_portal/models/remote/item_comments.dart';
 import 'package:company_portal/service/graph_dio_client.dart';
 import 'package:flutter/foundation.dart';
-import '../service/shared_point_dio_client.dart';
+import '../service/share_point_dio_client.dart';
 import '../utils/app_notifier.dart';
 
 class ComplaintSuggestionProvider with ChangeNotifier {
@@ -14,12 +14,12 @@ class ComplaintSuggestionProvider with ChangeNotifier {
 
   static const listId = '35274cd8-ad05-4d42-adc1-20a127aad3d3';
 
-  List<ComplaintSuggestion> _complaintSuggestionList = [];
+  List<ComplaintSuggestionItem> _complaintSuggestionList = [];
   List<ItemComments> _comments = [];
   bool _loading = false;
   String? _error;
 
-  List<ComplaintSuggestion>? get complaintSuggestionList =>
+  List<ComplaintSuggestionItem>? get complaintSuggestionList =>
       _complaintSuggestionList;
 
   List<ItemComments> get comments => _comments;
@@ -47,7 +47,7 @@ class ComplaintSuggestionProvider with ChangeNotifier {
 
             final list = (data['value'] as List)
                 .map((e) =>
-                    ComplaintSuggestion.fromJson(e as Map<String, dynamic>))
+                    ComplaintSuggestionItem.fromJson(e as Map<String, dynamic>))
                 .where((cs) => cs.createdBy?.user?.id == userId)
                 .toList();
 
@@ -113,10 +113,11 @@ class ComplaintSuggestionProvider with ChangeNotifier {
       _error = e.toString();
       AppNotifier.logWithScreen("ComplaintSuggestion Provider",
           "ComplaintSuggestion Send Exception: $_error");
+      return false;
+    } finally {
+      _loading = false;
+      notifyListeners();
     }
-    _loading = false;
-    notifyListeners();
-    return true;
   }
 
   /// ////////////////////////////////////////////// Comments /////////////////////////////////////////////////////

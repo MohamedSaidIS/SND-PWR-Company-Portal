@@ -49,7 +49,7 @@ class AuthController {
       if (result.refreshToken != null) {
         await secureStorage.saveData("SharedRefreshToken", result.refreshToken!);
       }
-      await secureStorage.saveData("SharedTokenSavedAt", DateTime.now().toIso8601String());
+      await secureStorage.saveData("SPTokenSavedAt", DateTime.now().toIso8601String());
 
       return true;
     } catch (e) {

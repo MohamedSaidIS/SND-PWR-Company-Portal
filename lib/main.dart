@@ -3,6 +3,7 @@ import 'package:company_portal/config/env_config.dart';
 import 'package:company_portal/providers/all_organization_users_provider.dart';
 import 'package:company_portal/providers/complaint_suggestion_provider.dart';
 import 'package:company_portal/providers/direct_reports_provider.dart';
+import 'package:company_portal/providers/e_commerce_provider.dart';
 import 'package:company_portal/providers/new_user_request_provider.dart';
 import 'package:company_portal/providers/sales_kpis_provider.dart';
 import 'package:company_portal/providers/locale_provider.dart';
@@ -13,7 +14,8 @@ import 'package:company_portal/providers/user_info_provider.dart';
 import 'package:company_portal/providers/vacation_balance_provider.dart';
 import 'package:company_portal/service/kpi_dio_client.dart';
 import 'package:company_portal/service/graph_dio_client.dart';
-import 'package:company_portal/service/shared_point_dio_client.dart';
+import 'package:company_portal/service/my_share_point_dio_client.dart';
+import 'package:company_portal/service/share_point_dio_client.dart';
 import 'package:company_portal/splash_screen.dart';
 import 'package:company_portal/theme/theme_provider.dart';
 import 'package:company_portal/utils/app_notifier.dart';
@@ -67,6 +69,14 @@ void main() async {
             },
           ),
         ),
+        Provider<MySharePointDioClient>(
+          create: (context) => MySharePointDioClient(
+            appAuth: const FlutterAppAuth(),
+            onUnauthorized: () {
+              AppNotifier.loginAgain(context);
+            },
+          ),
+        ),
         Provider<KPIDioClient>(
           create: (_) => KPIDioClient(),
         ),
@@ -106,6 +116,7 @@ void main() async {
         ChangeNotifierProvider(
           create: (context) => SPEnsureUserProvider(
             sharePointDioClient: context.read<SharePointDioClient>(),
+            mySharePointDioClient: context.read<MySharePointDioClient>(),
           ),
         ),
         ChangeNotifierProvider(
@@ -121,6 +132,11 @@ void main() async {
         ChangeNotifierProvider(
           create: (context) => AllOrganizationUsersProvider(
             dioClient: context.read<GraphDioClient>(),
+          ),
+        ),
+        ChangeNotifierProvider(
+          create: (context) => EcommerceProvider(
+            sharePointDioClient: context.read<SharePointDioClient>(),
           ),
         ),
         ChangeNotifierProvider(
@@ -153,6 +169,7 @@ class MyApp extends StatelessWidget {
           GlobalCupertinoLocalizations.delegate
         ],
         theme: Provider.of<ThemeProvider>(context).themeData,
+        themeMode: ThemeMode.system,
         home: const SplashScreen(),
         navigatorKey: navigatorKey,
         //   routes: {

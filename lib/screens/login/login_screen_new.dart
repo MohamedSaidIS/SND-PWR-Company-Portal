@@ -51,7 +51,7 @@ class _LoginScreenNewState extends State<LoginScreenNew> {
     setState(() => _isLoading = true);
 
     final graphToken = await SecureStorageService().getData("GraphAccessToken");
-    final spToken = await SecureStorageService().getData("SharePointAccessToken");
+    final spToken = await SecureStorageService().getData("SPAccessToken");
 
     bool success = false;
     String type = "";
@@ -85,13 +85,15 @@ class _LoginScreenNewState extends State<LoginScreenNew> {
 
       final graphToken = await _authController.getGraphToken();
       if (graphToken == null) return false;
+      await SecureStorageService().saveData("TokenSavedAt", DateTime.now().toIso8601String());
 
       final spToken = await _authController.getSharePointToken();
       if (spToken == null) return false;
-
+      await SecureStorageService().saveData("SPTokenSavedAt", DateTime.now().toIso8601String());
 
       final mySpToken = await _authController.getMySharePointToken();
       if (mySpToken == null) return false;
+      await SecureStorageService().saveData("MySPTokenSavedAt", DateTime.now().toIso8601String());
 
       AppNotifier.logWithScreen("LoginScreen","✅ Graph token retrieved: $graphToken");
       AppNotifier.logWithScreen("LoginScreen","✅ SharePoint token retrieved: $spToken");

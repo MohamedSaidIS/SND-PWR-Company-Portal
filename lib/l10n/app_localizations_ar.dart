@@ -579,7 +579,7 @@ class AppLocalizationsAr extends AppLocalizations {
   String get requestAnAccountForMSDynamics => 'طلب حساب لـ MSDynamics';
 
   @override
-  String get specifyTheRoleMSDynamices => 'حدد الدور في نظام MSDynamics';
+  String get specifyTheRoleMSDynamics => 'حدد الدور في نظام MSDynamics';
 
   @override
   String get specificSoftwareNeeded => 'البرامج المطلوبة المحددة';
@@ -592,4 +592,34 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get newUserRequestDetails => 'تفاصيل طلب المستخدم الجديد';
+
+  @override
+  String get ios => 'آي أو إس';
+
+  @override
+  String get android => 'أندرويد';
+
+  @override
+  String get web => 'الويب';
+
+  @override
+  String get theSessionHasExpiredPleaseLogInAgain => 'انتهت الجلسة، يرجى تسجيل الدخول مجددًا';
+
+  @override
+  String get somethingWentWrong => 'حدث خطأ ما';
+
+  @override
+  String get basicInformation => 'المعلومات الأساسية';
+
+  @override
+  String get employeeInformation => 'معلومات الموظف';
+
+  @override
+  String get deviceAndEmailRequests => 'طلبات الأجهزة والبريد الإلكتروني';
+
+  @override
+  String get additionalRequests => 'طلبات إضافية';
+
+  @override
+  String get newUserRequestForm => 'نموذج طلب مستخدم جديد';
 }

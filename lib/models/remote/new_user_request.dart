@@ -5,6 +5,7 @@ class NewUserRequest {
   final String? location;
   final String? enName;
   final String? arName;
+  final int directManagerId;
   final String? jobTitle;
   final String? phoneNo;
   final String? department;
@@ -26,6 +27,7 @@ class NewUserRequest {
     required this.location,
     required this.enName,
     required this.arName,
+    required this.directManagerId,
     required this.jobTitle,
     required this.phoneNo,
     required this.department,
@@ -49,6 +51,7 @@ class NewUserRequest {
         location: json['field_2'],
         enName: json['field_3'],
         arName: json['field_4'],
+        directManagerId: json['field_7Id'][0],
         jobTitle: json['Title_x0020__x002d__x0020__x0627'],
         phoneNo: json['field_5'],
         department: json['field_6'],
@@ -64,4 +67,26 @@ class NewUserRequest {
         specifyDynamicsRole: json['field_17']
     );
   }
+
+  Map<String, dynamic> toJson() => {
+    "Title": title,
+    "field_1": joiningDate.toIso8601String(),
+    "field_2": location,
+    "field_3": enName,
+    "field_4": arName,
+    "Title_x0020__x002d__x0020__x0627": jobTitle,
+    "field_5": phoneNo,
+    "field_6": department,
+    "field_8": deviceRequestType,
+    "field_9": laptopNeeds,
+    "field_10": specialSpecs,
+    "field_11": specificSoftware,
+    "field_12": newEmailRequest,
+    "Current_x0020_Email_x0020_to_x00": currentEmailToUse,
+    "field_14": specifyNeedForNewEmail,
+    "field_15": requestPhoneLine,
+    "field_16": requestDynamicsAccount,
+    "field_17": specifyDynamicsRole,
+    "field_7Id": <int>[directManagerId],
+  };
 }

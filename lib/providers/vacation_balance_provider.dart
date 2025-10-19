@@ -28,7 +28,7 @@ class VacationBalanceProvider extends ChangeNotifier {
 
     try{
       final response = await kpiDioClient.getRequest(
-      "https://alsanidi.operations.dynamics.com/data/AbsenceLines?\$filter=ProfileDate ge 2025-01-01T12:00:00Z and ProfileDate le 2025-12-31T12:00:00Z &\$count=true",
+      "https://alsanidi.operations.dynamics.com/data/AbsenceLines?\$filter=Worker eq $workerId and ProfileDate ge 2025-01-01T12:00:00Z and ProfileDate le 2025-12-31T12:00:00Z&\$count=true",
           false
       );
       if(response.statusCode == 200){
