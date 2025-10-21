@@ -1,10 +1,10 @@
 import 'package:company_portal/common/custom_app_bar.dart';
 import 'package:flutter/material.dart';
-import '../../../../utils/context_extensions.dart';
-import '../../../models/remote/new_user_request.dart';
-import 'user_new_request_form_controller.dart';
-import 'user_new_request_form_sections.dart';
-import '../common_widgets/submit_button.dart';
+import '../../../../../utils/context_extensions.dart';
+import '../../../../models/remote/new_user_request.dart';
+import '../controllers/user_new_request_form_controller.dart';
+import '../widgets/user_new_request_form_sections.dart';
+import '../../common_widgets/submit_button.dart';
 
 class UserNewRequestFormScreen extends StatefulWidget {
   final String userName;

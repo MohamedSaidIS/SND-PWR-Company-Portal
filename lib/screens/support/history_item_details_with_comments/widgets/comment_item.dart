@@ -5,8 +5,8 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
-import '../../../../models/remote/item_comments.dart';
-import '../../../../utils/app_notifier.dart';
+import '../../../../../models/remote/item_comments.dart';
+import '../../../../../utils/app_notifier.dart';
 
 
 class CommentItem extends StatelessWidget {
@@ -41,7 +41,7 @@ class CommentItem extends StatelessWidget {
         decoration: BoxDecoration(
           color: isCurrentUser
               ? theme.colorScheme.primary.withValues(alpha:0.2)
-              : theme.colorScheme.surfaceContainerHighest,
+              : theme.colorScheme.secondary.withValues(alpha: 0.2),
           borderRadius: const BorderRadius.all(Radius.circular(4)),
         ),
         child: Column(

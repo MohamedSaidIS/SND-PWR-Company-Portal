@@ -1,6 +1,5 @@
 import 'package:company_portal/models/remote/e_commerce_item.dart';
 import 'package:company_portal/utils/app_notifier.dart';
-import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
 
 import '../service/share_point_dio_client.dart';
@@ -88,41 +87,5 @@ class EcommerceProvider extends ChangeNotifier {
     }
   }
 
-  Future<bool> updateEcommerceItem(EcommerceItem item, int itemId) async {
-    _loading = true;
-    _error = null;
-    notifyListeners();
 
-    try {
-      final response = await sharePointDioClient.dio.post(
-        "/sites/AbdulrahmanHamadAlsanidi/_api/Web/Lists(guid'c09e3694-3b81-43b5-b39c-49a26155612e')/items",
-        data: item.toJson(),
-
-        options: Options(
-          headers: {
-            "X-HTTP-Method": "MERGE",
-            "If-Match": "*",
-          },
-        ),
-      );
-      if (response.statusCode == 204) {
-        AppNotifier.logWithScreen("Ecommerce Provider",
-            "Ecommerce Item updated: ${response.statusCode}");
-        return true;
-      } else {
-        _error = 'Failed to load Ecommerce data';
-        AppNotifier.logWithScreen("Ecommerce Provider",
-            "Ecommerce Item updated Error: $_error ${response.statusCode}");
-        return false;
-      }
-    } catch (e) {
-      _error = e.toString();
-      AppNotifier.logWithScreen(
-          "Ecommerce Provider", "Ecommerce Item updated Exception: $_error");
-      return false;
-    } finally {
-      _loading = false;
-      notifyListeners();
-    }
-  }
 }

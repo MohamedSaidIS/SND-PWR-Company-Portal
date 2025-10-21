@@ -1,18 +1,16 @@
 import 'dart:typed_data';
 
 import 'package:company_portal/models/remote/item_comments.dart';
-import 'package:company_portal/providers/complaint_suggestion_provider.dart';
-
+import 'package:company_portal/providers/comment_provider.dart';
 import 'package:company_portal/utils/context_extensions.dart';
 import 'package:flutter/material.dart';
 import 'package:line_awesome_flutter/line_awesome_flutter.dart';
-import '../../../../models/remote/complaint_suggestion_item.dart';
+import '../../../../../models/remote/complaint_suggestion_item.dart';
 import 'comment_item.dart';
 import 'no_comments.dart';
 
 class CommentsWidget extends StatefulWidget {
-  final ComplaintSuggestionItem item;
-  final ComplaintSuggestionProvider complaintCommentsProvider;
+  final CommentProvider commentProvider;
   final List<ItemComments> comments;
   final Uint8List? userImage;
   final dynamic userInfo;
@@ -21,8 +19,7 @@ class CommentsWidget extends StatefulWidget {
       {required this.comments,
       required this.userImage,
       required this.userInfo,
-      required this.item,
-      required this.complaintCommentsProvider,
+      required this.commentProvider,
       super.key});
 
   @override
@@ -39,7 +36,7 @@ class _CommentsWidgetState extends State<CommentsWidget> {
       children: [
         _commentHeader(theme),
         const SizedBox(height: 8),
-        widget.complaintCommentsProvider.loading
+        widget.commentProvider.loading
             ? const Center(child: CircularProgressIndicator())
             : widget.comments == [] || widget.comments.isEmpty
                 ? const NoCommentsWidget()

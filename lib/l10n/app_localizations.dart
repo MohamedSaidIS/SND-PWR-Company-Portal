@@ -1324,6 +1324,36 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'NewUserRequest Form'**
   String get newUserRequestForm;
+
+  /// No description provided for @description.
+  ///
+  /// In en, this message translates to:
+  /// **'Description'**
+  String get description;
+
+  /// No description provided for @app.
+  ///
+  /// In en, this message translates to:
+  /// **'App *'**
+  String get app;
+
+  /// No description provided for @add.
+  ///
+  /// In en, this message translates to:
+  /// **'Add'**
+  String get add;
+
+  /// No description provided for @issue.
+  ///
+  /// In en, this message translates to:
+  /// **'Issue'**
+  String get issue;
+
+  /// No description provided for @type.
+  ///
+  /// In en, this message translates to:
+  /// **'Type'**
+  String get type;
 }
 
 class _AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> {

@@ -1,18 +1,16 @@
 import 'dart:typed_data';
-
 import 'package:company_portal/providers/direct_reports_provider.dart';
 import 'package:company_portal/utils/context_extensions.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-
 import '../../../common/custom_app_bar.dart';
 import '../../../data/support_data.dart';
 import '../../../models/remote/user_info.dart';
 import '../../../providers/sp_ensure_user.dart';
-import 'complaint_suggestion/complaint_suggestion_screen.dart';
+import 'complaint_suggestion/screens/complaint_suggestion_screen.dart';
 import 'dynamics_support_case/dynamics_support_case_screen.dart';
-import 'ecommerce_support_case/ecommerce_support_case_screen.dart';
-import 'user_new_requests/user_new_request_screen.dart';
+import 'ecommerce_support_case/screens/ecommerce_support_case_screen.dart';
+import 'user_new_requests/screens/user_new_request_screen.dart';
 
 class SupportScreen extends StatefulWidget {
   final UserInfo? userInfo;

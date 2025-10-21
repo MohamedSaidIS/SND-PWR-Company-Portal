@@ -1,29 +1,30 @@
 import 'dart:typed_data';
-import 'package:company_portal/screens/support/common_widgets/history_tile_widget.dart';
+
+import 'package:company_portal/providers/e_commerce_provider.dart';
 import 'package:company_portal/utils/context_extensions.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:shimmer/shimmer.dart';
-import '../../../../providers/complaint_suggestion_provider.dart';
-import '../../../../utils/app_notifier.dart';
-import '../common_widgets/status_badge.dart';
-import 'complaint_suggestion_history_item_details.dart';
-import 'package:animations/animations.dart';
 
-class ComplaintSuggestionHistoryScreen extends StatefulWidget {
+import '../../../../../utils/app_notifier.dart';
+import '../../common_widgets/history_tile_widget.dart';
+import '../../history_item_details_with_comments/screens/history_item_details.dart';
+
+class EcommerceHistoryScreen extends StatefulWidget {
+  final int ensureUserId;
   final dynamic userInfo;
   final Uint8List? userImage;
 
-  const ComplaintSuggestionHistoryScreen(
-      {required this.userInfo, required this.userImage, super.key});
+  const EcommerceHistoryScreen(
+      {required this.ensureUserId,
+      required this.userInfo,
+      required this.userImage,
+      super.key});
 
   @override
-  State<ComplaintSuggestionHistoryScreen> createState() =>
-      _ComplaintSuggestionHistoryScreenState();
+  State<EcommerceHistoryScreen> createState() => _EcommerceHistoryScreenState();
 }
 
-class _ComplaintSuggestionHistoryScreenState
-    extends State<ComplaintSuggestionHistoryScreen>
+class _EcommerceHistoryScreenState extends State<EcommerceHistoryScreen>
     with SingleTickerProviderStateMixin {
   late AnimationController _controller;
   late Animation<double> _fadeAnimation;
@@ -41,10 +42,7 @@ class _ComplaintSuggestionHistoryScreenState
         CurvedAnimation(parent: _controller, curve: Curves.easeInOut);
 
     WidgetsBinding.instance.addPostFrameCallback((_) async {
-      final complaintSuggestionProvider =
-          context.read<ComplaintSuggestionProvider>();
-      await complaintSuggestionProvider
-          .fetchSuggestionsAndComplaints(widget.userInfo.id);
+      context.read<EcommerceProvider>().getEcommerceItems(widget.ensureUserId);
 
       if (mounted) _controller.forward();
     });
@@ -60,35 +58,45 @@ class _ComplaintSuggestionHistoryScreenState
   Widget build(BuildContext context) {
     final theme = context.theme;
 
-    AppNotifier.logWithScreen("History Screen", "Image: ${widget.userImage != null}");
+    AppNotifier.logWithScreen(
+        "History Screen", "Image: ${widget.userImage != null}");
 
     return Scaffold(
       backgroundColor: theme.colorScheme.surface,
-      body: Consumer<ComplaintSuggestionProvider>(
+      body: Consumer<EcommerceProvider>(
         builder: (context, provider, _) {
           if (provider.loading) return AppNotifier.loadingWidget(theme);
 
-          final complaintList = provider.complaintSuggestionList ?? [];
+          final ecommerceList = provider.ecommerceItemsList;
           return FadeTransition(
             opacity: _fadeAnimation,
             child: AnimatedSwitcher(
               duration: const Duration(milliseconds: 500),
               switchInCurve: Curves.easeInOut,
               child: ListView.builder(
-                key: ValueKey(complaintList.length),
+                key: ValueKey(ecommerceList.length),
                 padding: const EdgeInsets.all(10),
-                itemCount: complaintList.length,
+                itemCount: ecommerceList.length,
                 itemBuilder: (context, index) {
-                  final item = complaintList[index];
+                  final item = ecommerceList[index];
                   return HistoryTileWidget(
-                    title: item.fields?.title ?? '',
-                    id: item.id ?? '',
+                    title: item.title ?? '',
+                    id: item.id.toString(),
                     needStatus: true,
-                    status: item.fields?.status ?? '',
+                    status: item.status ?? '',
                     navigatedScreen: HistoryItemDetails(
-                      item: item,
+                      itemId: item.id.toString(),
+                      title: item.title,
+                      description: item.description,
+                      status: item.status,
+                      priority: item.priority,
+                      createdDate: item.createdDate.toString(),
+                      modifiedDate: item.modifiedDate.toString(),
+                      app: item.app,
+                      type: item.type,
                       userImage: widget.userImage,
                       userInfo: widget.userInfo,
+                      commentCall: 'Alsanidi',
                     ),
                   );
                 },

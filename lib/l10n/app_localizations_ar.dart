@@ -622,4 +622,19 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get newUserRequestForm => 'نموذج طلب مستخدم جديد';
+
+  @override
+  String get description => 'الوصف';
+
+  @override
+  String get app => 'التطبيق *';
+
+  @override
+  String get add => 'إضافة';
+
+  @override
+  String get issue => 'مشكلة';
+
+  @override
+  String get type => 'النوع';
 }

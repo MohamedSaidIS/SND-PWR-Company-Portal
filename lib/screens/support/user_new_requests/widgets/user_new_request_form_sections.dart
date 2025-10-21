@@ -1,10 +1,10 @@
 import 'package:company_portal/data/support_forms_data.dart';
-import 'package:company_portal/screens/support/user_new_requests/user_new_request_form_controller.dart';
+import 'package:company_portal/screens/support/user_new_requests/controllers/user_new_request_form_controller.dart';
 import 'package:flutter/material.dart';
-import '../../../../l10n/app_localizations.dart';
-import '../common_widgets/common_form_functions.dart';
-import '../common_widgets/custom_drop_down_field_widget.dart';
-import '../common_widgets/custom_text_field_widget.dart';
+import '../../../../../l10n/app_localizations.dart';
+import '../../common_widgets/common_form_functions.dart';
+import '../../common_widgets/custom_drop_down_field_widget.dart';
+import '../../common_widgets/custom_text_field_widget.dart';
 
 Widget buildBasicInfoSection(AppLocalizations local, UserNewRequestFormController c, ThemeData theme) {
   return _buildCard(

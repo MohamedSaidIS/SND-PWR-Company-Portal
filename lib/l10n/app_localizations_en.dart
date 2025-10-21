@@ -622,4 +622,19 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get newUserRequestForm => 'NewUserRequest Form';
+
+  @override
+  String get description => 'Description';
+
+  @override
+  String get app => 'App *';
+
+  @override
+  String get add => 'Add';
+
+  @override
+  String get issue => 'Issue';
+
+  @override
+  String get type => 'Type';
 }

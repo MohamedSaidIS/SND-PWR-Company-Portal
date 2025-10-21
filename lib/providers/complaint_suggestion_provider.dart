@@ -1,5 +1,4 @@
 import 'package:company_portal/models/remote/complaint_suggestion_item.dart';
-import 'package:company_portal/models/remote/item_comments.dart';
 import 'package:company_portal/service/graph_dio_client.dart';
 import 'package:flutter/foundation.dart';
 import '../service/share_point_dio_client.dart';
@@ -12,17 +11,15 @@ class ComplaintSuggestionProvider with ChangeNotifier {
   ComplaintSuggestionProvider(
       {required this.dioClient, required this.sharePointDioClient});
 
-  static const listId = '35274cd8-ad05-4d42-adc1-20a127aad3d3';
+
 
   List<ComplaintSuggestionItem> _complaintSuggestionList = [];
-  List<ItemComments> _comments = [];
   bool _loading = false;
   String? _error;
 
   List<ComplaintSuggestionItem>? get complaintSuggestionList =>
       _complaintSuggestionList;
 
-  List<ItemComments> get comments => _comments;
 
   bool get loading => _loading;
 
@@ -77,7 +74,7 @@ class ComplaintSuggestionProvider with ChangeNotifier {
     notifyListeners();
   }
 
-  Future<bool> sendSuggestionsAndComplaints(String title, String description,
+  Future<bool> createSuggestionsAndComplaints(String title, String description,
       String priority, String department, String name, int ensureUserId) async {
     _loading = true;
     _error = null;
@@ -120,80 +117,4 @@ class ComplaintSuggestionProvider with ChangeNotifier {
     }
   }
 
-  /// ////////////////////////////////////////////// Comments /////////////////////////////////////////////////////
-
-  Future<void> getComments(String ticketId) async {
-    _loading = true;
-    _error = null;
-    notifyListeners();
-
-    try {
-      final response = await sharePointDioClient.dio.get(
-          "https://alsanidi.sharepoint.com/sites/IT-Requests/_api/web/lists(guid'$listId')/items($ticketId)/comments");
-
-      if (response.statusCode == 200) {
-        final parsedResponse = response.data["value"];
-        AppNotifier.logWithScreen("ComplaintSuggestion Provider",
-            "Comments Fetching: $parsedResponse");
-
-        _comments = await compute(
-          (final data) => (data as List)
-              .map((e) => ItemComments.fromJson(e as Map<String, dynamic>))
-              .toList(),
-          parsedResponse,
-        );
-
-        AppNotifier.logWithScreen("ComplaintSuggestion Provider",
-            "Comments Fetching parsed: $parsedResponse");
-      } else {
-        _error = 'Failed to load Comments data';
-        AppNotifier.logWithScreen(
-            "Comments Error: ", "$_error ${response.statusCode}");
-      }
-    } catch (e) {
-      _error = e.toString();
-      AppNotifier.logWithScreen(
-          "ComplaintSuggestion Provider", "Comments Exception: $_error");
-    }
-    _loading = false;
-    notifyListeners();
-  }
-
-  Future<bool> postComments(String ticketId, String comment,
-      {required List<Map<String, dynamic>> mentions}) async {
-    _loading = true;
-    _error = null;
-    notifyListeners();
-
-    try {
-      final response = await sharePointDioClient.dio.post(
-        "https://alsanidi.sharepoint.com/sites/IT-Requests/_api/web/lists(guid'$listId')/items($ticketId)/comments",
-        data: {
-          "text": comment,
-          "mentions": mentions,
-        },
-      );
-
-      if (response.statusCode == 201) {
-        AppNotifier.logWithScreen("ComplaintSuggestion Provider",
-            "CommentSend: Success ${response.statusCode}");
-
-        Future.microtask(() => getComments(ticketId));
-
-        return true;
-      } else {
-        _error = 'Failed to send comment. Status code: ${response.statusCode}';
-        AppNotifier.logWithScreen("Comments Error: ", "$_error");
-        return false;
-      }
-    } catch (e) {
-      _error = e.toString();
-      AppNotifier.logWithScreen(
-          "ComplaintSuggestion Provider", "CommentSend Exception: $_error");
-      return false;
-    } finally {
-      _loading = false;
-      notifyListeners();
-    }
-  }
 }

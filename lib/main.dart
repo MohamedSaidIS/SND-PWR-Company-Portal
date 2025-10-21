@@ -1,6 +1,7 @@
 import 'package:aad_oauth/aad_oauth.dart';
 import 'package:company_portal/config/env_config.dart';
 import 'package:company_portal/providers/all_organization_users_provider.dart';
+import 'package:company_portal/providers/comment_provider.dart';
 import 'package:company_portal/providers/complaint_suggestion_provider.dart';
 import 'package:company_portal/providers/direct_reports_provider.dart';
 import 'package:company_portal/providers/e_commerce_provider.dart';
@@ -137,6 +138,12 @@ void main() async {
         ChangeNotifierProvider(
           create: (context) => EcommerceProvider(
             sharePointDioClient: context.read<SharePointDioClient>(),
+          ),
+        ),
+        ChangeNotifierProvider(
+          create: (context) => CommentProvider(
+            sharePointDioClient: context.read<SharePointDioClient>(),
+            mySharePointDioClient: context.read<MySharePointDioClient>(),
           ),
         ),
         ChangeNotifierProvider(

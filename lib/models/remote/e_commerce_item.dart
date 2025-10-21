@@ -6,8 +6,8 @@ class EcommerceItem {
   final String? status;
   final int? assignedToId;
   final int? authorId;
-  final DateTime createdDate;
-  final DateTime modifiedDate;
+  final DateTime? createdDate;
+  final DateTime? modifiedDate;
   final int? issueLoggedById;
   final String? type;
   final List<String> app;
@@ -49,13 +49,7 @@ class EcommerceItem {
     "Description": description,
     "Priority": priority,
     "Status": status,
-    "Assignedto0Id": assignedToId,
-    "Assignedto0StringId": assignedToId.toString(),
-    "IssueloggedbyId": issueLoggedById,
-    "IssueloggedbyStringId": issueLoggedById.toString(),
-    "Type": type,
     "App": app,
-    "Created": createdDate.toIso8601String(),
     "AuthorId": authorId,
   };
 }

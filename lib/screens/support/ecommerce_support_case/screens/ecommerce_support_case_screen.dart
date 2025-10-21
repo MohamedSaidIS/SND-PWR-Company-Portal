@@ -2,9 +2,9 @@ import 'dart:typed_data';
 import 'package:company_portal/utils/context_extensions.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import '../../../../models/remote/user_info.dart';
-import '../../../../providers/sp_ensure_user.dart';
-import '../common_widgets/common_support_appbar.dart';
+import '../../../../../models/remote/user_info.dart';
+import '../../../../../providers/sp_ensure_user.dart';
+import '../../common_widgets/common_support_appbar.dart';
 import 'ecommerce_history_screen.dart';
 import 'ecommerce_sc_form_screen.dart';
 
@@ -22,8 +22,8 @@ class EcommerceSupportCaseScreen extends StatelessWidget {
     return PopScope(
       canPop: false,
       child: CommonSupportAppbar(
-        title: local.userNewRequest,
-        tabTitle: local.userNewRequest,
+        title: local.ecommerceSupportCase,
+        tabTitle: local.ecommerceSupportCase,
         tabBarChildren: [
           EcommerceScFormScreen(
             userName: "${userInfo?.givenName} ${userInfo?.surname}",

@@ -53,6 +53,12 @@ List<Map<String, String>> getAppList(AppLocalizations local) {
     {'value': 'Web', 'label': local.web},
   ];
 }
+List<Map<String, String>> getTypeList(AppLocalizations local) {
+  return [
+    {'value': 'Issue', 'label': local.issue},
+    {'value': 'Add', 'label': local.add},
+  ];
+}
 
 IconData getStatusIcon(String status) {
   switch (status.toLowerCase()) {

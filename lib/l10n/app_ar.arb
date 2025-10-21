@@ -204,6 +204,11 @@
   "employeeInformation": "معلومات الموظف",
   "deviceAndEmailRequests": "طلبات الأجهزة والبريد الإلكتروني",
   "additionalRequests": "طلبات إضافية",
-  "newUserRequestForm": "نموذج طلب مستخدم جديد"
+  "newUserRequestForm": "نموذج طلب مستخدم جديد",
+  "description": "الوصف",
+  "app": "التطبيق *",
+  "add": "إضافة",
+  "issue": "مشكلة",
+  "type": "النوع"
 }
 

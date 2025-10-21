@@ -1,32 +1,38 @@
 import 'dart:typed_data';
-
 import 'package:company_portal/common/custom_app_bar.dart';
+import 'package:company_portal/providers/comment_provider.dart';
 import 'package:company_portal/screens/support/complaint_suggestion/widgets/send_comment_widget.dart';
 import 'package:company_portal/screens/support/complaint_suggestion/widgets/time_widget.dart';
-
 import 'package:company_portal/utils/context_extensions.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mentions/flutter_mentions.dart';
 import 'package:provider/provider.dart';
-
-import '../../../../models/remote/complaint_suggestion_item.dart';
-import '../../../../providers/complaint_suggestion_provider.dart';
-import '../../../../utils/app_notifier.dart';
-import '../common_widgets/comments_widget.dart';
-import '../common_widgets/priority_badge.dart';
-import '../common_widgets/status_badge.dart';
-
+import '../../../../../utils/app_notifier.dart';
+import '../widgets/comments_widget.dart';
+import '../../common_widgets/priority_badge.dart';
+import '../../common_widgets/status_badge.dart';
 
 class HistoryItemDetails extends StatefulWidget {
-  final ComplaintSuggestionItem item;
+  final String  modifiedDate, createdDate, commentCall;
+  final String? itemId, type, title, description, status, priority;
+  final List<String>? app;
   final Uint8List? userImage;
   final dynamic userInfo;
 
   const HistoryItemDetails(
-      {required this.item,
-        required this.userImage,
-        required this.userInfo,
-        super.key});
+      {required this.itemId,
+      required this.title,
+      required this.description,
+      required this.modifiedDate,
+      required this.createdDate,
+      required this.status,
+      required this.priority,
+      required this.commentCall,
+      this.app,
+      this.type,
+      required this.userInfo,
+      required this.userImage,
+      super.key});
 
   @override
   State<HistoryItemDetails> createState() => _HistoryItemDetailsState();
@@ -36,28 +42,23 @@ class _HistoryItemDetailsState extends State<HistoryItemDetails> {
   @override
   void initState() {
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      final complaintCommentsProvider =
-      context.read<ComplaintSuggestionProvider>();
+      final commentProvider = context.read<CommentProvider>();
 
-      complaintCommentsProvider.getComments("${widget.item.id}");
+      commentProvider.getComments(widget.itemId!, widget.commentCall);
     });
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
-    final complaintCommentsProvider =
-    context.watch<ComplaintSuggestionProvider>();
-    final comments = complaintCommentsProvider.comments;
-
-    if(complaintCommentsProvider.error != null && complaintCommentsProvider.error =="401"){
-      AppNotifier.loginAgain(context);
-    }
+    final commentProvider = context.watch<CommentProvider>();
+    final comments = commentProvider.comments;
 
     final theme = context.theme;
     final local = context.local;
 
-    AppNotifier.logWithScreen("HistoryItemDetails Screen","Image: ${widget.userImage != null}");
+    AppNotifier.logWithScreen(
+        "HistoryItemDetails Screen", "Image: ${widget.userImage != null}");
 
     return Portal(
       child: Scaffold(
@@ -81,41 +82,38 @@ class _HistoryItemDetailsState extends State<HistoryItemDetails> {
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.end,
                           children: [
-                            PriorityBadge(
-                                priority: widget.item.fields?.priority ?? "-"),
+                            PriorityBadge(priority: widget.priority ?? "-"),
                             const SizedBox(width: 2),
-                            StatusBadge(status: widget.item.fields?.status ?? "-"),
+                            StatusBadge(status: widget.status ?? "-"),
                           ],
                         ),
                       ),
-                      _titleWidget(widget.item.fields?.title ?? "-", theme),
+                      _titleWidget(widget.title ?? "-", theme),
                       const SizedBox(height: 12),
-                      _descriptionWidget(
-                          widget.item.fields?.description ?? "-", theme),
+                      _descriptionWidget(widget.description ?? "-", theme),
                       const SizedBox(height: 20),
                       TimeWidget(
                         icon: Icons.access_time,
                         label: "Created At",
-                        value: widget.item.createdDateTime.toString(),
+                        value: widget.createdDate,
                       ),
                       TimeWidget(
                         icon: Icons.update,
                         label: "Last Modified",
-                        value: widget.item.lastModifiedDateTime.toString(),
+                        value: widget.modifiedDate.toString(),
                       ),
                       const SizedBox(height: 10),
                       CommentsWidget(
                         comments: comments,
                         userImage: widget.userImage,
                         userInfo: widget.userInfo,
-                        item: widget.item,
-                        complaintCommentsProvider: complaintCommentsProvider,
+                        commentProvider: commentProvider,
                       ),
                     ],
                   ),
                 ),
               ),
-              SendCommentWidget(item: widget.item),
+              SendCommentWidget(itemId: widget.itemId!, commentCall: widget.commentCall,),
             ],
           ),
         ),
@@ -123,30 +121,6 @@ class _HistoryItemDetailsState extends State<HistoryItemDetails> {
     );
   }
 }
-
-/* TextField(
-              controller: _commentController,
-              decoration: InputDecoration(
-                fillColor: Colors.white,
-                border: InputBorder.none,
-                contentPadding: const EdgeInsets.only(left: 15, top: 10, bottom: 20),
-                hintText: "Add a comment",
-                suffixIcon: IconButton(
-                  onPressed: () async{
-                    final comment = _commentController.text.trim();
-                    if (comment.isNotEmpty) {
-                      bool sentSuccess = await complaintCommentsProvider.postComments("${common_widgets.item.id}", comment);
-                      if(sentSuccess){
-                        _commentController.clear();
-                        FocusScope.of(context).unfocus();
-                      }
-                    }
-                  },
-                  icon: Icon(Icons.send, color: theme.colorScheme.secondary),
-                ),
-              ),
-            ),
-            */
 
 Widget _titleWidget(String title, ThemeData theme) {
   return Text(

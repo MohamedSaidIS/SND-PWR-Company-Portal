@@ -204,5 +204,10 @@
   "employeeInformation": "Employee Information",
   "deviceAndEmailRequests": "Device and Email Requests",
   "additionalRequests": "Additional Requests",
-  "newUserRequestForm": "NewUserRequest Form"
+  "newUserRequestForm": "NewUserRequest Form",
+  "description": "Description",
+  "app": "App *",
+  "add": "Add",
+  "issue": "Issue",
+  "type": "Type"
 }

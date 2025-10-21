@@ -1,10 +1,10 @@
 import 'package:company_portal/providers/new_user_request_provider.dart';
-import 'package:company_portal/screens/support/common_widgets/history_tile_widget.dart';
-import 'package:company_portal/screens/support/user_new_requests/user_new_request_form_screen.dart';
+import 'package:company_portal/screens/support/user_new_requests/screens/user_new_request_form_screen.dart';
 import 'package:company_portal/utils/context_extensions.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import '../../../utils/app_notifier.dart';
+import '../../../../utils/app_notifier.dart';
+import '../../common_widgets/history_tile_widget.dart';
 
 class NewUserRequestHistory extends StatefulWidget {
   final int ensureUserId;
