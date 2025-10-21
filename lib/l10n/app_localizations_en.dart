@@ -637,4 +637,37 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get type => 'Type';
+
+  @override
+  String get crStander => 'CR Stander';
+
+  @override
+  String get crCustomize => 'CR Customize';
+
+  @override
+  String get bpStander => 'BP Stander';
+
+  @override
+  String get bpCustomize => 'BP Customize';
+
+  @override
+  String get report => 'Report';
+
+  @override
+  String get area => 'Area';
+
+  @override
+  String get purpose => 'Purpose';
+
+  @override
+  String get enterArea => 'Please Enter Area';
+
+  @override
+  String get pleaseSelectPurpose => 'Please Select Purpose';
+
+  @override
+  String get date => 'Date';
+
+  @override
+  String get pleaseEnterDate => 'Please Enter Date';
 }

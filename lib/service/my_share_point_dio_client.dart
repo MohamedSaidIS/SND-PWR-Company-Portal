@@ -18,7 +18,7 @@ class MySharePointDioClient {
   MySharePointDioClient({required this.appAuth, required this.onUnauthorized}) {
     dio = Dio(
       BaseOptions(
-        baseUrl: EnvConfig.spBaseUrl,
+        baseUrl: EnvConfig.mySpBaseUrl,
         connectTimeout: const Duration(seconds: 30),
         receiveTimeout: const Duration(seconds: 30),
         headers: {

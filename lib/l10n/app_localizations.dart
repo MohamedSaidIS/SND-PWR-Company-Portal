@@ -1354,6 +1354,72 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Type'**
   String get type;
+
+  /// No description provided for @crStander.
+  ///
+  /// In en, this message translates to:
+  /// **'CR Stander'**
+  String get crStander;
+
+  /// No description provided for @crCustomize.
+  ///
+  /// In en, this message translates to:
+  /// **'CR Customize'**
+  String get crCustomize;
+
+  /// No description provided for @bpStander.
+  ///
+  /// In en, this message translates to:
+  /// **'BP Stander'**
+  String get bpStander;
+
+  /// No description provided for @bpCustomize.
+  ///
+  /// In en, this message translates to:
+  /// **'BP Customize'**
+  String get bpCustomize;
+
+  /// No description provided for @report.
+  ///
+  /// In en, this message translates to:
+  /// **'Report'**
+  String get report;
+
+  /// No description provided for @area.
+  ///
+  /// In en, this message translates to:
+  /// **'Area'**
+  String get area;
+
+  /// No description provided for @purpose.
+  ///
+  /// In en, this message translates to:
+  /// **'Purpose'**
+  String get purpose;
+
+  /// No description provided for @enterArea.
+  ///
+  /// In en, this message translates to:
+  /// **'Please Enter Area'**
+  String get enterArea;
+
+  /// No description provided for @pleaseSelectPurpose.
+  ///
+  /// In en, this message translates to:
+  /// **'Please Select Purpose'**
+  String get pleaseSelectPurpose;
+
+  /// No description provided for @date.
+  ///
+  /// In en, this message translates to:
+  /// **'Date'**
+  String get date;
+
+  /// No description provided for @pleaseEnterDate.
+  ///
+  /// In en, this message translates to:
+  /// **'Please Enter Date'**
+  String get pleaseEnterDate;
 }
 
 class _AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> {

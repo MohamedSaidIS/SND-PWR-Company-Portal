@@ -53,10 +53,21 @@ List<Map<String, String>> getAppList(AppLocalizations local) {
     {'value': 'Web', 'label': local.web},
   ];
 }
+
 List<Map<String, String>> getTypeList(AppLocalizations local) {
   return [
     {'value': 'Issue', 'label': local.issue},
     {'value': 'Add', 'label': local.add},
+  ];
+}
+
+List<Map<String, String>> getPurpose(AppLocalizations local) {
+  return [
+    {'value': 'CR Stander', 'label': local.crStander},
+    {'value': 'CR Customize', 'label': local.crCustomize},
+    {'value': 'BP Stander', 'label': local.bpStander},
+    {'value': 'BP Customize', 'label': local.bpCustomize},
+    {'value': 'Report', 'label': local.report},
   ];
 }
 

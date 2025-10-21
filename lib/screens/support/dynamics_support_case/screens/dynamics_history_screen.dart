@@ -1,5 +1,6 @@
 import 'dart:typed_data';
 
+import 'package:company_portal/providers/dynamics_provider.dart';
 import 'package:company_portal/providers/e_commerce_provider.dart';
 import 'package:company_portal/utils/context_extensions.dart';
 import 'package:flutter/material.dart';
@@ -9,22 +10,22 @@ import '../../../../../utils/app_notifier.dart';
 import '../../common_widgets/history_tile_widget.dart';
 import '../../history_item_details_with_comments/screens/history_item_details.dart';
 
-class EcommerceHistoryScreen extends StatefulWidget {
+class DynamicsHistoryScreen extends StatefulWidget {
   final int ensureUserId;
   final dynamic userInfo;
   final Uint8List? userImage;
 
-  const EcommerceHistoryScreen(
+  const DynamicsHistoryScreen(
       {required this.ensureUserId,
       required this.userInfo,
       required this.userImage,
       super.key});
 
   @override
-  State<EcommerceHistoryScreen> createState() => _EcommerceHistoryScreenState();
+  State<DynamicsHistoryScreen> createState() => _DynamicsHistoryScreenState();
 }
 
-class _EcommerceHistoryScreenState extends State<EcommerceHistoryScreen>
+class _DynamicsHistoryScreenState extends State<DynamicsHistoryScreen>
     with SingleTickerProviderStateMixin {
   late AnimationController _controller;
   late Animation<double> _fadeAnimation;
@@ -42,7 +43,7 @@ class _EcommerceHistoryScreenState extends State<EcommerceHistoryScreen>
         CurvedAnimation(parent: _controller, curve: Curves.easeInOut);
 
     WidgetsBinding.instance.addPostFrameCallback((_) async {
-      context.read<EcommerceProvider>().getEcommerceItems(widget.ensureUserId);
+      context.read<DynamicsProvider>().getDynamicsItems(widget.ensureUserId);
 
       if (mounted) _controller.forward();
     });
@@ -59,26 +60,26 @@ class _EcommerceHistoryScreenState extends State<EcommerceHistoryScreen>
     final theme = context.theme;
 
     AppNotifier.logWithScreen(
-        "Ecommerce History Screen", "Image: ${widget.userImage != null}");
+        "Dynamics History Screen", "Image: ${widget.userImage != null}");
 
     return Scaffold(
       backgroundColor: theme.colorScheme.surface,
-      body: Consumer<EcommerceProvider>(
+      body: Consumer<DynamicsProvider>(
         builder: (context, provider, _) {
           if (provider.loading) return AppNotifier.loadingWidget(theme);
 
-          final ecommerceList = provider.ecommerceItemsList;
+          final dynamicsItemsList = provider.dynamicsItemsList;
           return FadeTransition(
             opacity: _fadeAnimation,
             child: AnimatedSwitcher(
               duration: const Duration(milliseconds: 500),
               switchInCurve: Curves.easeInOut,
               child: ListView.builder(
-                key: ValueKey(ecommerceList.length),
+                key: ValueKey(dynamicsItemsList.length),
                 padding: const EdgeInsets.all(10),
-                itemCount: ecommerceList.length,
+                itemCount: dynamicsItemsList.length,
                 itemBuilder: (context, index) {
-                  final item = ecommerceList[index];
+                  final item = dynamicsItemsList[index];
                   return HistoryTileWidget(
                     title: item.title ?? '',
                     id: item.id.toString(),
@@ -92,13 +93,13 @@ class _EcommerceHistoryScreenState extends State<EcommerceHistoryScreen>
                       priority: item.priority,
                       createdDate: item.createdDate.toString(),
                       modifiedDate: item.modifiedDate.toString(),
-                      app: item.app,
-                      type: item.type,
-                      area: null,
-                      purpose: null,
+                      app: null,
+                      type: null,
+                      area: item.area,
+                      purpose: item.purpose,
                       userImage: widget.userImage,
                       userInfo: widget.userInfo,
-                      commentCall: 'Alsanidi',
+                      commentCall: 'Dynamics',
                     ),
                   );
                 },

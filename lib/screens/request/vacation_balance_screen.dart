@@ -23,7 +23,7 @@ class _VacationBalanceScreenState extends State<VacationBalanceScreen> {
     super.initState();
 
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      context.read<VacationBalanceProvider>().getVacationTransactions("");
+      context.read<VacationBalanceProvider>().getVacationTransactions("e662e0d0-25d6-41a1-8bf3-55326a51cc16");
     });
   }
 
@@ -37,6 +37,8 @@ class _VacationBalanceScreenState extends State<VacationBalanceScreen> {
     final local = context.local;
     final locale = context.currentLocale();
     final isArabic = context.isArabic();
+
+    if(vacationBalance == null) return AppNotifier.loadingWidget(theme);
 
     return PopScope(
       canPop: false,
@@ -68,7 +70,7 @@ class _VacationBalanceScreenState extends State<VacationBalanceScreen> {
                   [
                     leavesTypesWidget(
                         theme, local.totalBalance,
-                        vacationBalance!.totalBalance.toString(), local,
+                        vacationBalance.totalBalance.toString(), local,
                         isArabic),
                     leavesTypesWidget(
                         theme, local.remainBalance,

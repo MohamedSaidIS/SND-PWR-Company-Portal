@@ -13,26 +13,36 @@ import '../../common_widgets/priority_badge.dart';
 import '../../common_widgets/status_badge.dart';
 
 class HistoryItemDetails extends StatefulWidget {
-  final String  modifiedDate, createdDate, commentCall;
-  final String? itemId, type, title, description, status, priority;
+  final String modifiedDate, createdDate, commentCall;
+  final String? itemId,
+      type,
+      title,
+      description,
+      status,
+      priority,
+      area,
+      purpose;
   final List<String>? app;
   final Uint8List? userImage;
   final dynamic userInfo;
 
-  const HistoryItemDetails(
-      {required this.itemId,
-      required this.title,
-      required this.description,
-      required this.modifiedDate,
-      required this.createdDate,
-      required this.status,
-      required this.priority,
-      required this.commentCall,
-      this.app,
-      this.type,
-      required this.userInfo,
-      required this.userImage,
-      super.key});
+  const HistoryItemDetails({
+    required this.itemId,
+    required this.title,
+    required this.description,
+    required this.modifiedDate,
+    required this.createdDate,
+    required this.status,
+    required this.priority,
+    required this.commentCall,
+    this.app,
+    this.type,
+    required this.purpose,
+    required this.area,
+    required this.userInfo,
+    required this.userImage,
+    super.key,
+  });
 
   @override
   State<HistoryItemDetails> createState() => _HistoryItemDetailsState();
@@ -44,7 +54,9 @@ class _HistoryItemDetailsState extends State<HistoryItemDetails> {
     WidgetsBinding.instance.addPostFrameCallback((_) {
       final commentProvider = context.read<CommentProvider>();
 
-      commentProvider.getComments(widget.itemId!, widget.commentCall);
+      (widget.commentCall == "Dynamics")
+          ? commentProvider.getDynamicsComments(widget.itemId!, widget.commentCall)
+          : commentProvider.getComments(widget.itemId!, widget.commentCall);
     });
     super.initState();
   }
@@ -113,7 +125,10 @@ class _HistoryItemDetailsState extends State<HistoryItemDetails> {
                   ),
                 ),
               ),
-              SendCommentWidget(itemId: widget.itemId!, commentCall: widget.commentCall,),
+              SendCommentWidget(
+                itemId: widget.itemId!,
+                commentCall: widget.commentCall,
+              ),
             ],
           ),
         ),

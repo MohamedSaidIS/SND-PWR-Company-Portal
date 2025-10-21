@@ -8,7 +8,8 @@ import '../../history_item_details_with_comments/controller/send_comment_control
 class SendCommentWidget extends StatelessWidget {
   final String itemId, commentCall;
 
-  const SendCommentWidget({super.key, required this.itemId, required this.commentCall});
+  const SendCommentWidget(
+      {super.key, required this.itemId, required this.commentCall});
 
   @override
   Widget build(BuildContext context) {
@@ -16,7 +17,8 @@ class SendCommentWidget extends StatelessWidget {
       create: (_) => SendCommentController(),
       builder: (context, _) {
         final allUsersProvider = context.watch<AllOrganizationUsersProvider>();
-        final mentionUsers = allUsersProvider.allUsers.map((u) => u.toMap()).toList();
+        final mentionUsers =
+            allUsersProvider.allUsers.map((u) => u.toMap()).toList();
         final theme = context.theme;
 
         return SafeArea(
@@ -27,9 +29,15 @@ class SendCommentWidget extends StatelessWidget {
               decoration: BoxDecoration(
                 color: theme.colorScheme.surface,
                 borderRadius: BorderRadius.circular(25),
-                boxShadow: const [BoxShadow(color: Colors.grey, blurRadius: 10)],
+                boxShadow: const [
+                  BoxShadow(color: Colors.grey, blurRadius: 10)
+                ],
               ),
-              child: SendCommentMentionsField(mentionUsers: mentionUsers, itemId: itemId, commentCall: commentCall),
+              child: SendCommentMentionsField(
+                mentionUsers: mentionUsers,
+                itemId: itemId,
+                commentCall: commentCall,
+              ),
             ),
           ),
         );

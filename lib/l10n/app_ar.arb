@@ -209,6 +209,17 @@
   "app": "التطبيق *",
   "add": "إضافة",
   "issue": "مشكلة",
-  "type": "النوع"
+  "type": "النوع",
+  "crStander": "المعيار CR",
+  "crCustomize": "تخصيص CR",
+  "bpStander": "المعيار BP",
+  "bpCustomize": "تخصيص BP",
+  "report": "تقرير",
+  "area": "القسم",
+  "purpose": "الغرض",
+  "enterArea": "يرجى إدخال القسم",
+  "pleaseSelectPurpose": "يرجى اختيار الغرض",
+  "date": " التاريخ",
+  "pleaseEnterDate": "برجاء أدخل التاريخ"
 }
 

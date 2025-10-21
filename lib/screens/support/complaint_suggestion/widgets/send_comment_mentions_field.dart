@@ -31,6 +31,8 @@ class SendCommentMentionsField extends StatelessWidget {
         ),
         boxShadow: const [BoxShadow(color: Colors.grey, blurRadius: 10)],
       ),
+      readOnly: controller.isSending ? true : false,
+      enabled: controller.isSending ? false : true,
       decoration: InputDecoration(
         border: InputBorder.none,
         contentPadding: const EdgeInsets.only(left: 15, top: 10, bottom: 10),

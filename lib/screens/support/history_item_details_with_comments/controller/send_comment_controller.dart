@@ -7,8 +7,9 @@ import '../../../../providers/sp_ensure_user.dart';
 import '../../../../utils/app_notifier.dart';
 
 class SendCommentController extends ChangeNotifier {
-  final GlobalKey<FlutterMentionsState> mentionsKey = GlobalKey<FlutterMentionsState>();
-  final TextEditingController textController = TextEditingController();
+  final GlobalKey<FlutterMentionsState> mentionsKey =
+      GlobalKey<FlutterMentionsState>();
+  final textController = TextEditingController();
   bool isSending = false;
   bool isBouncing = false;
 
@@ -92,6 +93,7 @@ class SendCommentController extends ChangeNotifier {
     final commentProvider = context.read<CommentProvider>();
     final spEnsureUserProvider = context.read<SPEnsureUserProvider>();
 
+
     final rawText = mentionsKey.currentState?.controller?.text.trim() ?? "";
     if (rawText.isEmpty) return;
 
@@ -115,12 +117,19 @@ class SendCommentController extends ChangeNotifier {
       context,
     );
 
-    final success = await commentProvider.sendComments(
-      itemId,
-      commentText,
-      commentCall,
-      mentions: mentions,
-    );
+    final success = (commentCall == "Dynamics")
+        ? await commentProvider.sendDynamicsComments(
+            itemId,
+            commentText,
+            commentCall,
+            mentions: mentions,
+          )
+        : await commentProvider.sendComments(
+            itemId,
+            commentText,
+            commentCall,
+            mentions: mentions,
+          );
 
     if (success) {
       mentionsKey.currentState?.controller?.clear();

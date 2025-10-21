@@ -93,6 +93,8 @@ class _ComplaintSuggestionHistoryScreenState
                       modifiedDate: item.lastModifiedDateTime.toString(),
                       app: null,
                       type: null,
+                      area: null,
+                      purpose: null,
                       userImage: widget.userImage,
                       userInfo: widget.userInfo,
                       commentCall: 'It',

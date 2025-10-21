@@ -4,6 +4,7 @@ import 'package:company_portal/providers/all_organization_users_provider.dart';
 import 'package:company_portal/providers/comment_provider.dart';
 import 'package:company_portal/providers/complaint_suggestion_provider.dart';
 import 'package:company_portal/providers/direct_reports_provider.dart';
+import 'package:company_portal/providers/dynamics_provider.dart';
 import 'package:company_portal/providers/e_commerce_provider.dart';
 import 'package:company_portal/providers/new_user_request_provider.dart';
 import 'package:company_portal/providers/sales_kpis_provider.dart';
@@ -147,8 +148,13 @@ void main() async {
           ),
         ),
         ChangeNotifierProvider(
+          create: (context) => DynamicsProvider(
+            mySharePointDioClient: context.read<MySharePointDioClient>(),
+          ),
+        ),
+        ChangeNotifierProvider(
           create: (_) => localeProvider,
-        )
+        ),
       ],
       child: const MyApp(),
     ),

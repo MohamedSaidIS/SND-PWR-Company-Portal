@@ -5,7 +5,6 @@ import 'package:company_portal/providers/comment_provider.dart';
 import 'package:company_portal/utils/context_extensions.dart';
 import 'package:flutter/material.dart';
 import 'package:line_awesome_flutter/line_awesome_flutter.dart';
-import '../../../../../models/remote/complaint_suggestion_item.dart';
 import 'comment_item.dart';
 import 'no_comments.dart';
 

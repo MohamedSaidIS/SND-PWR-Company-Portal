@@ -8,7 +8,7 @@ import '../../../data/support_data.dart';
 import '../../../models/remote/user_info.dart';
 import '../../../providers/sp_ensure_user.dart';
 import 'complaint_suggestion/screens/complaint_suggestion_screen.dart';
-import 'dynamics_support_case/dynamics_support_case_screen.dart';
+import 'dynamics_support_case/screens/dynamics_support_case_screen.dart';
 import 'ecommerce_support_case/screens/ecommerce_support_case_screen.dart';
 import 'user_new_requests/screens/user_new_request_screen.dart';
 

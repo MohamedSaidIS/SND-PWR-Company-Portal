@@ -209,5 +209,16 @@
   "app": "App *",
   "add": "Add",
   "issue": "Issue",
-  "type": "Type"
+  "type": "Type",
+  "crStander": "CR Stander",
+  "crCustomize": "CR Customize",
+  "bpStander": "BP Stander",
+  "bpCustomize": "BP Customize",
+  "report": "Report",
+  "area": "Area",
+  "purpose": "Purpose",
+  "enterArea": "Please Enter Area",
+  "pleaseSelectPurpose": "Please Select Purpose",
+  "date": "Date",
+  "pleaseEnterDate": "Please Enter Date"
 }

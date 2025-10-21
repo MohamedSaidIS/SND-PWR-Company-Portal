@@ -637,4 +637,37 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get type => 'النوع';
+
+  @override
+  String get crStander => 'المعيار CR';
+
+  @override
+  String get crCustomize => 'تخصيص CR';
+
+  @override
+  String get bpStander => 'المعيار BP';
+
+  @override
+  String get bpCustomize => 'تخصيص BP';
+
+  @override
+  String get report => 'تقرير';
+
+  @override
+  String get area => 'القسم';
+
+  @override
+  String get purpose => 'الغرض';
+
+  @override
+  String get enterArea => 'يرجى إدخال القسم';
+
+  @override
+  String get pleaseSelectPurpose => 'يرجى اختيار الغرض';
+
+  @override
+  String get date => ' التاريخ';
+
+  @override
+  String get pleaseEnterDate => 'برجاء أدخل التاريخ';
 }
