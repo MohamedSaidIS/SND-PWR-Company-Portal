@@ -28,7 +28,7 @@ class VacationBalanceProvider extends ChangeNotifier {
 
     try{
       final response = await kpiDioClient.getRequest(
-      "https://alsenidiuat.sandbox.operations.dynamics.com/data/AbsenceLines?\$filter=Worker eq $workerId and ProfileDate ge 2025-01-01T12:00:00Z and ProfileDate le 2025-12-31T12:00:00Z&\$count=true",
+      "https://alsanidi.operations.dynamics.com/data/AbsenceLines?\$filter=Worker eq $workerId and ProfileDate ge 2025-01-01T12:00:00Z and ProfileDate le 2025-12-31T12:00:00Z&\$count=true",
           false
       );
       if(response.statusCode == 200){
@@ -40,7 +40,13 @@ class VacationBalanceProvider extends ChangeNotifier {
           parsedResponse,
         );
 
-        await getVacationBalance(_vacationTransactions[0].personalNumber);
+        if(_vacationTransactions.isNotEmpty){
+          await getVacationBalance(_vacationTransactions[0].personalNumber);
+
+        }else{
+          _vacationBalance = VacationBalance(hrAbsenceCode: "0", totalBalance: 0, totalRemainingToDate: 0, newBalance: 0, workerName: "test", personalNumber: "0");
+        }
+
 
       }else {
         _error = 'Failed to load Vacation Transactions data';
@@ -70,14 +76,14 @@ class VacationBalanceProvider extends ChangeNotifier {
 
     try{
       final response = await kpiDioClient.getRequest(
-          "https://alsenidiuat.sandbox.operations.dynamics.com/data/MyTeamLeaveBalances",
+          "https://alsanidi.operations.dynamics.com/data/MyTeamLeaveBalances?\$filter= Year eq 2025 and PersonnelNumber eq '$personalNumber' &\$count=true",
           false
       );
       if(response.statusCode == 200){
         final parsedResponse = response.data;
         _vacationBalance = await compute(
               (final data) => VacationBalance.fromJson(
-            data['value'][0] as Map<String, dynamic>,
+            data['value'] as Map<String, dynamic>,
           ),
           parsedResponse,
         );

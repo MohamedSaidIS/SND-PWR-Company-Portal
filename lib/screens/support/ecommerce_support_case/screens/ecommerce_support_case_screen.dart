@@ -29,7 +29,7 @@ class EcommerceSupportCaseScreen extends StatelessWidget {
             userName: "${userInfo?.givenName} ${userInfo?.surname}",
             ensureUserId: ensureUser?.id ?? -1,
           ),
-          EcommerceHistoryScreen(ensureUserId: ensureUser?.id ?? -1, userInfo: null, userImage: null,),
+          EcommerceHistoryScreen(ensureUserId: ensureUser?.id ?? -1, userInfo: userInfo, userImage: userImage,),
         ],
       ),
     );

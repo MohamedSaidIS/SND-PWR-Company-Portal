@@ -155,6 +155,20 @@ Widget transactionsList(
         );
 }
 
+Widget noDataExist(String title, ThemeData theme){
+  return SliverToBoxAdapter(
+    child: Padding(
+      padding: const EdgeInsets.symmetric(vertical: 30.0),
+      child: Column(
+        children: [
+          Icon(Icons.not_interested_rounded, color: theme.colorScheme.secondary,),
+          Text(title, style: const TextStyle(fontSize: 15),)
+        ],
+      ),
+    ),
+  );
+}
+
 Widget vacationTransactionTile(
   ThemeData theme,
   AppLocalizations local,

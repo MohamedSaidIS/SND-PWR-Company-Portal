@@ -54,11 +54,12 @@ class _VacationBalanceScreenState extends State<VacationBalanceScreen> {
               child: CustomScrollView(
                 slivers: [
                   headerSection(local.leavesBalance),
-                  leavesGrid(theme, local, isArabic, balance, provider.loading),
+                  balance?.totalBalance == 0 ? noDataExist("No Leave Balance", theme) : leavesGrid(theme, local, isArabic, balance, provider.loading),
                   headerSection(local.consumedLeaves),
-                  consumedGrid(theme, local, isArabic, balance, provider.loading),
+                  balance?.totalBalance == 0 ? noDataExist("No Consumed Balance", theme) : consumedGrid(theme, local, isArabic, balance, provider.loading),
                   headerSection(local.leavesTransactions),
-                  transactionsList(theme, local, isArabic, locale,transactions, provider.loading),
+                  transactions.isEmpty? noDataExist("There is No Transactions", theme)
+                  : transactionsList(theme, local, isArabic, locale,transactions, provider.loading),
                 ],
               ),
             );

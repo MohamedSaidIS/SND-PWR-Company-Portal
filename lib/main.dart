@@ -30,9 +30,10 @@ import 'package:provider/provider.dart';
 import '../../l10n/app_localizations.dart';
 
 import 'config/auth_config.dart';
+import 'firebase_options.dart';
 
 Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
-  await Firebase.initializeApp();
+  await Firebase.initializeApp( options: DefaultFirebaseOptions.currentPlatform,);
   debugPrint("📩 Handling background message: ${message.messageId}");
 }
 
@@ -41,7 +42,9 @@ void main() async {
   await EnvConfig.load();
 
   // ✅ Firebase init
-  await Firebase.initializeApp();
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
 
   // ✅ background handler
   FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);

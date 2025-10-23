@@ -220,6 +220,7 @@
   "enterArea": "يرجى إدخال القسم",
   "pleaseSelectPurpose": "يرجى اختيار الغرض",
   "date": " التاريخ",
-  "pleaseEnterDate": "برجاء أدخل التاريخ"
+  "pleaseEnterDate": "برجاء أدخل التاريخ",
+  "pleaseSelectApp": "برجاء اختيار التطبيق"
 }
 

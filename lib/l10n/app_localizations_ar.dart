@@ -670,4 +670,7 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get pleaseEnterDate => 'برجاء أدخل التاريخ';
+
+  @override
+  String get pleaseSelectApp => 'برجاء اختيار التطبيق';
 }

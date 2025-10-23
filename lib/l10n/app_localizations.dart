@@ -1420,6 +1420,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Please Enter Date'**
   String get pleaseEnterDate;
+
+  /// No description provided for @pleaseSelectApp.
+  ///
+  /// In en, this message translates to:
+  /// **'Please Select App'**
+  String get pleaseSelectApp;
 }
 
 class _AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> {

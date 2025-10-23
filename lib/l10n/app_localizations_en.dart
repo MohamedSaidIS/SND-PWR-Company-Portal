@@ -670,4 +670,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get pleaseEnterDate => 'Please Enter Date';
+
+  @override
+  String get pleaseSelectApp => 'Please Select App';
 }

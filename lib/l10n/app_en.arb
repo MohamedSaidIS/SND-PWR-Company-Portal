@@ -220,5 +220,6 @@
   "enterArea": "Please Enter Area",
   "pleaseSelectPurpose": "Please Select Purpose",
   "date": "Date",
-  "pleaseEnterDate": "Please Enter Date"
+  "pleaseEnterDate": "Please Enter Date",
+  "pleaseSelectApp": "Please Select App"
 }
