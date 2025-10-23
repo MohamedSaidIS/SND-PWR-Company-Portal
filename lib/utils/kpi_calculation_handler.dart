@@ -162,10 +162,17 @@ class KpiCalculationHandler {
       int month, int year) {
     final start = DateTime(year, month, 1);
     final totalDays = daysInMonthForYear(year, month);
-    final end = DateTime(year, month, totalDays);
+    final end = DateTime(year, month, totalDays, 23, 59, 59);
 
     AppNotifier.logWithScreen(
         "KpiCalculation Handler", "Month Start: $start, End: $end");
+
+    for (var e in data) {
+      AppNotifier.logWithScreen(
+        "KpiCalculation Handler",
+        "Sample transDate: ${e.dailySalesAmount}  ${e.transDate.toIso8601String()}",
+      );
+    }
 
     final daysInMonth = List.generate(end.day, (index) {
       final date = DateTime(year, month, index + 1);
@@ -180,9 +187,8 @@ class KpiCalculationHandler {
 
     final monthData = data.where((e) {
       final d = onlyDate(e.transDate);
-      return (d.isAtSameMomentAs(start) || d.isAtSameMomentAs(end)) ||
-          (d.isAfter(start) && d.isBefore(end));
-    });
+      return !d.isBefore(start) && !d.isAfter(end);
+    }).toList();
 
     AppNotifier.logWithScreen(
         "KpiCalculation Handler", "monthData count: ${monthData.length}");

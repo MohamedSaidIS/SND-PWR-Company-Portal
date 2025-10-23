@@ -29,7 +29,7 @@ class VacationBalanceProvider extends ChangeNotifier {
     try{
       final response = await kpiDioClient.getRequest(
       "https://alsenidiuat.sandbox.operations.dynamics.com/data/AbsenceLines?\$filter=Worker eq $workerId and ProfileDate ge 2025-01-01T12:00:00Z and ProfileDate le 2025-12-31T12:00:00Z&\$count=true",
-          true
+          false
       );
       if(response.statusCode == 200){
         final parsedResponse = response.data;
@@ -71,7 +71,7 @@ class VacationBalanceProvider extends ChangeNotifier {
     try{
       final response = await kpiDioClient.getRequest(
           "https://alsenidiuat.sandbox.operations.dynamics.com/data/MyTeamLeaveBalances",
-          true
+          false
       );
       if(response.statusCode == 200){
         final parsedResponse = response.data;

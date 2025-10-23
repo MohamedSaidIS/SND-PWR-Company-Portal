@@ -1094,7 +1094,7 @@ abstract class AppLocalizations {
   /// No description provided for @specifyTheBusinessNeedForNewEmail.
   ///
   /// In en, this message translates to:
-  /// **'Specify business need for new Email'**
+  /// **'Specify needs for new Email'**
   String get specifyTheBusinessNeedForNewEmail;
 
   /// No description provided for @pleaseEnterLocation.
@@ -1250,7 +1250,7 @@ abstract class AppLocalizations {
   /// No description provided for @requestSpecialSpecsForApproval.
   ///
   /// In en, this message translates to:
-  /// **'Request special specs for approval'**
+  /// **'special specs needed'**
   String get requestSpecialSpecsForApproval;
 
   /// No description provided for @update.

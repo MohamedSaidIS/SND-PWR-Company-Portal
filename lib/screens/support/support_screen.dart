@@ -95,7 +95,7 @@ class _SupportScreenState extends State<SupportScreen> {
             ),
             itemBuilder: (context, index) {
               final item = getSupportItems[index];
-              return (item.name == "Users New \nRequests" &&  directReportList != null && directReportList.isNotEmpty)
+              return (item.name == "Users New \nRequests" &&  directReportList != null && directReportList.isEmpty)
                   ? const SizedBox.shrink()
                   : _SupportCard(
                 title: item.name,

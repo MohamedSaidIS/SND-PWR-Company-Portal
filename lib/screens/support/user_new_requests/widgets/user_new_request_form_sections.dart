@@ -95,12 +95,6 @@ Widget buildDeviceEmailSection(
       validator: (v) => CommonTextFieldForm.textFormFieldValidation(
           v, local.pleaseEnterDeviceType),
     ),
-    CustomTextFieldWidget(
-      key: const ValueKey('specialSpecs'),
-      controller: c.specialSpecs,
-      label: local.requestSpecialSpecsForApproval,
-      validator: (v) => CommonTextFieldForm.optional(""),
-    ),
     CustomDropDownFieldWidget(
       key: const ValueKey('newEmailRequested'),
       label: local.newEmailRequested,
@@ -120,6 +114,7 @@ Widget buildDeviceEmailSection(
       key: const ValueKey('specifyNewMail'),
       controller: c.specifyNewMail,
       label: local.specifyTheBusinessNeedForNewEmail,
+      maxLines: 3,
       validator: (v) => CommonTextFieldForm.optional(""),
     ),
   ], theme);
@@ -140,6 +135,7 @@ Widget buildAdditionalRequestsSection(
       key: const ValueKey('specifyDynamics'),
       controller: c.specifyDynamics,
       label: local.specifyTheRoleMSDynamics,
+      maxLines: 3,
       validator: (v) => CommonTextFieldForm.optional(""),
     ),
     CustomDropDownFieldWidget(
@@ -148,6 +144,20 @@ Widget buildAdditionalRequestsSection(
       value: c.needPhone,
       items: getYesNoList(local),
       onChanged: (v) => c.needPhone = v,
+      validator: (v) => CommonTextFieldForm.optional(""),
+    ),
+    CustomTextFieldWidget(
+      key: const ValueKey('specialSpecs'),
+      controller: c.specialSpecs,
+      label: local.requestSpecialSpecsForApproval,
+      maxLines: 3,
+      validator: (v) => CommonTextFieldForm.optional(""),
+    ),
+    CustomTextFieldWidget(
+      key: const ValueKey('specialSoftwareNeeded'),
+      controller: c.software,
+      label: local.specificSoftwareNeeded,
+      maxLines: 3,
       validator: (v) => CommonTextFieldForm.optional(""),
     ),
   ], theme);

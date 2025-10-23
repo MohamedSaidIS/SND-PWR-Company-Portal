@@ -507,7 +507,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get currentEmailToUse => 'Current Email to use';
 
   @override
-  String get specifyTheBusinessNeedForNewEmail => 'Specify business need for new Email';
+  String get specifyTheBusinessNeedForNewEmail => 'Specify needs for new Email';
 
   @override
   String get pleaseEnterLocation => 'Please enter location';
@@ -585,7 +585,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get specificSoftwareNeeded => 'Specific software needed';
 
   @override
-  String get requestSpecialSpecsForApproval => 'Request special specs for approval';
+  String get requestSpecialSpecsForApproval => 'special specs needed';
 
   @override
   String get update => 'update';

@@ -58,6 +58,13 @@ class UserNewRequestFormController {
     newEmail = req.newEmailRequest;
     useDynamics = req.requestDynamicsAccount;
     needPhone = req.requestPhoneLine;
+    laptopNeed.text = req.laptopNeeds ?? '';
+    specialSpecs.text = req.specialSpecs ?? '';
+    software.text = req.specificSoftware ?? '';
+    currentMail.text = req.currentEmailToUse ?? '';
+    specifyNewMail.text = req.specifyNeedForNewEmail ?? '';
+    specifyDynamics.text = req.specifyDynamicsRole ?? '';
+
     isFilling = false;
   }
 
@@ -75,16 +82,17 @@ class UserNewRequestFormController {
   }
 
   Future<void> submitForm(
-      AppLocalizations local,
-      NewUserRequest? request,
-      int ensureUserId,
-      ) async {
+    AppLocalizations local,
+    NewUserRequest? request,
+    int ensureUserId,
+  ) async {
     print("Validating form...");
     final isValid = formKey.currentState?.validate() ?? false;
     print("Form valid? $isValid");
 
     if (!isValid) {
-      AppNotifier.snackBar(context, local.pleaseFillAllFields, SnackBarType.warning);
+      AppNotifier.snackBar(
+          context, local.pleaseFillAllFields, SnackBarType.warning);
       return;
     }
 
@@ -93,8 +101,9 @@ class UserNewRequestFormController {
       final parsed = DateFormat('dd-MM-yyyy').parse(joiningDate.text);
       final success = request != null
           ? await provider.updateNewUserRequest(
-          request.id, _buildRequest(parsed, ensureUserId))
-          : await provider.createNewUserRequest(_buildRequest(parsed, ensureUserId));
+              request.id, _buildRequest(parsed, ensureUserId))
+          : await provider
+              .createNewUserRequest(_buildRequest(parsed, ensureUserId));
 
       if (success) {
         if (request == null) clearData();
@@ -112,8 +121,6 @@ class UserNewRequestFormController {
       );
     }
   }
-
-
 
   NewUserRequest _buildRequest(DateTime date, int ensureUserId) =>
       NewUserRequest(

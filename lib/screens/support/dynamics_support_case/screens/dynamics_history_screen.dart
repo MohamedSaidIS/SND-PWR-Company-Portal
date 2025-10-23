@@ -1,7 +1,6 @@
 import 'dart:typed_data';
 
 import 'package:company_portal/providers/dynamics_provider.dart';
-import 'package:company_portal/providers/e_commerce_provider.dart';
 import 'package:company_portal/utils/context_extensions.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
