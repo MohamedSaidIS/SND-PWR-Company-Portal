@@ -1,14 +1,8 @@
 import 'dart:typed_data';
-
-import 'package:company_portal/screens/support/dynamics_support_case/screens/dynamics_history_screen.dart';
-import 'package:company_portal/utils/context_extensions.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import '../../../../utils/export_import.dart';
 
-import '../../../../../models/remote/user_info.dart';
-import '../../../../../providers/sp_ensure_user.dart';
-import '../../common_widgets/common_support_appbar.dart';
-import 'dynamics_sc_form_screen.dart';
 
 
 class DynamicsSupportCaseScreen extends StatelessWidget {

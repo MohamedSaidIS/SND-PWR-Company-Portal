@@ -1,9 +1,7 @@
-import 'package:company_portal/providers/locale_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:line_awesome_flutter/line_awesome_flutter.dart';
 import 'package:provider/provider.dart';
-import '../theme/theme_provider.dart';
-import '../../l10n/app_localizations.dart';
+import '../../../../utils/export_import.dart';
 
 extension ContextHelper on BuildContext{
 

@@ -1,13 +1,8 @@
 import 'dart:typed_data';
-
-import 'package:company_portal/utils/context_extensions.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-
-import '../../../../../models/remote/item_comments.dart';
-import '../../../../../utils/app_notifier.dart';
-
+import '../../../../utils/export_import.dart';
 
 class CommentItem extends StatelessWidget {
   final ItemComments comment;

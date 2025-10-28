@@ -1,13 +1,8 @@
 import 'dart:convert';
-
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_appauth/flutter_appauth.dart';
-import '../config/env_config.dart';
-import '../utils/app_notifier.dart';
-import 'biometric_auth_controller.dart';
-import '../utils/enums.dart';
-import '../service/secure_storage_service.dart';
+import '../utils/export_import.dart';
 
 class AuthController {
   final FlutterAppAuth appAuth = const FlutterAppAuth();
@@ -17,7 +12,6 @@ class AuthController {
 
   AuthController({required this.context});
 
-  /// تسجيل الدخول مرة واحدة فقط
   Future<bool> loginMicrosoftOnce() async {
     try {
       await _clearPreviousSession();

@@ -1,8 +1,5 @@
-import 'package:company_portal/service/my_share_point_dio_client.dart';
-import 'package:company_portal/utils/app_notifier.dart';
 import 'package:flutter/foundation.dart';
-
-import '../models/remote/dynamics_item.dart';
+import '../utils/export_import.dart';
 
 class DynamicsProvider extends ChangeNotifier {
   final MySharePointDioClient mySharePointDioClient;
@@ -60,7 +57,7 @@ class DynamicsProvider extends ChangeNotifier {
     _loading = true;
     _error = null;
     notifyListeners();
-    print("Dynamics Item ${item.toJson()}");
+    debugPrint("Dynamics Item ${item.toJson()}");
 
     try {
       final response = await mySharePointDioClient.post(

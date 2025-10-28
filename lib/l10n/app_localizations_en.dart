@@ -144,7 +144,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get email => 'Email';
 
   @override
-  String get thisAppIsNotExists => 'This app is not exists';
+  String get thisAppIsNotExists => 'This app doesn\'t exist';
 
   @override
   String get ok => 'Ok';
@@ -327,7 +327,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get editImage => 'Edit Image';
 
   @override
-  String get openingApp => 'Opening App';
+  String get openingApp => 'Opening App...';
 
   @override
   String get issue_details => 'Issue Details';
@@ -673,4 +673,10 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get pleaseSelectApp => 'Please Select App';
+
+  @override
+  String get loadingData => 'Loading data...';
+
+  @override
+  String get chooseEmployee => 'Choose Employee...';
 }

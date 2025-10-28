@@ -1,7 +1,5 @@
-import 'package:company_portal/screens/support/dynamics_support_case/widgets/dynamics_form.dart';
-import 'package:company_portal/utils/context_extensions.dart';
 import 'package:flutter/material.dart';
-import '../controllers/dynamics_form_controller.dart';
+import 'package:company_portal/utils/export_import.dart';
 
 class DynamicsScFormScreen extends StatefulWidget {
   final String userName;

@@ -1,8 +1,5 @@
-import 'package:company_portal/providers/locale_provider.dart';
-import 'package:company_portal/utils/context_extensions.dart';
 import 'package:flutter/material.dart';
-
-import '../../../common/custom_app_bar.dart';
+import '../../../utils/export_import.dart';
 
 class LanguageScreen extends StatelessWidget {
   const LanguageScreen({super.key});
@@ -42,12 +39,6 @@ Widget _languageOption(String languageCode, String languageName,
   return ListTile(
     onTap: () async {
       localeProvider.setLocale(Locale(languageCode));
-      // Navigator.pushReplacement(
-      //   context,
-      //   MaterialPageRoute(
-      //     builder: (_) => const LanguageScreen(),
-      //   ),
-      // );
     },
     shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
     tileColor: isSelected

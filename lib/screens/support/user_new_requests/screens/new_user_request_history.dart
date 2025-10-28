@@ -1,10 +1,6 @@
-import 'package:company_portal/providers/new_user_request_provider.dart';
-import 'package:company_portal/screens/support/user_new_requests/screens/user_new_request_form_screen.dart';
-import 'package:company_portal/utils/context_extensions.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import '../../../../utils/app_notifier.dart';
-import '../../common_widgets/history_tile_widget.dart';
+import '../../../../utils/export_import.dart';
 
 class NewUserRequestHistory extends StatefulWidget {
   final int ensureUserId;
@@ -34,7 +30,7 @@ class _NewUserRequestHistoryState extends State<NewUserRequestHistory> with Sing
     WidgetsBinding.instance.addPostFrameCallback((_) async {
       context.read<NewUserRequestProvider>().getNewUserRequest(widget.ensureUserId);
 
-      if (mounted) _controller.forward(); // start fade animation after load
+      if (mounted) _controller.forward();
     });
   }
 

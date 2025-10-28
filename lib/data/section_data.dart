@@ -1,9 +1,6 @@
-import 'package:company_portal/models/local/section.dart';
-import 'package:company_portal/utils/context_extensions.dart';
 import 'package:flutter/material.dart';
+import '../utils/export_import.dart';
 
-import '../l10n/app_localizations.dart';
-import '../screens/login/widgets/section_widget.dart';
 
 List<Widget> getSections(AppLocalizations local, ThemeData theme,
     BuildContext context, double carouselHeight) {

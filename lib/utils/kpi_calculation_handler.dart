@@ -1,22 +1,15 @@
 import 'dart:math';
-import 'package:company_portal/l10n/app_localizations.dart';
-import 'package:company_portal/models/remote/sales_kpi.dart';
 import 'package:intl/intl.dart';
 import 'package:week_number/iso.dart';
 import 'package:jiffy/jiffy.dart';
-
-
-import '../models/local/daily_kpi.dart';
-import '../models/local/weekly_kpi.dart';
-import 'app_notifier.dart';
+import 'export_import.dart';
 
 class KpiCalculationHandler {
   final AppLocalizations local;
 
   KpiCalculationHandler(this.local);
 
-  static double calculateDailySales(List<SalesKPI> data, int selectedMonth,
-      int selectedWeek) {
+  static double calculateDailySales(List<SalesKPI> data, int selectedMonth, int selectedWeek) {
     if (data.isEmpty) return 0.0;
     final year = DateTime
         .now()
@@ -29,7 +22,8 @@ class KpiCalculationHandler {
 
     final weekData = data.where((e) {
       final d = onlyDate(e.transDate);
-      return !d.isBefore(onlyDate(startOfWeek)) &&
+      return d.month == selectedMonth &&
+          !d.isBefore(onlyDate(startOfWeek)) &&
           !d.isAfter(onlyDate(endOfWeek));
     }).toList();
 
@@ -49,8 +43,7 @@ class KpiCalculationHandler {
     return date.weekNumber;
   }
 
-  static List<WeeklyKPI> calculateWeeklySales(List<SalesKPI> data,
-      int selectedMonth) {
+  static List<WeeklyKPI> calculateWeeklySales(List<SalesKPI> data, int selectedMonth) {
     final Map<int, double> weeklyTotals = {};
 
     final filteredData = data.where((e) =>
@@ -89,8 +82,7 @@ class KpiCalculationHandler {
 
     filteredData.sort((a, b) => a.transDate.compareTo(b.transDate));
 
-    AppNotifier.logWithScreen(
-        "KpiCalculation Handler", "Filtered Data: ${filteredData.length}");
+    AppNotifier.logWithScreen("KpiCalculation Handler", "Filtered Data: ${filteredData.length}");
 
     return filteredData.isNotEmpty ? filteredData.last.lastSalesAmount : 0.0;
   }
@@ -207,8 +199,7 @@ class KpiCalculationHandler {
   }
 
 
-  static String getMonthName(List<SalesKPI> data, int selectedMonth,
-      bool isArabic) {
+  static String getMonthName(List<SalesKPI> data, int selectedMonth, bool isArabic) {
     var now = DateTime.now();
     var date = DateTime(now.year, selectedMonth);
     if (data.isNotEmpty) {
@@ -219,44 +210,57 @@ class KpiCalculationHandler {
     final monthName = isArabic
         ? DateFormat.yMMMM('ar').format(date)
         : DateFormat.yMMMM().format(date);
-    AppNotifier.logWithScreen(
-        "KpiCalculation Handler", "Month Name: $monthName");
+    AppNotifier.logWithScreen("KpiCalculation Handler", "Month Name: $monthName");
     return monthName;
   }
 
 
-  static String getLastDayName(List<SalesKPI> data, int selectedMonth,
-      int selectedWeek, bool isArabic) {
-    if (data.isEmpty) return "";
+  static String getLastDayName(List<SalesKPI> data, int selectedMonth, int selectedWeek, bool isArabic) {
+    var now = DateTime.now();
+    if (data.isEmpty) {
+      now = DateTime(DateTime.now().year, selectedMonth);
+      AppNotifier.logWithScreen("KpiCalculation Handler", "LastDay $now");
+      return isArabic
+          ? DateFormat.yMMMEd('ar').format(now)
+          : DateFormat.yMMMEd().format(now);
+    }
 
-    final startOfWeek = getIsoWeekStart(DateTime
-        .now()
-        .year, selectedWeek);
-    final endOfWeek = getIsoWeekEnd(DateTime
-        .now()
-        .year, selectedWeek);
+    final startOfWeek = getIsoWeekStart(DateTime.now().year, selectedWeek);
+    final endOfWeek = getIsoWeekEnd(DateTime.now().year, selectedWeek);
 
     DateTime onlyDate(DateTime dt) => DateTime(dt.year, dt.month, dt.day);
 
     final weekData = data.where((e) {
       final d = onlyDate(e.transDate);
-      return !d.isBefore(onlyDate(startOfWeek)) &&
+      return d.year == DateTime.now().year &&
+          d.month == selectedMonth &&
+          !d.isBefore(onlyDate(startOfWeek)) &&
           !d.isAfter(onlyDate(endOfWeek));
     }).toList();
 
-    if (weekData.isEmpty) return "";
+
+    AppNotifier.logWithScreen("KpiCalculation Handler", "WeekData content: ${weekData.map((e) => e.transDate).toList()}");
+    AppNotifier.logWithScreen("KpiCalculation Handler", "Length actually: ${weekData.length}");
+
+    if (weekData.isEmpty){
+      now = DateTime(DateTime.now().year, selectedMonth);
+      AppNotifier.logWithScreen("KpiCalculation Handler", "LastDay $now");
+      return isArabic
+          ? DateFormat.yMMMEd('ar').format(now)
+          : DateFormat.yMMMEd().format(now);
+    }
 
     final lastKpi = weekData.reduce((a, b) =>
     onlyDate(a.transDate).isAfter(onlyDate(b.transDate)) ? a : b);
 
-    var now = DateTime.now();
+
     if (weekData.isNotEmpty) {
       now = lastKpi.transDate;
     }
     final lastDayName = isArabic
         ? DateFormat.yMMMEd('ar').format(now)
         : DateFormat.yMMMEd().format(now);
-    AppNotifier.logWithScreen("KpiCalculation Handler", lastDayName);
+    AppNotifier.logWithScreen("KpiCalculation Handler", "after LastDay $lastDayName");
     return lastDayName;
   }
 

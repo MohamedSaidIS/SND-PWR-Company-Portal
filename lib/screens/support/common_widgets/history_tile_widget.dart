@@ -1,7 +1,6 @@
 import 'package:animations/animations.dart';
-import 'package:company_portal/screens/support/common_widgets/status_badge.dart';
-import 'package:company_portal/utils/context_extensions.dart';
 import 'package:flutter/material.dart';
+import '../../../../utils/export_import.dart';
 
 class HistoryTileWidget extends StatelessWidget {
   final String title;

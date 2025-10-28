@@ -1,16 +1,7 @@
 import 'dart:io';
-import 'package:company_portal/providers/user_image_provider.dart';
-import 'package:company_portal/providers/user_info_provider.dart';
-import 'package:company_portal/screens/account/profile/widgets/menu_section.dart';
-import 'package:company_portal/screens/account/profile/widgets/profile_header.dart';
-import 'package:company_portal/utils/app_notifier.dart';
-import 'package:company_portal/utils/context_extensions.dart';
-import 'package:company_portal/utils/enums.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import '../../../common/custom_app_bar.dart';
-import '../../../utils/app_separators.dart';
-import '../../../utils/image_picker_handler.dart';
+import '../../../../utils/export_import.dart';
 
 class ProfileScreen extends StatefulWidget {
   const ProfileScreen({super.key});
@@ -21,18 +12,6 @@ class ProfileScreen extends StatefulWidget {
 
 class _ProfileScreenState extends State<ProfileScreen> {
   File? _image;
-
-  // @override
-  // void initState() {
-  //   super.initState();
-  //   WidgetsBinding.instance.addPostFrameCallback((_) {
-  //     final userProvider = context.read<UserInfoProvider>();
-  //     final imageProvider = context.read<UserImageProvider>();
-  //
-  //     userProvider.fetchUserInfo();
-  //     imageProvider.fetchImage();
-  //   });
-  // }
 
   void _handleImagePick(File pickedImage) async {
     setState(() => _image = pickedImage);

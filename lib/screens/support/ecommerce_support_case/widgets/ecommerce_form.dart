@@ -1,14 +1,7 @@
-import 'package:company_portal/providers/e_commerce_provider.dart';
-import 'package:company_portal/screens/support/ecommerce_support_case/controllers/ecommerce_form_controllor.dart';
-import 'package:company_portal/utils/context_extensions.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import '../../../../utils/export_import.dart';
 
-import '../../../../data/support_forms_data.dart';
-import '../../common_widgets/common_form_functions.dart';
-import '../../common_widgets/custom_drop_down_field_widget.dart';
-import '../../common_widgets/custom_text_field_widget.dart';
-import '../../common_widgets/submit_button.dart';
 
 class EcommerceForm extends StatefulWidget {
   final EcommerceFormController controller;

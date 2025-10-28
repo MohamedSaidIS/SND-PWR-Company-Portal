@@ -368,7 +368,7 @@ abstract class AppLocalizations {
   /// No description provided for @thisAppIsNotExists.
   ///
   /// In en, this message translates to:
-  /// **'This app is not exists'**
+  /// **'This app doesn\'t exist'**
   String get thisAppIsNotExists;
 
   /// No description provided for @ok.
@@ -734,7 +734,7 @@ abstract class AppLocalizations {
   /// No description provided for @openingApp.
   ///
   /// In en, this message translates to:
-  /// **'Opening App'**
+  /// **'Opening App...'**
   String get openingApp;
 
   /// No description provided for @issue_details.
@@ -1426,6 +1426,18 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Please Select App'**
   String get pleaseSelectApp;
+
+  /// No description provided for @loadingData.
+  ///
+  /// In en, this message translates to:
+  /// **'Loading data...'**
+  String get loadingData;
+
+  /// No description provided for @chooseEmployee.
+  ///
+  /// In en, this message translates to:
+  /// **'Choose Employee...'**
+  String get chooseEmployee;
 }
 
 class _AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> {

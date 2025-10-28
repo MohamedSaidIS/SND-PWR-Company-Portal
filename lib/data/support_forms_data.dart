@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
-
-import '../l10n/app_localizations.dart';
+import '../utils/export_import.dart';
 
 List<Map<String, String>> getCategories(AppLocalizations local) {
   return [

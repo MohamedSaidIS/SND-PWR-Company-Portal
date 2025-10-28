@@ -1,15 +1,5 @@
-import 'package:company_portal/l10n/app_localizations.dart';
-import 'package:company_portal/models/remote/sales_kpi.dart';
-import 'package:company_portal/screens/kpis/sales_kpis_details_screen.dart';
-import 'package:company_portal/utils/context_extensions.dart';
-import 'package:company_portal/utils/kpi_helper.dart';
-import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
-
-import '../../../models/local/daily_kpi.dart';
-import '../../../models/local/weekly_kpi.dart';
-import '../../../utils/app_notifier.dart';
-import '../../../utils/kpi_calculation_handler.dart';
+import '../../../utils/export_import.dart';
 
 class KpiPieChart extends StatelessWidget {
   final String title;
@@ -33,32 +23,6 @@ class KpiPieChart extends StatelessWidget {
     this.weeklyValues = const [],
   });
 
-  String getKpiValueDueDate(AppLocalizations local, bool isArabic) {
-    AppNotifier.logWithScreen("Pie Chart Screen","Selected Month: $selectedMonth");
-
-    if (title == local.dailyKpi) {
-      return KpiCalculationHandler.getLastDayName(
-          salesKpi, selectedMonth, selectedWeek!, isArabic);
-    } else if (title == local.weeklyKpi) {
-      var translatedWeekNumber = "";
-      if (selectedWeek != null) {
-        translatedWeekNumber = convertedToArabicNumber(selectedWeek!, isArabic);
-        return "${local.week} : $translatedWeekNumber";
-      } else {
-        DateTime lastDate = DateTime.now();
-        if (salesKpi.isNotEmpty) {
-          lastDate = salesKpi.last.transDate;
-        }
-        translatedWeekNumber = convertedToArabicNumber(KpiCalculationHandler.getWeekNumber(lastDate), isArabic);
-        return "${local.week}: $translatedWeekNumber";
-      }
-    } else {
-      return KpiCalculationHandler.getMonthName(salesKpi, selectedMonth, isArabic);
-    }
-  }
-
-
-
   @override
   Widget build(BuildContext context) {
     final theme = context.theme;
@@ -66,91 +30,50 @@ class KpiPieChart extends StatelessWidget {
     final isArabic = context.isArabic();
     final percent = (target == 0) ? 0 : (achieved / target * 100);
 
-    AppNotifier.logWithScreen("Pie Chart Screen","Week: $selectedWeek currentWeek: ${currentWeek.weekNumber}");
-
     return Container(
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(20),
-        color: theme.colorScheme.primary.withValues(alpha:0.1),
+        color: theme.colorScheme.primary.withValues(alpha: 0.1),
+        boxShadow: [
+          BoxShadow(
+            color: theme.colorScheme.primary.withValues(alpha: 0.05),
+            blurRadius: 6,
+          ),
+        ],
       ),
       margin: const EdgeInsets.all(5),
       child: InkWell(
+        borderRadius: BorderRadius.circular(20),
+        splashColor: theme.colorScheme.primary.withOpacity(0.2),
+        highlightColor: Colors.transparent,
         onTap: () => Navigator.of(context).push(
           MaterialPageRoute(
             builder: (context) => SalesKpisDetailsScreen(
               salesKpis: salesKpi,
-              title: title,
+              initialTitle: title,
               currentWeek: currentWeek,
               selectedMonth: selectedMonth,
               weeklyValues: weeklyValues,
             ),
           ),
         ),
-        child: Column(
-          mainAxisSize: MainAxisSize.max,
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            const SizedBox(height: 15),
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 15.0),
-              child: Text(
-                title,
-                style: TextStyle(
-                  fontSize: 20,
-                  fontWeight: FontWeight.w500,
-                  color: theme.colorScheme.secondary,
-                ),
-              ),
+        child: AnimatedScale(
+          scale: 1,
+          duration: const Duration(milliseconds: 150),
+          child: Padding(
+            padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 12),
+            child: Column(
+              mainAxisSize: MainAxisSize.max,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                buildPieChartTitle(title, theme),
+                const SizedBox(height: 6),
+                buildPieChart(achieved, target, percent, isArabic),
+                buildPieChartDateAndAchieved(local, isArabic, title, salesKpi,
+                    selectedMonth, selectedWeek, theme, achieved),
+              ],
             ),
-            Expanded(
-              child: Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 15.0),
-                child: PieChart(
-                  PieChartData(
-                    startDegreeOffset: -90,
-                    sectionsSpace: 0,
-                    sections: [
-                      PieChartSectionData(
-                        color: achieved == 0.0 ?Colors.white.withValues(alpha:0.6):  KpiUIHelper.getPieChartColor(percent),
-                        value: achieved == 0.0 ? 1 : achieved,
-                        title: achieved == 0.0 ? '': '${convertedToArabicNumber(percent.toStringAsFixed(2), isArabic)}%',
-                        radius: 55,
-                        titleStyle: TextStyle(
-                          color: percent > 15 ? Colors.white : Colors.black,
-                          fontWeight: FontWeight.bold,
-                          fontSize: 15,
-                        ),
-                      ),
-                      PieChartSectionData(
-                        color: Colors.white.withValues(alpha:0.6),
-                        value: (target - achieved).clamp(0, target),
-                        title: '',
-                        radius: 45,
-                      ),
-                    ],
-                  ),
-                ),
-              ),
-            ),
-            Padding(
-              padding: const EdgeInsets.only(top: 5.0),
-              child: Text(
-                getKpiValueDueDate(local, isArabic),
-                style: TextStyle(
-                    fontSize: 15,
-                    fontWeight: FontWeight.w600,
-                    color: theme.colorScheme.secondary),
-              ),
-            ),
-            Padding(
-              padding: const EdgeInsets.symmetric(vertical: 5.0),
-              child: Text(
-                "${local.achieved}: ${convertedToArabicNumber(achieved.toStringAsFixed(2), isArabic)}",
-                style:
-                const TextStyle(fontSize: 15, fontWeight: FontWeight.w600),
-              ),
-            ),
-          ],
+          ),
         ),
       ),
     );

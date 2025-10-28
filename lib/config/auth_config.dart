@@ -1,6 +1,6 @@
 import 'package:aad_oauth/model/config.dart';
-import 'package:company_portal/config/env_config.dart';
 import 'package:flutter/material.dart';
+import '../utils/export_import.dart';
 
 class AuthConfig {
   static Config createMicrosoftConfig(GlobalKey<NavigatorState> navigatorKey) {

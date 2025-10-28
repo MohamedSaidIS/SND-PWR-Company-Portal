@@ -1,18 +1,7 @@
-
-import 'package:company_portal/models/remote/group_info.dart';
-import 'package:company_portal/screens/dashboard/dashboard_screen.dart';
-import 'package:company_portal/screens/apps/apps_screen.dart';
-import 'package:company_portal/screens/kpis/no_kpi_screen.dart';
-import 'package:company_portal/screens/kpis/sales_kpi_dashboard.dart';
-import 'package:company_portal/screens/kpis/managment_kpi_dashboard.dart';
-import 'package:company_portal/screens/request/requests_screen.dart';
-import 'package:company_portal/utils/app_notifier.dart';
-import 'package:company_portal/utils/context_extensions.dart';
 import 'package:flutter/material.dart';
 import 'package:line_awesome_flutter/line_awesome_flutter.dart';
 import 'package:provider/provider.dart';
-import '../../providers/user_info_provider.dart';
-import '../account/profile/profile_screen.dart';
+import '../../utils/export_import.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -23,6 +12,7 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   int _currentIndex = 0;
+  bool _isUserDataLoaded = false;
 
   @override
   void initState() {
@@ -53,6 +43,12 @@ class _HomeScreenState extends State<HomeScreen> {
     }
   }
 
+  void _onDataLoaded() {
+    setState(() {
+      _isUserDataLoaded = true;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     final userInfoProvider = context.watch<UserInfoProvider>();
@@ -62,12 +58,13 @@ class _HomeScreenState extends State<HomeScreen> {
 
 
     final List screens = [
-      const DashboardScreen(),
+      DashboardScreen(onDataLoaded: _onDataLoaded),
       const AppsScreen(),
       getKpiScreen(groupId),
       const RequestsScreen(),
       const ProfileScreen(),
     ];
+
 
     return PopScope(
       canPop: false,
@@ -80,6 +77,10 @@ class _HomeScreenState extends State<HomeScreen> {
             elevation: 50,
             surfaceTintColor: const Color(0xff3e3d3d),
             onDestinationSelected: (int newIndex) async{
+              if(!_isUserDataLoaded && newIndex != 0){
+                AppNotifier.snackBar(context, "جاري تحميل بيانات المستخدم...", SnackBarType.warning);
+                return;
+              }
               setState(() {
                 _currentIndex = newIndex;
               });

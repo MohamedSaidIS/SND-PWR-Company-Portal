@@ -1,11 +1,7 @@
-import 'package:company_portal/providers/manager_info_provider.dart';
-import 'package:company_portal/utils/app_separators.dart';
-import 'package:company_portal/utils/context_extensions.dart';
 import 'package:flutter/material.dart';
 import 'package:line_awesome_flutter/line_awesome_flutter.dart';
 import 'package:provider/provider.dart';
-
-import '../../../common/custom_app_bar.dart';
+import '../../../../utils/export_import.dart';
 
 
 class UserInfoDetailsScreen extends StatefulWidget {
@@ -22,17 +18,6 @@ class UserInfoDetailsScreen extends StatefulWidget {
 }
 
 class _UserInfoDetailsScreenState extends State<UserInfoDetailsScreen> {
-
-  // @override
-  // void initState() {
-  //   super.initState();
-  //
-  //   WidgetsBinding.instance.addPostFrameCallback((_) {
-  //     final managerProvider = Provider.of<ManagerInfoProvider>(context, listen: false);
-  //
-  //     managerProvider.fetchManagerInfo();
-  //   });
-  // }
 
   @override
   Widget build(BuildContext context) {

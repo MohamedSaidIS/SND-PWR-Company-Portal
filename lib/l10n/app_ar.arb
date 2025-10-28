@@ -106,7 +106,7 @@
   "aR": "عربى",
   "eN": "انجليزى",
   "editImage" : "تعديل الصورة",
-  "openingApp" : "جارٍ فتح التطبيق",
+  "openingApp" : "جارٍ فتح التطبيق...",
   "issue_details" : " تفاصيل الشكوى",
   "exceeded": "تجاوز",
   "reached": "وصل",
@@ -221,6 +221,8 @@
   "pleaseSelectPurpose": "يرجى اختيار الغرض",
   "date": " التاريخ",
   "pleaseEnterDate": "برجاء أدخل التاريخ",
-  "pleaseSelectApp": "برجاء اختيار التطبيق"
+  "pleaseSelectApp": "برجاء اختيار التطبيق",
+  "loadingData": "جاري تحميل البيانات...",
+  "chooseEmployee": "اختر الموظف..."
 }
 

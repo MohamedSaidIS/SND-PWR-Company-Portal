@@ -1,10 +1,6 @@
-import 'package:company_portal/providers/direct_reports_provider.dart';
-import 'package:company_portal/screens/account/redirect_reports/widgets/direct_report_card_widget.dart';
-import 'package:company_portal/utils/context_extensions.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-
-import '../../../common/custom_app_bar.dart';
+import '../../../../utils/export_import.dart';
 
 class DirectReportsScreen extends StatefulWidget {
   const DirectReportsScreen({super.key,});
@@ -14,17 +10,6 @@ class DirectReportsScreen extends StatefulWidget {
 }
 
 class _DirectReportsScreenState extends State<DirectReportsScreen> {
-  // @override
-  // void initState() {
-  //   super.initState();
-  //
-  //   WidgetsBinding.instance.addPostFrameCallback((_) {
-  //     final directReportProvider = context.read<DirectReportsProvider>();
-  //     if (directReportProvider.directReportList == null) {
-  //       directReportProvider.fetchRedirectReport();
-  //     }
-  //   });
-  // }
 
   @override
   Widget build(BuildContext context) {

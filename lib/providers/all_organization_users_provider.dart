@@ -1,8 +1,5 @@
-import 'package:company_portal/models/remote/all_organization_user.dart';
-import 'package:company_portal/service/graph_dio_client.dart';
 import 'package:flutter/foundation.dart';
-
-import '../utils/app_notifier.dart';
+import '../utils/export_import.dart';
 
 class AllOrganizationUsersProvider extends ChangeNotifier {
   GraphDioClient dioClient;

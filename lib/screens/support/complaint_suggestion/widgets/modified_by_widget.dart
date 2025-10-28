@@ -1,11 +1,10 @@
-import 'package:company_portal/utils/context_extensions.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import '../../../../utils/export_import.dart';
 
 class ModifiedByWidget extends StatelessWidget {
-  final lastModifiedByName, lastModifiedByEmail;
+  final String? lastModifiedByName, lastModifiedByEmail;
 
-  const ModifiedByWidget({super.key, this.lastModifiedByName, this.lastModifiedByEmail});
+  const ModifiedByWidget({super.key, required this.lastModifiedByName, required this.lastModifiedByEmail});
 
   @override
   Widget build(BuildContext context) {

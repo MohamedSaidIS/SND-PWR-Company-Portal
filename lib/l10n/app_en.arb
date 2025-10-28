@@ -45,7 +45,7 @@
   "managerDetails": "Manager Details",
   "name": "Name",
   "email": "Email",
-  "thisAppIsNotExists": "This app is not exists",
+  "thisAppIsNotExists": "This app doesn't exist",
   "ok": "Ok",
   "cancel": "Cancel",
   "undo": "UNDO",
@@ -106,7 +106,7 @@
   "aR": "AR",
   "eN": "EN",
   "editImage" : "Edit Image",
-  "openingApp" : "Opening App",
+  "openingApp" : "Opening App...",
   "issue_details" : "Issue Details",
   "exceeded": "Exceeded",
   "reached": "Reached",
@@ -221,5 +221,7 @@
   "pleaseSelectPurpose": "Please Select Purpose",
   "date": "Date",
   "pleaseEnterDate": "Please Enter Date",
-  "pleaseSelectApp": "Please Select App"
+  "pleaseSelectApp": "Please Select App",
+  "loadingData": "Loading data...",
+  "chooseEmployee": "Choose Employee..."
 }

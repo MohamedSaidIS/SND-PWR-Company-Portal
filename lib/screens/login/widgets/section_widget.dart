@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '../../../models/local/section.dart';
+import '../../../utils/export_import.dart';
 
 class SectionWidget extends StatelessWidget {
   final Section section;

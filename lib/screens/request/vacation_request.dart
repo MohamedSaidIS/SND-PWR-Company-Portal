@@ -1,9 +1,7 @@
-import 'package:company_portal/utils/context_extensions.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import '../../common/custom_app_bar.dart';
-import '../../l10n/app_localizations.dart';
 import 'package:signature/signature.dart';
+import '../../../../utils/export_import.dart';
 
 class VacationRequestScreen extends StatefulWidget {
   const VacationRequestScreen({super.key});

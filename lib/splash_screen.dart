@@ -1,13 +1,10 @@
 import 'dart:async';
-import 'package:company_portal/screens/login/login_screen_new.dart';
-import 'package:company_portal/utils/app_notifier.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
+import '../../../../utils/export_import.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key,});
-
-  //final GlobalKey<NavigatorState> navigatorKey;
 
   @override
   State<SplashScreen> createState() => _SplashScreenState();
@@ -27,7 +24,7 @@ class _SplashScreenState extends State<SplashScreen> {
         context,
         MaterialPageRoute(
           builder: (context) =>
-          const LoginScreenNew()
+          const LoginScreen()
            //  LoginScreen(),
         ),
       );

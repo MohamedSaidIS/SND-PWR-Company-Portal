@@ -1,7 +1,5 @@
-import 'package:company_portal/utils/context_extensions.dart';
 import 'package:flutter/material.dart';
-
-import '../../../../data/support_forms_data.dart';
+import '../../../../utils/export_import.dart';
 
 class StatusBadge extends StatelessWidget {
   final String status;

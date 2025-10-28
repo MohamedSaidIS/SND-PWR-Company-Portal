@@ -1,16 +1,8 @@
 import 'dart:typed_data';
-import 'package:company_portal/common/custom_app_bar.dart';
-import 'package:company_portal/providers/comment_provider.dart';
-import 'package:company_portal/screens/support/complaint_suggestion/widgets/send_comment_widget.dart';
-import 'package:company_portal/screens/support/complaint_suggestion/widgets/time_widget.dart';
-import 'package:company_portal/utils/context_extensions.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mentions/flutter_mentions.dart';
 import 'package:provider/provider.dart';
-import '../../../../../utils/app_notifier.dart';
-import '../widgets/comments_widget.dart';
-import '../../common_widgets/priority_badge.dart';
-import '../../common_widgets/status_badge.dart';
+import '../../../../utils/export_import.dart';
 
 class HistoryItemDetails extends StatefulWidget {
   final String modifiedDate, createdDate, commentCall;

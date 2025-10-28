@@ -1,5 +1,4 @@
 import 'package:local_auth/local_auth.dart';
-
 import '../utils/app_notifier.dart';
 
 class BiometricAuthController {

@@ -1,6 +1,5 @@
 import 'package:carousel_slider/carousel_slider.dart';
-import 'package:company_portal/data/section_data.dart';
-import 'package:company_portal/utils/context_extensions.dart';
+import '../../../../utils/export_import.dart';
 import 'package:flutter/material.dart';
 
 

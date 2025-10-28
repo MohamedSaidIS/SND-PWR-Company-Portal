@@ -1,10 +1,7 @@
-import 'package:company_portal/utils/context_extensions.dart';
+
 import 'package:flutter/material.dart';
 import 'package:line_awesome_flutter/line_awesome_flutter.dart';
-import '../../common/custom_app_bar.dart';
-import '../account/profile/widgets/menu_widget.dart';
-import 'language/language_screen.dart';
-import 'notification/notification_screen.dart';
+import '../../utils/export_import.dart';
 
 class SettingsScreen extends StatefulWidget {
   const SettingsScreen({super.key});
@@ -39,13 +36,11 @@ class _SettingsScreenState extends State<SettingsScreen> {
                 MenuWidget(
                   title: local.notifications,
                   icon: LineAwesomeIcons.bell,
-                  //textColor: theme.colorScheme.primary,
                   navigatedPage: () => const NotificationScreen(),
                 ),
                 MenuWidget(
                   title: local.language,
                   icon: LineAwesomeIcons.language_solid,
-                  //textColor: theme.colorScheme.primary,
                   navigatedPage: () => const LanguageScreen(),
                 ),
               ],

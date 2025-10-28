@@ -1,12 +1,7 @@
 import 'dart:typed_data';
-
-import 'package:company_portal/models/remote/item_comments.dart';
-import 'package:company_portal/providers/comment_provider.dart';
-import 'package:company_portal/utils/context_extensions.dart';
 import 'package:flutter/material.dart';
 import 'package:line_awesome_flutter/line_awesome_flutter.dart';
-import 'comment_item.dart';
-import 'no_comments.dart';
+import '../../../../utils/export_import.dart';
 
 class CommentsWidget extends StatefulWidget {
   final CommentProvider commentProvider;

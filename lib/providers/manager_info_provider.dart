@@ -1,7 +1,5 @@
-import 'package:company_portal/utils/app_notifier.dart';
 import 'package:flutter/foundation.dart';
-import '../models/remote/user_info.dart';
-import '../service/graph_dio_client.dart';
+import '../utils/export_import.dart';
 
 class ManagerInfoProvider with ChangeNotifier {
   final GraphDioClient dioClient;

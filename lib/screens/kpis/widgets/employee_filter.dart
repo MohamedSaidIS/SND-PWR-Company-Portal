@@ -1,9 +1,7 @@
-import 'package:company_portal/models/remote/group_member.dart';
-import 'package:company_portal/utils/context_extensions.dart';
 import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import '../../../providers/user_info_provider.dart';
+import '../../../utils/export_import.dart';
 
 class EmployeeFilter extends StatefulWidget {
   final GroupMember selectedEmployee;
@@ -33,8 +31,8 @@ class _EmployeeFilterState extends State<EmployeeFilter> {
     final userInfoProvider = context.watch<UserInfoProvider>();
     final employees = userInfoProvider.groupMembers ?? [];
     final theme = context.theme;
+    final local = context.local;
 
-    // تأكد إن selectedEmployee.memberId موجود فعلاً داخل القائمة
     final selectedValue = employees.any((e) => e.memberId == widget.selectedEmployee.memberId)
         ? widget.selectedEmployee.memberId
         : null;
@@ -50,7 +48,7 @@ class _EmployeeFilterState extends State<EmployeeFilter> {
         child: DropdownButton2<String>(
           underline: const SizedBox(),
           isExpanded: true,
-          hint: const Text('اختر الموظف'),
+          hint: Text(local.chooseEmployee),
           value: selectedValue,
           onChanged: (val) {
             final selected = employees.firstWhere((e) => e.memberId == val);

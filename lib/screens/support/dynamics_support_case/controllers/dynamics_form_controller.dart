@@ -1,11 +1,7 @@
-import 'package:company_portal/models/remote/dynamics_item.dart';
-import 'package:company_portal/providers/dynamics_provider.dart';
-import 'package:company_portal/utils/context_extensions.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import '../../../../l10n/app_localizations.dart';
-import '../../../../utils/app_notifier.dart';
-import '../../../../utils/enums.dart';
+import '../../../../utils/export_import.dart';
+
 
 class DynamicsFormController{
   BuildContext context;

@@ -1,14 +1,11 @@
-import 'package:company_portal/screens/login/login_screen_new.dart';
-import 'package:company_portal/utils/context_extensions.dart';
-import 'package:company_portal/service/secure_storage_service.dart';
 import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
-import 'enums.dart';
+import '../../../../utils/export_import.dart';
 
 class AppNotifier {
 
   static void logWithScreen(String screen, String message) {
-    print("[$screen] $message");
+    debugPrint("[$screen] $message");
   }
 
   static void showLogoutDialog(BuildContext context) {
@@ -53,7 +50,7 @@ class AppNotifier {
                     if (!context.mounted) return;
                     Navigator.pushAndRemoveUntil(
                       context,
-                      MaterialPageRoute(builder: (_) => const LoginScreenNew()),
+                      MaterialPageRoute(builder: (_) => const LoginScreen()),
                           (route) => false,
                     );
                   } catch (e) {
@@ -71,7 +68,7 @@ class AppNotifier {
     if (!context.mounted) return;
     Navigator.pushAndRemoveUntil(
       context,
-      MaterialPageRoute(builder: (_) => const LoginScreenNew()),
+      MaterialPageRoute(builder: (_) => const LoginScreen()),
           (route) => false,
     );
   }
@@ -146,16 +143,16 @@ class AppNotifier {
               children: [
                 Lottie.asset(
                   'assets/lottie/loading.json',
-                  width: 150,
-                  height: 100,
+                  width: 100,
+                  height: 80,
                   fit: BoxFit.cover,
                 ),
-                const SizedBox(height: 15),
+                const SizedBox(height: 5),
                 Text(
                   message,
                   style: TextStyle(fontSize: 17, color: theme.colorScheme.primary, fontWeight: FontWeight.w600),
                 ),
-                const SizedBox(height: 15),
+                const SizedBox(height: 5),
               ],
             ),
           ),

@@ -1,21 +1,14 @@
 import 'dart:convert';
-
-import 'package:company_portal/service/sharedpref_service.dart';
-import 'package:company_portal/utils/context_extensions.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_inappwebview/flutter_inappwebview.dart';
 import 'package:provider/provider.dart';
+import '../../utils/export_import.dart';
 
-import '../../providers/all_organization_users_provider.dart';
-import '../../providers/direct_reports_provider.dart';
-import '../../providers/manager_info_provider.dart';
-import '../../providers/user_image_provider.dart';
-import '../../providers/user_info_provider.dart';
-import '../../service/secure_storage_service.dart';
-import '../../utils/app_notifier.dart';
 
 class DashboardScreen extends StatefulWidget {
-  const DashboardScreen({super.key});
+  final VoidCallback? onDataLoaded;
+
+  const DashboardScreen({required this.onDataLoaded, super.key});
 
   @override
   State<DashboardScreen> createState() => _DashboardScreenState();
@@ -27,19 +20,22 @@ class _DashboardScreenState extends State<DashboardScreen> {
   late InAppWebViewController? webViewController;
   double webProgress = 0;
   String? accessToken;
+  bool _isLoading = true;
 
   @override
   void initState() {
     super.initState();
+    debugPrint("OnLoadedFun: ${widget.onDataLoaded}");
     WidgetsBinding.instance.addPostFrameCallback((_) async {
-      initialDataValues();
+      await initialDataValues();
+      if (mounted) {
+        setState(() => _isLoading = false);
+        AppNotifier.logWithScreen("Dashboard", "Calling onDataLoaded()");
+        widget.onDataLoaded?.call();
+      }
 
       await _restoreCookies();
-      // if (mounted) {
-      //   webViewController.loadUrl(
-      //     urlRequest: URLRequest(url: WebUri(sharepointUrl)),
-      //   );
-      // }
+
     });
     SecureStorageService().getData("SPAccessToken").then((value) {
       setState(() {
@@ -50,23 +46,47 @@ class _DashboardScreenState extends State<DashboardScreen> {
     });
   }
 
-  void initialDataValues() {
-    final userProvider = context.read<UserInfoProvider>();
-    final imageProvider = context.read<UserImageProvider>();
-    final managerProvider = context.read<ManagerInfoProvider>();
-    final directReportProvider = context.read<DirectReportsProvider>();
-    final allUsersProvider = context.read<AllOrganizationUsersProvider>();
+  Future<void> initialDataValues() async {
+    try {
+      final userProvider = context.read<UserInfoProvider>();
+      final imageProvider = context.read<UserImageProvider>();
+      final managerProvider = context.read<ManagerInfoProvider>();
+      final directReportProvider = context.read<DirectReportsProvider>();
+      final allUsersProvider = context.read<AllOrganizationUsersProvider>();
 
-    userProvider.fetchUserInfo();
-    userProvider.getGroupId(true);
-    userProvider.getGroupMembers("4053f91a-d9a0-4a65-8057-1a816e498d0f");
-    imageProvider.fetchImage();
-    managerProvider.fetchManagerInfo();
-    allUsersProvider.getAllUsers();
-    if (directReportProvider.directReportList == null) {
-      directReportProvider.fetchRedirectReport();
+      await userProvider.fetchUserInfo();
+      await userProvider.getGroupId(true);
+      await userProvider.getGroupMembers("4053f91a-d9a0-4a65-8057-1a816e498d0f");
+      await imageProvider.fetchImage();
+      await managerProvider.fetchManagerInfo();
+      await allUsersProvider.getAllUsers();
+
+      if (directReportProvider.directReportList == null) {
+        await directReportProvider.fetchRedirectReport();
+      }
+
+      final userInfo = userProvider.userInfo;
+      final managerOfSalesGroup = userProvider.groupInfo;
+
+      if (userInfo != null && managerOfSalesGroup != null) {
+        AppNotifier.logWithScreen("Dashboard Screen", "✅ User Info Loaded: ${userInfo.id} ${managerOfSalesGroup.groupId}");
+
+        await SharedPrefsHelper().saveUserData("UserId", userInfo.id);
+        await SharedPrefsHelper()
+            .saveUserData("managerOfSalesGroup", managerOfSalesGroup.groupId);
+
+        if (mounted) {
+          AppNotifier.logWithScreen("Dashboard", "✅ All data loaded, calling onDataLoaded()");
+          widget.onDataLoaded?.call();
+        }
+      } else {
+        AppNotifier.logWithScreen("Dashboard", "⚠️ userInfo or groupInfo is null");
+      }
+    } catch (e, st) {
+      AppNotifier.logWithScreen("Dashboard", "❌ initialDataValues error: $e\n$st");
     }
   }
+
 
   Future<void> _restoreCookies() async {
     final cookiesJson = await SecureStorageService().getData("savedCookies");
@@ -129,7 +149,6 @@ class _DashboardScreenState extends State<DashboardScreen> {
             })
         .toList();
 
-    // نخزنهم كـ JSON String
     final cookiesJson = jsonEncode(cookiesList);
 
     await SecureStorageService().saveData("savedCookies", cookiesJson);
@@ -146,18 +165,6 @@ class _DashboardScreenState extends State<DashboardScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final userInfoProvider = context.watch<UserInfoProvider>();
-    final userInfo = userInfoProvider.userInfo;
-    final managerOfSalesGroup = userInfoProvider.groupInfo;
-
-    if (userInfo != null && managerOfSalesGroup != null) {
-      AppNotifier.logWithScreen("Dashboard Screen",
-          "User Info: ${userInfo.id} ${managerOfSalesGroup.groupId}");
-
-      SharedPrefsHelper().saveUserData("UserId", userInfo.id);
-      SharedPrefsHelper().saveUserData("managerOfSalesGroup", managerOfSalesGroup.groupId);
-    }
-
     final theme = context.theme;
 
     return PopScope(
@@ -167,6 +174,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
         body: SafeArea(
           child: Column(
             children: [
+
               if (webProgress < 1)
                 LinearProgressIndicator(
                   value: webProgress,
@@ -206,6 +214,9 @@ class _DashboardScreenState extends State<DashboardScreen> {
                         },
                       ),
               ),
+
+              if (_isLoading)
+                const LoadingOverlay(),
             ],
           ),
         ),

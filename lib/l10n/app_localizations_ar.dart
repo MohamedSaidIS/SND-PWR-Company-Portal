@@ -327,7 +327,7 @@ class AppLocalizationsAr extends AppLocalizations {
   String get editImage => 'تعديل الصورة';
 
   @override
-  String get openingApp => 'جارٍ فتح التطبيق';
+  String get openingApp => 'جارٍ فتح التطبيق...';
 
   @override
   String get issue_details => ' تفاصيل الشكوى';
@@ -673,4 +673,10 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get pleaseSelectApp => 'برجاء اختيار التطبيق';
+
+  @override
+  String get loadingData => 'جاري تحميل البيانات...';
+
+  @override
+  String get chooseEmployee => 'اختر الموظف...';
 }

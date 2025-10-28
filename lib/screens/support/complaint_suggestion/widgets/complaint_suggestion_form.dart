@@ -1,16 +1,6 @@
-import 'package:company_portal/screens/support/complaint_suggestion/controllers/complaint_suggestion_form_controller.dart';
-import 'package:company_portal/screens/support/complaint_suggestion/widgets/send_optional_name.dart';
-import 'package:company_portal/utils/context_extensions.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-
-import '../../../../data/support_forms_data.dart';
-import '../../../../providers/complaint_suggestion_provider.dart';
-import '../../common_widgets/common_form_functions.dart';
-import '../../common_widgets/custom_drop_down_field_widget.dart';
-import '../../common_widgets/custom_text_field_widget.dart';
-import '../../common_widgets/submit_button.dart';
-import 'complaint_suggestion_option.dart';
+import '../../../../utils/export_import.dart';
 
 class ComplaintSuggestionForm extends StatefulWidget {
   final ComplaintSuggestionFormController controller;

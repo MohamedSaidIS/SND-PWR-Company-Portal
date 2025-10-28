@@ -1,9 +1,5 @@
 import 'package:flutter/foundation.dart';
-
-import '../models/remote/item_comments.dart';
-import '../service/my_share_point_dio_client.dart';
-import '../service/share_point_dio_client.dart';
-import '../utils/app_notifier.dart';
+import '../utils/export_import.dart';
 
 class CommentProvider extends ChangeNotifier {
   final SharePointDioClient sharePointDioClient;
@@ -52,7 +48,7 @@ class CommentProvider extends ChangeNotifier {
     notifyListeners();
 
     final url = retrieveUrl(ticketId, commentCall);
-    print("Get Url $url");
+    debugPrint("Get Url $url");
 
     try {
       final response = (commentCall == " Dynamics")
@@ -93,7 +89,7 @@ class CommentProvider extends ChangeNotifier {
     _error = null;
     notifyListeners();
     final url = retrieveUrl(ticketId, commentCall);
-    print("post Url $url");
+    debugPrint("post Url $url");
 
     try {
       final response = (commentCall == " Dynamics")
@@ -141,7 +137,7 @@ class CommentProvider extends ChangeNotifier {
     notifyListeners();
 
     final url = retrieveUrl(ticketId, commentCall);
-    print("Dynamics Get Url $url");
+    debugPrint("Dynamics Get Url $url");
 
     try {
       final response = await mySharePointDioClient.dio.get(url);
@@ -179,7 +175,7 @@ class CommentProvider extends ChangeNotifier {
     _error = null;
     notifyListeners();
     final url = retrieveUrl(ticketId, commentCall);
-    print("Dynamics Post Url $url");
+    debugPrint("Dynamics Post Url $url");
 
     try {
       final response = await mySharePointDioClient.dio.post(

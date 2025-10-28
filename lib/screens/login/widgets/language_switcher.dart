@@ -1,5 +1,4 @@
-import 'package:company_portal/providers/locale_provider.dart';
-import 'package:company_portal/utils/context_extensions.dart';
+import '../../../../utils/export_import.dart';
 import 'package:flutter/material.dart';
 
 class LanguageSwitcher extends StatelessWidget {

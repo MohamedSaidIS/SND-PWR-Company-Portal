@@ -2,7 +2,6 @@ import 'package:company_portal/utils/context_extensions.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mentions/flutter_mentions.dart';
 import 'package:provider/provider.dart';
-
 import '../../../../utils/app_notifier.dart';
 import '../../history_item_details_with_comments/controller/send_comment_controller.dart';
 

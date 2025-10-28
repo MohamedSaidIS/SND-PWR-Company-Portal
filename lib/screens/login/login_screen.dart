@@ -1,25 +1,17 @@
 import 'dart:async';
-import 'package:company_portal/controllers/auth_controller.dart';
-import 'package:company_portal/providers/locale_provider.dart';
-import 'package:company_portal/screens/login/widgets/language_switcher.dart';
-import 'package:company_portal/screens/login/widgets/logo_carousel_widget.dart';
-import 'package:company_portal/screens/login/widgets/sign_in_button.dart';
-import 'package:company_portal/utils/app_notifier.dart';
-import 'package:company_portal/utils/context_extensions.dart';
 import 'package:flutter/material.dart';
-import '../../service/secure_storage_service.dart';
-import '../home/home_screen.dart';
+import '../../../../utils/export_import.dart';
 
-class LoginScreenNew extends StatefulWidget {
-  const LoginScreenNew({
+class LoginScreen extends StatefulWidget {
+  const LoginScreen({
     super.key,
   });
 
   @override
-  State<StatefulWidget> createState() => _LoginScreenNewState();
+  State<StatefulWidget> createState() => _LoginScreenState();
 }
 
-class _LoginScreenNewState extends State<LoginScreenNew> {
+class _LoginScreenState extends State<LoginScreen> {
   bool _isLoading = false;
   late final AuthController _authController;
   late String graphToken;

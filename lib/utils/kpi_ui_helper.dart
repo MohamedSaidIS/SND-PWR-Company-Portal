@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:to_arabic_number/to_arabic_number.dart';
-
-import '../models/local/daily_kpi.dart';
-import '../models/local/weekly_kpi.dart';
+import 'export_import.dart';
 
 class KpiUIHelper{
 

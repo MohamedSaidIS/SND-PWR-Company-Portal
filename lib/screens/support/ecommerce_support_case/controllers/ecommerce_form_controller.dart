@@ -1,10 +1,5 @@
-import 'package:company_portal/l10n/app_localizations.dart';
-import 'package:company_portal/models/remote/e_commerce_item.dart';
-import 'package:company_portal/providers/e_commerce_provider.dart';
 import 'package:flutter/material.dart';
-
-import '../../../../utils/app_notifier.dart';
-import '../../../../utils/enums.dart';
+import '../../../../utils/export_import.dart';
 
 class EcommerceFormController {
   final BuildContext context;

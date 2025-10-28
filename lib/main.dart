@@ -1,36 +1,13 @@
 import 'package:aad_oauth/aad_oauth.dart';
-import 'package:company_portal/config/env_config.dart';
-import 'package:company_portal/providers/all_organization_users_provider.dart';
-import 'package:company_portal/providers/comment_provider.dart';
-import 'package:company_portal/providers/complaint_suggestion_provider.dart';
-import 'package:company_portal/providers/direct_reports_provider.dart';
-import 'package:company_portal/providers/dynamics_provider.dart';
-import 'package:company_portal/providers/e_commerce_provider.dart';
-import 'package:company_portal/providers/new_user_request_provider.dart';
-import 'package:company_portal/providers/sales_kpis_provider.dart';
-import 'package:company_portal/providers/locale_provider.dart';
-import 'package:company_portal/providers/manager_info_provider.dart';
-import 'package:company_portal/providers/sp_ensure_user.dart';
-import 'package:company_portal/providers/user_image_provider.dart';
-import 'package:company_portal/providers/user_info_provider.dart';
-import 'package:company_portal/providers/vacation_balance_provider.dart';
-import 'package:company_portal/service/kpi_dio_client.dart';
-import 'package:company_portal/service/graph_dio_client.dart';
-import 'package:company_portal/service/my_share_point_dio_client.dart';
-import 'package:company_portal/service/share_point_dio_client.dart';
-import 'package:company_portal/splash_screen.dart';
-import 'package:company_portal/theme/theme_provider.dart';
-import 'package:company_portal/utils/app_notifier.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_appauth/flutter_appauth.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:provider/provider.dart';
-import '../../l10n/app_localizations.dart';
 
-import 'config/auth_config.dart';
 import 'firebase_options.dart';
+import 'utils/export_import.dart';
 
 Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
   await Firebase.initializeApp( options: DefaultFirebaseOptions.currentPlatform,);

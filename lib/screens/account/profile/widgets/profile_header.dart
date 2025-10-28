@@ -1,11 +1,8 @@
 import 'dart:io';
 import 'dart:typed_data';
-import 'package:company_portal/screens/account/profile/widgets/user_text.dart';
-import 'package:company_portal/utils/context_extensions.dart';
 import 'package:flutter/material.dart';
 import 'package:shimmer/shimmer.dart';
-import '../../../../providers/user_image_provider.dart';
-import 'user_image_widget.dart';
+import '../../../../utils/export_import.dart';
 
 class ProfileHeader extends StatelessWidget {
   final dynamic userInfo;

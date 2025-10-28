@@ -1,8 +1,5 @@
-import 'package:company_portal/models/remote/sales_kpi.dart';
 import 'package:flutter/foundation.dart';
-
-import '../service/kpi_dio_client.dart';
-import '../utils/app_notifier.dart';
+import '../utils/export_import.dart';
 
 class SalesKPIProvider extends ChangeNotifier {
   final KPIDioClient kpiDioClient;

@@ -1,8 +1,5 @@
-import 'package:company_portal/models/remote/complaint_suggestion_item.dart';
-import 'package:company_portal/service/graph_dio_client.dart';
 import 'package:flutter/foundation.dart';
-import '../service/share_point_dio_client.dart';
-import '../utils/app_notifier.dart';
+import '../utils/export_import.dart';
 
 class ComplaintSuggestionProvider with ChangeNotifier {
   final GraphDioClient dioClient;

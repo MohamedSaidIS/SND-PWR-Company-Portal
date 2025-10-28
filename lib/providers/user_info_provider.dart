@@ -1,9 +1,6 @@
-import 'package:company_portal/models/remote/group_member.dart';
-import 'package:company_portal/service/graph_dio_client.dart';
 import 'package:flutter/foundation.dart';
-import '../models/remote/group_info.dart';
-import '../models/remote/user_info.dart';
-import '../utils/app_notifier.dart';
+import '../utils/export_import.dart';
+
 
 class UserInfoProvider with ChangeNotifier {
   final GraphDioClient dioClient;

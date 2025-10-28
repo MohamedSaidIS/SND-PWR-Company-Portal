@@ -1,8 +1,6 @@
-import 'package:company_portal/models/remote/e_commerce_item.dart';
-import 'package:company_portal/utils/app_notifier.dart';
 import 'package:flutter/foundation.dart';
+import '../utils/export_import.dart';
 
-import '../service/share_point_dio_client.dart';
 
 class EcommerceProvider extends ChangeNotifier {
   final SharePointDioClient sharePointDioClient;

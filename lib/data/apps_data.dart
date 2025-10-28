@@ -1,4 +1,4 @@
-import '../models/local/app_model.dart';
+import '../utils/export_import.dart';
 
 List<AppItem> getAppItems = [
   const AppItem(
