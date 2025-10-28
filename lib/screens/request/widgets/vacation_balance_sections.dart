@@ -37,14 +37,14 @@ Widget leavesGrid(
               leavesTypesCard(
                 theme.colorScheme.primary,
                 local.totalBalance,
-                balance.totalBalance.toString(),
+                balance.totalBalance.toStringAsFixed(2),
                 local,
                 isArabic,
               ),
               leavesTypesCard(
                 theme.colorScheme.secondary,
                 local.remainBalance,
-                balance.totalRemainingToDate.toString(),
+                balance.totalRemainingToDate.toStringAsFixed(2),
                 local,
                 isArabic,
               ),

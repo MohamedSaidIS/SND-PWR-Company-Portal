@@ -5,7 +5,7 @@ class VacationTransaction {
   final DateTime profileDate;
   final double durationDays;
   final String absenceCode;
-  final String personalNumber;
+  final String personnelNumber;
 
   VacationTransaction({
     required this.hrTransId,
@@ -14,7 +14,7 @@ class VacationTransaction {
     required this.profileDate,
     required this.durationDays,
     required this.absenceCode,
-    required this.personalNumber,
+    required this.personnelNumber,
   });
 
   factory VacationTransaction.fromJson(Map<String, dynamic> json) {
@@ -25,7 +25,7 @@ class VacationTransaction {
       profileDate: DateTime.parse(json['ProfileDate']),
       durationDays: json['DurationDays'].toDouble(),
       absenceCode: json['AbsenceCode'],
-      personalNumber: json['PersonnelNumber'],
+      personnelNumber: json['PersonnelNumber'],
     );
   }
 }

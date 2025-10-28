@@ -26,6 +26,7 @@ export '../models/remote/new_user_request.dart';
 export '../models/remote/sales_kpi.dart';
 export '../models/remote/user_info.dart';
 export '../models/remote/vacation_balance.dart';
+export '../models/remote/worker_personnel.dart';
 export '../models/remote/vacation_transaction.dart';
 export '../providers/all_organization_users_provider.dart';
 export '../providers/comment_provider.dart';

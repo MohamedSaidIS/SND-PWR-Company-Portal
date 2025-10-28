@@ -53,6 +53,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
       final managerProvider = context.read<ManagerInfoProvider>();
       final directReportProvider = context.read<DirectReportsProvider>();
       final allUsersProvider = context.read<AllOrganizationUsersProvider>();
+      final vacationBalanceProvider = context.read<VacationBalanceProvider>();
 
       await userProvider.fetchUserInfo();
       await userProvider.getGroupId(true);
@@ -60,6 +61,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
       await imageProvider.fetchImage();
       await managerProvider.fetchManagerInfo();
       await allUsersProvider.getAllUsers();
+
 
       if (directReportProvider.directReportList == null) {
         await directReportProvider.fetchRedirectReport();
@@ -70,7 +72,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
 
       if (userInfo != null && managerOfSalesGroup != null) {
         AppNotifier.logWithScreen("Dashboard Screen", "✅ User Info Loaded: ${userInfo.id} ${managerOfSalesGroup.groupId}");
-
+        await vacationBalanceProvider.getWorkerPersonnelNumber(userInfo.id);
         await SharedPrefsHelper().saveUserData("UserId", userInfo.id);
         await SharedPrefsHelper()
             .saveUserData("managerOfSalesGroup", managerOfSalesGroup.groupId);
