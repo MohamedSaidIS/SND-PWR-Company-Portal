@@ -56,7 +56,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
       final vacationBalanceProvider = context.read<VacationBalanceProvider>();
 
       await userProvider.fetchUserInfo();
-      await userProvider.getGroupId(true);
+      await userProvider.getGroupId();
       await userProvider.getGroupMembers("4053f91a-d9a0-4a65-8057-1a816e498d0f");
       await imageProvider.fetchImage();
       await managerProvider.fetchManagerInfo();
@@ -68,14 +68,14 @@ class _DashboardScreenState extends State<DashboardScreen> {
       }
 
       final userInfo = userProvider.userInfo;
-      final managerOfSalesGroup = userProvider.groupInfo;
+      final groupInfo = userProvider.groupInfo;
 
-      if (userInfo != null && managerOfSalesGroup != null) {
-        AppNotifier.logWithScreen("Dashboard Screen", "✅ User Info Loaded: ${userInfo.id} ${managerOfSalesGroup.groupId}");
+      if (userInfo != null && groupInfo != null) {
+        // ToDo: GetGroupMembers according to groupId
+        AppNotifier.logWithScreen("Dashboard Screen", "✅ User Info Loaded: ${userInfo.id} ${groupInfo.groupId}");
         await vacationBalanceProvider.getWorkerPersonnelNumber(userInfo.id);
         await SharedPrefsHelper().saveUserData("UserId", userInfo.id);
-        await SharedPrefsHelper()
-            .saveUserData("managerOfSalesGroup", managerOfSalesGroup.groupId);
+        await SharedPrefsHelper().saveUserData("groupInfo", groupInfo.groupId);
 
         if (mounted) {
           AppNotifier.logWithScreen("Dashboard", "✅ All data loaded, calling onDataLoaded()");

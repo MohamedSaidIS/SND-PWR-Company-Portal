@@ -1,7 +1,6 @@
 import 'package:flutter/foundation.dart';
 import '../utils/export_import.dart';
 
-
 class UserInfoProvider with ChangeNotifier {
   final GraphDioClient dioClient;
 
@@ -51,7 +50,7 @@ class UserInfoProvider with ChangeNotifier {
     notifyListeners();
   }
 
-  Future<void> getGroupId(bool isManager) async {
+  Future<void> getGroupId() async {
     _loading = true;
     _error = null;
     notifyListeners();
@@ -59,18 +58,13 @@ class UserInfoProvider with ChangeNotifier {
     try {
       final response = await dioClient.dio.post(
         "/me/checkMemberGroups",
-        data: isManager
-            ? {
-                "groupIds": [
-                  "6ca3fd12-cda4-4c3a-882d-a5da6a1e3c1b", // sales managers
-                ]
-              }
-            : {
-                "groupIds": [
-                  "4053f91a-d9a0-4a65-8057-1a816e498d0f", // sales
-                  "1ea1d494-a377-4071-beac-301a99746d2a" // management
-                ]
-              },
+        data: {
+          "groupIds": [
+            "6ca3fd12-cda4-4c3a-882d-a5da6a1e3c1b",
+            "4053f91a-d9a0-4a65-8057-1a816e498d0f",
+            "1ea1d494-a377-4071-beac-301a99746d2a"
+          ]
+        },
       );
       if (response.statusCode == 200) {
         final List<dynamic> matchedGroupIds = response.data["value"];
@@ -132,7 +126,7 @@ class UserInfoProvider with ChangeNotifier {
 
         AppNotifier.logWithScreen(
           "UserInfo Provider",
-          "Group Members Parsed: $_groupMembers",
+          "Group Members Parsed: ${_groupMembers?[0].displayName} ${_groupMembers?[0].givenName}",
         );
       } else {
         _error = 'Failed to get group info';

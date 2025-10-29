@@ -30,6 +30,7 @@ class _SplashScreenState extends State<SplashScreen> {
       );
     });
   }
+
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
@@ -43,7 +44,6 @@ class _SplashScreenState extends State<SplashScreen> {
   }
 
   Future<void> _initFCM() async {
-    // اطلب إذن Notifications (مهم لـ iOS)
     NotificationSettings settings = await FirebaseMessaging.instance.requestPermission(
       alert: true,
       badge: true,

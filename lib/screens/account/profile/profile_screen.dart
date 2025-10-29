@@ -25,12 +25,10 @@ class _ProfileScreenState extends State<ProfileScreen> {
       await imageProvider.fetchImage();
       setState(() => _image = null);
 
-      if (!context.mounted) return;
-
-      AppNotifier.snackBar(context, local.profilePhotoUpdated, SnackBarType.success);
+      if (mounted) AppNotifier.snackBar(context, local.profilePhotoUpdated, SnackBarType.success);
     } else {
 
-      AppNotifier.snackBar(context, local.uploadPhotoFailed, SnackBarType.error);
+      if (mounted) AppNotifier.snackBar(context, local.uploadPhotoFailed, SnackBarType.error);
     }
   }
 

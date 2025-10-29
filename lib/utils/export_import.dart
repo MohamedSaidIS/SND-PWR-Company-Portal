@@ -75,6 +75,7 @@ export '../screens/account/profile/widgets/user_text.dart';
 export '../screens/account/redirect_reports/redirect_reports_screen.dart';
 export '../screens/account/redirect_reports/widgets/direct_report_card_widget.dart';
 export '../screens/account/user_info/user_info_details_screen.dart';
+export '../screens/account/user_info/user_info_sections.dart';
 export '../screens/apps/apps_screen.dart';
 export '../screens/apps/apps_sections.dart';
 export '../screens/dashboard/dashboard_screen.dart';

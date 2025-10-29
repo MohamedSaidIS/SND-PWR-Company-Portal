@@ -44,7 +44,7 @@ class KpiPieChart extends StatelessWidget {
       margin: const EdgeInsets.all(5),
       child: InkWell(
         borderRadius: BorderRadius.circular(20),
-        splashColor: theme.colorScheme.primary.withOpacity(0.2),
+        splashColor: theme.colorScheme.primary.withValues(alpha: 0.2),
         highlightColor: Colors.transparent,
         onTap: () => Navigator.of(context).push(
           MaterialPageRoute(

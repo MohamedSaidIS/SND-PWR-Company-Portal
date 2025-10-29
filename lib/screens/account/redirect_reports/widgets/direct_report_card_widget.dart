@@ -17,64 +17,63 @@ class DirectReportCardWidget extends StatefulWidget {
 class _DirectReportCardWidgetState extends State<DirectReportCardWidget> {
   @override
   Widget build(BuildContext context) {
-
     return Padding(
       padding: const EdgeInsets.only(bottom: 8.0),
       child: Container(
-          height: 180,
-          padding: const EdgeInsets.all(5.0),
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(
-              20,
-            ),
-            color: Theme.of(context).bottomSheetTheme.backgroundColor,
+        height: 180,
+        padding: const EdgeInsets.all(5.0),
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(
+            20,
           ),
-          child: Padding(
-            padding: const EdgeInsets.all(12.0),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Visibility(
-                  visible: widget.directReportItem.givenName != null && widget.directReportItem.surname != null,
-                      child: Text(
-                          "${widget.directReportItem.givenName} ${widget.directReportItem.surname}",
-                          style: const TextStyle(
-                              fontSize: 18, fontWeight: FontWeight.w600),
-                        ),
-                    ),
-                Visibility(
-                  visible: widget.directReportItem.jobTitle != null,
-                  child: Text(
-                    "${widget.directReportItem.jobTitle}",
-                    style: TextStyle(
-                        color: Theme.of(context).colorScheme.secondary,
-                        fontSize: 16,
-                        fontWeight: FontWeight.w500),
-                  ),
+          color: Theme.of(context).bottomSheetTheme.backgroundColor,
+        ),
+        child: Padding(
+          padding: const EdgeInsets.all(12.0),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Visibility(
+                visible: widget.directReportItem.givenName != null &&
+                    widget.directReportItem.surname != null,
+                child: Text(
+                  "${widget.directReportItem.givenName} ${widget.directReportItem.surname}",
+                  style: const TextStyle(
+                      fontSize: 18, fontWeight: FontWeight.w600),
                 ),
-                Visibility(
-                  visible: widget.directReportItem.mail != null,
-                  child: _buildInfoRow("${widget.directReportItem.mail}",
-                      LineAwesomeIcons.mail_bulk_solid, context),
+              ),
+              Visibility(
+                visible: widget.directReportItem.jobTitle != null,
+                child: Text(
+                  "${widget.directReportItem.jobTitle}",
+                  style: TextStyle(
+                      color: Theme.of(context).colorScheme.secondary,
+                      fontSize: 16,
+                      fontWeight: FontWeight.w500),
                 ),
-                Visibility(
-                  visible: widget.directReportItem.officeLocation != null,
-                  child: _buildInfoRow(
-                    "${widget.directReportItem.officeLocation}",
-                    LineAwesomeIcons.map_pin_solid,
-                    context,
-                  ),
+              ),
+              Visibility(
+                visible: widget.directReportItem.mail != null,
+                child: _buildInfoRow("${widget.directReportItem.mail}",
+                    LineAwesomeIcons.mail_bulk_solid, context),
+              ),
+              Visibility(
+                visible: widget.directReportItem.officeLocation != null,
+                child: _buildInfoRow(
+                  "${widget.directReportItem.officeLocation}",
+                  LineAwesomeIcons.map_pin_solid,
+                  context,
                 ),
-                Visibility(
-                  visible: widget.directReportItem.mobilePhone != null,
-                  child: _buildInfoRow(
-                      "${widget.directReportItem.mobilePhone}",
-                      LineAwesomeIcons.phone_solid,
-                      context),
-                ),
-              ],
-            ),
-          )),
+              ),
+              Visibility(
+                visible: widget.directReportItem.mobilePhone != null,
+                child: _buildInfoRow("${widget.directReportItem.mobilePhone}",
+                    LineAwesomeIcons.phone_solid, context),
+              ),
+            ],
+          ),
+        ),
+      ),
     );
   }
 }

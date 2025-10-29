@@ -48,17 +48,24 @@ class _SalesKpisDetailsScreenState extends State<SalesKpisDetailsScreen> {
   }
 
   void _calculateData() {
+    weeksInMonth = [];
+    weeksNumberInMonth = [];
+    daysInWeek = [];
+    daysInMonth = [];
     weeksInMonth = KpiCalculationHandler.calculateWeeklySales(
-        widget.salesKpis, widget.selectedMonth);
+        List.from(widget.salesKpis), widget.selectedMonth);
     weeksNumberInMonth = KpiCalculationHandler.getWeekNumbersInMonth(
         DateTime.now().year, widget.selectedMonth);
     daysInWeek = KpiCalculationHandler.calculateDailySalesPerWeek(
-        widget.salesKpis,
+        List.from(widget.salesKpis),
         widget.currentWeek.weekNumber,
         DateTime.now().year,
-        widget.weeklyValues);
+        List.from(widget.weeklyValues));
+    for (var e in daysInWeek) {
+      AppNotifier.logWithScreen("KpiDetailsScreen:","D => ${e.dayName} ${e.totalSales}");
+    }
     daysInMonth = KpiCalculationHandler.calculateDailySalesPerMonth(
-        widget.salesKpis, widget.selectedMonth, DateTime.now().year);
+        List.from(widget.salesKpis), widget.selectedMonth, DateTime.now().year);
     if (currentView == context.local.dailyKpi) {
       salesKpiListOverLength = daysInMonth.length > 10;
     } else {

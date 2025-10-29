@@ -19,7 +19,7 @@ class _HomeScreenState extends State<HomeScreen> {
     super.initState();
      WidgetsBinding.instance.addPostFrameCallback((_) async {
        final userProvider = context.read<UserInfoProvider>();
-       userProvider.getGroupId(false);
+       userProvider.getGroupId();
      });
   }
 
@@ -86,7 +86,7 @@ class _HomeScreenState extends State<HomeScreen> {
               });
               if (newIndex == 2) {
                 final userProvider = context.read<UserInfoProvider>();
-                await userProvider.getGroupId(false);
+                await userProvider.getGroupId();
               }
             },
             selectedIndex: _currentIndex,

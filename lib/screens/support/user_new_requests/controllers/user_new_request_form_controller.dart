@@ -31,12 +31,12 @@ class UserNewRequestFormController {
   UserNewRequestFormController(this.context, dynamic widget) {
     final userInfo = context.read<UserInfoProvider>().userInfo;
     manager.text = userInfo?.mail ?? "";
-    debugPrint("Request ${widget.newUserRequest}");
+    AppNotifier.logWithScreen("UserNewRequestFormController", "Request ${widget.newUserRequest}");
     if (widget.newUserRequest != null) fillForm(widget.newUserRequest);
   }
 
   void fillForm(NewUserRequest? req) {
-    debugPrint("Request ${req}");
+    AppNotifier.logWithScreen("UserNewRequestFormController", "Request $req");
     if (req == null) return;
     isFilling = true;
     title.text = req.title ?? '';
@@ -80,9 +80,9 @@ class UserNewRequestFormController {
     NewUserRequest? request,
     int ensureUserId,
   ) async {
-    debugPrint("Validating form...");
+    AppNotifier.logWithScreen("UserNewRequestFormController", "Validating form...");
     final isValid = formKey.currentState?.validate() ?? false;
-    debugPrint("Form valid? $isValid");
+    AppNotifier.logWithScreen("UserNewRequestFormController","Form valid? $isValid");
 
     if (!isValid) {
       AppNotifier.snackBar(

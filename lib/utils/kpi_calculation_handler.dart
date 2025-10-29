@@ -105,15 +105,6 @@ class KpiCalculationHandler {
     AppNotifier.logWithScreen(
         "KpiCalculation Handler", "Start: $start, End: $end");
 
-    // final List<DailyKPI> weeklyValues = List.generate(7, (index) {
-    //   final date = start.add(Duration(days: index));
-    //   return DailyKPI(
-    //     dayName: getDayName(date.weekday),
-    //     date: date,
-    //     totalSales: 0,
-    //   );
-    // });
-
     DateTime onlyDate(DateTime dt) => DateTime(dt.year, dt.month, dt.day);
 
     final startOnlyDate = onlyDate(start);
@@ -126,8 +117,7 @@ class KpiCalculationHandler {
           (d.isAfter(startOnlyDate) && d.isBefore(endOnlyDate));
     });
 
-    AppNotifier.logWithScreen(
-        "KpiCalculation Handler", "weekData count: ${weekData.length}");
+    AppNotifier.logWithScreen("KpiCalculation Handler", "weekData count: ${weekData.length}");
 
     for (var kpi in weekData) {
       final index = kpi.transDate.weekday - 1;
@@ -142,6 +132,7 @@ class KpiCalculationHandler {
   }
 
   static int daysInMonthForYear(int year, int month) {
+
     var beginningNextMonth = (month < 12)
         ? DateTime(year, month + 1, 1)
         : DateTime(year + 1, 1, 1);
@@ -153,6 +144,7 @@ class KpiCalculationHandler {
   static List<DailyKPI> calculateDailySalesPerMonth(List<SalesKPI> data,
       int month, int year) {
     final start = DateTime(year, month, 1);
+    AppNotifier.logWithScreen("KpiCalculation Handler", "Days In Month: $year, $month}");
     final totalDays = daysInMonthForYear(year, month);
     final end = DateTime(year, month, totalDays, 23, 59, 59);
 

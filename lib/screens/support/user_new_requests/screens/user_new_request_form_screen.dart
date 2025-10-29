@@ -25,7 +25,7 @@ class _UserNewRequestFormScreenState extends State<UserNewRequestFormScreen> {
   @override
   void initState() {
     super.initState();
-    print("Request ${widget.newUserRequest}");
+    AppNotifier.logWithScreen("UserNewRequestFormScreen","Request ${widget.newUserRequest}");
     controller = UserNewRequestFormController(context, widget);
   }
 

@@ -23,7 +23,7 @@ Widget buildAppCard(Widget child, String packageName, String iosAppId,
         borderRadius: BorderRadius.circular(20),
         color: theme.colorScheme.primary.withValues(alpha: 0.1),
         border: Border.all(
-          color: theme.colorScheme.outlineVariant.withOpacity(0.4),
+          color: theme.colorScheme.outlineVariant.withValues(alpha: 0.4),
           width: 0.2,
         ),
       ),

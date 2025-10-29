@@ -35,7 +35,7 @@ class _SalesKpiScreenState extends State<SalesKpiScreen> {
   Future<void> _fetchKpis({String? memberId}) async {
     final prefs = SharedPrefsHelper();
     final userId = memberId ?? await prefs.getUserData("UserId");
-    final managerId = await prefs.getUserData("managerOfSalesGroup");
+    final managerId = await prefs.getUserData("groupInfo");
 
     AppNotifier.logWithScreen("KPI Dashboard Screen",
         "Fetching KPI for UserId: $userId, isUAT: $isUAT $managerId");
