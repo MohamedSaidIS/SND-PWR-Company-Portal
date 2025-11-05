@@ -32,7 +32,7 @@ class SectionWidget extends StatelessWidget {
                   section.title!,
                   style: theme.textTheme.titleLarge?.copyWith(
                       fontSize: screenWidth * 0.05,
-                    fontWeight: FontWeight.bold
+                      fontWeight: FontWeight.bold
                   ),
                   textAlign: isArabic ? TextAlign.right : TextAlign.left,
                 ),

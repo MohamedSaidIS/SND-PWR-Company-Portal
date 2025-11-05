@@ -39,7 +39,7 @@ void main() async {
           create: (context) => GraphDioClient(
             appAuth: const FlutterAppAuth(),
             onUnauthorized: () {
-              print("⚠️ Unauthorized called! logout");
+              AppNotifier.logWithScreen("Main Screen","⚠️ Unauthorized called! logout");
               navigatorKey.currentState?.pushNamedAndRemoveUntil('/login', (route) => false);
             },
           ),
@@ -150,6 +150,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final localeProvider = Provider.of<LocaleProvider>(context);
+    final themeProvider = Provider.of<ThemeProvider>(context);
 
     return Builder(builder: (context) {
       return MaterialApp(
@@ -162,7 +163,7 @@ class MyApp extends StatelessWidget {
           GlobalWidgetsLocalizations.delegate,
           GlobalCupertinoLocalizations.delegate
         ],
-        theme: Provider.of<ThemeProvider>(context).themeData,
+        theme: themeProvider.themeData,
         themeMode: ThemeMode.system,
         home: const SplashScreen(),
         navigatorKey: navigatorKey,

@@ -18,12 +18,13 @@ class LanguageSwitcher extends StatelessWidget {
     final isArabic = currentLocale == 'ar';
     final local = context.local;
     final theme = context.theme;
+    final isLandScape = context.isLandScape();
 
     return Row(
       children: [
         IconButton(
           onPressed: onLanguageChanged,
-          icon: Icon(Icons.language, color: const Color(0xFF1B818E), size: MediaQuery.of(context).size.width * 0.07
+          icon: Icon(Icons.language, color: const Color(0xFF1B818E), size: (isLandScape? MediaQuery.of(context).size.height : MediaQuery.of(context).size.width) * 0.07
           ),
         ),
         Transform.translate(
@@ -33,7 +34,7 @@ class LanguageSwitcher extends StatelessWidget {
             style: TextStyle(
                 color: theme.colorScheme.primary,
                 fontWeight: FontWeight.w500,
-                fontSize: MediaQuery.of(context).size.width * 0.045),
+                fontSize: (isLandScape? MediaQuery.of(context).size.height : MediaQuery.of(context).size.width) * 0.045),
           ),
         )
       ],

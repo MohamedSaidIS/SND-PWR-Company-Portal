@@ -131,7 +131,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   child: LogoAndCarouselWidget(
                       assetPath: 'assets/images/alsanidi_logo.png')),
               Padding(
-                padding: const EdgeInsets.all(8.0),
+                padding: const EdgeInsets.all(10.0),
                 child: SignInButton(
                   text: local.signIn,
                   isLoading: _isLoading,
