@@ -9,7 +9,7 @@ class UserInfoProvider with ChangeNotifier {
   UserInfo? _userInfo;
   GroupInfo? _groupInfo;
   List<GroupMember>? _groupMembers;
-  bool _loading = false;
+  ViewState _state = ViewState.loading;
   String? _error;
 
   UserInfo? get userInfo => _userInfo;
@@ -18,12 +18,12 @@ class UserInfoProvider with ChangeNotifier {
 
   List<GroupMember>? get groupMembers => _groupMembers;
 
-  bool get loading => _loading;
+  ViewState get state => _state;
 
   String? get error => _error;
 
   Future<void> fetchUserInfo() async {
-    _loading = true;
+    _state = ViewState.loading;
     _error = null;
     notifyListeners();
 
@@ -34,24 +34,30 @@ class UserInfoProvider with ChangeNotifier {
           (Map<String, dynamic> data) => UserInfo.fromJson(data),
           Map<String, dynamic>.from(response.data),
         );
-        AppNotifier.logWithScreen(
-            "UserInfo Provider", "UserInfo Fetching: $_userInfo");
+        AppNotifier.logWithScreen("UserInfo Provider", "UserInfo Fetching: $_userInfo");
+        if (_userInfo == null) {
+          _state = ViewState.empty;
+        } else {
+          _state = ViewState.data;
+        }
       } else {
         _error = 'Failed to load user data';
+        _state = ViewState.error;
+
         AppNotifier.logWithScreen("UserInfo Provider",
             "UserInfo Error: $_error ${response.statusCode}");
       }
     } catch (e) {
       _error = e.toString();
+      _state = ViewState.error;
       AppNotifier.logWithScreen(
           "UserInfo Provider", "UserInfo Exception: $_error");
     }
-    _loading = false;
     notifyListeners();
   }
 
   Future<void> getGroupId() async {
-    _loading = true;
+    _state = ViewState.loading;
     _error = null;
     notifyListeners();
 
@@ -90,22 +96,29 @@ class UserInfoProvider with ChangeNotifier {
           "UserInfo Provider",
           "Group Info Parsed: $_groupInfo ${_groupInfo?.groupId}",
         );
+        if (_groupInfo == null) {
+          _state = ViewState.empty;
+        } else {
+          _state = ViewState.data;
+        }
       } else {
         _error = 'Failed to get group info';
+        _state = ViewState.error;
+
         AppNotifier.logWithScreen("UserInfo Provider",
             "Group Info Error: $_error ${response.statusCode} ${response.data}");
       }
     } catch (e) {
       _error = e.toString();
+      _state = ViewState.error;
       AppNotifier.logWithScreen(
           "UserInfo Provider", "Group Info  Exception: $_error");
     }
-    _loading = false;
     notifyListeners();
   }
 
   Future<void> getGroupMembers(String groupId) async {
-    _loading = true;
+    _state = ViewState.loading;
     _error = null;
     notifyListeners();
 
@@ -128,17 +141,26 @@ class UserInfoProvider with ChangeNotifier {
           "UserInfo Provider",
           "Group Members Parsed: ${_groupMembers?[0].displayName} ${_groupMembers?[0].givenName}",
         );
+
+        if (_groupMembers == null || _groupMembers!.isEmpty) {
+          _state = ViewState.empty;
+        } else {
+          _state = ViewState.data;
+        }
       } else {
         _error = 'Failed to get group info';
+        _state = ViewState.error;
+
         AppNotifier.logWithScreen("UserInfo Provider",
             "Group Members Error: $_error ${response.statusCode} ${response.data}");
       }
     } catch (e) {
       _error = e.toString();
+      _state = ViewState.error;
+
       AppNotifier.logWithScreen(
           "UserInfo Provider", "Group Members  Exception: $_error");
     }
-    _loading = false;
     notifyListeners();
   }
 }

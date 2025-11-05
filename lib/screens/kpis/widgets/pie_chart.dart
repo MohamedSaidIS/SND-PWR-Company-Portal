@@ -30,6 +30,11 @@ class KpiPieChart extends StatelessWidget {
     final isArabic = context.isArabic();
     final percent = (target == 0) ? 0 : (achieved / target * 100);
 
+    final filteredSales = salesKpi.where((item) {
+      return item.transDate.month == selectedMonth &&
+          item.transDate.year == DateTime.now().year;
+    }).toList();
+
     return Container(
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(20),
@@ -49,7 +54,7 @@ class KpiPieChart extends StatelessWidget {
         onTap: () => Navigator.of(context).push(
           MaterialPageRoute(
             builder: (context) => SalesKpisDetailsScreen(
-              salesKpis: salesKpi,
+              salesKpis: filteredSales,
               initialTitle: title,
               currentWeek: currentWeek,
               selectedMonth: selectedMonth,

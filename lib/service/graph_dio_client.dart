@@ -39,8 +39,10 @@ class GraphDioClient {
           handler.next(options);
         },
         onError: (error, handler) {
+          print("⚠️ Unauthorized called! before");
           if (error.response?.statusCode == 401) {
             // Logout or redirect to login
+            print("⚠️ Unauthorized called! after");
             AppNotifier.logWithScreen("GraphDioClient","Graph AccessToken Expired And Error 401");
             onUnauthorized();
           }

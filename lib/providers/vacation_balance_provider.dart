@@ -9,7 +9,7 @@ class VacationBalanceProvider extends ChangeNotifier {
   List<VacationTransaction> _vacationTransactions = [];
   VacationBalance? _vacationBalance;
   WorkerPersonnel? _workerPersonnel;
-  bool _loading = false;
+  bool _loading = true;
   String? _error;
 
   List<VacationTransaction> get vacationTransactions => _vacationTransactions;

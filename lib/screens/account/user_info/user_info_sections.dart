@@ -5,7 +5,7 @@ Widget buildSectionTitle(String title, BuildContext context, ThemeData theme) {
   return Align(
     alignment: Alignment.center,
     child: Padding(
-      padding: const EdgeInsets.only(bottom: 8.0),
+      padding: const EdgeInsets.only(bottom: 20.0),
       child: Text(
         title,
         style: theme.textTheme.labelLarge,
@@ -38,25 +38,27 @@ Widget buildInfoRow(
   return Row(
     children: [
       Expanded(
-          flex: 2,
-          child: Row(
-            children: [
-              Padding(
-                padding: const EdgeInsets.only(left: 5.0, right: 8.0),
-                child: Icon(
-                  icon,
-                  color: theme.colorScheme.secondary,
-                ),
+        flex: 2,
+        child: Row(
+          children: [
+            Padding(
+              padding: const EdgeInsets.only(left: 5.0, right: 8.0),
+              child: Icon(
+                icon,
+                color: theme.colorScheme.secondary,
               ),
-              Text(label, style: theme.textTheme.labelMedium),
-            ],
-          )),
+            ),
+            Text(label, style: theme.textTheme.labelMedium),
+          ],
+        ),
+      ),
       Expanded(
-          flex: 3,
-          child: Text(
-            value,
-            style: const TextStyle(fontSize: 15),
-          )),
+        flex: 3,
+        child: Text(
+          value,
+          style: const TextStyle(fontSize: 15),
+        ),
+      ),
     ],
   );
 }

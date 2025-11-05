@@ -102,7 +102,6 @@ Widget getXAsis(
       ),
     );
   } else if (currentView == local.monthlyKpi) {
-    // ✅ إظهار الأسابيع حتى لو ما في بيانات
     if (weeksNumberInMonth.isNotEmpty &&
         value.toInt() < weeksNumberInMonth.length) {
       return Text(
@@ -111,7 +110,6 @@ Widget getXAsis(
       );
     }
 
-    // كخطة احتياطية لو فاضي:
     if (weeksInMonth.isNotEmpty && value.toInt() < weeksInMonth.length) {
       return Text(
         "W${weeksInMonth[value.toInt()].weekNumber}",
@@ -119,7 +117,6 @@ Widget getXAsis(
       );
     }
 
-    // لو كله فاضي، نرجع فقط مربع فارغ
     return const SizedBox();
   } else {
     if (value.toInt() < daysInWeek.length) {
@@ -133,7 +130,7 @@ Widget getXAsis(
   return const SizedBox();
 }
 
-double getMaxY(
+ChartScale getMaxY(
   String currentView,
   BuildContext context,
   List<SalesKPI> salesKpis,
@@ -205,15 +202,23 @@ void handleOrientation(bool salesKpiListOverLength) {
 }
 
 Widget buildChart(
-    BuildContext context,
-    String currentView,
-    List<int> weeksNumberInMonth,
-    List<SalesKPI> salesKpis,
-    List<DailyKPI> daysInWeek,
-    List<DailyKPI> daysInMonth,
-    List<WeeklyKPI> weeksInMonth,
-    double monthlyTarget,
-    bool salesKpiListOverLength) {
+  BuildContext context,
+  String currentView,
+  List<int> weeksNumberInMonth,
+  List<SalesKPI> salesKpis,
+  List<DailyKPI> daysInWeek,
+  List<DailyKPI> daysInMonth,
+  List<WeeklyKPI> weeksInMonth,
+  double monthlyTarget,
+  bool salesKpiListOverLength,
+) {
+  final scale = getMaxY(
+    currentView,
+    context,
+    salesKpis,
+    daysInWeek,
+    weeksInMonth,
+  );
   return Padding(
     padding: const EdgeInsets.symmetric(vertical: 15.0, horizontal: 8.0),
     child: BarChart(
@@ -222,13 +227,7 @@ Widget buildChart(
           enabled: true,
         ),
         alignment: BarChartAlignment.spaceEvenly,
-        maxY: getMaxY(
-          currentView,
-          context,
-          salesKpis,
-          daysInWeek,
-          weeksInMonth,
-        ),
+        maxY: scale.maxY,
         barGroups: getBarGroups(
           currentView,
           context,
@@ -270,6 +269,12 @@ Widget buildChart(
           ),
           topTitles: const AxisTitles(
             sideTitles: SideTitles(showTitles: false),
+          ),
+          leftTitles: AxisTitles(
+            sideTitles: SideTitles(interval: scale.step , showTitles: true, reservedSize: 45,),
+          ),
+          rightTitles: AxisTitles(
+            sideTitles: SideTitles(interval: scale.step , showTitles: true, reservedSize: 45,),
           ),
         ),
       ),
@@ -341,8 +346,9 @@ Widget buildPieChartDateAndAchieved(
   );
 }
 
-Widget buildPieChart(double achieved, double target, num percent, bool isArabic){
-  return  Expanded(
+Widget buildPieChart(
+    double achieved, double target, num percent, bool isArabic) {
+  return Expanded(
     child: Padding(
       padding: const EdgeInsets.symmetric(horizontal: 5.0),
       child: PieChart(
@@ -356,7 +362,9 @@ Widget buildPieChart(double achieved, double target, num percent, bool isArabic)
                   ? Colors.white.withValues(alpha: 0.6)
                   : KpiUIHelper.getPieChartColor(percent),
               value: achieved == 0.0 ? 20 : achieved,
-              title: achieved == 0.0 ? '' : '${convertedToArabicNumber(percent.toStringAsFixed(2), isArabic)}%',
+              title: achieved == 0.0
+                  ? ''
+                  : '${convertedToArabicNumber(percent.toStringAsFixed(2), isArabic)}%',
               radius: 50,
               titleStyle: TextStyle(
                 color: percent > 15 ? Colors.white : Colors.black,
@@ -377,7 +385,7 @@ Widget buildPieChart(double achieved, double target, num percent, bool isArabic)
   );
 }
 
-Widget buildPieChartTitle(String title, ThemeData theme){
+Widget buildPieChartTitle(String title, ThemeData theme) {
   return Text(
     title,
     style: TextStyle(

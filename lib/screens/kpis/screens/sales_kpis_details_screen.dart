@@ -111,6 +111,8 @@ class _SalesKpisDetailsScreenState extends State<SalesKpisDetailsScreen> {
     final theme = context.theme;
     final local = context.local;
 
+    print("Details SalesList count ${List.from(widget.salesKpis).length}");
+
     return PopScope(
       canPop: false,
       child: Scaffold(
@@ -145,7 +147,7 @@ class _SalesKpisDetailsScreenState extends State<SalesKpisDetailsScreen> {
                             context,
                             currentView,
                             weeksNumberInMonth,
-                            widget.salesKpis,
+                            List.from(widget.salesKpis),
                             daysInWeek,
                             daysInMonth,
                             weeksInMonth,
@@ -168,7 +170,7 @@ class _SalesKpisDetailsScreenState extends State<SalesKpisDetailsScreen> {
                           context,
                           currentView,
                           weeksNumberInMonth,
-                          widget.salesKpis,
+                          List.from(widget.salesKpis),
                           daysInWeek,
                           daysInMonth,
                           weeksInMonth,

@@ -39,7 +39,8 @@ void main() async {
           create: (context) => GraphDioClient(
             appAuth: const FlutterAppAuth(),
             onUnauthorized: () {
-              AppNotifier.loginAgain(context);
+              print("⚠️ Unauthorized called! logout");
+              navigatorKey.currentState?.pushNamedAndRemoveUntil('/login', (route) => false);
             },
           ),
         ),
@@ -165,9 +166,9 @@ class MyApp extends StatelessWidget {
         themeMode: ThemeMode.system,
         home: const SplashScreen(),
         navigatorKey: navigatorKey,
-        //   routes: {
-        //     '/home': (context) => const HomeScreen(oauth: oauth, accessToken: accessToken),
-        // }
+          routes: {
+            '/login': (context) => const LoginScreen(),
+        }
       );
     });
   }

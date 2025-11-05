@@ -151,12 +151,12 @@ class KpiCalculationHandler {
     AppNotifier.logWithScreen(
         "KpiCalculation Handler", "Month Start: $start, End: $end");
 
-    for (var e in data) {
-      AppNotifier.logWithScreen(
-        "KpiCalculation Handler",
-        "Sample transDate: ${e.dailySalesAmount}  ${e.transDate.toIso8601String()}",
-      );
-    }
+    // for (var e in data) {
+    //   AppNotifier.logWithScreen(
+    //     "KpiCalculation Handler",
+    //     "Sample transDate: ${e.dailySalesAmount}  ${e.transDate.toIso8601String()}",
+    //   );
+    // }
 
     final daysInMonth = List.generate(end.day, (index) {
       final date = DateTime(year, month, index + 1);
@@ -289,40 +289,48 @@ class KpiCalculationHandler {
 
   /// //////////////////////////////////////////////////////////////////--------------------\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
 
-  static double calcDailyMaxY(List<SalesKPI> data) {
-    if (data.isEmpty) return 0;
+  static ChartScale calcDailyMaxY(List<SalesKPI> data) {
+    if (data.isEmpty) return ChartScale(0, 1000);
 
     final maxVal = data.map((e) => e.dailySalesAmount).reduce(max);
-    double step = calculateStep(maxVal);
+    double step = calculateStep(maxVal, true); // landscape view
     double roundedMax = (maxVal / step).ceil() * step;
 
-    return roundedMax;
+    AppNotifier.logWithScreen("KpiCalculation Handler", "Daily Max: $maxVal $step Rounded Max: $roundedMax");
+
+    return ChartScale(roundedMax, step);
   }
 
-  static double calcWeeklyMaxY(List<DailyKPI> data) {
-    if (data.isEmpty) return 0;
+  static ChartScale calcWeeklyMaxY(List<DailyKPI> data) {
+    if (data.isEmpty) return ChartScale(0, 1000);
 
     final maxVal = data.map((e) => e.totalSales).reduce(max);
-    double step = calculateStep(maxVal);
+    double step = calculateStep(maxVal, false); // portrait view
     double roundedMax = (maxVal / step).ceil() * step;
 
-    return roundedMax;
+    AppNotifier.logWithScreen("KpiCalculation Handler", "Weekly Max: $maxVal $step Rounded Max: $roundedMax");
+
+    return ChartScale(roundedMax, step);
   }
 
-  static double calcMonthlyMaxY(List<WeeklyKPI> data) {
-    if (data.isEmpty) return 0;
+  static ChartScale calcMonthlyMaxY(List<WeeklyKPI> data) {
+    if (data.isEmpty) return ChartScale(0, 1000);
 
     final maxVal = data.map((e) => e.totalSales).reduce(max);
-    double step = calculateStep(maxVal);
+    double step = calculateStep(maxVal, false);
     double roundedMax = (maxVal / step).ceil() * step;
 
-    return roundedMax;
+    AppNotifier.logWithScreen("KpiCalculation Handler", "Monthly Max: $maxVal $step Rounded Max: $roundedMax");
+
+    return ChartScale(roundedMax, step);
   }
 
-  static double calculateStep(double maxVal) {
-    if (maxVal <= 10000) return 1000;
+  static double calculateStep(double maxVal, bool landscape) {
+    if(maxVal <= 5000) return 1000;
+    if (maxVal <= 20000) return landscape? 3000 : 2000;
     if (maxVal <= 50000) return 5000;
-    if (maxVal <= 200000) return 10000;
+    if (maxVal <= 100000) return 10000;
+    if (maxVal <= 200000) return 20000;
     if (maxVal <= 1000000) return 50000;
     return 100000;
   }
@@ -381,4 +389,12 @@ class KpiCalculationHandler {
     }
   }
 }
+
+class ChartScale {
+  final double maxY;
+  final double step;
+
+  ChartScale(this.maxY, this.step);
+}
+
 

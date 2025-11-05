@@ -73,7 +73,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       pickedImage: _image,
                       imageProvider: userImageProvider,
                       onPickImage: _showImagePickerOptions,
-                      isLoading: userInfoProvider.loading,
+                      state: userInfoProvider.state,
+                      error: userInfoProvider.error,
                     ),
                     AppSeparators.dividerSeparate(),
                     MenuSection(

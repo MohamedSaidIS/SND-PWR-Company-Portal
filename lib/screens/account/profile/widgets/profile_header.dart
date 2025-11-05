@@ -10,7 +10,10 @@ class ProfileHeader extends StatelessWidget {
   final File? pickedImage;
   final UserImageProvider imageProvider;
   final VoidCallback onPickImage;
-  final bool isLoading;
+
+  /// بدلاً من isLoading فقط
+  final ViewState state;
+  final String? error;
 
   const ProfileHeader({
     super.key,
@@ -19,7 +22,8 @@ class ProfileHeader extends StatelessWidget {
     required this.pickedImage,
     required this.imageProvider,
     required this.onPickImage,
-    required this.isLoading,
+    required this.state,
+    this.error,
   });
 
   @override
@@ -36,31 +40,68 @@ class ProfileHeader extends StatelessWidget {
           onEdit: onPickImage,
         ),
         const SizedBox(height: 16),
-        AnimatedSwitcher(
-          duration: const Duration(milliseconds: 300),
-          child: isLoading || userInfo == null
-              ? _skeletonLoading()
-              : Column(
-            key: ValueKey("${userInfo.givenName} ${userInfo.surname}"),
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              UserText(
-                  textStr: "${userInfo?.givenName ?? "-"} ${userInfo?.surname ?? "-"}",
-                  textStyle: theme.textTheme.displayLarge!),
-              UserText(
-                  textStr: userInfo?.jobTitle ?? "-",
-                  textStyle: theme.textTheme.displayMedium!),
-              UserText(
-                  textStr: userInfo?.mail ?? "-",
-                  textStyle: theme.textTheme.displaySmall!),
-            ],
+
+        StateHandlerWidget(
+          state: state,
+          error: error,
+          loadingBuilder: (context) => _skeletonLoading(theme),
+          errorBuilder: (context) => Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Text(
+              "حدث خطأ أثناء تحميل البيانات: ${error ?? ''}",
+              style: theme.textTheme.bodyLarge
+                  ?.copyWith(color: Colors.redAccent),
+              textAlign: TextAlign.center,
+            ),
           ),
+          dataBuilder: (context) => _buildUserInfo(theme),
+          emptyTitle: '',
+          emptySubtitle: '',
         ),
       ],
     );
   }
 
-  Widget _skeletonLoading() {
+  Widget _buildUserInfo(ThemeData theme) {
+    return AnimatedSwitcher(
+      duration: const Duration(milliseconds: 400),
+      transitionBuilder: (child, animation) {
+        return FadeTransition(
+          opacity: animation,
+          child: SlideTransition(
+            position: Tween<Offset>(
+              begin: const Offset(0, 0.1),
+              end: Offset.zero,
+            ).animate(CurvedAnimation(
+              parent: animation,
+              curve: Curves.easeOut,
+            )),
+            child: child,
+          ),
+        );
+      },
+      child: Column(
+        key: ValueKey("${userInfo?.givenName ?? ''} ${userInfo?.surname ?? ''}"),
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          UserText(
+            textStr: "${userInfo?.givenName ?? "-"} ${userInfo?.surname ?? "-"}",
+            textStyle: theme.textTheme.displayLarge!,
+          ),
+          UserText(
+            textStr: userInfo?.jobTitle ?? "-",
+            textStyle: theme.textTheme.displayMedium!,
+          ),
+          UserText(
+            textStr: userInfo?.mail ?? "-",
+            textStyle: theme.textTheme.displaySmall!,
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _skeletonLoading(ThemeData theme) {
     Widget skeletonBox(double width, double height) {
       return Padding(
         padding: const EdgeInsets.symmetric(vertical: 6.0),
@@ -68,16 +109,16 @@ class ProfileHeader extends StatelessWidget {
           width: width,
           height: height,
           decoration: BoxDecoration(
-            color: Colors.grey.shade300,
-            borderRadius: BorderRadius.circular(8), // smoother look
+            color: theme.colorScheme.surface,
+            borderRadius: BorderRadius.circular(8),
           ),
         ),
       );
     }
 
     return Shimmer.fromColors(
-      baseColor: Colors.grey.shade300,
-      highlightColor: Colors.grey.shade100,
+      baseColor: theme.colorScheme.surface,
+      highlightColor: theme.colorScheme.onSurface.withValues(alpha: 0.05),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [

@@ -4,3 +4,10 @@ enum SnackBarType {
   warning,
   info,
 }
+
+enum ViewState {
+  loading,
+  error,
+  empty,
+  data,
+}
