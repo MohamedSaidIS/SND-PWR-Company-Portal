@@ -21,10 +21,9 @@ class _CarouselSliderWidgetState extends State<CarouselSliderWidget> {
     final isTablet = context.isTablet();
     final isLandScape = context.isLandScape();
     final screenSize = MediaQuery.of(context).size.height;
-    final carouselHeight = screenSize * 0.5;
+    final carouselHeight = screenSize * (isLandScape? 0.3: 0.5);
     final items = getSections(local, theme, context, carouselHeight);
 
-    print("CarouselSliderWidgetHeight: ${isLandScape.toString()} $carouselHeight");
     return Column(
       children: [
         SizedBox(
@@ -53,8 +52,8 @@ class _CarouselSliderWidgetState extends State<CarouselSliderWidget> {
               return AnimatedContainer(
                 duration: const Duration(milliseconds: 300),
                 margin: EdgeInsets.symmetric(
-                  horizontal: isTablet ? 6 : 4,
-                  vertical: isTablet ? 8 : 6,
+                  horizontal: isTablet ? 6 : 5,
+                  vertical: isTablet ? 8 : 5,
                 ),
                 height: 8,
                 width: current == index

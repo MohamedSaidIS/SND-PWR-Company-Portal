@@ -1,5 +1,68 @@
 import 'package:flutter/material.dart';
 import 'package:company_portal/utils/export_import.dart';
+import 'package:line_awesome_flutter/line_awesome_flutter.dart';
+
+Widget buildPersonalCard(AppLocalizations local, BuildContext context, ThemeData theme, String userName, String userPhone, String userOfficeLocation){
+  return buildInfoCard([
+    buildSectionTitle(
+        local.personalDetails, context, theme),
+    buildInfoRow(
+      local.name,
+      userName,
+      LineAwesomeIcons.user,
+      theme,
+    ),
+    buildInfoRow(
+      local.phone,
+      userPhone,
+      LineAwesomeIcons.phone_solid,
+      theme,
+    ),
+    buildInfoRow(
+      local.location,
+      userOfficeLocation,
+      LineAwesomeIcons.map_pin_solid,
+      theme,
+    ),
+  ], theme);
+}
+
+Widget buildManagerCard(AppLocalizations local, BuildContext context, ThemeData theme, UserInfo managerInfo,){
+  return buildInfoCard([
+    buildSectionTitle(
+        local.managerDetails, context, theme),
+    buildInfoRow(
+      local.name,
+      "${managerInfo.givenName ?? "-"} ${managerInfo.surname ?? "-"}",
+      LineAwesomeIcons.user,
+      theme,
+    ),
+    buildInfoRow(
+      local.jobTitle,
+      managerInfo.jobTitle ?? "-",
+      Icons.work_outline,
+      theme,
+    ),
+    buildInfoRow(
+      local.email,
+      managerInfo.mail ?? "-",
+      LineAwesomeIcons.mail_bulk_solid,
+      theme,
+    ),
+    buildInfoRow(
+      local.phone,
+      managerInfo.mobilePhone ?? "-",
+      LineAwesomeIcons.phone_solid,
+      theme,
+    ),
+    buildInfoRow(
+      local.location,
+      managerInfo.officeLocation ?? "-",
+      LineAwesomeIcons.map_pin_solid,
+      theme,
+    ),
+  ], theme);
+}
 
 Widget buildSectionTitle(String title, BuildContext context, ThemeData theme) {
   return Align(
@@ -33,8 +96,7 @@ Widget buildInfoCard(List<Widget> children, ThemeData theme) {
   );
 }
 
-Widget buildInfoRow(
-    String label, String value, IconData icon, ThemeData theme) {
+Widget buildInfoRow(String label, String value, IconData icon, ThemeData theme) {
   return Row(
     children: [
       Expanded(

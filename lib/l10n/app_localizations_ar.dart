@@ -679,4 +679,25 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get chooseEmployee => 'اختر الموظف...';
+
+  @override
+  String get sessionExpired => 'انتهت الجلسة';
+
+  @override
+  String get pleaseLoginAgain => 'يرجى تسجيل الدخول مرة أخرى';
+
+  @override
+  String get issueRequestTracking => 'متابعة المشكلات\nوالطلبات';
+
+  @override
+  String get usersNewRequests => 'الطلبات الجديدة\nللمستخدمين';
+
+  @override
+  String get dynamic365SupportCases => 'حالات الدعم\nدينامكس';
+
+  @override
+  String get eCommerceSupportCases => 'حالات الدعم\nالتجارة الالكترونية';
+
+  @override
+  String get showName => 'اظهار الاسم';
 }

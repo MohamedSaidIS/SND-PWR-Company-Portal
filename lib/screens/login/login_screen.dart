@@ -14,77 +14,70 @@ class LoginScreen extends StatefulWidget {
 class _LoginScreenState extends State<LoginScreen> {
   bool _isLoading = false;
   late final AuthController _authController;
-  late String graphToken;
-  late String spToken;
+  late String graphToken, spToken, mySpToken;
 
 
   @override
   void initState() {
     super.initState();
-
-    WidgetsBinding.instance.addPostFrameCallback((_) async {
-      await SecureStorageService().getData("GraphAccessToken").then((value) {
-        AppNotifier.logWithScreen("LoginScreen", "✅ Graph Token: $value");
-        graphToken = value;
-      });
-      await SecureStorageService().getData("SharedAccessToken").then((value) {
-        AppNotifier.logWithScreen("LoginScreen","✅ SharedPoint Token: $value");
-        spToken = value;
-      });
-      await SecureStorageService().getData("MySharedAccessToken").then((value) {
-        AppNotifier.logWithScreen("LoginScreen","✅ MySharedPoint Token: $value");
-        spToken = value;
-      });
-    });
     _authController = AuthController(context: context);
+    _fetchTokens();
+  }
+
+  Future<void> _fetchTokens() async {
+    try {
+      graphToken = await SecureStorageService().getData("GraphAccessToken");
+      spToken = await SecureStorageService().getData("SharedAccessToken");
+      mySpToken = await SecureStorageService().getData("MySharedAccessToken");
+
+      AppNotifier.logWithScreen("LoginScreen", "✅ Graph Token: $graphToken");
+      AppNotifier.logWithScreen("LoginScreen", "✅ SharedPoint Token: $spToken");
+      AppNotifier.logWithScreen("LoginScreen", "✅ MySharedPoint Token: $mySpToken");
+
+      if (mounted) setState(() {});
+    } catch (e) {
+      AppNotifier.logWithScreen("LoginScreen", "❌ Error fetching tokens: $e");
+    }
   }
 
   Future<void> _onSignInPressed() async {
+    if(_isLoading) return;
     setState(() => _isLoading = true);
 
-    final graphToken = await SecureStorageService().getData("GraphAccessToken");
-    final spToken = await SecureStorageService().getData("SPAccessToken");
+    await _fetchTokens();
 
     bool success = false;
-    String type = "";
 
-    if (graphToken.isNotEmpty && spToken.isNotEmpty) {
+    if (graphToken.isNotEmpty && spToken.isNotEmpty && mySpToken.isNotEmpty) {
 
-      type = "Biometric";
       success = await _authController.loginWithBiometrics();
-      SecureStorageService().saveData("BiometricLogin", "$type $success");
       AppNotifier.logWithScreen("LoginScreen","✅ Biometric Login Success: $success");
     } else {
-      type = "Microsoft";
       success = await loginAll();
       AppNotifier.logWithScreen("LoginScreen","✅ Microsoft Login Success: $success");
     }
 
-    AppNotifier.logWithScreen("LoginScreen","✅ $type Login Success: $success");
-
-    if (success && mounted) {
-      _navigateToHome();
-    }
-
+    if (success && mounted) _navigateToHome();
     if (mounted) setState(() => _isLoading = false);
   }
 
   Future<bool> loginAll() async {
     try {
-
       final loginSuccess = await _authController.loginMicrosoftOnce();
       if (!loginSuccess) return false;
 
-      final graphToken = await _authController.getGraphToken();
-      if (graphToken == null) return false;
+      final gToken = await _authController.getGraphToken();
+      final sToken = await _authController.getSharePointToken();
+      final mySToken = await _authController.getMySharePointToken();
+
+      if (gToken == null || sToken == null || mySToken == null) return false;
+
+      graphToken = gToken;
+      spToken = sToken;
+      mySpToken = mySToken;
+
       await SecureStorageService().saveData("TokenSavedAt", DateTime.now().toIso8601String());
-
-      final spToken = await _authController.getSharePointToken();
-      if (spToken == null) return false;
       await SecureStorageService().saveData("SPTokenSavedAt", DateTime.now().toIso8601String());
-
-      final mySpToken = await _authController.getMySharePointToken();
-      if (mySpToken == null) return false;
       await SecureStorageService().saveData("MySPTokenSavedAt", DateTime.now().toIso8601String());
 
       AppNotifier.logWithScreen("LoginScreen","✅ Graph token retrieved: $graphToken");
@@ -99,6 +92,7 @@ class _LoginScreenState extends State<LoginScreen> {
   }
 
   void _navigateToHome() {
+    // AppNotifier.createLogoutRoute(const HomeScreen());
     Navigator.push(
       context,
       MaterialPageRoute(

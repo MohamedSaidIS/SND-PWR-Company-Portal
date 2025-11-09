@@ -679,4 +679,25 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get chooseEmployee => 'Choose Employee...';
+
+  @override
+  String get sessionExpired => 'Session Expired';
+
+  @override
+  String get pleaseLoginAgain => 'Please log in again.';
+
+  @override
+  String get issueRequestTracking => 'Issue and Request \nTracking';
+
+  @override
+  String get usersNewRequests => 'Users New \nRequests';
+
+  @override
+  String get dynamic365SupportCases => 'Dynamic365 \nSupport Cases';
+
+  @override
+  String get eCommerceSupportCases => 'ECommerce \nSupport Cases';
+
+  @override
+  String get showName => 'Show Name';
 }

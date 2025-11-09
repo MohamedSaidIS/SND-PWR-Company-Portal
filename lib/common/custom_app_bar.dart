@@ -32,7 +32,8 @@ class CustomAppBar extends StatelessWidget implements PreferredSize {
               icon: Icon(
                 backIcon,
                 color: theme.colorScheme.primary,
-              ))
+              ),
+            )
           : null,
       actions: themeBtn
           ? [

@@ -25,29 +25,32 @@ class _AppsScreenState extends State<AppsScreen> {
         ),
         body: Padding(
           padding: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 20),
-          child: GridView.builder(
-            itemCount: getAppItems.length,
-            gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-              crossAxisCount: isTablet ? 3 : 2,
-              crossAxisSpacing: 6,
-              mainAxisSpacing: 6,
-              childAspectRatio: 1,
+          child: UpFadeSlideAnimation(
+            delay: 0,
+            child: GridView.builder(
+              itemCount: getAppItems.length,
+              gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                crossAxisCount: isTablet ? 3 : 2,
+                crossAxisSpacing: 8,
+                mainAxisSpacing: 8,
+                childAspectRatio: 1,
+              ),
+              itemBuilder: (context, index) {
+                final item = getAppItems[index];
+                return buildAppCard(
+                  buildCardInfo(
+                    item.appIcon,
+                    item.appName,
+                    isTablet,
+                  ),
+                  item.packageName,
+                  item.iosAppId,
+                  context,
+                  theme,
+                  local,
+                );
+              },
             ),
-            itemBuilder: (context, index) {
-              final item = getAppItems[index];
-              return buildAppCard(
-                buildCardInfo(
-                  item.appIcon,
-                  item.appName,
-                  isTablet,
-                ),
-                item.packageName,
-                item.iosAppId,
-                context,
-                theme,
-                local,
-              );
-            },
           ),
         ),
       ),

@@ -17,7 +17,9 @@ class SectionWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final isLandScape = context.isLandScape();
     final screenWidth = MediaQuery.of(context).size.width;
+
 
     return SizedBox(
       height: carouselHeight,
@@ -27,22 +29,22 @@ class SectionWidget extends StatelessWidget {
           children: [
             if (section.title != null)
               Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 25.0),
+                padding: const EdgeInsets.symmetric(horizontal: 21,vertical: 2),
                 child: Text(
                   section.title!,
                   style: theme.textTheme.titleLarge?.copyWith(
-                      fontSize: screenWidth * 0.05,
+                      fontSize: isLandScape ? (carouselHeight * 0.1) : (screenWidth * 0.05),
                       fontWeight: FontWeight.bold
                   ),
                   textAlign: isArabic ? TextAlign.right : TextAlign.left,
                 ),
               ),
             Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 25.0, vertical: 8),
+              padding: const EdgeInsets.symmetric(horizontal: 21.0),
               child: Text(
                 section.description,
                 style: theme.textTheme.bodyLarge?.copyWith(
-                  fontSize: carouselHeight * 0.035,
+                  fontSize: isLandScape ? (carouselHeight * 0.1) : (carouselHeight * 0.035),
                 ),
                 textAlign: isArabic ? TextAlign.right : TextAlign.left,
               ),

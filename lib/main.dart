@@ -10,7 +10,9 @@ import 'firebase_options.dart';
 import 'utils/export_import.dart';
 
 Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
-  await Firebase.initializeApp( options: DefaultFirebaseOptions.currentPlatform,);
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
   debugPrint("📩 Handling background message: ${message.messageId}");
 }
 
@@ -38,9 +40,10 @@ void main() async {
         Provider<GraphDioClient>(
           create: (context) => GraphDioClient(
             appAuth: const FlutterAppAuth(),
-            onUnauthorized: () {
-              AppNotifier.logWithScreen("Main Screen","⚠️ Unauthorized called! logout");
-              navigatorKey.currentState?.pushNamedAndRemoveUntil('/login', (route) => false);
+            onUnauthorized: () async {
+              AppNotifier.logWithScreen(
+                  "Main Screen", "⚠️Graph Dio Unauthorized called! logout");
+              AppNotifier.sessionExpiredDialog();
             },
           ),
         ),
@@ -48,7 +51,9 @@ void main() async {
           create: (context) => SharePointDioClient(
             appAuth: const FlutterAppAuth(),
             onUnauthorized: () {
-              AppNotifier.loginAgain(context);
+              AppNotifier.logWithScreen("Main Screen",
+                  "⚠️SharePoint Dio Unauthorized called! logout");
+              AppNotifier.sessionExpiredDialog();
             },
           ),
         ),
@@ -56,7 +61,9 @@ void main() async {
           create: (context) => MySharePointDioClient(
             appAuth: const FlutterAppAuth(),
             onUnauthorized: () {
-              AppNotifier.loginAgain(context);
+              AppNotifier.logWithScreen("Main Screen",
+                  "⚠️MySharePoint Dio Unauthorized called! logout");
+              AppNotifier.sessionExpiredDialog();
             },
           ),
         ),
@@ -77,8 +84,9 @@ void main() async {
           ),
         ),
         ChangeNotifierProvider(
-          create: (context) =>
-              DirectReportsProvider(dioClient: context.read<GraphDioClient>()),
+          create: (context) => DirectReportsProvider(
+            dioClient: context.read<GraphDioClient>(),
+          ),
         ),
         ChangeNotifierProvider(
           create: (context) => UserImageProvider(
@@ -154,23 +162,22 @@ class MyApp extends StatelessWidget {
 
     return Builder(builder: (context) {
       return MaterialApp(
-        //   showPerformanceOverlay: true,
-        locale: localeProvider.locale,
-        supportedLocales: [localeProvider.locale],
-        localizationsDelegates: const [
-          AppLocalizations.delegate,
-          GlobalMaterialLocalizations.delegate,
-          GlobalWidgetsLocalizations.delegate,
-          GlobalCupertinoLocalizations.delegate
-        ],
-        theme: themeProvider.themeData,
-        themeMode: ThemeMode.system,
-        home: const SplashScreen(),
-        navigatorKey: navigatorKey,
+          //   showPerformanceOverlay: true,
+          locale: localeProvider.locale,
+          supportedLocales: [localeProvider.locale],
+          localizationsDelegates: const [
+            AppLocalizations.delegate,
+            GlobalMaterialLocalizations.delegate,
+            GlobalWidgetsLocalizations.delegate,
+            GlobalCupertinoLocalizations.delegate
+          ],
+          theme: themeProvider.themeData,
+          themeMode: ThemeMode.system,
+          home: const SplashScreen(),
+          navigatorKey: navigatorKey,
           routes: {
             '/login': (context) => const LoginScreen(),
-        }
-      );
+          });
     });
   }
 }

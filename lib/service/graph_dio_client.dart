@@ -102,7 +102,6 @@ class GraphDioClient {
       }
       await secureStorage.saveData(
           "TokenSavedAt", DateTime.now().toIso8601String());
-
       return result.accessToken!;
     } catch (e) {
       AppNotifier.logWithScreen("GraphDioClient", "GraphRefreshToken token failed $e");

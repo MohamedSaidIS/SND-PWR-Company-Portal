@@ -11,6 +11,7 @@ class SendOptionalName extends StatelessWidget {
   Widget build(BuildContext context) {
     final theme = context.theme;
     final local = context.local;
+    final isArabic = context.isArabic();
 
     return Row(
       children: [
@@ -33,8 +34,8 @@ class SendOptionalName extends StatelessWidget {
               borderRadius: BorderRadius.circular(5),
             ),
             title: Transform.translate(
-              offset: const Offset(-20, 0),
-              child: const Text("Show Name"),
+              offset: Offset(isArabic ? 20 :-20, 0),
+              child: Text(local.showName),
             ),
             controlAffinity: ListTileControlAffinity.leading,
             contentPadding: EdgeInsets.zero,

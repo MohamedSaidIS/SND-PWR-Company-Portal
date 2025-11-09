@@ -223,6 +223,13 @@
   "pleaseEnterDate": "برجاء أدخل التاريخ",
   "pleaseSelectApp": "برجاء اختيار التطبيق",
   "loadingData": "جاري تحميل البيانات...",
-  "chooseEmployee": "اختر الموظف..."
+  "chooseEmployee": "اختر الموظف...",
+  "sessionExpired": "انتهت الجلسة",
+  "pleaseLoginAgain": "يرجى تسجيل الدخول مرة أخرى",
+  "issueRequestTracking": "متابعة المشكلات\nوالطلبات",
+  "usersNewRequests": "الطلبات الجديدة\nللمستخدمين",
+  "dynamic365SupportCases": "حالات الدعم\nدينامكس",
+  "eCommerceSupportCases": "حالات الدعم\nالتجارة الالكترونية",
+  "showName": "اظهار الاسم"
 }
 

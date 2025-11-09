@@ -59,34 +59,37 @@ class _ProfileScreenState extends State<ProfileScreen> {
           title: local.profile,
           themeBtn: true,
         ),
-        body: Builder(
-          builder: (context) {
-            return SingleChildScrollView(
-              child: Container(
-                padding:
-                const EdgeInsets.symmetric(vertical: 15, horizontal: 45),
-                child: Column(
-                  children: [
-                    ProfileHeader(
-                      userInfo: userInfo,
-                      userImage: userImage,
-                      pickedImage: _image,
-                      imageProvider: userImageProvider,
-                      onPickImage: _showImagePickerOptions,
-                      state: userInfoProvider.state,
-                      error: userInfoProvider.error,
-                    ),
-                    AppSeparators.dividerSeparate(),
-                    MenuSection(
-                      userInfo: userInfo,
-                      onLogout: _logout,
-                      userImage: userImage,
-                    ),
-                  ],
+        body: SideFadeSlideAnimation(
+          delay: 0,
+          child: Builder(
+            builder: (context) {
+              return SingleChildScrollView(
+                child: Container(
+                  padding:
+                  const EdgeInsets.symmetric(vertical: 15, horizontal: 45),
+                  child: Column(
+                    children: [
+                      ProfileHeader(
+                        userInfo: userInfo,
+                        userImage: userImage,
+                        pickedImage: _image,
+                        imageProvider: userImageProvider,
+                        onPickImage: _showImagePickerOptions,
+                        state: userInfoProvider.state,
+                        error: userInfoProvider.error,
+                      ),
+                      AppSeparators.dividerSeparate(),
+                      MenuSection(
+                        userInfo: userInfo,
+                        onLogout: _logout,
+                        userImage: userImage,
+                      ),
+                    ],
+                  ),
                 ),
-              ),
-            );
-          },
+              );
+            },
+          ),
         ),
       ),
     );

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
 import '../../../../utils/export_import.dart';
+import '../main.dart';
 
 class AppNotifier {
 
@@ -50,8 +51,8 @@ class AppNotifier {
                     if (!context.mounted) return;
                     Navigator.pushAndRemoveUntil(
                       context,
-                      MaterialPageRoute(builder: (_) => const LoginScreen()),
-                          (route) => false,
+                      createLogoutRoute(const LoginScreen()),
+                          (_) => false,
                     );
                   } catch (e) {
                     AppNotifier.logWithScreen("Logout Dialog", "Logout Failed: $e");
@@ -59,9 +60,112 @@ class AppNotifier {
                 },
               )
             ],
-          )),
+          ),
+      ),
     );
   }
+
+  static void sessionExpiredDialog() {
+    final ctx = navigatorKey.currentContext;
+    if (ctx == null) return;
+
+    final theme = ctx.theme;
+    final local = ctx.local;
+
+    showDialog(
+      context: ctx,
+      barrierDismissible: false,
+      builder: (ctx) {
+        return Center(
+          child: Material(
+            color: Colors.transparent,
+            child: Container(
+              width: 300,
+              decoration: BoxDecoration(
+                color: Colors.white,
+                borderRadius: BorderRadius.circular(14),
+              ),
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  const SizedBox(height: 20),
+                  Text(
+                    local.sessionExpired,
+                    style: const TextStyle(
+                      fontSize: 19,
+                      fontWeight: FontWeight.w600,
+                      color: Colors.black,
+                    ),
+                  ),
+                  const SizedBox(height: 8),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 20),
+                    child: Text(
+                      local.pleaseLoginAgain,
+                      textAlign: TextAlign.center,
+                      style: const TextStyle(
+                        fontSize: 15,
+                        color: Colors.black54,
+                      ),
+                    ),
+                  ),
+                  const SizedBox(height: 20),
+                  Container(
+                    height: 1,
+                    color: Colors.black12,
+                  ),
+                  TextButton(
+                    onPressed: () async {
+                      await SecureStorageService().deleteData();
+                      navigatorKey.currentState?.pushAndRemoveUntil(
+                          AppNotifier.createLogoutRoute(const LoginScreen()),
+                          (route) => false,
+                      );
+                    },
+                    child: Text(
+                      local.ok,
+                      style: TextStyle(
+                        fontSize: 18,
+                        color: theme.colorScheme.secondary,
+                        fontWeight: FontWeight.w500,
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ),
+        );
+      },
+    );
+  }
+
+  static Route createLogoutRoute(Widget screen) {
+    return PageRouteBuilder(
+      transitionDuration: const Duration(milliseconds: 450),
+      pageBuilder: (context, animation, secondaryAnimation) => screen,
+      transitionsBuilder: (context, animation, secondaryAnimation, child) {
+        final fade = Tween(begin: 0.0, end: 1.0).animate(
+          CurvedAnimation(parent: animation, curve: Curves.easeOut),
+        );
+        final slide = Tween(
+          begin: const Offset(0, 0.15),
+          end: Offset.zero,
+        ).animate(
+          CurvedAnimation(parent: animation, curve: Curves.easeOutCubic),
+        );
+
+        return FadeTransition(
+          opacity: fade,
+          child: SlideTransition(
+            position: slide,
+            child: child,
+          ),
+        );
+      },
+    );
+  }
+
 
   static void loginAgain(BuildContext context) async {
     await SecureStorageService().deleteData();

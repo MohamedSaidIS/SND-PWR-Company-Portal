@@ -51,7 +51,6 @@ class AuthController {
     }
   }
 
-  /// احصل على Graph Token باستخدام refresh token
   Future<String?> getGraphToken() async {
     try {
       final refreshToken = await secureStorage.getData("RefreshToken");
@@ -81,7 +80,6 @@ class AuthController {
     }
   }
 
-  /// احصل على SharePoint Token باستخدام refresh token
   Future<String?> getSharePointToken() async {
     try {
       final refreshToken = await secureStorage.getData("RefreshToken");
@@ -112,7 +110,7 @@ class AuthController {
       return null;
     }
   }
-  /// احصل على MySharePoint Token باستخدام refresh token
+
   Future<String?> getMySharePointToken() async {
     try {
       final refreshToken = await secureStorage.getData("RefreshToken");

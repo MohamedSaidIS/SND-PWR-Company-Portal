@@ -22,10 +22,6 @@ Widget buildAppCard(Widget child, String packageName, String iosAppId,
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(20),
         color: theme.colorScheme.primary.withValues(alpha: 0.1),
-        border: Border.all(
-          color: theme.colorScheme.outlineVariant.withValues(alpha: 0.4),
-          width: 0.2,
-        ),
       ),
       child: child,
     ),
@@ -97,17 +93,13 @@ Future<void> openAppOrRedirect({
           }
         }
       } else if (Platform.isIOS) {
-        bool isSimulator = !Platform.isIOS ||
-            Platform.environment.containsKey('SIMULATOR_DEVICE_NAME');
-
+        bool isSimulator = !Platform.isIOS || Platform.environment.containsKey('SIMULATOR_DEVICE_NAME');
         if (isSimulator) {
           final Uri testUri = Uri.parse("https://apple.com");
           await launchUrl(testUri, mode: LaunchMode.externalApplication);
           return;
         }
-
         bool opened = false;
-
         if (iosCustomScheme != null && iosCustomScheme.isNotEmpty) {
           final Uri customUri = Uri.parse(iosCustomScheme);
           if (await canLaunchUrl(customUri)) {
@@ -115,7 +107,6 @@ Future<void> openAppOrRedirect({
             opened = true;
           }
         }
-
         if (!opened) {
           final Uri appStoreUri =
               Uri.parse("https://apps.apple.com/eg/app/$iosAppId");

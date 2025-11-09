@@ -9,10 +9,6 @@ class SharePointDioClient {
   final FlutterAppAuth appAuth;
   final SecureStorageService secureStorage = SecureStorageService();
   final VoidCallback onUnauthorized;
-  bool _isRefreshing = false;
-  Completer<String?>? _refreshCompleter;
-
-  static const int _maxRetryCount = 1;
 
   SharePointDioClient({
     required this.appAuth,
@@ -55,83 +51,15 @@ class SharePointDioClient {
           options.headers['Authorization'] = 'Bearer $token';
           handler.next(options);
         },
-        onError: (error, handler) async {
-          final statusCode = error.response?.statusCode;
-          final requestOptions = error.requestOptions;
-
-          AppNotifier.logWithScreen(
-            "SharePoint DioClient Error",
-            "Code: $statusCode | Message: ${error.message} | Path: ${requestOptions.path}",
-          );
-
-          int retryCount = requestOptions.extra["retryCount"] ?? 0;
-          if (retryCount >= _maxRetryCount) {
-            AppNotifier.logWithScreen("SharePoint DioClient",
-                "Max retry reached, not retrying request.");
-            return handler.next(error);
+        onError: (error, handler) {
+          AppNotifier.logWithScreen("SharePoint DioClient","⚠️ Unauthorized called! before");
+          if (error.response?.statusCode == 401) {
+            AppNotifier.logWithScreen("SharePoint DioClient","⚠️ Unauthorized called! after");
+            AppNotifier.logWithScreen("SharePoint DioClient","Graph AccessToken Expired And Error 401");
+            onUnauthorized();
           }
-
-          if (statusCode == 401 || statusCode == 403) {
-            AppNotifier.logWithScreen("SharePoint DioClient",
-                "Token invalid, trying to refresh... (attempt ${retryCount + 1})");
-
-            // في حال هناك refresh شغال، ننتظر نتيجته
-            if (_isRefreshing) {
-              AppNotifier.logWithScreen("SharePoint DioClient",
-                  "Refresh already in progress, waiting...");
-              final waitingToken = await _refreshCompleter?.future;
-
-              if (waitingToken == null) {
-                AppNotifier.logWithScreen("SharePoint DioClient",
-                    "Waiting finished but no valid token, forcing logout.");
-                AppNotifier.logWithScreen("SharePoint DioClient", "انتهت الجلسة، يرجى تسجيل الدخول مجددًا");
-                onUnauthorized();
-                return;
-              }
-
-              requestOptions.extra["retryCount"] = retryCount + 1;
-              requestOptions.headers['Authorization'] = 'Bearer $waitingToken';
-              final clonedResponse = await dio.fetch(requestOptions);
-              return handler.resolve(clonedResponse);
-            }
-
-            // عملية refresh جديدة
-            _isRefreshing = true;
-            _refreshCompleter = Completer<String?>();
-
-            try {
-              final newToken = await _refreshToken();
-              _isRefreshing = false;
-
-              if (newToken != null) {
-                _refreshCompleter?.complete(newToken);
-                AppNotifier.logWithScreen("SharePoint DioClient",
-                    "Token refreshed successfully, retrying request...");
-                requestOptions.extra["retryCount"] = retryCount + 1;
-                requestOptions.headers['Authorization'] = 'Bearer $newToken';
-                final clonedResponse = await dio.fetch(requestOptions);
-                return handler.resolve(clonedResponse);
-              } else {
-                _refreshCompleter?.complete(null);
-                AppNotifier.logWithScreen("SharePoint DioClient",  "انتهت الجلسة، يرجى تسجيل الدخول مجددًا");
-                AppNotifier.logWithScreen("SharePoint DioClient",
-                    "Token refresh failed, user must login again.");
-                onUnauthorized();
-                return;
-              }
-            } catch (e) {
-              _isRefreshing = false;
-              _refreshCompleter?.completeError(e);
-              AppNotifier.logWithScreen("SharePoint DioClient", "Token refresh error: $e");
-              AppNotifier.logWithScreen("SharePoint DioClient", "حدث خطأ في الاتصال، يرجى تسجيل الدخول مجددًا");
-              onUnauthorized();
-              return;
-            }
-          }
-
-          return handler.next(error);
+          handler.next(error);
         },
-
       ),
     );
   }
@@ -152,17 +80,13 @@ class SharePointDioClient {
     return now.isAfter(expiryTime);
   }
 
-  Future<String?> _refreshToken({BuildContext? context}) async {
+  Future<String?> _refreshToken() async {
     try {
-      AppNotifier.showLoading(
-          context, "جارٍ إعادة الاتصال بخادم SharePoint...");
-
       final refreshToken = await secureStorage.getData("RefreshToken");
 
       if (refreshToken == "") {
         AppNotifier.logWithScreen(
             "SharePoint RefreshToken", "Missing refresh token, need login");
-        AppNotifier.hideLoading(context);
         return null;
       }
 
@@ -180,8 +104,6 @@ class SharePointDioClient {
         ),
       );
 
-      AppNotifier.hideLoading(context);
-
       if (result.accessToken == null) {
         AppNotifier.logWithScreen(
             "SharePoint RefreshToken", "Null token result");
@@ -197,10 +119,9 @@ class SharePointDioClient {
 
       return result.accessToken!;
     } catch (e) {
-      AppNotifier.hideLoading(context);
       AppNotifier.logWithScreen("SharePoint RefreshToken", "Error: $e");
-      return null;
     }
+    return null;
   }
 
   Future<Response> get(String endpoint,

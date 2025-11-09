@@ -223,5 +223,12 @@
   "pleaseEnterDate": "Please Enter Date",
   "pleaseSelectApp": "Please Select App",
   "loadingData": "Loading data...",
-  "chooseEmployee": "Choose Employee..."
+  "chooseEmployee": "Choose Employee...",
+  "sessionExpired": "Session Expired",
+  "pleaseLoginAgain": "Please log in again.",
+  "issueRequestTracking": "Issue and Request \nTracking",
+  "usersNewRequests": "Users New \nRequests",
+  "dynamic365SupportCases": "Dynamic365 \nSupport Cases",
+  "eCommerceSupportCases": "ECommerce \nSupport Cases",
+  "showName": "Show Name"
 }

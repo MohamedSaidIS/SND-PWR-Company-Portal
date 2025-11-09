@@ -1438,6 +1438,48 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Choose Employee...'**
   String get chooseEmployee;
+
+  /// No description provided for @sessionExpired.
+  ///
+  /// In en, this message translates to:
+  /// **'Session Expired'**
+  String get sessionExpired;
+
+  /// No description provided for @pleaseLoginAgain.
+  ///
+  /// In en, this message translates to:
+  /// **'Please log in again.'**
+  String get pleaseLoginAgain;
+
+  /// No description provided for @issueRequestTracking.
+  ///
+  /// In en, this message translates to:
+  /// **'Issue and Request \nTracking'**
+  String get issueRequestTracking;
+
+  /// No description provided for @usersNewRequests.
+  ///
+  /// In en, this message translates to:
+  /// **'Users New \nRequests'**
+  String get usersNewRequests;
+
+  /// No description provided for @dynamic365SupportCases.
+  ///
+  /// In en, this message translates to:
+  /// **'Dynamic365 \nSupport Cases'**
+  String get dynamic365SupportCases;
+
+  /// No description provided for @eCommerceSupportCases.
+  ///
+  /// In en, this message translates to:
+  /// **'ECommerce \nSupport Cases'**
+  String get eCommerceSupportCases;
+
+  /// No description provided for @showName.
+  ///
+  /// In en, this message translates to:
+  /// **'Show Name'**
+  String get showName;
 }
 
 class _AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> {
