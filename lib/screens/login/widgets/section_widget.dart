@@ -4,14 +4,14 @@ import '../../../utils/export_import.dart';
 class SectionWidget extends StatelessWidget {
   final Section section;
   final ThemeData theme;
-  final bool isArabic;
+  final bool isEnglish;
   final double carouselHeight;
 
   const SectionWidget({
     super.key,
     required this.section,
     required this.theme,
-    required this.isArabic,
+    required this.isEnglish,
     required this.carouselHeight,
   });
 
@@ -36,7 +36,7 @@ class SectionWidget extends StatelessWidget {
                       fontSize: isLandScape ? (carouselHeight * 0.1) : (screenWidth * 0.05),
                       fontWeight: FontWeight.bold
                   ),
-                  textAlign: isArabic ? TextAlign.right : TextAlign.left,
+                  textAlign: !isEnglish ? TextAlign.right : TextAlign.left,
                 ),
               ),
             Padding(
@@ -46,7 +46,7 @@ class SectionWidget extends StatelessWidget {
                 style: theme.textTheme.bodyLarge?.copyWith(
                   fontSize: isLandScape ? (carouselHeight * 0.1) : (carouselHeight * 0.035),
                 ),
-                textAlign: isArabic ? TextAlign.right : TextAlign.left,
+                textAlign: !isEnglish ? TextAlign.right : TextAlign.left,
               ),
             ),
           ],

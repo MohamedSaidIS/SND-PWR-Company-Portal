@@ -284,7 +284,7 @@ Widget buildChart(
   );
 }
 
-String getKpiValueDueDate(AppLocalizations local, bool isArabic, String title,
+String getKpiValueDueDate(AppLocalizations local, String locale, bool isArabic, String title,
     List<SalesKPI> salesKpi, int selectedMonth, int? selectedWeek) {
   switch (title) {
     case var t when t == local.dailyKpi:
@@ -292,7 +292,7 @@ String getKpiValueDueDate(AppLocalizations local, bool isArabic, String title,
         salesKpi,
         selectedMonth,
         selectedWeek!,
-        isArabic,
+        locale,
       );
     case var t when t == local.weeklyKpi:
       final weekNum = selectedWeek ??
@@ -307,13 +307,14 @@ String getKpiValueDueDate(AppLocalizations local, bool isArabic, String title,
       return KpiCalculationHandler.getMonthName(
         salesKpi,
         selectedMonth,
-        isArabic,
+        locale,
       );
   }
 }
 
 Widget buildPieChartDateAndAchieved(
   AppLocalizations local,
+  String locale,
   bool isArabic,
   String title,
   List<SalesKPI> salesKpi,
@@ -328,7 +329,7 @@ Widget buildPieChartDateAndAchieved(
         padding: const EdgeInsets.only(top: 5.0, bottom: 2.0),
         child: Text(
           getKpiValueDueDate(
-              local, isArabic, title, salesKpi, selectedMonth, selectedWeek),
+              local, locale, isArabic, title, salesKpi, selectedMonth, selectedWeek),
           style: TextStyle(
               fontSize: 13,
               fontWeight: FontWeight.w600,
@@ -389,7 +390,7 @@ Widget buildPieChartTitle(String title, ThemeData theme) {
   return Text(
     title,
     style: TextStyle(
-      fontSize: 20,
+      fontSize: 18,
       fontWeight: FontWeight.w500,
       color: theme.colorScheme.secondary,
     ),

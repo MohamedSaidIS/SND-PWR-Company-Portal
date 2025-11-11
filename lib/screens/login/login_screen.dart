@@ -1,5 +1,7 @@
 import 'dart:async';
+
 import 'package:flutter/material.dart';
+
 import '../../../../utils/export_import.dart';
 
 class LoginScreen extends StatefulWidget {
@@ -14,50 +16,59 @@ class LoginScreen extends StatefulWidget {
 class _LoginScreenState extends State<LoginScreen> {
   bool _isLoading = false;
   late final AuthController _authController;
-  late String graphToken, spToken, mySpToken;
-
+  late String graphToken;
+  late String spToken, mySpToken;
 
   @override
   void initState() {
     super.initState();
+
+    WidgetsBinding.instance.addPostFrameCallback((_) async {
+      await SecureStorageService().getData("GraphAccessToken").then((value) {
+        AppNotifier.logWithScreen("LoginScreen", "✅ Graph Token: $value");
+        graphToken = value;
+      });
+      await SecureStorageService().getData("SharedAccessToken").then((value) {
+        AppNotifier.logWithScreen("LoginScreen", "✅ SharedPoint Token: $value");
+        spToken = value;
+      });
+      await SecureStorageService().getData("MySharedAccessToken").then((value) {
+        AppNotifier.logWithScreen(
+            "LoginScreen", "✅ MySharedPoint Token: $value");
+        mySpToken = value;
+      });
+    });
     _authController = AuthController(context: context);
-    _fetchTokens();
-  }
-
-  Future<void> _fetchTokens() async {
-    try {
-      graphToken = await SecureStorageService().getData("GraphAccessToken");
-      spToken = await SecureStorageService().getData("SharedAccessToken");
-      mySpToken = await SecureStorageService().getData("MySharedAccessToken");
-
-      AppNotifier.logWithScreen("LoginScreen", "✅ Graph Token: $graphToken");
-      AppNotifier.logWithScreen("LoginScreen", "✅ SharedPoint Token: $spToken");
-      AppNotifier.logWithScreen("LoginScreen", "✅ MySharedPoint Token: $mySpToken");
-
-      if (mounted) setState(() {});
-    } catch (e) {
-      AppNotifier.logWithScreen("LoginScreen", "❌ Error fetching tokens: $e");
-    }
   }
 
   Future<void> _onSignInPressed() async {
-    if(_isLoading) return;
     setState(() => _isLoading = true);
 
-    await _fetchTokens();
+    final graphToken = await SecureStorageService().getData("GraphAccessToken");
+    final spToken = await SecureStorageService().getData("SPAccessToken");
 
     bool success = false;
+    String type = "";
 
     if (graphToken.isNotEmpty && spToken.isNotEmpty && mySpToken.isNotEmpty) {
-
+      type = "Biometric";
       success = await _authController.loginWithBiometrics();
-      AppNotifier.logWithScreen("LoginScreen","✅ Biometric Login Success: $success");
+      SecureStorageService().saveData("BiometricLogin", "$type $success");
+      AppNotifier.logWithScreen(
+          "LoginScreen", "✅ Biometric Login Success: $success");
     } else {
+      type = "Microsoft";
       success = await loginAll();
-      AppNotifier.logWithScreen("LoginScreen","✅ Microsoft Login Success: $success");
+      AppNotifier.logWithScreen(
+          "LoginScreen", "✅ Microsoft Login Success: $success");
     }
 
-    if (success && mounted) _navigateToHome();
+    AppNotifier.logWithScreen("LoginScreen", "✅ $type Login Success: $success");
+
+    if (success && mounted) {
+      _navigateToHome();
+    }
+
     if (mounted) setState(() => _isLoading = false);
   }
 
@@ -66,33 +77,36 @@ class _LoginScreenState extends State<LoginScreen> {
       final loginSuccess = await _authController.loginMicrosoftOnce();
       if (!loginSuccess) return false;
 
-      final gToken = await _authController.getGraphToken();
-      final sToken = await _authController.getSharePointToken();
-      final mySToken = await _authController.getMySharePointToken();
+      final graphToken = await _authController.getGraphToken();
+      if (graphToken == null) return false;
+      await SecureStorageService()
+          .saveData("TokenSavedAt", DateTime.now().toIso8601String());
 
-      if (gToken == null || sToken == null || mySToken == null) return false;
+      final spToken = await _authController.getSharePointToken();
+      if (spToken == null) return false;
+      await SecureStorageService()
+          .saveData("SPTokenSavedAt", DateTime.now().toIso8601String());
 
-      graphToken = gToken;
-      spToken = sToken;
-      mySpToken = mySToken;
+      final mySpToken = await _authController.getMySharePointToken();
+      if (mySpToken == null) return false;
+      await SecureStorageService()
+          .saveData("MySPTokenSavedAt", DateTime.now().toIso8601String());
 
-      await SecureStorageService().saveData("TokenSavedAt", DateTime.now().toIso8601String());
-      await SecureStorageService().saveData("SPTokenSavedAt", DateTime.now().toIso8601String());
-      await SecureStorageService().saveData("MySPTokenSavedAt", DateTime.now().toIso8601String());
-
-      AppNotifier.logWithScreen("LoginScreen","✅ Graph token retrieved: $graphToken");
-      AppNotifier.logWithScreen("LoginScreen","✅ SharePoint token retrieved: $spToken");
-      AppNotifier.logWithScreen("LoginScreen","✅ MySharePoint token retrieved: $mySpToken");
+      AppNotifier.logWithScreen(
+          "LoginScreen", "✅ Graph token retrieved: $graphToken");
+      AppNotifier.logWithScreen(
+          "LoginScreen", "✅ SharePoint token retrieved: $spToken");
+      AppNotifier.logWithScreen(
+          "LoginScreen", "✅ MySharePoint token retrieved: $mySpToken");
 
       return true;
     } catch (e) {
-      AppNotifier.logWithScreen("LoginScreen","❌ loginAll error: $e");
+      AppNotifier.logWithScreen("LoginScreen", "❌ loginAll error: $e");
       return false;
     }
   }
 
   void _navigateToHome() {
-    // AppNotifier.createLogoutRoute(const HomeScreen());
     Navigator.push(
       context,
       MaterialPageRoute(
@@ -105,8 +119,6 @@ class _LoginScreenState extends State<LoginScreen> {
   Widget build(BuildContext context) {
     final theme = context.theme;
     final local = context.local;
-    final localeProvider = context.localeProvider;
-    final currentLocale = context.currentLocale();
 
     return PopScope(
       canPop: false,
@@ -116,11 +128,7 @@ class _LoginScreenState extends State<LoginScreen> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.end,
             children: [
-              LanguageSwitcher(
-                  localeProvider: localeProvider,
-                  currentLocale: currentLocale,
-                  onLanguageChanged: () =>
-                      changeLanguage(localeProvider, currentLocale)),
+              const LanguageSwitcher(),
               const Expanded(
                   child: LogoAndCarouselWidget(
                       assetPath: 'assets/images/alsanidi_logo.png')),
@@ -138,13 +146,5 @@ class _LoginScreenState extends State<LoginScreen> {
         ),
       ),
     );
-  }
-
-  void changeLanguage(
-      LocaleProvider localeProvider,
-      String currentLocale,
-      ) {
-    final newLanguageCode = currentLocale == 'en' ? 'ar' : 'en';
-    localeProvider.setLocale(Locale(newLanguageCode));
   }
 }

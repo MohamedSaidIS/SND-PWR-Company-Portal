@@ -104,3 +104,5 @@ flutter:
     - assets/images/
     - assets/lottie/
     - env/.env_dev
+flutter_intl:
+  enabled: true

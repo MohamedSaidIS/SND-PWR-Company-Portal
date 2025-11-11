@@ -3,7 +3,9 @@ import 'package:flutter/material.dart';
 class UpFadeSlideAnimation extends StatelessWidget {
   final int delay;
   final Widget child;
-  const UpFadeSlideAnimation({super.key, required this.delay, required this.child});
+
+  const UpFadeSlideAnimation(
+      {super.key, required this.delay, required this.child});
 
   @override
   Widget build(BuildContext context) {
@@ -22,7 +24,9 @@ class UpFadeSlideAnimation extends StatelessWidget {
 class SideFadeSlideAnimation extends StatelessWidget {
   final int delay;
   final Widget child;
-  const SideFadeSlideAnimation({super.key, required this.delay, required this.child});
+
+  const SideFadeSlideAnimation(
+      {super.key, required this.delay, required this.child});
 
   @override
   Widget build(BuildContext context) {
@@ -38,23 +42,52 @@ class SideFadeSlideAnimation extends StatelessWidget {
   }
 }
 
-class ScaleAnimation extends StatelessWidget{
+class CardSlideAnimation extends StatelessWidget {
+  final int index;
+  final Widget child;
+
+  const CardSlideAnimation(
+      {super.key,
+      required this.index,
+      required this.child});
+
+  @override
+  Widget build(BuildContext context) {
+    return TweenAnimationBuilder<double>(
+      tween: Tween(begin: 0, end: 1),
+      duration: Duration(milliseconds: 300 + index * 500),
+      curve: Curves.easeOut,
+      builder: (_, value, __) {
+        return Opacity(
+          opacity: value,
+          child: Transform.translate(
+            offset: Offset( (1 - value) * 50, 0),
+            child: child,
+          ),
+        );
+      },
+    );
+  }
+}
+
+class ScaleAnimation extends StatelessWidget {
   final bool isAnimated;
   final Widget child;
-  const ScaleAnimation({super.key, required this.isAnimated, required this.child});
+
+  const ScaleAnimation(
+      {super.key, required this.isAnimated, required this.child});
 
   @override
   Widget build(BuildContext context) {
     return AnimatedScale(
-      scale: isAnimated ? 0.9 : 1.0,
-      duration: const Duration(milliseconds: 150),
+      scale: isAnimated ? 0.95 : 1.0,
+      duration: const Duration(milliseconds: 50),
       curve: Curves.easeOut,
       child: AnimatedOpacity(
         opacity: isAnimated ? 0.75 : 1.0,
-        duration: const Duration(milliseconds: 150),
+        duration: const Duration(milliseconds: 50),
         child: child,
       ),
     );
   }
-
 }

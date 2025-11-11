@@ -1,4 +1,5 @@
 import 'package:flutter/foundation.dart';
+
 import '../utils/export_import.dart';
 
 class VacationBalanceProvider extends ChangeNotifier {
@@ -15,6 +16,8 @@ class VacationBalanceProvider extends ChangeNotifier {
   List<VacationTransaction> get vacationTransactions => _vacationTransactions;
 
   VacationBalance? get vacationBalance => _vacationBalance;
+
+  WorkerPersonnel? get personnelNumber => _workerPersonnel;
 
   bool get loading => _loading;
 
@@ -37,12 +40,12 @@ class VacationBalanceProvider extends ChangeNotifier {
               .first,
           parsedResponse,
         );
-        if(_workerPersonnel != null){
+        if (_workerPersonnel != null) {
           AppNotifier.logWithScreen("Vacation Balance Provider",
               "Personnel Data Fetching ${_workerPersonnel!.personnelNumber}");
+
           await getVacationBalance(_workerPersonnel!.personnelNumber);
         }
-
       } else {
         _error = 'Failed to load Personnel data';
         AppNotifier.logWithScreen("Vacation Balance Provider",
@@ -63,8 +66,7 @@ class VacationBalanceProvider extends ChangeNotifier {
     try {
       final response = await kpiDioClient.getRequest(
           "https://alsenidiuat.sandbox.operations.dynamics.com/data/AbsenceLines?\$filter=Worker eq $workerId and ProfileDate ge 2025-01-01T12:00:00Z and ProfileDate le 2025-12-31T12:00:00Z&\$count=true",
-          true
-      );
+          true);
       if (response.statusCode == 200) {
         final parsedResponse = response.data;
         _vacationTransactions = await compute(
@@ -74,7 +76,6 @@ class VacationBalanceProvider extends ChangeNotifier {
               .toList(),
           parsedResponse,
         );
-
       } else {
         _error = 'Failed to load Vacation Transactions data';
         AppNotifier.logWithScreen("Vacation Balance Provider",
@@ -103,12 +104,11 @@ class VacationBalanceProvider extends ChangeNotifier {
     try {
       final response = await kpiDioClient.getRequest(
           "https://alsenidiuat.sandbox.operations.dynamics.com/data/MyTeamLeaveBalances?\$filter= Year eq 2025 and PersonnelNumber eq '$personalNumber' &\$count=true",
-          true
-      );
+          true);
       if (response.statusCode == 200) {
         final parsedResponse = response.data;
         _vacationBalance = await compute(
-              (final data) => (data['value'] as List)
+          (final data) => (data['value'] as List)
               .map((e) => VacationBalance.fromJson(e as Map<String, dynamic>))
               .first,
           parsedResponse,

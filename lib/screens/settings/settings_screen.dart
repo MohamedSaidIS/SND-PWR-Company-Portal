@@ -25,25 +25,28 @@ class _SettingsScreenState extends State<SettingsScreen> {
           backBtn: true,
           themeBtn: true,
         ),
-        body: SingleChildScrollView(
-          child: Container(
-            padding: const EdgeInsets.symmetric(vertical: 15, horizontal: 35),
-            child: Column(
-              children: [
-                const SizedBox(
-                  height: 30.0,
-                ),
-                MenuWidget(
-                  title: local.notifications,
-                  icon: LineAwesomeIcons.bell,
-                  navigatedPage: () => const NotificationScreen(),
-                ),
-                MenuWidget(
-                  title: local.language,
-                  icon: LineAwesomeIcons.language_solid,
-                  navigatedPage: () => const LanguageScreen(),
-                ),
-              ],
+        body: UpFadeSlideAnimation(
+          delay: 0,
+          child: SingleChildScrollView(
+            child: Container(
+              padding: const EdgeInsets.symmetric(vertical: 15, horizontal: 35),
+              child: Column(
+                children: [
+                  const SizedBox(
+                    height: 30.0,
+                  ),
+                  MenuWidget(
+                    title: local.notifications,
+                    icon: LineAwesomeIcons.bell,
+                    navigatedPage: () => const NotificationScreen(),
+                  ),
+                  MenuWidget(
+                    title: local.language,
+                    icon: LineAwesomeIcons.language_solid,
+                    navigatedPage: () => const LanguageScreen(),
+                  ),
+                ],
+              ),
             ),
           ),
         ),

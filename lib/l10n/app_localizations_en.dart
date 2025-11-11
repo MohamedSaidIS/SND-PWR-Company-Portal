@@ -306,6 +306,9 @@ class AppLocalizationsEn extends AppLocalizations {
   String get statusDelay => 'Delayed';
 
   @override
+  String get statusPending => 'Pending';
+
+  @override
   String get issueID => 'ID';
 
   @override
@@ -322,6 +325,9 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get eN => 'EN';
+
+  @override
+  String get uR => 'UR';
 
   @override
   String get editImage => 'Edit Image';
@@ -700,4 +706,19 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get showName => 'Show Name';
+
+  @override
+  String get urdu => 'Urdu';
+
+  @override
+  String get checkOut => 'Check Out';
+
+  @override
+  String get checkIn => 'Check In';
+
+  @override
+  String get todayAttendance => 'Today\'s Attendance';
+
+  @override
+  String get attendanceHistory => 'Attendance History';
 }

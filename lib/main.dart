@@ -164,7 +164,11 @@ class MyApp extends StatelessWidget {
       return MaterialApp(
           //   showPerformanceOverlay: true,
           locale: localeProvider.locale,
-          supportedLocales: [localeProvider.locale],
+          supportedLocales: const [
+            Locale('en'),
+            Locale('ar'),
+            Locale('ur'),
+          ],
           localizationsDelegates: const [
             AppLocalizations.delegate,
             GlobalMaterialLocalizations.delegate,

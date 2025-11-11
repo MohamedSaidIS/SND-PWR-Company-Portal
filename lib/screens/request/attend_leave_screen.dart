@@ -51,13 +51,13 @@ class _AttendLeaveScreenState extends State<AttendLeaveScreen> {
           duration: const Duration(milliseconds: 400),
           child: isLoading
               ? const _AttendanceShimmer()
-              : _buildMainContent(context, theme),
+              : _buildMainContent(context, theme, local),
         ),
       ),
     );
   }
 
-  Widget _buildMainContent(BuildContext context, ThemeData theme) {
+  Widget _buildMainContent(BuildContext context, ThemeData theme, AppLocalizations local) {
     return Padding(
       padding: const EdgeInsets.all(16),
       child: ListView(
@@ -65,35 +65,35 @@ class _AttendLeaveScreenState extends State<AttendLeaveScreen> {
         children: [
           UpFadeSlideAnimation(
             delay: 0,
-            child: _statusCard(theme),
+            child: _statusCard(theme, local),
           ),
           const SizedBox(height: 12),
           UpFadeSlideAnimation(
             delay: 150,
-            child: _actions(theme),
+            child: _actions(theme, local),
           ),
           const SizedBox(height: 12),
           UpFadeSlideAnimation(
             delay: 250,
-            child: _historyCard(theme),
+            child: _historyCard(theme, local),
           ),
         ],
       ),
     );
   }
 
-  Widget _statusCard(ThemeData theme) {
+  Widget _statusCard(ThemeData theme, AppLocalizations local) {
     return _animatedCard(
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text("Today's Attendance",
+          Text(local.todayAttendance,
               style: theme.textTheme.titleLarge
                   ?.copyWith(fontWeight: FontWeight.bold, color: theme.colorScheme.secondary)),
           const SizedBox(height: 12),
-          _attendanceRow("Check In:", checkInTime ?? "---", theme),
+          _attendanceRow("${local.checkIn}:", checkInTime ?? "---", theme),
           const SizedBox(height: 8),
-          _attendanceRow("Check Out:", checkOutTime ?? "---", theme),
+          _attendanceRow("${local.checkOut}:", checkOutTime ?? "---", theme),
         ],
       ),
     );
@@ -111,7 +111,7 @@ class _AttendLeaveScreenState extends State<AttendLeaveScreen> {
     );
   }
 
-  Widget _actions(ThemeData theme) {
+  Widget _actions(ThemeData theme, AppLocalizations local) {
     return Row(
       children: [
         Expanded(
@@ -129,7 +129,7 @@ class _AttendLeaveScreenState extends State<AttendLeaveScreen> {
                 });
               },
               borderRadius: BorderRadius.circular(16),
-              child: _actionBtn("Check In", LineAwesomeIcons.sign_in_alt_solid, theme, isCheckInPressed, checkInAnimating),
+              child: _actionBtn(local.checkIn, LineAwesomeIcons.sign_in_alt_solid, theme, isCheckInPressed, checkInAnimating),
             ),
           ),
         ),
@@ -149,7 +149,7 @@ class _AttendLeaveScreenState extends State<AttendLeaveScreen> {
                 });
               },
               borderRadius: BorderRadius.circular(16),
-              child: _actionBtn("Check Out", LineAwesomeIcons.sign_out_alt_solid, theme, isCheckOutPressed, checkOutAnimating),
+              child: _actionBtn(local.checkOut, LineAwesomeIcons.sign_out_alt_solid, theme, isCheckOutPressed, checkOutAnimating),
             ),
           ),
         ),
@@ -179,12 +179,12 @@ class _AttendLeaveScreenState extends State<AttendLeaveScreen> {
     );
   }
 
-  Widget _historyCard(ThemeData theme) {
+  Widget _historyCard(ThemeData theme, AppLocalizations local) {
     return _animatedCard(
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text("Attendance History",
+          Text(local.attendanceHistory,
               style: theme.textTheme.titleLarge
                   ?.copyWith(fontWeight: FontWeight.bold, color: theme.colorScheme.secondary)),
           const SizedBox(height: 12),

@@ -141,8 +141,7 @@ class KpiCalculationHandler {
         .day;
   }
 
-  static List<DailyKPI> calculateDailySalesPerMonth(List<SalesKPI> data,
-      int month, int year) {
+  static List<DailyKPI> calculateDailySalesPerMonth(List<SalesKPI> data, int month, int year) {
     final start = DateTime(year, month, 1);
     AppNotifier.logWithScreen("KpiCalculation Handler", "Days In Month: $year, $month}");
     final totalDays = daysInMonthForYear(year, month);
@@ -150,13 +149,6 @@ class KpiCalculationHandler {
 
     AppNotifier.logWithScreen(
         "KpiCalculation Handler", "Month Start: $start, End: $end");
-
-    // for (var e in data) {
-    //   AppNotifier.logWithScreen(
-    //     "KpiCalculation Handler",
-    //     "Sample transDate: ${e.dailySalesAmount}  ${e.transDate.toIso8601String()}",
-    //   );
-    // }
 
     final daysInMonth = List.generate(end.day, (index) {
       final date = DateTime(year, month, index + 1);
@@ -191,7 +183,7 @@ class KpiCalculationHandler {
   }
 
 
-  static String getMonthName(List<SalesKPI> data, int selectedMonth, bool isArabic) {
+  static String getMonthName(List<SalesKPI> data, int selectedMonth,String locale) {
     var now = DateTime.now();
     var date = DateTime(now.year, selectedMonth);
     if (data.isNotEmpty) {
@@ -199,22 +191,18 @@ class KpiCalculationHandler {
       date = DateTime(now.year, selectedMonth);
     }
     AppNotifier.logWithScreen("KpiCalculation Handler", "Date: $date");
-    final monthName = isArabic
-        ? DateFormat.yMMMM('ar').format(date)
-        : DateFormat.yMMMM().format(date);
+    final monthName = DateFormat.yMMMM(locale).format(date);
     AppNotifier.logWithScreen("KpiCalculation Handler", "Month Name: $monthName");
     return monthName;
   }
 
 
-  static String getLastDayName(List<SalesKPI> data, int selectedMonth, int selectedWeek, bool isArabic) {
+  static String getLastDayName(List<SalesKPI> data, int selectedMonth, int selectedWeek, String locale) {
     var now = DateTime.now();
     if (data.isEmpty) {
       now = DateTime(DateTime.now().year, selectedMonth);
       AppNotifier.logWithScreen("KpiCalculation Handler", "LastDay $now");
-      return isArabic
-          ? DateFormat.yMMMEd('ar').format(now)
-          : DateFormat.yMMMEd().format(now);
+      return DateFormat.yMMMEd(locale).format(now);
     }
 
     final startOfWeek = getIsoWeekStart(DateTime.now().year, selectedWeek);
@@ -237,9 +225,7 @@ class KpiCalculationHandler {
     if (weekData.isEmpty){
       now = DateTime(DateTime.now().year, selectedMonth);
       AppNotifier.logWithScreen("KpiCalculation Handler", "LastDay $now");
-      return isArabic
-          ? DateFormat.yMMMEd('ar').format(now)
-          : DateFormat.yMMMEd().format(now);
+      return DateFormat.yMMMEd(locale).format(now);
     }
 
     final lastKpi = weekData.reduce((a, b) =>
@@ -249,9 +235,7 @@ class KpiCalculationHandler {
     if (weekData.isNotEmpty) {
       now = lastKpi.transDate;
     }
-    final lastDayName = isArabic
-        ? DateFormat.yMMMEd('ar').format(now)
-        : DateFormat.yMMMEd().format(now);
+    final lastDayName = DateFormat.yMMMEd(locale).format(now);
     AppNotifier.logWithScreen("KpiCalculation Handler", "after LastDay $lastDayName");
     return lastDayName;
   }

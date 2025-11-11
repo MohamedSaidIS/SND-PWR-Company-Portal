@@ -5,11 +5,13 @@ import 'package:flutter/material.dart';
 class CommonSupportAppbar extends StatelessWidget {
   final String title;
   final String tabTitle;
+  final String subTitle;
   final List<Widget> tabBarChildren;
 
   const CommonSupportAppbar(
       {required this.title,
       required this.tabTitle,
+      this.subTitle = "",
       required this.tabBarChildren,
       super.key});
 
@@ -68,7 +70,7 @@ class CommonSupportAppbar extends StatelessWidget {
                     ),
                     Tab(
                       child: _tabChild(
-                        local.history,
+                        subTitle == "" ? local.history : subTitle,
                         isTablet,
                       ),
                     ),

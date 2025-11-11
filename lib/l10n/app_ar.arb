@@ -99,12 +99,14 @@
   "statusCanceled": "ملغي",
   "statusDuplicated": "مكرر",
   "statusDelay": "متأخر",
+  "statusPending": "معلق",
   "issueID": "رقم المشكلة",
   "issue_Title": "المشكلة",
   "complaint": "شكوى",
   "suggestion": "مقترح",
   "aR": "عربى",
   "eN": "انجليزى",
+  "uR": "اردو",
   "editImage" : "تعديل الصورة",
   "openingApp" : "جارٍ فتح التطبيق...",
   "issue_details" : " تفاصيل الشكوى",
@@ -230,6 +232,11 @@
   "usersNewRequests": "الطلبات الجديدة\nللمستخدمين",
   "dynamic365SupportCases": "حالات الدعم\nدينامكس",
   "eCommerceSupportCases": "حالات الدعم\nالتجارة الالكترونية",
-  "showName": "اظهار الاسم"
+  "showName": "اظهار الاسم",
+  "urdu": "اردو",
+  "checkOut": "تسجيل الخروج",
+  "checkIn":  "تسجيل الدخول",
+  "todayAttendance": "حضور اليوم",
+  "attendanceHistory": "تاريخ الحضور"
 }
 

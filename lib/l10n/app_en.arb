@@ -99,12 +99,14 @@
   "statusCanceled": "Canceled",
   "statusDuplicated": "Duplicated",
   "statusDelay": "Delayed",
+  "statusPending": "Pending",
   "issueID": "ID",
   "issue_Title": "Issue Title",
   "complaint": "Complaint",
   "suggestion": "Suggestion",
   "aR": "AR",
   "eN": "EN",
+  "uR": "UR",
   "editImage" : "Edit Image",
   "openingApp" : "Opening App...",
   "issue_details" : "Issue Details",
@@ -230,5 +232,10 @@
   "usersNewRequests": "Users New \nRequests",
   "dynamic365SupportCases": "Dynamic365 \nSupport Cases",
   "eCommerceSupportCases": "ECommerce \nSupport Cases",
-  "showName": "Show Name"
+  "showName": "Show Name",
+  "urdu": "Urdu",
+  "checkOut": "Check Out",
+  "checkIn": "Check In",
+  "todayAttendance": "Today's Attendance",
+  "attendanceHistory": "Attendance History"
 }

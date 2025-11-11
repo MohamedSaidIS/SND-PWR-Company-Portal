@@ -306,6 +306,9 @@ class AppLocalizationsAr extends AppLocalizations {
   String get statusDelay => 'متأخر';
 
   @override
+  String get statusPending => 'معلق';
+
+  @override
   String get issueID => 'رقم المشكلة';
 
   @override
@@ -322,6 +325,9 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get eN => 'انجليزى';
+
+  @override
+  String get uR => 'اردو';
 
   @override
   String get editImage => 'تعديل الصورة';
@@ -700,4 +706,19 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get showName => 'اظهار الاسم';
+
+  @override
+  String get urdu => 'اردو';
+
+  @override
+  String get checkOut => 'تسجيل الخروج';
+
+  @override
+  String get checkIn => 'تسجيل الدخول';
+
+  @override
+  String get todayAttendance => 'حضور اليوم';
+
+  @override
+  String get attendanceHistory => 'تاريخ الحضور';
 }

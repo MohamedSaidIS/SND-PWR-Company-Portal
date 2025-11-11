@@ -4,7 +4,7 @@ import '../utils/export_import.dart';
 
 List<Widget> getSections(AppLocalizations local, ThemeData theme,
     BuildContext context, double carouselHeight) {
-  final isArabic = context.isArabic();
+  final isEnglish = context.isEnglish();
 
   final sections = [
     Section(
@@ -27,5 +27,5 @@ List<Widget> getSections(AppLocalizations local, ThemeData theme,
     ),
   ];
 
-  return sections.map((s) => SectionWidget(section: s, theme: theme, isArabic: isArabic, carouselHeight: carouselHeight,)).toList();
+  return sections.map((s) => SectionWidget(section: s, theme: theme, isEnglish: isEnglish, carouselHeight: carouselHeight,)).toList();
 }

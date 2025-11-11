@@ -29,6 +29,9 @@ class KpiPieChart extends StatelessWidget {
     final local = context.local;
     final isArabic = context.isArabic();
     final percent = (target == 0) ? 0 : (achieved / target * 100);
+    final locale = context.currentLocale();
+
+    print("CurrentLocal here $locale");
 
     final filteredSales = salesKpi.where((item) {
       return item.transDate.month == selectedMonth &&
@@ -74,7 +77,7 @@ class KpiPieChart extends StatelessWidget {
                 buildPieChartTitle(title, theme),
                 const SizedBox(height: 6),
                 buildPieChart(achieved, target, percent, isArabic),
-                buildPieChartDateAndAchieved(local, isArabic, title, salesKpi,
+                buildPieChartDateAndAchieved(local, locale, isArabic, title, salesKpi,
                     selectedMonth, selectedWeek, theme, achieved),
               ],
             ),

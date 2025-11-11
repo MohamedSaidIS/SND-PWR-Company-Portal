@@ -1,6 +1,8 @@
 import 'dart:typed_data';
+
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+
 import '../../utils/export_import.dart';
 
 class SupportScreen extends StatefulWidget {
@@ -19,16 +21,14 @@ class _SupportScreenState extends State<SupportScreen> {
   Map<int, bool> animatedCards = {};
 
   @override
-  void initState() {
-    super.initState();
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      final provider = context.read<SPEnsureUserProvider>();
-      if (widget.userInfo != null) {
-        provider.fetchITSiteEnsureUser("${widget.userInfo!.mail}", context);
-        provider.fetchDynamicsSiteEnsureUser("${widget.userInfo!.mail}");
-        provider.fetchAlsanidiSiteEnsureUser("${widget.userInfo!.mail}");
-      }
-    });
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    final provider = context.read<SPEnsureUserProvider>();
+    if (widget.userInfo != null) {
+      provider.fetchITSiteEnsureUser("${widget.userInfo!.mail}", context);
+      provider.fetchDynamicsSiteEnsureUser("${widget.userInfo!.mail}");
+      provider.fetchAlsanidiSiteEnsureUser("${widget.userInfo!.mail}");
+    }
   }
 
   @override
@@ -64,7 +64,9 @@ class _SupportScreenState extends State<SupportScreen> {
               itemBuilder: (context, index) {
                 final item = items[index];
                 final isAnimated = animatedCards[index] ?? false;
-                return (item.name == "Users New \nRequests" && directReportList != null && directReportList.isEmpty)
+                return (item.name == "Users New \nRequests" &&
+                        directReportList != null &&
+                        directReportList.isEmpty)
                     ? const SizedBox.shrink()
                     : InkWell(
                         splashColor: Colors.transparent,
@@ -74,7 +76,7 @@ class _SupportScreenState extends State<SupportScreen> {
                             animatedCards[index] = true;
                           });
                           await Future.delayed(
-                              const Duration(milliseconds: 70));
+                              const Duration(milliseconds: 10));
                           setState(() {
                             animatedCards[index] = false;
                           });

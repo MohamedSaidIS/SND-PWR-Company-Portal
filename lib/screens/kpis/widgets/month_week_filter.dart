@@ -24,6 +24,7 @@ class MonthWeekFilter extends StatelessWidget {
     final theme = context.theme;
     final local = context.local;
     final isArabic = context.isArabic();
+    final locale = context.currentLocale();
 
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
@@ -41,9 +42,7 @@ class MonthWeekFilter extends StatelessWidget {
               final month = index + 1;
               return DropdownMenuItem(
                 value: month,
-                child: Text(isArabic
-                    ? DateFormat.MMMM('ar').format(DateTime(0, month))
-                    : DateFormat.MMMM().format(DateTime(0, month)),
+                child: Text(DateFormat.MMMM(locale).format(DateTime(0, month)),
                 ),
               );
             }),

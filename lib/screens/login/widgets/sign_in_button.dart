@@ -18,12 +18,12 @@ class SignInButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = context.theme;
-    final isArabic = context.isArabic();
+    final isEnglish = context.isEnglish();
 
     final double screenWidth = context.screenWidth;
     final isTablet = context.isTablet();
 
-    final double fontSize = screenWidth * (isArabic ? 0.035 : 0.04);
+    final double fontSize = screenWidth * (!isEnglish ? 0.035 : 0.04);
     final double iconSize = isTablet ? 26 : 22;
 
     return isLoading

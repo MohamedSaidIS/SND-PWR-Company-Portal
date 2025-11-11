@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+
 import '../utils/export_import.dart';
 
 List<Map<String, String>> getCategories(AppLocalizations local) {
@@ -82,6 +83,8 @@ IconData getStatusIcon(String status) {
       return Icons.cancel;
     case "duplicate":
       return Icons.copy;
+    case "delay":
+      return Icons.more_time_rounded;
     case "pending":
       return Icons.access_time;
     default:
@@ -101,6 +104,8 @@ Color getStatusColor(String status) {
       return Colors.red;
     case "duplicate":
       return Colors.purple;
+    case "delay":
+      return Colors.brown;
     case "pending":
       return Colors.amber;
     default:
@@ -108,20 +113,23 @@ Color getStatusColor(String status) {
   }
 }
 
-String getTranslatedStatus(BuildContext context, String status, AppLocalizations local) {
+String getTranslatedStatus(
+    BuildContext context, String status, AppLocalizations local) {
   switch (status.toLowerCase()) {
     case "new":
       return local.statusNew;
-    case "inprogress":
+    case "in progress":
       return local.statusInProgress;
     case "completed":
       return local.statusCompleted;
     case "canceled":
       return local.statusCanceled;
-    case "duplicated":
+    case "duplicate":
       return local.statusDuplicated;
     case "delay":
       return local.statusDelay;
+    case "pending":
+      return local.statusPending;
     default:
       return status;
   }
@@ -158,7 +166,8 @@ IconData getPriorityIcon(String priority) {
   }
 }
 
-String getTranslatedPriorities(BuildContext context, String priority, AppLocalizations local) {
+String getTranslatedPriorities(
+    BuildContext context, String priority, AppLocalizations local) {
   switch (priority.toLowerCase()) {
     case "critical":
       return local.critical;
@@ -171,4 +180,14 @@ String getTranslatedPriorities(BuildContext context, String priority, AppLocaliz
     default:
       return priority;
   }
+}
+
+/////////////////////////////////////////////// Language ///////////////////////////////////////////////////
+
+List<Map<String, String>> getLanguage(AppLocalizations local) {
+  return [
+    {"code": "en", "label": local.english},
+    {"code": "ar", "label": local.arabic},
+    {"code": "ur", "label": local.urdu},
+  ];
 }
