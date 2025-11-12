@@ -33,7 +33,7 @@ class UserInfoDetailsScreen extends StatelessWidget {
                 ? Center(
                     child: Text("Error: ${provider.error}"),
                   )
-                : UpFadeSlideAnimation(
+                : SideFadeSlideAnimation(
                     delay: 0,
                     child: SingleChildScrollView(
                       physics: const BouncingScrollPhysics(),

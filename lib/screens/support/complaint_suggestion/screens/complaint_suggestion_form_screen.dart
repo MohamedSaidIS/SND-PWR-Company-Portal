@@ -40,12 +40,9 @@ class _ComplaintSuggestionFormScreenState extends State<ComplaintSuggestionFormS
       backgroundColor: theme.colorScheme.surface,
       body: Padding(
         padding: const EdgeInsets.all(16.0),
-        child: SideFadeSlideAnimation(
-          delay: 0,
-          child: ComplaintSuggestionForm(
-            controller: controller,
-            ensureUser: widget.ensureUserId,
-          ),
+        child: ComplaintSuggestionForm(
+          controller: controller,
+          ensureUser: widget.ensureUserId,
         ),
       ),
     );

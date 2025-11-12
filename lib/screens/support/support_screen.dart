@@ -50,7 +50,7 @@ class _SupportScreenState extends State<SupportScreen> {
         ),
         body: Padding(
           padding: const EdgeInsets.all(8.0),
-          child: UpFadeSlideAnimation(
+          child: SideFadeSlideAnimation(
             delay: 0,
             child: GridView.builder(
               physics: const BouncingScrollPhysics(),

@@ -25,7 +25,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
           backBtn: true,
           themeBtn: true,
         ),
-        body: UpFadeSlideAnimation(
+        body: SideFadeSlideAnimation(
           delay: 0,
           child: SingleChildScrollView(
             child: Container(
