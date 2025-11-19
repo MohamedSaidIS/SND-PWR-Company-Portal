@@ -5,6 +5,7 @@
   "vacationRequest": "رخصت \nدرخواست",
   "permissionRequest": "اجازت \nدرخواست",
   "vacationBalanceRequest": "رخصت \nبیلنس",
+  "requestsCreation": "درخواستیں بنانے کا عمل",
   "vacationRequestLine": "رخصت درخواست",
   "permissionRequestLine": "اجازت درخواست",
   "vacationBalanceRequestLine": "رخصت بیلنس",
@@ -81,7 +82,7 @@
   "sectionTextTwoPartTwo": "السندی ایک جامع شاپنگ تجربہ فراہم کرتا ہے. پچھلے برسوں میں کمپنی نے اپنی مصنوعات میں جدت لا کر مارکیٹ میں اپنی پہچان مضبوط کی ہے.",
   "sectionTitleThree": "معیار اور صارف کے تجربے سے وابستگی",
   "sectionTextThree": "السندی ہر پروڈکٹ کے اعلی معیار کو یقینی بنانے کے لیے پرعزم ہے. یہ ان برانڈز کے ساتھ کام کرتا ہے جو عالمی سطح پر اپنی مضبوطی اور جدت کے لیے جانے جاتے ہیں.",
-  "sectionTextThreePartThree":"کمپنی صارف کے تجربے کو اپنی ترجیح رکھتی ہے اور مختلف طبقوں کے صارفین کو بہترین رہنمائی فراہم کرتی ہے.",
+  "sectionTextThreePartThree": "کمپنی صارف کے تجربے کو اپنی ترجیح رکھتی ہے اور مختلف طبقوں کے صارفین کو بہترین رہنمائی فراہم کرتی ہے.",
   "it": "آئی ٹی",
   "marketing": "مارکیٹنگ",
   "customerService": "کسٹمر سروس",
@@ -235,8 +236,16 @@
   "showName": "نام دکھائیں",
   "urdu": "اردو",
   "checkOut": "چیک آؤٹ",
-  "checkIn":  "چیک ان",
+  "checkIn": "چیک ان",
   "todayAttendance": "آج کی حاضری",
-  "attendanceHistory": "حاضری کی تاریخ"
-
+  "attendanceHistory": "حاضری کی تاریخ",
+  "note": "نوٹ",
+  "permission": "اجازت",
+  "vacation": "چھٹی",
+  "paidPermission": "تنخواہ والی اجازت",
+  "startDateCannotBeAfterEndDate": "شروع کی تاریخ اختتام کی تاریخ کے بعد نہیں ہو سکتی",
+  "previousRequests": "پچھلی درخواستیں",
+  "createRequest": "درخواست بنائیں",
+  "approved": "منظوری دے دی گئی",
+  "notApproved": "نامنظوری دے دی گئی"
 }

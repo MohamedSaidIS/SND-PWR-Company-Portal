@@ -71,6 +71,20 @@ List<Map<String, String>> getPurpose(AppLocalizations local) {
   ];
 }
 
+List<Map<String, String>> getVacationCode(AppLocalizations local) {
+  return [
+    {'value': '001', 'label': local.sickLeave},
+    {'value': 'سنوي-راتب', 'label': local.annualLeave},
+  ];
+}
+
+List<Map<String, String>> getPermissionCode(AppLocalizations local) {
+  return [
+    {'value': 'إذن', 'label': local.permission},
+    {'value': 'إذن مدفوع', 'label': local.paidPermission},
+  ];
+}
+
 IconData getStatusIcon(String status) {
   switch (status.toLowerCase()) {
     case "new":
@@ -113,8 +127,7 @@ Color getStatusColor(String status) {
   }
 }
 
-String getTranslatedStatus(
-    BuildContext context, String status, AppLocalizations local) {
+String getTranslatedStatus(String status, AppLocalizations local) {
   switch (status.toLowerCase()) {
     case "new":
       return local.statusNew;
@@ -166,8 +179,7 @@ IconData getPriorityIcon(String priority) {
   }
 }
 
-String getTranslatedPriorities(
-    BuildContext context, String priority, AppLocalizations local) {
+String getTranslatedPriorities(String priority, AppLocalizations local) {
   switch (priority.toLowerCase()) {
     case "critical":
       return local.critical;
@@ -179,6 +191,39 @@ String getTranslatedPriorities(
       return local.low;
     default:
       return priority;
+  }
+}
+
+IconData getApprovalIcon(String approve) {
+  switch (approve.toLowerCase()) {
+    case "yes":
+      return Icons.check_circle;
+    case "no":
+      return Icons.cancel;
+    default:
+      return Icons.help_outline;
+  }
+}
+
+Color getApprovalColor(String approve) {
+  switch (approve.toLowerCase()) {
+    case "yes":
+      return Colors.green;
+    case "no":
+      return Colors.red;
+    default:
+      return Colors.grey;
+  }
+}
+
+String getTranslatedApproval(String approve, AppLocalizations local) {
+  switch (approve.toLowerCase()) {
+    case "yes":
+      return local.approved;
+    case "no":
+      return local.notApproved;
+    default:
+      return local.statusPending;
   }
 }
 

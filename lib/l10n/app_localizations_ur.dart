@@ -24,6 +24,9 @@ class AppLocalizationsUr extends AppLocalizations {
   String get vacationBalanceRequest => 'رخصت \nبیلنس';
 
   @override
+  String get requestsCreation => 'درخواستیں بنانے کا عمل';
+
+  @override
   String get vacationRequestLine => 'رخصت درخواست';
 
   @override
@@ -721,4 +724,31 @@ class AppLocalizationsUr extends AppLocalizations {
 
   @override
   String get attendanceHistory => 'حاضری کی تاریخ';
+
+  @override
+  String get note => 'نوٹ';
+
+  @override
+  String get permission => 'اجازت';
+
+  @override
+  String get vacation => 'چھٹی';
+
+  @override
+  String get paidPermission => 'تنخواہ والی اجازت';
+
+  @override
+  String get startDateCannotBeAfterEndDate => 'شروع کی تاریخ اختتام کی تاریخ کے بعد نہیں ہو سکتی';
+
+  @override
+  String get previousRequests => 'پچھلی درخواستیں';
+
+  @override
+  String get createRequest => 'درخواست بنائیں';
+
+  @override
+  String get approved => 'منظوری دے دی گئی';
+
+  @override
+  String get notApproved => 'نامنظوری دے دی گئی';
 }

@@ -64,9 +64,9 @@ class _SupportScreenState extends State<SupportScreen> {
               itemBuilder: (context, index) {
                 final item = items[index];
                 final isAnimated = animatedCards[index] ?? false;
-                return (item.name == "Users New \nRequests" &&
+                return (item.name != "Users New \nRequests" &&
                         directReportList != null &&
-                        directReportList.isEmpty)
+                        directReportList.isNotEmpty)
                     ? const SizedBox.shrink()
                     : InkWell(
                         splashColor: Colors.transparent,

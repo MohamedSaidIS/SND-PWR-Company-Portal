@@ -24,6 +24,9 @@ class AppLocalizationsAr extends AppLocalizations {
   String get vacationBalanceRequest => 'رصيد الإجازة';
 
   @override
+  String get requestsCreation => 'إنشاء الطلبات';
+
+  @override
   String get vacationRequestLine => 'طلب إجازة';
 
   @override
@@ -721,4 +724,31 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get attendanceHistory => 'تاريخ الحضور';
+
+  @override
+  String get note => 'ملاحظة';
+
+  @override
+  String get permission => 'إذن';
+
+  @override
+  String get vacation => 'إجازة';
+
+  @override
+  String get paidPermission => 'إذن مدفوع';
+
+  @override
+  String get startDateCannotBeAfterEndDate => 'تاريخ البداية لا يمكن أن يكون بعد تاريخ النهاية';
+
+  @override
+  String get previousRequests => 'الطلبات السابقة';
+
+  @override
+  String get createRequest => 'إنشاء طلب';
+
+  @override
+  String get approved => 'تمت الموافقة';
+
+  @override
+  String get notApproved => 'تم الرفض';
 }

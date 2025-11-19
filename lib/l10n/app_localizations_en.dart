@@ -24,6 +24,9 @@ class AppLocalizationsEn extends AppLocalizations {
   String get vacationBalanceRequest => 'Vacation \nBalance';
 
   @override
+  String get requestsCreation => 'Requests Creation';
+
+  @override
   String get vacationRequestLine => 'Vacation Request';
 
   @override
@@ -721,4 +724,31 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get attendanceHistory => 'Attendance History';
+
+  @override
+  String get note => 'Note';
+
+  @override
+  String get permission => 'Permission';
+
+  @override
+  String get vacation => 'Vacation';
+
+  @override
+  String get paidPermission => 'Paid Permission';
+
+  @override
+  String get startDateCannotBeAfterEndDate => 'StartDate is after EndDate';
+
+  @override
+  String get previousRequests => 'Previous Requests';
+
+  @override
+  String get createRequest => 'Create Request';
+
+  @override
+  String get approved => 'Approved';
+
+  @override
+  String get notApproved => 'Rejected';
 }

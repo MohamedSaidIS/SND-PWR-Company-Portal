@@ -1,7 +1,9 @@
 import 'dart:typed_data';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_mentions/flutter_mentions.dart';
 import 'package:provider/provider.dart';
+
 import '../../../../utils/export_import.dart';
 
 class HistoryItemDetails extends StatefulWidget {
@@ -43,14 +45,16 @@ class HistoryItemDetails extends StatefulWidget {
 class _HistoryItemDetailsState extends State<HistoryItemDetails> {
   @override
   void initState() {
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      final commentProvider = context.read<CommentProvider>();
-
-      (widget.commentCall == "Dynamics")
-          ? commentProvider.getDynamicsComments(widget.itemId!, widget.commentCall)
-          : commentProvider.getComments(widget.itemId!, widget.commentCall);
-    });
     super.initState();
+
+    Future.delayed(Duration.zero, () {
+      final commentProvider = context.read<CommentProvider>();
+      if (widget.commentCall == "Dynamics") {
+        commentProvider.getDynamicsComments(widget.itemId!, widget.commentCall);
+      } else {
+        commentProvider.getComments(widget.itemId!, widget.commentCall);
+      }
+    });
   }
 
   @override

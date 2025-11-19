@@ -1,6 +1,6 @@
-
 import 'package:flutter/material.dart';
 import 'package:line_awesome_flutter/line_awesome_flutter.dart';
+
 import '../../utils/export_import.dart';
 
 class SettingsScreen extends StatefulWidget {
@@ -37,6 +37,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                   ),
                   MenuWidget(
                     title: local.notifications,
+                    isNotification: true,
                     icon: LineAwesomeIcons.bell,
                     navigatedPage: () => const NotificationScreen(),
                   ),

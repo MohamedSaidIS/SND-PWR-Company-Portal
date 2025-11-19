@@ -1,6 +1,8 @@
 import 'dart:typed_data';
+
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+
 import '../../../../utils/export_import.dart';
 
 class EcommerceHistoryScreen extends StatefulWidget {
@@ -65,7 +67,7 @@ class _EcommerceHistoryScreenState extends State<EcommerceHistoryScreen>
           return FadeTransition(
             opacity: _fadeAnimation,
             child: AnimatedSwitcher(
-              duration: const Duration(milliseconds: 500),
+              duration: const Duration(milliseconds: 300),
               switchInCurve: Curves.easeInOut,
               child: ListView.builder(
                 key: ValueKey(ecommerceList.length),

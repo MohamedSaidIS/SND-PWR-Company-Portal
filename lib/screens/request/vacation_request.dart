@@ -20,9 +20,9 @@ class _VacationRequestScreenState extends State<VacationRequestScreen> {
     return PopScope(
       canPop: false,
       child: CommonSupportAppbar(
-        title: local.vacationRequestLine,
-        tabTitle: local.vacationRequestLine,
-        subTitle: "Previous Requests",
+        title: local.createRequest,
+        tabTitle: local.createRequest,
+        subTitle: local.previousRequests,
         tabBarChildren: [
           VacationRequestFormScreen(personnelNumber: personnelNumber),
           const PreviousRequestScreen(),

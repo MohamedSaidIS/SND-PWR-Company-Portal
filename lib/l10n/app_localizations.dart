@@ -127,6 +127,12 @@ abstract class AppLocalizations {
   /// **'Vacation \nBalance'**
   String get vacationBalanceRequest;
 
+  /// No description provided for @requestsCreation.
+  ///
+  /// In en, this message translates to:
+  /// **'Requests Creation'**
+  String get requestsCreation;
+
   /// No description provided for @vacationRequestLine.
   ///
   /// In en, this message translates to:
@@ -1524,6 +1530,60 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Attendance History'**
   String get attendanceHistory;
+
+  /// No description provided for @note.
+  ///
+  /// In en, this message translates to:
+  /// **'Note'**
+  String get note;
+
+  /// No description provided for @permission.
+  ///
+  /// In en, this message translates to:
+  /// **'Permission'**
+  String get permission;
+
+  /// No description provided for @vacation.
+  ///
+  /// In en, this message translates to:
+  /// **'Vacation'**
+  String get vacation;
+
+  /// No description provided for @paidPermission.
+  ///
+  /// In en, this message translates to:
+  /// **'Paid Permission'**
+  String get paidPermission;
+
+  /// No description provided for @startDateCannotBeAfterEndDate.
+  ///
+  /// In en, this message translates to:
+  /// **'StartDate is after EndDate'**
+  String get startDateCannotBeAfterEndDate;
+
+  /// No description provided for @previousRequests.
+  ///
+  /// In en, this message translates to:
+  /// **'Previous Requests'**
+  String get previousRequests;
+
+  /// No description provided for @createRequest.
+  ///
+  /// In en, this message translates to:
+  /// **'Create Request'**
+  String get createRequest;
+
+  /// No description provided for @approved.
+  ///
+  /// In en, this message translates to:
+  /// **'Approved'**
+  String get approved;
+
+  /// No description provided for @notApproved.
+  ///
+  /// In en, this message translates to:
+  /// **'Rejected'**
+  String get notApproved;
 }
 
 class _AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> {

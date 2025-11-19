@@ -44,8 +44,8 @@ android {
         manifestPlaceholders += ['appAuthRedirectScheme': 'com.alsanidi.sndpower']
     }
 
-    signingConfigs{
-        release{
+    signingConfigs {
+        release {
             keyAlias keystoreProperties['keyAlias']
             keyPassword keystoreProperties['keyPassword']
             storeFile keystoreProperties['storeFile'] ? file(keystoreProperties['storeFile']) : null
@@ -53,7 +53,7 @@ android {
         }
     }
     buildTypes {
-        release{
+        release {
             ndk {
                 debugSymbolLevel 'FULL'
             }
@@ -76,6 +76,8 @@ dependencies {
     implementation "androidx.activity:activity-ktx:1.10.1"
     implementation platform('com.google.firebase:firebase-bom:34.3.0')
     implementation 'com.google.firebase:firebase-analytics'
+    implementation "net.openid:appauth:0.11.1"
+
 }
 
 

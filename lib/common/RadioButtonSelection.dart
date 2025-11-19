@@ -1,17 +1,18 @@
 import 'package:flutter/material.dart';
-import '../../../../utils/export_import.dart';
 
-class ComplaintSuggestionOption extends StatelessWidget {
+import '../utils/export_import.dart';
+
+class RadioButtonSelection extends StatelessWidget {
   final String text, groupValue, value;
   final void Function(String?) onChange;
 
-  const ComplaintSuggestionOption(
-      {super.key,
-      required this.text,
-      required this.groupValue,
-      required this.value,
-      required this.onChange,
-      });
+  const RadioButtonSelection({
+    super.key,
+    required this.text,
+    required this.groupValue,
+    required this.value,
+    required this.onChange,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -22,8 +23,8 @@ class ComplaintSuggestionOption extends StatelessWidget {
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
       contentPadding: const EdgeInsets.symmetric(horizontal: 5.0),
       tileColor: groupValue == value
-          ? theme.colorScheme.secondary.withValues(alpha:0.1)
-          : theme.colorScheme.primary.withValues(alpha:0.1),
+          ? theme.colorScheme.secondary.withValues(alpha: 0.1)
+          : theme.colorScheme.primary.withValues(alpha: 0.1),
       leading: Radio<String>(
         value: value,
         groupValue: groupValue,

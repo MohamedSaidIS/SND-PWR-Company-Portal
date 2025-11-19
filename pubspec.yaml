@@ -33,7 +33,7 @@ dependencies:
 
   flutter_localizations:
     sdk: flutter
-#  flutter_gen: ^5.11.0
+  #  flutter_gen: ^5.11.0
 
   flutter_launcher_icons: ^0.13.1
   flutter_native_splash: ^2.4.0
@@ -105,4 +105,4 @@ flutter:
     - assets/lottie/
     - env/.env_dev
 flutter_intl:
-  enabled: true
+  enabled: false

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+
 import '../../../../utils/export_import.dart';
 
 class ComplaintSuggestionForm extends StatefulWidget {
@@ -10,7 +11,8 @@ class ComplaintSuggestionForm extends StatefulWidget {
       {required this.controller, required this.ensureUser, super.key});
 
   @override
-  State<ComplaintSuggestionForm> createState() => _ComplaintSuggestionFormState();
+  State<ComplaintSuggestionForm> createState() =>
+      _ComplaintSuggestionFormState();
 }
 
 class _ComplaintSuggestionFormState extends State<ComplaintSuggestionForm> {
@@ -37,7 +39,7 @@ class _ComplaintSuggestionFormState extends State<ComplaintSuggestionForm> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Expanded(
-                  child: ComplaintSuggestionOption(
+                  child: RadioButtonSelection(
                     text: local.complaint,
                     groupValue: widget.controller.selectedType!,
                     value: "Complaint",
@@ -46,7 +48,7 @@ class _ComplaintSuggestionFormState extends State<ComplaintSuggestionForm> {
                 ),
                 const SizedBox(width: 10),
                 Expanded(
-                  child: ComplaintSuggestionOption(
+                  child: RadioButtonSelection(
                     text: local.suggestion,
                     groupValue: widget.controller.selectedType!,
                     value: "Suggestion",
@@ -93,11 +95,12 @@ class _ComplaintSuggestionFormState extends State<ComplaintSuggestionForm> {
             SubmitButton(
               btnText: local.submit,
               loading: widget.controller.isLoading,
-                btnFunction: () async {
-                  setState(() => widget.controller.isLoading = true);
-                 await widget.controller.submitForm(local, provider, widget.ensureUser);
-                  setState(() => widget.controller.isLoading = false);
-                },
+              btnFunction: () async {
+                setState(() => widget.controller.isLoading = true);
+                await widget.controller
+                    .submitForm(local, provider, widget.ensureUser);
+                setState(() => widget.controller.isLoading = false);
+              },
             ),
           ],
         ),

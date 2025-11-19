@@ -1,8 +1,7 @@
 import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:flutter/material.dart';
+
 import '../../../../utils/export_import.dart';
-
-
 
 class CustomDropDownFieldWidget extends StatelessWidget {
   final String? value;
@@ -11,14 +10,13 @@ class CustomDropDownFieldWidget extends StatelessWidget {
   final ValueChanged<String?> onChanged;
   final List<Map<String, String>> items;
 
-  const CustomDropDownFieldWidget({
-    super.key,
-    required this.value,
-    required this.label,
-    this.validator,
-    required this.onChanged,
-    required this.items
-  });
+  const CustomDropDownFieldWidget(
+      {super.key,
+      required this.value,
+      required this.label,
+      this.validator,
+      required this.onChanged,
+      required this.items});
 
   @override
   Widget build(BuildContext context) {

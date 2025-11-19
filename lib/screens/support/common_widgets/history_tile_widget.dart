@@ -1,5 +1,6 @@
 import 'package:animations/animations.dart';
 import 'package:flutter/material.dart';
+
 import '../../../../utils/export_import.dart';
 
 class HistoryTileWidget extends StatelessWidget {
@@ -27,7 +28,7 @@ class HistoryTileWidget extends StatelessWidget {
       closedElevation: 0,
       closedColor: Colors.transparent,
       openColor: theme.colorScheme.surface,
-      transitionDuration: const Duration(milliseconds: 500),
+      transitionDuration: const Duration(milliseconds: 300),
       openBuilder: (context, _) => navigatedScreen,
       closedBuilder: (context, openContainer) => InkWell(
         onTap: openContainer,
@@ -44,7 +45,8 @@ class HistoryTileWidget extends StatelessWidget {
             child: ListTile(
               title: Text(
                 title,
-                style: const TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
+                style:
+                    const TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
               ),
               subtitle: Padding(
                 padding: const EdgeInsets.symmetric(vertical: 5.0),
@@ -59,9 +61,9 @@ class HistoryTileWidget extends StatelessWidget {
               ),
               trailing: needStatus
                   ? Transform.translate(
-                offset: const Offset(10, 0),
-                child: StatusBadge(status: status),
-              )
+                      offset: const Offset(10, 0),
+                      child: StatusBadge(status: status),
+                    )
                   : null,
             ),
           ),

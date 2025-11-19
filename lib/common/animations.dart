@@ -47,9 +47,7 @@ class CardSlideAnimation extends StatelessWidget {
   final Widget child;
 
   const CardSlideAnimation(
-      {super.key,
-      required this.index,
-      required this.child});
+      {super.key, required this.index, required this.child});
 
   @override
   Widget build(BuildContext context) {
@@ -61,7 +59,7 @@ class CardSlideAnimation extends StatelessWidget {
         return Opacity(
           opacity: value,
           child: Transform.translate(
-            offset: Offset( (1 - value) * 50, 0),
+            offset: Offset((1 - value) * 50, 0),
             child: child,
           ),
         );
@@ -81,11 +79,11 @@ class ScaleAnimation extends StatelessWidget {
   Widget build(BuildContext context) {
     return AnimatedScale(
       scale: isAnimated ? 0.95 : 1.0,
-      duration: const Duration(milliseconds: 50),
+      duration: const Duration(milliseconds: 10),
       curve: Curves.easeOut,
       child: AnimatedOpacity(
         opacity: isAnimated ? 0.75 : 1.0,
-        duration: const Duration(milliseconds: 50),
+        duration: const Duration(milliseconds: 10),
         child: child,
       ),
     );

@@ -1,6 +1,8 @@
 import 'dart:typed_data';
+
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+
 import '../../../../utils/export_import.dart';
 
 class ComplaintSuggestionHistoryScreen extends StatefulWidget {
@@ -66,7 +68,7 @@ class _ComplaintSuggestionHistoryScreenState
           return FadeTransition(
             opacity: _fadeAnimation,
             child: AnimatedSwitcher(
-              duration: const Duration(milliseconds: 500),
+              duration: const Duration(milliseconds: 300),
               switchInCurve: Curves.easeInOut,
               child: ListView.builder(
                 key: ValueKey(complaintList.length),

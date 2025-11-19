@@ -141,6 +141,11 @@ void main() async {
             mySharePointDioClient: context.read<MySharePointDioClient>(),
           ),
         ),
+        ChangeNotifierProvider<VacationPermissionRequestProvider>(
+          create: (context) => VacationPermissionRequestProvider(
+            kpiDioClient: context.read<KPIDioClient>(),
+          ),
+        ),
         ChangeNotifierProvider(
           create: (_) => localeProvider,
         ),

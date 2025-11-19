@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+
 import '../../../../utils/export_import.dart';
 
 class NewUserRequestHistory extends StatefulWidget {
@@ -11,7 +12,8 @@ class NewUserRequestHistory extends StatefulWidget {
   State<NewUserRequestHistory> createState() => _NewUserRequestHistoryState();
 }
 
-class _NewUserRequestHistoryState extends State<NewUserRequestHistory> with SingleTickerProviderStateMixin {
+class _NewUserRequestHistoryState extends State<NewUserRequestHistory>
+    with SingleTickerProviderStateMixin {
   late AnimationController _controller;
   late Animation<double> _fadeAnimation;
 
@@ -28,7 +30,9 @@ class _NewUserRequestHistoryState extends State<NewUserRequestHistory> with Sing
         CurvedAnimation(parent: _controller, curve: Curves.easeInOut);
 
     WidgetsBinding.instance.addPostFrameCallback((_) async {
-      context.read<NewUserRequestProvider>().getNewUserRequest(widget.ensureUserId);
+      context
+          .read<NewUserRequestProvider>()
+          .getNewUserRequest(widget.ensureUserId);
 
       if (mounted) _controller.forward();
     });
@@ -54,7 +58,7 @@ class _NewUserRequestHistoryState extends State<NewUserRequestHistory> with Sing
           return FadeTransition(
             opacity: _fadeAnimation,
             child: AnimatedSwitcher(
-              duration: const Duration(milliseconds: 500),
+              duration: const Duration(milliseconds: 300),
               switchInCurve: Curves.easeInOut,
               child: ListView.builder(
                 key: ValueKey(newUserRequestList.length),
