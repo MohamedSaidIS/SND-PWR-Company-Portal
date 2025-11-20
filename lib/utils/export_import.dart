@@ -97,6 +97,7 @@ export '../screens/request/widgets/vacation_request_widgets.dart';
 export '../screens/settings/language/language_screen.dart';
 export '../screens/settings/notification/notification_screen.dart';
 export '../screens/settings/settings_screen.dart';
+export '../screens/support/common_widgets/attachment_widget.dart';
 export '../screens/support/common_widgets/common_form_functions.dart';
 export '../screens/support/common_widgets/common_support_appbar.dart';
 export '../screens/support/common_widgets/custom_drop_down_field_widget.dart';

@@ -247,6 +247,7 @@
   "previousRequests": "الطلبات السابقة",
   "createRequest": "إنشاء طلب",
   "approved": "تمت الموافقة",
-  "notApproved": "تم الرفض"
+  "notApproved": "تم الرفض",
+  "Attach File": "إرفاق ملف"
 }
 

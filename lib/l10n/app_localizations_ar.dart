@@ -751,4 +751,7 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get notApproved => 'تم الرفض';
+
+  @override
+  String get attachFile => 'Attach File';
 }

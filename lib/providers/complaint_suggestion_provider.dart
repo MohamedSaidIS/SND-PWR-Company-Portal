@@ -1,3 +1,6 @@
+import 'dart:io';
+
+import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
 import '../utils/export_import.dart';
 
@@ -7,8 +10,6 @@ class ComplaintSuggestionProvider with ChangeNotifier {
 
   ComplaintSuggestionProvider(
       {required this.dioClient, required this.sharePointDioClient});
-
-
 
   List<ComplaintSuggestionItem> _complaintSuggestionList = [];
   bool _loading = false;
@@ -109,6 +110,38 @@ class ComplaintSuggestionProvider with ChangeNotifier {
           "ComplaintSuggestion Send Exception: $_error");
       return false;
     } finally {
+      _loading = false;
+      notifyListeners();
+    }
+  }
+
+  Future<bool> sendAttachments(File attachedFile, int ticketId) async{
+    _loading = true;
+    _error = null;
+    final bytes = await attachedFile.readAsBytes();
+    try{
+      final response = await dioClient.dio.post(
+        "https://alsanidi-my.sharepoint.com/personal/retail_alsanidi_onmicrosoft_com/_api/Web/Lists(guid'3b2e2dd6-55a0-4ee4-b517-5ccd63b6a12a')/items($ticketId)/AttachmentFiles/add(FileName='newImage.png')",
+        data: bytes,
+        options: Options(
+          headers: {
+            "Content-Type": "application/json",
+            "Accept": "application/json",
+          },
+        ),
+      );
+      if(response.statusCode == 200){
+        AppNotifier.logWithScreen("Dynamics Provider", "Send Attachments Success: ${response.statusCode}");
+        return true;
+      }else{
+        AppNotifier.logWithScreen("Dynamics Provider", "Send Attachments Failed: ${response.statusCode}");
+        return false;
+      }
+    }catch(e){
+      _error = e.toString();
+      AppNotifier.logWithScreen("Dynamics Provider", "Send Attachments Exceptions: $_error");
+      return false;
+    }finally{
       _loading = false;
       notifyListeners();
     }

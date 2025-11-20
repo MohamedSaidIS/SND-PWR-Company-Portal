@@ -751,4 +751,7 @@ class AppLocalizationsUr extends AppLocalizations {
 
   @override
   String get notApproved => 'نامنظوری دے دی گئی';
+
+  @override
+  String get attachFile => 'Attach File';
 }

@@ -247,5 +247,6 @@
   "previousRequests": "پچھلی درخواستیں",
   "createRequest": "درخواست بنائیں",
   "approved": "منظوری دے دی گئی",
-  "notApproved": "نامنظوری دے دی گئی"
+  "notApproved": "نامنظوری دے دی گئی",
+  "Attach File": "فائل منسلک کریں"
 }

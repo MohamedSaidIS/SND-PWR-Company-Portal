@@ -247,5 +247,6 @@
   "previousRequests": "Previous Requests",
   "createRequest": "Create Request",
   "approved": "Approved",
-  "notApproved": "Rejected"
+  "notApproved": "Rejected",
+  "attachFile": "Attach File"
 }

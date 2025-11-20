@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import '../../../../utils/export_import.dart';
+import '../../common_widgets/attachment_widget.dart';
 
 class ComplaintSuggestionForm extends StatefulWidget {
   final ComplaintSuggestionFormController controller;
@@ -92,6 +93,8 @@ class _ComplaintSuggestionFormState extends State<ComplaintSuggestionForm> {
                   value, local.pleaseEnterYourDescription),
             ),
             const SizedBox(height: 16),
+            // const AttachmentWidget(),
+            // const SizedBox(height: 16),
             SubmitButton(
               btnText: local.submit,
               loading: widget.controller.isLoading,

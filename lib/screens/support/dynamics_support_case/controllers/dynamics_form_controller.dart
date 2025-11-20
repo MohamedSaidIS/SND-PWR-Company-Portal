@@ -1,3 +1,6 @@
+import 'dart:io';
+
+import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import '../../../../utils/export_import.dart';
@@ -12,6 +15,8 @@ class DynamicsFormController{
   final date = TextEditingController();
   String? selectedPurpose, selectedPriority = 'Normal';
   bool isLoading = false;
+  String fileName = '';      // "document.pdf"
+  String? filePath;
 
   DynamicsFormController(this.context);
 
@@ -37,6 +42,24 @@ class DynamicsFormController{
     }
   }
 
+  Future<void> pickFile() async {
+    final result = await FilePicker.platform.pickFiles();
+
+    if (result != null && result.files.isNotEmpty) {
+      final file = result.files.single;
+
+      fileName = file.name;      // "document.pdf"
+      filePath = file.path;     // "/storage/.../document.pdf"
+
+      print("Picked file name: $fileName");
+      print("Picked file path: $filePath");
+
+      final fileObject = File(filePath!);
+    } else {
+      print("User canceled file picking");
+    }
+  }
+
   Future<void> submitForm(AppLocalizations local, DynamicsProvider provider, int ensureUserId) async {
      if (!formKey.currentState!.validate()) return;
 
@@ -58,7 +81,9 @@ class DynamicsFormController{
           area: area.text,
           purpose: selectedPurpose!,
           dateReported: parsed,
-        )
+        ),
+        File(filePath!),
+        fileName,
     );
 
     if (success) {

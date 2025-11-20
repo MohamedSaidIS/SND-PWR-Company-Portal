@@ -78,6 +78,8 @@ class _DynamicsFormState extends State<DynamicsForm> {
               items: getPurpose(local),
             ),
             const SizedBox(height: 16),
+            AttachmentWidget(pickFile: widget.controller.pickFile),
+            const SizedBox(height: 10),
             SubmitButton(
               btnText: local.submit,
               loading: widget.controller.isLoading,
