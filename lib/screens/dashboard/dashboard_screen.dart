@@ -4,7 +4,6 @@ import 'package:flutter_inappwebview/flutter_inappwebview.dart';
 import 'package:provider/provider.dart';
 import '../../utils/export_import.dart';
 
-
 class DashboardScreen extends StatefulWidget {
   final VoidCallback? onDataLoaded;
 
@@ -35,7 +34,6 @@ class _DashboardScreenState extends State<DashboardScreen> {
       }
 
       await _restoreCookies();
-
     });
     SecureStorageService().getData("SPAccessToken").then((value) {
       setState(() {
@@ -57,11 +55,11 @@ class _DashboardScreenState extends State<DashboardScreen> {
 
       await userProvider.fetchUserInfo();
       await userProvider.getGroupId();
-      await userProvider.getGroupMembers("4053f91a-d9a0-4a65-8057-1a816e498d0f");
+      await userProvider
+          .getGroupMembers("4053f91a-d9a0-4a65-8057-1a816e498d0f");
       await imageProvider.fetchImage();
       await managerProvider.fetchManagerInfo();
       await allUsersProvider.getAllUsers();
-
 
       if (directReportProvider.directReportList == null) {
         await directReportProvider.fetchRedirectReport();
@@ -72,23 +70,26 @@ class _DashboardScreenState extends State<DashboardScreen> {
 
       if (userInfo != null && groupInfo != null) {
         // ToDo: GetGroupMembers according to groupId
-        AppNotifier.logWithScreen("Dashboard Screen", "✅ User Info Loaded: ${userInfo.id} ${groupInfo.groupId}");
+        AppNotifier.logWithScreen("Dashboard Screen",
+            "✅ User Info Loaded: ${userInfo.id} ${groupInfo.groupId}");
         await vacationBalanceProvider.getWorkerPersonnelNumber(userInfo.id);
         await SharedPrefsHelper().saveUserData("UserId", userInfo.id);
         await SharedPrefsHelper().saveUserData("groupInfo", groupInfo.groupId);
 
         if (mounted) {
-          AppNotifier.logWithScreen("Dashboard", "✅ All data loaded, calling onDataLoaded()");
+          AppNotifier.logWithScreen(
+              "Dashboard", "✅ All data loaded, calling onDataLoaded()");
           widget.onDataLoaded?.call();
         }
       } else {
-        AppNotifier.logWithScreen("Dashboard", "⚠️ userInfo or groupInfo is null");
+        AppNotifier.logWithScreen(
+            "Dashboard", "⚠️ userInfo or groupInfo is null");
       }
     } catch (e, st) {
-      AppNotifier.logWithScreen("Dashboard", "❌ initialDataValues error: $e\n$st");
+      AppNotifier.logWithScreen(
+          "Dashboard", "❌ initialDataValues error: $e\n$st");
     }
   }
-
 
   Future<void> _restoreCookies() async {
     final cookiesJson = await SecureStorageService().getData("savedCookies");
@@ -173,54 +174,61 @@ class _DashboardScreenState extends State<DashboardScreen> {
       canPop: false,
       child: Scaffold(
         backgroundColor: theme.colorScheme.surface,
-        body: SafeArea(
-          child: Column(
-            children: [
+        body: Stack(
+          children: [
+            SafeArea(
+              child: Column(
+                children: [
+                  if (webProgress < 1)
+                    LinearProgressIndicator(
+                      value: webProgress,
+                      color: theme.colorScheme.secondary,
+                      backgroundColor: Colors.grey[300],
+                      minHeight: 4,
+                    ),
 
-              if (webProgress < 1)
-                LinearProgressIndicator(
-                  value: webProgress,
-                  color: theme.colorScheme.secondary,
-                  backgroundColor: Colors.grey[300],
-                  minHeight: 4,
-                ),
-              Expanded(
-                child: accessToken == null
-                    ? const Center(child: CircularProgressIndicator())
-                    : InAppWebView(
-                        initialUrlRequest: URLRequest(
-                          url: WebUri(sharepointUrl),
-                        ),
-                        initialSettings: InAppWebViewSettings(
-                          javaScriptEnabled: true,
-                          cacheEnabled: true,
-                          clearCache: false,
-                          domStorageEnabled: true,
-                          sharedCookiesEnabled: true,
-                          thirdPartyCookiesEnabled: true,
-                          useHybridComposition: true,
-                        ),
-                        onWebViewCreated: (controller) {
-                          webViewController = controller;
-                        },
-                        onLoadStop: (controller, url) async {
-                          AppNotifier.logWithScreen(
-                              "Dashboard Screen", "Finished loading: $url");
-                          await _saveCookies();
-                        },
-                        onProgressChanged: (controller, progress) {
-                          if (!mounted) return;
-                          setState(() {
-                            webProgress = progress / 100;
-                          });
-                        },
+                  Expanded(
+                    child: accessToken == null
+                        ? const Center(child: CircularProgressIndicator())
+                        : InAppWebView(
+                      initialUrlRequest: URLRequest(
+                        url: WebUri(sharepointUrl),
                       ),
+                      initialSettings: InAppWebViewSettings(
+                        javaScriptEnabled: true,
+                        cacheEnabled: true,
+                        clearCache: false,
+                        domStorageEnabled: true,
+                        sharedCookiesEnabled: true,
+                        thirdPartyCookiesEnabled: true,
+                        useHybridComposition: true,
+                      ),
+                      onWebViewCreated: (controller) {
+                        webViewController = controller;
+                      },
+                      onLoadStop: (controller, url) async {
+                        AppNotifier.logWithScreen(
+                            "Dashboard Screen", "Finished loading: $url");
+                        await _saveCookies();
+                      },
+                      onProgressChanged: (controller, progress) {
+                        if (!mounted) return;
+                        setState(() {
+                          webProgress = progress / 100;
+                        });
+                      },
+                    ),
+                  ),
+                ],
               ),
+            ),
 
-              if (_isLoading)
-                const LoadingOverlay(),
-            ],
-          ),
+            if (_isLoading)
+              const Align(
+                alignment: Alignment.bottomCenter,
+                child: LoadingOverlay(),
+              ),
+          ],
         ),
       ),
     );

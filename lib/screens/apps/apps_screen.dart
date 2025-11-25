@@ -23,12 +23,13 @@ class _AppsScreenState extends State<AppsScreen> {
           title: local.apps,
           backBtn: false,
         ),
-        body: Padding(
-          padding: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 20),
-          child: UpFadeSlideAnimation(
-            delay: 0,
+        body: UpFadeSlideAnimation(
+          delay: 0,
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 20),
             child: GridView.builder(
               itemCount: getAppItems.length,
+              padding: const EdgeInsets.only(bottom: 10),
               gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                 crossAxisCount: isTablet ? 3 : 2,
                 crossAxisSpacing: 8,

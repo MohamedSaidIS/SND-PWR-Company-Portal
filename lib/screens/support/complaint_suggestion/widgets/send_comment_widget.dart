@@ -19,22 +19,17 @@ class SendCommentWidget extends StatelessWidget {
         final theme = context.theme;
 
         return SafeArea(
-          child: Padding(
-            padding: const EdgeInsets.all(8),
-            child: Container(
-              padding: const EdgeInsets.symmetric(horizontal: 5, vertical: 5),
-              decoration: BoxDecoration(
-                color: theme.colorScheme.surface,
-                borderRadius: BorderRadius.circular(25),
-                boxShadow: const [
-                  BoxShadow(color: Colors.grey, blurRadius: 10)
-                ],
-              ),
-              child: SendCommentMentionsField(
-                mentionUsers: mentionUsers,
-                itemId: itemId,
-                commentCall: commentCall,
-              ),
+          child: Container(
+            padding: const EdgeInsets.symmetric(horizontal: 5, vertical: 5),
+            decoration: BoxDecoration(
+              color: theme.colorScheme.surface,
+              borderRadius: BorderRadius.circular(15),
+
+            ),
+            child: SendCommentMentionsField(
+              mentionUsers: mentionUsers,
+              itemId: itemId,
+              commentCall: commentCall,
             ),
           ),
         );

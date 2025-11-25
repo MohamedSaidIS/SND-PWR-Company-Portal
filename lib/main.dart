@@ -1,4 +1,5 @@
 import 'package:aad_oauth/aad_oauth.dart';
+import 'package:company_portal/providers/attachments_provider.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
@@ -137,6 +138,12 @@ void main() async {
           ),
         ),
         ChangeNotifierProvider(
+          create: (context) => AttachmentsProvider(
+            sharePointDioClient: context.read<SharePointDioClient>(),
+            mySharePointDioClient: context.read<MySharePointDioClient>(),
+          ),
+        ),
+        ChangeNotifierProvider(
           create: (context) => DynamicsProvider(
             mySharePointDioClient: context.read<MySharePointDioClient>(),
           ),
@@ -148,6 +155,9 @@ void main() async {
         ),
         ChangeNotifierProvider(
           create: (_) => localeProvider,
+        ),
+        ChangeNotifierProvider(
+          create: (context) => EcommerceFormController(context),
         ),
       ],
       child: const MyApp(),

@@ -21,8 +21,11 @@ class _SupportScreenState extends State<SupportScreen> {
   Map<int, bool> animatedCards = {};
 
   @override
-  void didChangeDependencies() {
-    super.didChangeDependencies();
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((_) => fetchData());
+  }
+  void fetchData() {
     final provider = context.read<SPEnsureUserProvider>();
     if (widget.userInfo != null) {
       provider.fetchITSiteEnsureUser("${widget.userInfo!.mail}", context);
@@ -30,7 +33,6 @@ class _SupportScreenState extends State<SupportScreen> {
       provider.fetchAlsanidiSiteEnsureUser("${widget.userInfo!.mail}");
     }
   }
-
   @override
   Widget build(BuildContext context) {
     final directReportList =
@@ -97,4 +99,6 @@ class _SupportScreenState extends State<SupportScreen> {
       ),
     );
   }
+
+
 }

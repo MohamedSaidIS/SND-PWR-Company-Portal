@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:company_portal/models/local/attached_file_info.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
 import '../utils/export_import.dart';
@@ -11,12 +12,14 @@ class EcommerceProvider extends ChangeNotifier {
   EcommerceProvider({required this.sharePointDioClient});
 
   List<EcommerceItem> _ecommerceItemsList = [];
-  Uint8List? _fetchedImageBytes;
+
   bool _loading = false;
   String? _error;
 
   List<EcommerceItem> get ecommerceItemsList => _ecommerceItemsList;
-  Uint8List? get imageBytes => _fetchedImageBytes;
+
+
+
   bool get loading => _loading;
 
   String? get error => _error;
@@ -33,10 +36,11 @@ class EcommerceProvider extends ChangeNotifier {
       if (response.statusCode == 200) {
         final parsedResponse = response.data;
         _ecommerceItemsList = await compute(
-          (final data) => (data['value'] as List)
-              .map((e) => EcommerceItem.fromJson(e as Map<String, dynamic>))
-              .where((item) => item.authorId == ensureUserId)
-              .toList(),
+              (final data) =>
+              (data['value'] as List)
+                  .map((e) => EcommerceItem.fromJson(e as Map<String, dynamic>))
+                  .where((item) => item.authorId == ensureUserId)
+                  .toList(),
           parsedResponse,
         );
       } else {
@@ -44,11 +48,12 @@ class EcommerceProvider extends ChangeNotifier {
         AppNotifier.logWithScreen("Ecommerce Provider",
             "Ecommerce Error: $_error ${response.statusCode}");
       }
-      _ecommerceItemsList.isNotEmpty
-          ? AppNotifier.logWithScreen("Ecommerce Provider",
-              "Ecommerce Fetching: ${response.statusCode} ${_ecommerceItemsList[0].app[0]}")
-          : AppNotifier.logWithScreen("Ecommerce Provider",
-              "Ecommerce Fetching: ${response.statusCode} ${_ecommerceItemsList.length}");
+      _ecommerceItemsList.isNotEmpty ?
+        AppNotifier.logWithScreen("Ecommerce Provider",
+            "Ecommerce Fetching: ${response.statusCode} ${_ecommerceItemsList[0].app[0]}") :
+      AppNotifier.logWithScreen("Ecommerce Provider",
+          "Ecommerce Fetching: ${response.statusCode} ${_ecommerceItemsList.length}");
+
     } catch (e) {
       _error = e.toString();
       AppNotifier.logWithScreen(
@@ -58,7 +63,7 @@ class EcommerceProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  Future<bool> createEcommerceItem(EcommerceItem item, File attachedFile, String fileName) async {
+  Future<bool> createEcommerceItem(EcommerceItem item,  List<AttachedBytes> attachedFiles) async {
     _loading = true;
     _error = null;
     notifyListeners();
@@ -70,14 +75,15 @@ class EcommerceProvider extends ChangeNotifier {
       );
       if (response.statusCode == 201) {
         final ticket = await compute(
-          (Map<String, dynamic> data) => EcommerceItem.fromJson(data),
+              (Map<String, dynamic> data) => EcommerceItem.fromJson(data),
           Map<String, dynamic>.from(response.data),
         );
         AppNotifier.logWithScreen("Ecommerce Provider",
-            "Ecommerce Item Created: ${response.statusCode} ${ticket.id} ${ticket.title}");
-        
-        await sendAttachments(attachedFile, ticket.id, fileName);
-        
+            "Ecommerce Item Created: ${response.statusCode} ${ticket
+                .id} ${ticket.title}");
+
+        await sendAttachments(attachedFiles, ticket.id);
+
         return true;
       } else {
         _error = 'Failed to load Ecommerce data';
@@ -95,15 +101,31 @@ class EcommerceProvider extends ChangeNotifier {
       notifyListeners();
     }
   }
-  
-  Future<bool> sendAttachments(File attachedFile, int ticketId, String fileName) async{
+
+  Future<bool> sendAttachments(List<AttachedBytes> attachedFiles, int ticketId) async {
     _loading = true;
     _error = null;
-    final bytes = await attachedFile.readAsBytes();
-    try{
+    bool sendAttachedSuccessfully = false;
+    try {
+      for(var attachedFile in attachedFiles){
+         sendAttachedSuccessfully = await uploadSingleFile(ticketId.toString(), attachedFile);
+      }
+     return sendAttachedSuccessfully;
+    } catch (e) {
+      _error = e.toString();
+      AppNotifier.logWithScreen(
+          "Ecommerce Provider", "Send Attachments Exceptions: $_error");
+      return false;
+    } finally {
+      _loading = false;
+      notifyListeners();
+    }
+  }
+  Future<bool> uploadSingleFile(String ticketId, AttachedBytes attachedFile,) async {
+    try {
       final response = await sharePointDioClient.dio.post(
-          "https://alsanidi.sharepoint.com/sites/AbdulrahmanHamadAlsanidi/_api/Web/Lists(guid'c09e3694-3b81-43b5-b39c-49a26155612e')/items($ticketId)/AttachmentFiles/add(FileName='$fileName')",
-        data: bytes,
+        "https://alsanidi.sharepoint.com/sites/AbdulrahmanHamadAlsanidi/_api/Web/Lists(guid'c09e3694-3b81-43b5-b39c-49a26155612e')/items($ticketId)/AttachmentFiles/add(FileName='${attachedFile.fileName}')",
+        data: attachedFile.fileBytes,
         options: Options(
           headers: {
             "Content-Type": "application/json",
@@ -111,58 +133,24 @@ class EcommerceProvider extends ChangeNotifier {
           },
         ),
       );
-      if(response.statusCode == 200){
-        AppNotifier.logWithScreen("Ecommerce Provider", "Send Attachments Success: ${response.statusCode}");
-        return true;
-      }else{
-        AppNotifier.logWithScreen("Ecommerce Provider", "Send Attachments Failed: ${response.statusCode}");
-        return false;
-      }
-    }catch(e){
-      _error = e.toString();
-      AppNotifier.logWithScreen("Ecommerce Provider", "Send Attachments Exceptions: $_error");
-      return false;
-    }finally{
-      _loading = false;
-      notifyListeners();
-    }
-  }
-
-
-  Future<void> fetchImage() async {
-    _loading = true;
-    _error = null;
-    notifyListeners();
-
-    try {
-      final response = await sharePointDioClient.dio.get(
-        "https://alsanidi.sharepoint.com/sites/AbdulrahmanHamadAlsanidi/_api/Web/Lists(guid'c09e3694-3b81-43b5-b39c-49a26155612e')//items(206)/AttachmentFiles('Screenshot_20250319-115346.png')/\$value",
-        options: Options(
-          responseType: ResponseType.bytes,
-          headers: {
-            'Content-Type': 'image/jpeg',
-          },
-        ),
-      );
 
       if (response.statusCode == 200) {
-        _fetchedImageBytes = Uint8List.fromList(response.data);
         AppNotifier.logWithScreen("Ecommerce Provider",
-            "Ecommerce Image Fetching Success: $_fetchedImageBytes");
-      } else if (response.statusCode == 401) {
-        _error = response.statusMessage.toString();
+            "Send Attachments Success: ${response.statusCode}");
+        return true;
       } else {
-        _error = 'Failed to load Ecommerce image';
         AppNotifier.logWithScreen("Ecommerce Provider",
-            "Ecommerce Image Error: $_error ${response.statusCode}");
+            "Send Attachments Failed: ${ response.statusCode}");
+        return false;
       }
     } catch (e) {
       AppNotifier.logWithScreen(
-          "Ecommerce Provider", "Ecommerce Image Exception: ${e.toString()}");
+          "Ecommerce Provider", "Upload Exception: ${e.toString()}");
+      return false;
     }
 
-    _loading = false;
-    notifyListeners();
   }
+
+
 
 }

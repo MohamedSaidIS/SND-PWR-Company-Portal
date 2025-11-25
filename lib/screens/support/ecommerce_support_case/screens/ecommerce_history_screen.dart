@@ -39,7 +39,7 @@ class _EcommerceHistoryScreenState extends State<EcommerceHistoryScreen>
 
     WidgetsBinding.instance.addPostFrameCallback((_) async {
       context.read<EcommerceProvider>().getEcommerceItems(widget.ensureUserId);
-      context.read<EcommerceProvider>().fetchImage();
+      // context.read<EcommerceProvider>().fetchAttachedImage();
 
       if (mounted) _controller.forward();
     });
@@ -65,8 +65,7 @@ class _EcommerceHistoryScreenState extends State<EcommerceHistoryScreen>
           if (provider.loading) return AppNotifier.loadingWidget(theme);
 
           final ecommerceList = provider.ecommerceItemsList;
-          // return  Image.memory(provider.imageBytes!,
-          //     width: 200, height: 200, fit: BoxFit.cover);
+
           return FadeTransition(
             opacity: _fadeAnimation,
             child: AnimatedSwitcher(

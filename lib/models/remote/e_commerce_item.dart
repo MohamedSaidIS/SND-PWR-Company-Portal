@@ -1,3 +1,4 @@
+import 'package:company_portal/utils/export_import.dart';
 class EcommerceItem {
   final int id;
   final String? title;

@@ -28,59 +28,26 @@ class _CommentsWidgetState extends State<CommentsWidget> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        _commentHeader(theme),
-        const SizedBox(height: 8),
+        sectionTitle("Comments", theme),
+        const SizedBox(height: 16),
         widget.commentProvider.loading
             ? const Center(child: CircularProgressIndicator())
             : widget.comments == [] || widget.comments.isEmpty
-                ? const NoCommentsWidget()
-                : ListView.builder(
-                    physics: const NeverScrollableScrollPhysics(),
-                    shrinkWrap: true,
-                    itemCount: widget.comments.length,
-                    itemBuilder: (context, index) {
-                      return CommentItem(
-                        comment: widget.comments[index],
-                        userImage: widget.userImage,
-                        userInfo: widget.userInfo,
-                      );
-                    },
-                  ),
-      ],
-    );
-  }
-
-  Widget _commentHeader(ThemeData theme) {
-    return Column(
-      children: [
-        Padding(
-          padding: const EdgeInsets.only(right: 16.0),
-          child: Divider(
-            color: theme.colorScheme.primary,
-            thickness: 0.75,
-          ),
-        ),
-        const SizedBox(height: 8),
-        Row(
-          children: [
-            Icon(
-              LineAwesomeIcons.comments_solid,
-              color: theme.colorScheme.secondary,
-            ),
-            const SizedBox(
-              width: 5,
-            ),
-            Text(
-              "Comments",
-              style: TextStyle(
-                fontSize: 16,
-                color: theme.colorScheme.secondary,
-                fontWeight: FontWeight.bold,
-              ),
-            ),
-          ],
+            ? const NoCommentsWidget()
+            : ListView.builder(
+          physics: const NeverScrollableScrollPhysics(),
+          shrinkWrap: true,
+          itemCount: widget.comments.length,
+          itemBuilder: (context, index) {
+            return CommentItem(
+              comment: widget.comments[index],
+              userImage: widget.userImage,
+              userInfo: widget.userInfo,
+            );
+          },
         ),
       ],
     );
   }
 }
+

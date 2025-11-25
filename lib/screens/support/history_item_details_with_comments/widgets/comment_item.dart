@@ -9,15 +9,15 @@ class CommentItem extends StatelessWidget {
   final Uint8List? userImage;
   final dynamic userInfo;
 
-  const CommentItem({required this.comment,
-    required this.userImage,
-    required this.userInfo,
-    super.key});
-
+  const CommentItem(
+      {required this.comment,
+      required this.userImage,
+      required this.userInfo,
+      super.key});
 
   String _formatTimeAgo(DateTime dt) {
     final diff = DateTime.now().difference(dt);
-    if (diff.inSeconds < 60) return "${diff.inSeconds+1}s";
+    if (diff.inSeconds < 60) return "${diff.inSeconds + 1}s";
     if (diff.inMinutes < 60) return "${diff.inMinutes}m";
     if (diff.inHours < 24) return "${diff.inHours}h";
     return DateFormat("MMM d").format(dt);
@@ -29,79 +29,61 @@ class CommentItem extends StatelessWidget {
     final isCurrentUser = comment.author.email == userInfo.mail;
 
     return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 6.0, horizontal: 4.0),
-      child: Container(
-        padding: const EdgeInsets.only(top: 8, bottom: 8, left: 8, right: 2),
-        margin: const EdgeInsets.only(right: 14),
-        decoration: BoxDecoration(
-          color: isCurrentUser
-              ? theme.colorScheme.primary.withValues(alpha:0.2)
-              : theme.colorScheme.secondary.withValues(alpha: 0.2),
-          borderRadius: const BorderRadius.all(Radius.circular(4)),
-        ),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            if (!isCurrentUser) _buildUserInfoRow(
-              theme,
-              image: const Image(
-                image: AssetImage("assets/images/grey_avatar.png"),
-                width: 35,
-                height: 35,
-                fit: BoxFit.cover,
-              ),
-            ),
-            if (isCurrentUser) _buildUserInfoRow(
-              theme,
-              image: Image.memory(
-                userImage!,
-                width: 35,
-                height: 35,
-                fit: BoxFit.cover,
-              ),
-            ),
-            const SizedBox(height: 8),
-            _buildRichText(theme),
-            const SizedBox(height: 6),
-            Padding(
-              padding: const EdgeInsets.only(right: 8.0),
-              child: Align(
-                alignment: Alignment.bottomRight,
-                child: Text(
-                  _formatTimeAgo(comment.createdDate!),
-                  style: TextStyle(
-                    color: theme.colorScheme.primary.withValues(alpha:0.6),
-                    fontSize: 11,
-                  ),
-                ),
-              ),
-            ),
-          ],
-        ),
+      padding: const EdgeInsets.symmetric(
+        vertical: 6.0,
       ),
+      child: commentTile(comment.author.name, comment.text, _formatTimeAgo(comment.createdDate!), theme, isCurrentUser, comment, userImage),
     );
   }
 
-  Widget _buildUserInfoRow(ThemeData theme, {required Image image}) {
+  Widget commentTile(
+    String name,
+    String commentStr,
+    String time,
+    ThemeData theme,
+    bool isCurrentUser, ItemComments comment, Uint8List? userImage,
+  ) {
     return Row(
+      spacing: 5,
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        ClipRRect(
-          borderRadius: BorderRadius.circular(100),
-          child: image,
-        ),
-        const SizedBox(width: 8),
-        Flexible(
-          child: Padding(
-            padding: const EdgeInsets.only(top: 4.0),
-            child: Text(
-              comment.author.name,
-              softWrap: true,
-              maxLines: null,
-              style: TextStyle(
-                fontSize: 14,
-                fontWeight: FontWeight.w600,
-                color: theme.colorScheme.primary,
+        commentUserImage(isCurrentUser, theme, name, userImage),
+        Expanded(
+          child: Container(
+            padding:
+                const EdgeInsets.only(top: 8, bottom: 8, right: 8, left: 8),
+            decoration: BoxDecoration(
+              color: isCurrentUser
+                  ? theme.colorScheme.primary.withValues(alpha: 0.2)
+                  : theme.colorScheme.secondary.withValues(alpha: 0.2),
+              borderRadius: const BorderRadius.all(Radius.circular(10)),
+            ),
+            child: Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    name,
+                    style: TextStyle(
+                      color: theme.colorScheme.primary,
+                      fontWeight: FontWeight.w600,
+                      fontSize: 13,
+                    ),
+                  ),
+                  const SizedBox(height: 4),
+                  commentText(theme, comment),
+                  Align(
+                    alignment: Alignment.bottomRight,
+                    child: Text(
+                      ' $time',
+                      style: TextStyle(
+                        color: theme.colorScheme.secondary,
+                        fontWeight: FontWeight.w500,
+                        fontSize: 12,
+                      ),
+                    ),
+                  ),
+                ],
               ),
             ),
           ),
@@ -109,38 +91,4 @@ class CommentItem extends StatelessWidget {
       ],
     );
   }
-
-  Widget _buildRichText(ThemeData theme) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 8.0),
-      child: Text.rich(
-        TextSpan(
-          children: comment.parts.map((part) {
-            if (part is Mention) {
-              return TextSpan(
-                text: "@${part.name} ",
-                style: const TextStyle(
-                  color: Color(0xFF2657AA),
-                  fontWeight: FontWeight.w500,
-                ),
-                recognizer: TapGestureRecognizer()
-                  ..onTap = () {
-                    AppNotifier.logWithScreen("CommentItem Screen","Clicked on mention: ${part.name}");
-                  },
-              );
-            } else {
-              return TextSpan(
-                text: "$part ",
-                style: TextStyle(
-                  color: theme.colorScheme.onSurface,
-                ),
-              );
-            }
-          }).toList(),
-        ),
-      ),
-    );
-  }
 }
-
-

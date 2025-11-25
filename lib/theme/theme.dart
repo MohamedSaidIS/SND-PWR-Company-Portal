@@ -7,6 +7,7 @@ ThemeData lightMode = ThemeData(
     surface: Color(0xfcfcf1e8),
     primary: Color(0xFF2E2E2E), // text
     secondary: Color(0xffba5f0f), //Color(0xFF1B818E),
+
     outline: Color(0xffba5f0f),
   ),
   appBarTheme: const AppBarTheme(
@@ -16,9 +17,8 @@ ThemeData lightMode = ThemeData(
     backgroundColor: Color(0xffffffff),
   ),
   navigationBarTheme: NavigationBarThemeData(
-    labelTextStyle: WidgetStateProperty.resolveWith<TextStyle>((states) {
-      return const TextStyle(fontSize: 13, fontWeight: FontWeight.bold);
-    }),
+    backgroundColor: const Color(0xffe5dad3),
+    shadowColor: const Color(0xfff3f3f3)
   ),
   textTheme: const TextTheme(
     titleLarge: TextStyle(
@@ -100,6 +100,10 @@ ThemeData darkMode = ThemeData(
   ),
   bottomSheetTheme: const BottomSheetThemeData(
     backgroundColor: Color(0xFF555454),
+  ),
+  navigationBarTheme: NavigationBarThemeData(
+      backgroundColor: const Color(0xff292929),
+      shadowColor: const Color(0xfff3f3f3)
   ),
   textTheme: const TextTheme(
     titleLarge: TextStyle(

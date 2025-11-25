@@ -13,7 +13,8 @@ class LoadingOverlay extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 8.0),
       child: Container(
-        color: theme.colorScheme.surface.withValues(alpha: 0.5),
+        height: 20,
+       color: Colors.transparent,
         child: Center(
           child: Row(
             mainAxisAlignment: MainAxisAlignment.center,
@@ -30,7 +31,7 @@ class LoadingOverlay extends StatelessWidget {
               Text(
                 local.loadingData,
                 style: theme.textTheme.titleMedium?.copyWith(
-                  color: theme.colorScheme.onSurface.withValues(alpha: 0.8),
+                  color: theme.colorScheme.surface,
                   fontWeight: FontWeight.w600,
                 ),
               ),
