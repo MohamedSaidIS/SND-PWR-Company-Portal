@@ -38,9 +38,7 @@ class _EcommerceHistoryScreenState extends State<EcommerceHistoryScreen>
         CurvedAnimation(parent: _controller, curve: Curves.easeInOut);
 
     WidgetsBinding.instance.addPostFrameCallback((_) async {
-      context.read<EcommerceProvider>().getEcommerceItems(widget.ensureUserId);
-      // context.read<EcommerceProvider>().fetchAttachedImage();
-
+      await context.read<EcommerceProvider>().getEcommerceItems(widget.ensureUserId);
       if (mounted) _controller.forward();
     });
   }

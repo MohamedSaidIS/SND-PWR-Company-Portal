@@ -1,24 +1,15 @@
-import 'dart:typed_data';
-
-import 'package:company_portal/models/local/attached_file_info.dart';
-import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import '../../../../utils/export_import.dart';
+import 'file_controller.dart';
 
 class EcommerceFormController extends ChangeNotifier{
-  final BuildContext context;
   final GlobalKey<FormState> formKey = GlobalKey<FormState>();
   final title = TextEditingController();
   final description = TextEditingController();
   String? selectedApp, selectedPriority = "Normal", selectedType;
   bool isLoading = false;
-  List<Uint8List> allFilesBytes = [];
-  List<String> allFilesNames = [];
-  List<AttachedBytes> allFilesAttached = [];
 
-  EcommerceFormController(
-    this.context,
-  );
 
   void clearData() {
     title.clear();
@@ -28,36 +19,11 @@ class EcommerceFormController extends ChangeNotifier{
   }
 
 
-  void addFiles(List<AttachedBytes> files) {
-    allFilesAttached.addAll(files);
-    notifyListeners();
-  }
 
-  void deleteFiles(int index) {
-    allFilesAttached.removeAt(index);
-    notifyListeners();
-  }
 
-  Future<void> pickFiles() async {
-    final result = await FilePicker.platform.pickFiles(
-      allowMultiple: true,
-      withData: true,
-    );
+  Future<void> submitForm(BuildContext context, AppLocalizations local, EcommerceProvider provider, int ensureUserId) async {
+    final fileController = context.read<FileController>();
 
-    if (result != null && result.files.isNotEmpty) {
-      final newFiles = result.files.map((file) {
-        allFilesNames.add(file.name);
-        allFilesBytes.add(file.bytes!);
-        return AttachedBytes(fileName: file.name, fileBytes: file.bytes!);
-      }).toList();
-
-      addFiles(newFiles);
-      notifyListeners();
-    }
-  }
-
-  Future<void> submitForm(AppLocalizations local, EcommerceProvider provider,
-      int ensureUserId) async {
     if (!formKey.currentState!.validate()) return;
 
     if (provider.loading) {
@@ -80,11 +46,12 @@ class EcommerceFormController extends ChangeNotifier{
         type: selectedType,
         app: [selectedApp!],
       ),
-      allFilesAttached,
+      fileController.attachedFiles,
     );
 
     if (success) {
       clearData();
+      fileController.clear();
       AppNotifier.snackBar(
         context,
         local.fromSubmittedSuccessfully,

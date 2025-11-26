@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-
 import '../../../utils/export_import.dart';
 
 class NotificationScreen extends StatefulWidget {
@@ -104,7 +103,7 @@ class _NotificationScreenState extends State<NotificationScreen> {
                 children: [
                   const SizedBox(width: 8),
                   FilterButton(
-                    text: "All",
+                    text: local.all,
                     selected: selectedFilter == "all",
                     onPressed: () {
                       setState(() {
@@ -115,7 +114,7 @@ class _NotificationScreenState extends State<NotificationScreen> {
                   ),
                   const SizedBox(width: 8),
                   FilterButton(
-                    text: "Message",
+                    text: local.message,
                     selected: selectedFilter == "message",
                     onPressed: () {
                       setState(() {
@@ -128,7 +127,7 @@ class _NotificationScreenState extends State<NotificationScreen> {
                   ),
                   const SizedBox(width: 8),
                   FilterButton(
-                    text: "Reminder",
+                    text: local.reminder,
                     selected: selectedFilter == "reminder",
                     onPressed: () {
                       setState(() {
@@ -141,7 +140,7 @@ class _NotificationScreenState extends State<NotificationScreen> {
                   ),
                   const SizedBox(width: 8),
                   FilterButton(
-                    text: "Update",
+                    text: local.update,
                     selected: selectedFilter == "update",
                     onPressed: () {
                       setState(() {

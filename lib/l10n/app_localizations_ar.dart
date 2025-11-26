@@ -684,7 +684,7 @@ class AppLocalizationsAr extends AppLocalizations {
   String get pleaseSelectApp => 'برجاء اختيار التطبيق';
 
   @override
-  String get loadingData => 'جاري تحميل البيانات...';
+  String get loadingData => 'جاري تحميل البيانات المستخدم...';
 
   @override
   String get chooseEmployee => 'اختر الموظف...';
@@ -754,4 +754,40 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get attachFile => 'Attach File';
+
+  @override
+  String get noAttachments => 'لا توجد مرفقات';
+
+  @override
+  String get attachments => 'المرفقات';
+
+  @override
+  String get createdAt => 'تاريخ الإنشاء';
+
+  @override
+  String get lastModified => 'آخر تعديل';
+
+  @override
+  String get view => 'عرض';
+
+  @override
+  String get pdfPreview => 'معاينة PDF';
+
+  @override
+  String get comments => 'التعليقات';
+
+  @override
+  String get noCommentsYet => 'لا توجد تعليقات بعد';
+
+  @override
+  String get beTheFirstToAddaComment => 'كن أول من يضيف تعليق!';
+
+  @override
+  String get reminder => 'تذكير';
+
+  @override
+  String get message => 'رسالة';
+
+  @override
+  String get all => 'الكل';
 }

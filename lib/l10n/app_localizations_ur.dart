@@ -754,4 +754,40 @@ class AppLocalizationsUr extends AppLocalizations {
 
   @override
   String get attachFile => 'Attach File';
+
+  @override
+  String get noAttachments => 'کوئی منسلکات نہیں';
+
+  @override
+  String get attachments => 'منسلکات';
+
+  @override
+  String get createdAt => 'تاریخ تخلیق';
+
+  @override
+  String get lastModified => 'آخری تبدیلی';
+
+  @override
+  String get view => 'دیکھیں';
+
+  @override
+  String get pdfPreview => 'پی ڈی ایف کا پیش منظر';
+
+  @override
+  String get comments => 'تبصرے';
+
+  @override
+  String get noCommentsYet => 'ابھی کوئی تبصرہ نہیں';
+
+  @override
+  String get beTheFirstToAddaComment => 'پہلا تبصرہ کرنے والا بنیں!';
+
+  @override
+  String get reminder => 'یاد دہانی';
+
+  @override
+  String get message => 'پیغام';
+
+  @override
+  String get all => 'سب';
 }

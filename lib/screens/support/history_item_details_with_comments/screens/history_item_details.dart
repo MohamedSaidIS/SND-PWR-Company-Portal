@@ -102,9 +102,9 @@ class _HistoryItemDetailsState extends State<HistoryItemDetails> {
                         const SizedBox(height: 24),
                         descriptionWidget(widget.description ?? "-", theme, widget.priority ?? "-", local),
                         const SizedBox(height: 24),
-                        attachmentsWidget(attachmentProvider, attachments, theme, _attachmentsController),
+                        attachmentsWidget(attachmentProvider, attachments, theme, local, _attachmentsController),
                         const SizedBox(height: 24),
-                        timeWidget(widget.createdDate, widget.modifiedDate.toString()),
+                        timeWidget(widget.createdDate, widget.modifiedDate.toString(), local),
                         const SizedBox(height: 10),
                         CommentsWidget(
                           comments: comments,

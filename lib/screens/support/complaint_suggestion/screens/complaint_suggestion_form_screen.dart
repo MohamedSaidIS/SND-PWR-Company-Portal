@@ -17,20 +17,7 @@ class ComplaintSuggestionFormScreen extends StatefulWidget {
 }
 
 class _ComplaintSuggestionFormScreenState extends State<ComplaintSuggestionFormScreen> {
-  late ComplaintSuggestionFormController controller;
-  
-  @override
-  void initState() {
-    super.initState();
-     controller = ComplaintSuggestionFormController(context, userName: widget.userName);
 
-  }
-
-  @override
-  void dispose() {
-    controller.dispose();
-    super.dispose();
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -41,8 +28,8 @@ class _ComplaintSuggestionFormScreenState extends State<ComplaintSuggestionFormS
       body: Padding(
         padding: const EdgeInsets.all(16.0),
         child: ComplaintSuggestionForm(
-          controller: controller,
           ensureUser: widget.ensureUserId,
+          userName: widget.userName,
         ),
       ),
     );

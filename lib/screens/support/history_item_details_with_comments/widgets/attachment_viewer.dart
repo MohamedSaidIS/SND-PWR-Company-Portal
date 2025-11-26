@@ -1,5 +1,3 @@
-import 'dart:io';
-
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:photo_view/photo_view.dart';
@@ -19,6 +17,8 @@ class AttachmentsViewer extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = context.theme;
+    final local = context.local;
+
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
@@ -49,7 +49,7 @@ class AttachmentsViewer extends StatelessWidget {
           minimumSize: const Size(0, 0),
           tapTargetSize: MaterialTapTargetSize.shrinkWrap,
         ),
-            child: const Text("View",style: TextStyle(fontSize: 14,color: Colors.blueAccent),))
+            child: Text(local.view,style: const TextStyle(fontSize: 14,color: Colors.blueAccent),))
       ],
     );
   }
@@ -106,9 +106,10 @@ class PdfPreviewScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = context.theme;
+    final local = context.local;
     return Scaffold(
       backgroundColor: theme.colorScheme.surface,
-        appBar: AppBar(title: const Text("PDF Preview")),
+        appBar: CustomAppBar(title: local.pdfPreview, backBtn: true,),
         body: SfPdfViewer.memory(file));
   }
 }

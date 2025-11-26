@@ -5,11 +5,11 @@ import '../../../../utils/export_import.dart';
 import '../../common_widgets/attachment_widget.dart';
 
 class ComplaintSuggestionForm extends StatefulWidget {
-  final ComplaintSuggestionFormController controller;
   final int ensureUser;
+  final String userName;
 
   const ComplaintSuggestionForm(
-      {required this.controller, required this.ensureUser, super.key});
+      {required this.ensureUser, required this.userName, super.key});
 
   @override
   State<ComplaintSuggestionForm> createState() =>
@@ -17,22 +17,33 @@ class ComplaintSuggestionForm extends StatefulWidget {
 }
 
 class _ComplaintSuggestionFormState extends State<ComplaintSuggestionForm> {
+
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      final controller = context.read<ComplaintSuggestionFormController>();
+      controller.setUserName(widget.userName);
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     final provider = context.watch<ComplaintSuggestionProvider>();
+    final controller = context.watch<ComplaintSuggestionFormController>();
     final local = context.local;
 
     return Form(
-      key: widget.controller.formKey,
+      key: controller.formKey,
       child: SingleChildScrollView(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
             const SizedBox(height: 16),
             SendOptionalName(
-              isChecked: widget.controller.isChecked,
-              onChange: (val) => widget.controller.isChecked = val!,
-              nameController: widget.controller.name,
+              isChecked: controller.isChecked,
+              onChange: (val) => controller.isChecked = val!,
+              nameController: controller.name,
             ),
             const SizedBox(height: 16),
             Row(
@@ -42,43 +53,43 @@ class _ComplaintSuggestionFormState extends State<ComplaintSuggestionForm> {
                 Expanded(
                   child: RadioButtonSelection(
                     text: local.complaint,
-                    groupValue: widget.controller.selectedType!,
+                    groupValue: controller.selectedType!,
                     value: "Complaint",
-                    onChange: (val) => widget.controller.selectedType = val,
+                    onChange: (val) => controller.selectedType = val,
                   ),
                 ),
                 const SizedBox(width: 10),
                 Expanded(
                   child: RadioButtonSelection(
                     text: local.suggestion,
-                    groupValue: widget.controller.selectedType!,
+                    groupValue: controller.selectedType!,
                     value: "Suggestion",
-                    onChange: (val) => widget.controller.selectedType = val,
+                    onChange: (val) => controller.selectedType = val,
                   ),
                 ),
               ],
             ),
             const SizedBox(height: 16),
             CustomDropDownFieldWidget(
-              value: widget.controller.selectedCategory,
+              value: controller.selectedCategory,
               label: local.category,
-              onChanged: (val) => widget.controller.selectedCategory = val,
+              onChanged: (val) => controller.selectedCategory = val,
               items: getCategories(local),
               validator: (val) => CommonTextFieldForm.textFormFieldValidation(
                   val, local.pleaseSelectCategory),
             ),
             const SizedBox(height: 16),
             CustomDropDownFieldWidget(
-              value: widget.controller.selectedPriority,
+              value: controller.selectedPriority,
               label: local.priority,
-              onChanged: (val) => widget.controller.selectedPriority = val,
+              onChanged: (val) => controller.selectedPriority = val,
               items: getPriorities(local),
               validator: (val) => CommonTextFieldForm.textFormFieldValidation(
                   val, local.pleaseSelectPriority),
             ),
             const SizedBox(height: 16),
             CustomTextFieldWidget(
-              controller: widget.controller.issueTitle,
+              controller: controller.issueTitle,
               label: local.issueTitle,
               maxLines: 2,
               validator: (value) => CommonTextFieldForm.textFormFieldValidation(
@@ -86,23 +97,23 @@ class _ComplaintSuggestionFormState extends State<ComplaintSuggestionForm> {
             ),
             const SizedBox(height: 16),
             CustomTextFieldWidget(
-              controller: widget.controller.issueDescription,
+              controller: controller.issueDescription,
               label: local.issueDescription,
               maxLines: 4,
               validator: (value) => CommonTextFieldForm.textFormFieldValidation(
                   value, local.pleaseEnterYourDescription),
             ),
             const SizedBox(height: 16),
-            // const AttachmentWidget(),
-            // const SizedBox(height: 16),
+            const AttachmentWidget(),
+            const SizedBox(height: 16),
             SubmitButton(
               btnText: local.submit,
-              loading: widget.controller.isLoading,
+              loading: controller.isLoading,
               btnFunction: () async {
-                setState(() => widget.controller.isLoading = true);
-                await widget.controller
-                    .submitForm(local, provider, widget.ensureUser);
-                setState(() => widget.controller.isLoading = false);
+                setState(() => controller.isLoading = true);
+                await controller
+                    .submitForm(context, local, provider, widget.ensureUser);
+                setState(() => controller.isLoading = false);
               },
             ),
           ],

@@ -7,6 +7,7 @@ class NoCommentsWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = context.theme;
+    final local = context.local;
 
     return Center(
       child: Column(
@@ -23,7 +24,7 @@ class NoCommentsWidget extends StatelessWidget {
           ),
           const SizedBox(height: 12),
           Text(
-            "No comments yet",
+            local.noCommentsYet,
             style: TextStyle(
               fontSize: 16,
               fontWeight: FontWeight.w500,
@@ -32,7 +33,7 @@ class NoCommentsWidget extends StatelessWidget {
           ),
           const SizedBox(height: 4),
           Text(
-            "Be the first to add a comment!",
+            local.beTheFirstToAddaComment,
             style: TextStyle(
               fontSize: 14,
               color: theme.colorScheme.primary.withValues(alpha:0.6),

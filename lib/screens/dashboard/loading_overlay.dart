@@ -31,7 +31,7 @@ class LoadingOverlay extends StatelessWidget {
               Text(
                 local.loadingData,
                 style: theme.textTheme.titleMedium?.copyWith(
-                  color: theme.colorScheme.surface,
+                  color: theme.colorScheme.secondary,
                   fontWeight: FontWeight.w600,
                 ),
               ),

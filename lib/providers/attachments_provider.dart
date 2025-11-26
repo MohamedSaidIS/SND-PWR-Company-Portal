@@ -1,6 +1,5 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
-import '../models/local/attached_file_info.dart';
 import '../utils/export_import.dart';
 
 class AttachmentsProvider extends ChangeNotifier {

@@ -225,7 +225,7 @@
   "date": " التاريخ",
   "pleaseEnterDate": "برجاء أدخل التاريخ",
   "pleaseSelectApp": "برجاء اختيار التطبيق",
-  "loadingData": "جاري تحميل البيانات...",
+  "loadingData": "جاري تحميل البيانات المستخدم...",
   "chooseEmployee": "اختر الموظف...",
   "sessionExpired": "انتهت الجلسة",
   "pleaseLoginAgain": "يرجى تسجيل الدخول مرة أخرى",
@@ -248,6 +248,20 @@
   "createRequest": "إنشاء طلب",
   "approved": "تمت الموافقة",
   "notApproved": "تم الرفض",
-  "Attach File": "إرفاق ملف"
+  "Attach File": "إرفاق ملف",
+  "noAttachments": "لا توجد مرفقات",
+  "attachments": "المرفقات",
+  "createdAt": "تاريخ الإنشاء",
+  "lastModified": "آخر تعديل",
+  "view": "عرض",
+  "pdfPreview": "معاينة PDF",
+  "comments": "التعليقات",
+  "noCommentsYet": "لا توجد تعليقات بعد",
+  "beTheFirstToAddaComment": "كن أول من يضيف تعليق!",
+  "reminder": "تذكير",
+  "message": "رسالة",
+  "all": "الكل"
+
+
 }
 

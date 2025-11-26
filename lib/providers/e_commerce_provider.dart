@@ -1,6 +1,3 @@
-import 'dart:io';
-
-import 'package:company_portal/models/local/attached_file_info.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
 import '../utils/export_import.dart';
@@ -63,7 +60,7 @@ class EcommerceProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  Future<bool> createEcommerceItem(EcommerceItem item,  List<AttachedBytes> attachedFiles) async {
+  Future<bool> createEcommerceItem(EcommerceItem item, List<AttachedBytes> attachedFiles) async {
     _loading = true;
     _error = null;
     notifyListeners();

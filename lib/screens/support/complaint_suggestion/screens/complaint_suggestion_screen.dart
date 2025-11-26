@@ -7,10 +7,10 @@ class ComplaintSuggestionScreen extends StatelessWidget {
   final UserInfo? userInfo;
   final Uint8List? userImage;
 
+
   const ComplaintSuggestionScreen(
       {required this.userInfo, required this.userImage, super.key});
 
-  // @override
   @override
   Widget build(BuildContext context) {
     final local = context.local;
@@ -30,8 +30,9 @@ class ComplaintSuggestionScreen extends StatelessWidget {
               ensureUserId: ensureUser?.id ?? -1,
             ),
             ComplaintSuggestionHistoryScreen(
-              userInfo: userInfo,
+              userInfo: userInfo!,
               userImage: userImage,
+              ensureUserId: ensureUser?.id ?? -1,
             ),
           ],
         ),

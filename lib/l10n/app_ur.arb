@@ -248,5 +248,19 @@
   "createRequest": "درخواست بنائیں",
   "approved": "منظوری دے دی گئی",
   "notApproved": "نامنظوری دے دی گئی",
-  "Attach File": "فائل منسلک کریں"
+  "Attach File": "فائل منسلک کریں",
+  "noAttachments": "کوئی منسلکات نہیں",
+  "attachments": "منسلکات",
+  "createdAt": "تاریخ تخلیق",
+  "lastModified": "آخری تبدیلی",
+  "view": "دیکھیں",
+  "pdfPreview": "پی ڈی ایف کا پیش منظر",
+  "comments": "تبصرے",
+  "noCommentsYet": "ابھی کوئی تبصرہ نہیں",
+  "beTheFirstToAddaComment": "پہلا تبصرہ کرنے والا بنیں!",
+  "reminder": "یاد دہانی",
+  "message": "پیغام",
+  "all": "سب"
+
+
 }

@@ -6,11 +6,12 @@ import 'package:provider/provider.dart';
 import '../../../../utils/export_import.dart';
 
 class ComplaintSuggestionHistoryScreen extends StatefulWidget {
-  final dynamic userInfo;
+  final UserInfo userInfo;
   final Uint8List? userImage;
+  final int ensureUserId;
 
   const ComplaintSuggestionHistoryScreen(
-      {required this.userInfo, required this.userImage, super.key});
+      {required this.userInfo, required this.userImage,required this.ensureUserId, super.key});
 
   @override
   State<ComplaintSuggestionHistoryScreen> createState() =>
@@ -36,11 +37,7 @@ class _ComplaintSuggestionHistoryScreenState
         CurvedAnimation(parent: _controller, curve: Curves.easeInOut);
 
     WidgetsBinding.instance.addPostFrameCallback((_) async {
-      final complaintSuggestionProvider =
-          context.read<ComplaintSuggestionProvider>();
-      await complaintSuggestionProvider
-          .fetchSuggestionsAndComplaints(widget.userInfo.id);
-
+      await context.read<ComplaintSuggestionProvider>().getSuggestionsAndComplaints(widget.ensureUserId);
       if (mounted) _controller.forward();
     });
   }
@@ -77,18 +74,18 @@ class _ComplaintSuggestionHistoryScreenState
                 itemBuilder: (context, index) {
                   final item = complaintList[index];
                   return HistoryTileWidget(
-                    title: item.fields?.title ?? '',
-                    id: item.id ?? '',
+                    title: item.title ?? '',
+                    id: item.id.toString(),
                     needStatus: true,
-                    status: item.fields?.status ?? '',
+                    status: item.status ?? '',
                     navigatedScreen: HistoryItemDetails(
-                      itemId: item.id,
-                      title: item.fields?.title,
-                      description: item.fields?.description,
-                      status: item.fields?.status,
-                      priority: item.fields?.priority,
-                      createdDate: item.createdDateTime.toString(),
-                      modifiedDate: item.lastModifiedDateTime.toString(),
+                      itemId: item.id.toString(),
+                      title: item.title,
+                      description: item.description,
+                      status: item.status,
+                      priority: item.priority,
+                      createdDate: item.createdDate.toString(),
+                      modifiedDate: item.modifiedDate.toString(),
                       app: null,
                       type: null,
                       area: null,

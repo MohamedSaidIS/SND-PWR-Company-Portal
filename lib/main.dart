@@ -1,5 +1,6 @@
 import 'package:aad_oauth/aad_oauth.dart';
 import 'package:company_portal/providers/attachments_provider.dart';
+import 'package:company_portal/screens/support/ecommerce_support_case/controllers/file_controller.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
@@ -96,7 +97,6 @@ void main() async {
         ),
         ChangeNotifierProvider(
           create: (context) => ComplaintSuggestionProvider(
-            dioClient: context.read<GraphDioClient>(),
             sharePointDioClient: context.read<SharePointDioClient>(),
           ),
         ),
@@ -157,7 +157,16 @@ void main() async {
           create: (_) => localeProvider,
         ),
         ChangeNotifierProvider(
-          create: (context) => EcommerceFormController(context),
+          create: (_) => FileController(),
+        ),
+        ChangeNotifierProvider(
+          create: (_) => EcommerceFormController(),
+        ),
+        ChangeNotifierProvider(
+          create: (_) => DynamicsFormController(),
+        ),
+        ChangeNotifierProvider(
+          create: (_) => ComplaintSuggestionFormController(),
         ),
       ],
       child: const MyApp(),

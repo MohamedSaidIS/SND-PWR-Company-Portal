@@ -77,12 +77,12 @@ class _HomeScreenState extends State<HomeScreen> {
                 if (!_isUserDataLoaded && newIndex != 0) {
                   AppNotifier.snackBar(
                     context,
-                    "جاري تحميل بيانات المستخدم...",
+                    local.loadingData,
                     SnackBarType.warning,
                   );
-                  return false; // ❌ لا تسمح بتغيير الأيقونة
+                  return false;
                 }
-                return true; // ✔ اسمح بتغييرها
+                return true;
               },
               onTap: (index) async {
                 setState(() => _currentIndex = index);
@@ -92,7 +92,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 }
 
               },
-               backgroundColor: _currentIndex ==0? theme.navigationBarTheme.shadowColor! : Colors.transparent,
+              backgroundColor: _currentIndex ==0? theme.navigationBarTheme.shadowColor! : Colors.transparent,
               buttonBackgroundColor: theme.colorScheme.secondary,
               color: theme.navigationBarTheme.backgroundColor!,
               items: const [

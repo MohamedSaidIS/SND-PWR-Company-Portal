@@ -11,7 +11,6 @@ class ProfileHeader extends StatelessWidget {
   final UserImageProvider imageProvider;
   final VoidCallback onPickImage;
 
-  /// بدلاً من isLoading فقط
   final ViewState state;
   final String? error;
 

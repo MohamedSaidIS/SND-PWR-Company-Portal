@@ -1,7 +1,6 @@
-import 'dart:io';
-
 import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
+import '../models/local/attached_file_info.dart';
 import '../utils/export_import.dart';
 
 class DynamicsProvider extends ChangeNotifier {
@@ -56,7 +55,8 @@ class DynamicsProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  Future<bool> createDynamicsItem(DynamicsItem item,  File attachedFile, String fileName) async {
+  Future<bool> createDynamicsItem(
+      DynamicsItem item, List<AttachedBytes> attachedFiles) async {
     _loading = true;
     _error = null;
     notifyListeners();
@@ -69,13 +69,13 @@ class DynamicsProvider extends ChangeNotifier {
       );
       if (response.statusCode == 201) {
         final ticket = await compute(
-              (Map<String, dynamic> data) => DynamicsItem.fromJson(data),
+          (Map<String, dynamic> data) => DynamicsItem.fromJson(data),
           Map<String, dynamic>.from(response.data),
         );
         AppNotifier.logWithScreen("Dynamics Provider",
             "Dynamics Item Created: ${response.statusCode} ${ticket.id}");
 
-        await sendAttachments(attachedFile, ticket.id, fileName);
+        await sendAttachments(attachedFiles, ticket.id);
         return true;
       } else {
         _error = 'Failed to load Dynamics data';
@@ -94,14 +94,35 @@ class DynamicsProvider extends ChangeNotifier {
     }
   }
 
-  Future<bool> sendAttachments(File attachedFile, int ticketId, String fileName) async{
+  Future<bool> sendAttachments(List<AttachedBytes> attachedFiles, int ticketId) async {
     _loading = true;
     _error = null;
-    final bytes = await attachedFile.readAsBytes();
-    try{
+    bool sendAttachedSuccessfully = false;
+    try {
+      for (var attachedFile in attachedFiles) {
+        sendAttachedSuccessfully =
+            await uploadSingleFile(ticketId.toString(), attachedFile);
+      }
+      return sendAttachedSuccessfully;
+    } catch (e) {
+      _error = e.toString();
+      AppNotifier.logWithScreen(
+          "Dynamics Provider", "Send Attachments Exceptions: $_error");
+      return false;
+    } finally {
+      _loading = false;
+      notifyListeners();
+    }
+  }
+
+  Future<bool> uploadSingleFile(
+    String ticketId,
+    AttachedBytes attachedFile,
+  ) async {
+    try {
       final response = await mySharePointDioClient.dio.post(
-        "https://alsanidi-my.sharepoint.com/personal/retail_alsanidi_onmicrosoft_com/_api/Web/Lists(guid'3b2e2dd6-55a0-4ee4-b517-5ccd63b6a12a')/items($ticketId)/AttachmentFiles/add(FileName='$fileName')",
-        data: bytes,
+        "https://alsanidi-my.sharepoint.com/personal/retail_alsanidi_onmicrosoft_com/_api/Web/Lists(guid'3b2e2dd6-55a0-4ee4-b517-5ccd63b6a12a')/items($ticketId)/AttachmentFiles/add(FileName='${attachedFile.fileName}')",
+        data: attachedFile.fileBytes,
         options: Options(
           headers: {
             "Content-Type": "application/json",
@@ -116,15 +137,10 @@ class DynamicsProvider extends ChangeNotifier {
         AppNotifier.logWithScreen("Dynamics Provider", "Send Attachments Failed: ${response.statusCode}");
         return false;
       }
-    }catch(e){
-      _error = e.toString();
-      AppNotifier.logWithScreen("Dynamics Provider", "Send Attachments Exceptions: $_error");
+    } catch (e) {
+      AppNotifier.logWithScreen(
+          "Ecommerce Provider", "Upload Exception: ${e.toString()}");
       return false;
-    }finally{
-      _loading = false;
-      notifyListeners();
     }
   }
-
-
 }

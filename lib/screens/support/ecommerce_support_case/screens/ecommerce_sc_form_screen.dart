@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 import '../../../../utils/export_import.dart';
 
 class EcommerceScFormScreen extends StatefulWidget {
@@ -17,13 +16,6 @@ class EcommerceScFormScreen extends StatefulWidget {
 }
 
 class _EcommerceScFormScreenState extends State<EcommerceScFormScreen> {
-  // late EcommerceFormController controller;
-
-  @override
-  void initState() {
-    super.initState();
-
-  }
 
   @override
   Widget build(BuildContext context) {

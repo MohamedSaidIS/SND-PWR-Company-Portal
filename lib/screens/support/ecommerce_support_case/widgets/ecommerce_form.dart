@@ -62,14 +62,14 @@ class _EcommerceFormState extends State<EcommerceForm> {
               items: getTypeList(local),
             ),
             const SizedBox(height: 16),
-            AttachmentWidget(pickFile: controller.pickFiles,),
+            const AttachmentWidget(),
             const SizedBox(height: 10),
             SubmitButton(
               btnText: local.submit,
               loading: controller.isLoading,
               btnFunction: () async {
                 setState(() => controller.isLoading = true);
-                await controller.submitForm(local, provider, widget.ensureUser);
+                await controller.submitForm(context, local, provider, widget.ensureUser);
                 setState(() => controller.isLoading = false);
               },
             ),

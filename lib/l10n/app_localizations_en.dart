@@ -754,4 +754,40 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get attachFile => 'Attach File';
+
+  @override
+  String get noAttachments => 'No Attachments';
+
+  @override
+  String get attachments => 'Attachments';
+
+  @override
+  String get createdAt => 'Created At';
+
+  @override
+  String get lastModified => 'Last Modified';
+
+  @override
+  String get view => 'View';
+
+  @override
+  String get pdfPreview => 'PDF Preview';
+
+  @override
+  String get comments => 'Comments';
+
+  @override
+  String get noCommentsYet => 'No comments yet';
+
+  @override
+  String get beTheFirstToAddaComment => 'Be the first to add a comment!';
+
+  @override
+  String get reminder => 'Reminder';
+
+  @override
+  String get message => 'Message';
+
+  @override
+  String get all => 'All';
 }

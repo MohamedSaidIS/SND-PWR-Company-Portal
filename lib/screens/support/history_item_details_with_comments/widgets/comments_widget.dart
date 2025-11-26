@@ -1,6 +1,5 @@
 import 'dart:typed_data';
 import 'package:flutter/material.dart';
-import 'package:line_awesome_flutter/line_awesome_flutter.dart';
 import '../../../../utils/export_import.dart';
 
 class CommentsWidget extends StatefulWidget {
@@ -24,11 +23,12 @@ class _CommentsWidgetState extends State<CommentsWidget> {
   @override
   Widget build(BuildContext context) {
     final theme = context.theme;
+    final local = context.local;
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        sectionTitle("Comments", theme),
+        sectionTitle(local.comments, theme),
         const SizedBox(height: 16),
         widget.commentProvider.loading
             ? const Center(child: CircularProgressIndicator())

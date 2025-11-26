@@ -16,13 +16,6 @@ class DynamicsScFormScreen extends StatefulWidget {
 }
 
 class _DynamicsScFormScreenState extends State<DynamicsScFormScreen> {
-  late final DynamicsFormController controller;
-
-  @override
-  void initState() {
-    super.initState();
-    controller = DynamicsFormController(context);
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -33,10 +26,7 @@ class _DynamicsScFormScreenState extends State<DynamicsScFormScreen> {
         backgroundColor: theme.colorScheme.surface,
         body: Padding(
           padding: const EdgeInsets.all(16.0),
-          child: DynamicsForm(
-            controller: controller,
-            ensureUser: widget.ensureUserId,
-          ),
+          child: DynamicsForm(ensureUser: widget.ensureUserId,),
         ),
       ),
     );

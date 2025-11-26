@@ -248,5 +248,17 @@
   "createRequest": "Create Request",
   "approved": "Approved",
   "notApproved": "Rejected",
-  "attachFile": "Attach File"
+  "attachFile": "Attach File",
+  "noAttachments": "No Attachments",
+  "attachments": "Attachments",
+  "createdAt": "Created At",
+  "lastModified": "Last Modified",
+  "view": "View",
+  "pdfPreview": "PDF Preview",
+  "comments": "Comments",
+  "noCommentsYet":"No comments yet",
+  "beTheFirstToAddaComment":"Be the first to add a comment!",
+  "reminder": "Reminder",
+  "message": "Message",
+  "all": "All"
 }

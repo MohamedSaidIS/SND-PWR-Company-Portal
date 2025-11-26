@@ -1,13 +1,12 @@
-import 'dart:io';
-
-import 'package:file_picker/file_picker.dart';
+import 'package:company_portal/screens/support/ecommerce_support_case/controllers/file_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:provider/provider.dart';
 import '../../../../utils/export_import.dart';
 
 
-class DynamicsFormController{
-  BuildContext context;
+class DynamicsFormController extends ChangeNotifier{
+
   final GlobalKey<FormState> formKey = GlobalKey<FormState>();
   final title = TextEditingController();
   final description = TextEditingController();
@@ -15,10 +14,7 @@ class DynamicsFormController{
   final date = TextEditingController();
   String? selectedPurpose, selectedPriority = 'Normal';
   bool isLoading = false;
-  String fileName = '';      // "document.pdf"
-  String? filePath;
 
-  DynamicsFormController(this.context);
 
   void clearData(){
     title.clear();
@@ -29,7 +25,7 @@ class DynamicsFormController{
     selectedPriority = 'Normal';
   }
 
-  Future<void> pickDate() async {
+  Future<void> pickDate(BuildContext context,) async {
     final picked = await showDatePicker(
       context: context,
       initialDate: DateTime.now(),
@@ -37,31 +33,15 @@ class DynamicsFormController{
       lastDate: DateTime(2100),
     );
     if (picked != null) {
-     date.text =
+      date.text =
           DateFormat('dd-MM-yyyy', context.currentLocale()).format(picked);
     }
   }
 
-  Future<void> pickFile() async {
-    final result = await FilePicker.platform.pickFiles();
+  Future<void> submitForm(BuildContext context, AppLocalizations local, DynamicsProvider provider, int ensureUserId) async {
+    final fileController = context.read<FileController>();
+    if (!formKey.currentState!.validate()) return;
 
-    if (result != null && result.files.isNotEmpty) {
-      final file = result.files.single;
-
-      fileName = file.name;      // "document.pdf"
-      filePath = file.path;     // "/storage/.../document.pdf"
-
-      print("Picked file name: $fileName");
-      print("Picked file path: $filePath");
-
-      final fileObject = File(filePath!);
-    } else {
-      print("User canceled file picking");
-    }
-  }
-
-  Future<void> submitForm(AppLocalizations local, DynamicsProvider provider, int ensureUserId) async {
-     if (!formKey.currentState!.validate()) return;
 
     if (provider.loading) {
       AppNotifier.snackBar(context, "Please Wait", SnackBarType.info);
@@ -82,12 +62,12 @@ class DynamicsFormController{
           purpose: selectedPurpose!,
           dateReported: parsed,
         ),
-        File(filePath!),
-        fileName,
+      fileController.attachedFiles ,
     );
 
     if (success) {
       clearData();
+      fileController.clear();
       AppNotifier.snackBar(
         context,
         local.fromSubmittedSuccessfully,

@@ -1,8 +1,6 @@
 import 'dart:typed_data';
-
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
-import '../../../../models/local/attached_file_info.dart';
 import '../../../../utils/export_import.dart';
 
 Widget sectionTitle(String text, ThemeData theme) {
@@ -17,10 +15,10 @@ Widget sectionTitle(String text, ThemeData theme) {
 }
 
 Widget titleWidget(
-    String title,
-    ThemeData theme,
-    String status,
-    ) {
+  String title,
+  ThemeData theme,
+  String status,
+) {
   return Row(
     mainAxisAlignment: MainAxisAlignment.spaceBetween,
     children: [
@@ -78,47 +76,71 @@ Widget descriptionWidget(String description, ThemeData theme, String priority,
   );
 }
 
-Widget attachmentsWidget(AttachmentsProvider attachmentProvider, List<AttachedBytes>? attachments, ThemeData theme, ScrollController attachmentsController){
-  return attachmentProvider.loading
-      ? const Center(child: CircularProgressIndicator())
-      : Column(crossAxisAlignment: CrossAxisAlignment.start,
+Widget attachmentsWidget(
+    AttachmentsProvider attachmentProvider,
+    List<AttachedBytes>? attachments,
+    ThemeData theme,
+    AppLocalizations local,
+    ScrollController attachmentsController) {
+  return Column(
+    crossAxisAlignment: CrossAxisAlignment.start,
     children: [
-      sectionTitle("Attachments", theme),
+      sectionTitle(local.attachments, theme),
       const SizedBox(height: 8),
-      SizedBox(
-        height: 100,
-        child: Scrollbar(
-        controller: attachmentsController,      // required
-
-
-  thumbVisibility: attachments!.length > 4? true : false,
-          child: ListView.builder(
-              controller: attachmentsController,
-              physics: attachments.length > 4? const AlwaysScrollableScrollPhysics() : const NeverScrollableScrollPhysics(),
-              itemCount: attachments.length,
-              itemBuilder: (context, index) {
-                return AttachmentsViewer(
-                  file: attachments[index],
-                );
-              }),
-        ),
-      ),
+      attachmentProvider.loading
+          ? const Center(child: CircularProgressIndicator())
+          : attachments == null || attachments.isEmpty
+              ? Center(child: Column(
+                children: [
+                  CircleAvatar(
+                    radius: 20,
+                    backgroundColor: theme.colorScheme.primary.withValues(alpha:0.1),
+                    child: Icon(
+                      Icons.no_sim_sharp,
+                      color: theme.colorScheme.primary,
+                      size: 20,
+                    ),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                    child: Text(local.noAttachments, style: const TextStyle(color: Color(0xff5A5959)),),
+                  ),
+                ],
+              ))
+              : SizedBox(
+                  height: (20 * (attachments.length)).toDouble(),
+                  child: Scrollbar(
+                    controller: attachmentsController, // required
+                    thumbVisibility: attachments.length > 4 ? true : false,
+                    child: ListView.builder(
+                        controller: attachmentsController,
+                        physics: attachments.length > 4
+                            ? const AlwaysScrollableScrollPhysics()
+                            : const NeverScrollableScrollPhysics(),
+                        itemCount: attachments.length,
+                        itemBuilder: (context, index) {
+                          return AttachmentsViewer(
+                            file: attachments[index],
+                          );
+                        }),
+                  ),
+                ),
     ],
   );
 }
 
-Widget timeWidget(String createdDate, String modifiedDate){
-  return  Row(
+Widget timeWidget(String createdDate, String modifiedDate,AppLocalizations local) {
+  return Row(
     spacing: 30,
     children: [
       TimeWidget(
         icon: Icons.access_time,
-        label: "Created At",
+        label: local.createdAt,
         value: createdDate,
       ),
       TimeWidget(
         icon: Icons.update,
-        label: "Last Modified",
+        label: local.lastModified,
         value: modifiedDate.toString(),
       ),
     ],
@@ -140,7 +162,12 @@ String capitalize(String text) {
 
 //////////////////////////////////////////////////// comments Widgets \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
 
-Widget commentUserImage(bool isCurrentUser, ThemeData theme, String name, Uint8List? userImage, ) {
+Widget commentUserImage(
+  bool isCurrentUser,
+  ThemeData theme,
+  String name,
+  Uint8List? userImage,
+) {
   return Align(
     alignment: Alignment.topLeft,
     child: Padding(
@@ -152,21 +179,21 @@ Widget commentUserImage(bool isCurrentUser, ThemeData theme, String name, Uint8L
             : theme.colorScheme.secondary.withValues(alpha: 0.2),
         child: isCurrentUser
             ? ClipRRect(
-          borderRadius: BorderRadius.circular(100),
-          child: Image.memory(
-            userImage!,
-            width: 40,
-            height: 40,
-            fit: BoxFit.cover,
-          ),
-        )
+                borderRadius: BorderRadius.circular(100),
+                child: Image.memory(
+                  userImage!,
+                  width: 40,
+                  height: 40,
+                  fit: BoxFit.cover,
+                ),
+              )
             : Text(
-          extractInitialsFromParentheses(name),
-          style: const TextStyle(
-            color: Colors.black,
-          ),
-          textAlign: TextAlign.center,
-        ),
+                extractInitialsFromParentheses(name),
+                style: const TextStyle(
+                  color: Colors.black,
+                ),
+                textAlign: TextAlign.center,
+              ),
       ),
     ),
   );
@@ -187,8 +214,8 @@ Widget commentText(ThemeData theme, ItemComments comment) {
               ),
               recognizer: TapGestureRecognizer()
                 ..onTap = () {
-                  AppNotifier.logWithScreen("CommentItem Screen",
-                      "Clicked on mention: ${part.name}");
+                  AppNotifier.logWithScreen(
+                      "CommentItem Screen", "Clicked on mention: ${part.name}");
                 },
             );
           } else {
@@ -204,7 +231,6 @@ Widget commentText(ThemeData theme, ItemComments comment) {
     ),
   );
 }
-
 
 String extractInitialsFromParentheses(String fullName) {
   final regex = RegExp(r'\((.*?)\)');
