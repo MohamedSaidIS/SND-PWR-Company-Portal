@@ -33,5 +33,6 @@ class FileController extends ChangeNotifier {
 
   void clear() {
     attachedFiles.clear();
+    notifyListeners();
   }
 }

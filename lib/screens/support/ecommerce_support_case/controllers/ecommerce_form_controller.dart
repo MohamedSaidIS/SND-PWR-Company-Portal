@@ -16,6 +16,7 @@ class EcommerceFormController extends ChangeNotifier{
     description.clear();
     selectedApp = null;
     selectedPriority = 'Normal';
+    selectedType = null;
   }
 
 
