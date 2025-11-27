@@ -260,7 +260,13 @@
   "beTheFirstToAddaComment": "پہلا تبصرہ کرنے والا بنیں!",
   "reminder": "یاد دہانی",
   "message": "پیغام",
-  "all": "سب"
+  "all": "سب",
+  "balance": "بیلنس",
+  "remain": "باقی",
+  "consumedDays": "استعمال شدہ دن",
+  "noLeaveBalance": "لا يوجد رصيد إجازات"
+
+
 
 
 }

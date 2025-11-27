@@ -121,7 +121,7 @@ class VacationBalanceProvider extends ChangeNotifier {
 
       _vacationTransactions.isNotEmpty
           ? AppNotifier.logWithScreen("Vacation Balance Provider",
-              "Vacation Balance Fetching: ${response.statusCode} ${_vacationBalance!.totalRemainingToDate}")
+              "Vacation Balance Fetching: ${response.statusCode} ${_vacationBalance!.remain}")
           : AppNotifier.logWithScreen("Vacation Balance Provider",
               "Vacation Balance Fetching: ${response.statusCode}");
     } catch (e) {

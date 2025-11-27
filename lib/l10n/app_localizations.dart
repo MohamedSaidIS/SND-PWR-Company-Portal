@@ -1662,6 +1662,30 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'All'**
   String get all;
+
+  /// No description provided for @balance.
+  ///
+  /// In en, this message translates to:
+  /// **'Balance'**
+  String get balance;
+
+  /// No description provided for @remain.
+  ///
+  /// In en, this message translates to:
+  /// **'Remain'**
+  String get remain;
+
+  /// No description provided for @consumedDays.
+  ///
+  /// In en, this message translates to:
+  /// **'Consumed Days'**
+  String get consumedDays;
+
+  /// No description provided for @noLeaveBalance.
+  ///
+  /// In en, this message translates to:
+  /// **'No Leave Balance'**
+  String get noLeaveBalance;
 }
 
 class _AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> {

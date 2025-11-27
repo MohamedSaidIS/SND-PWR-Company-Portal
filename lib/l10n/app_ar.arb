@@ -260,7 +260,13 @@
   "beTheFirstToAddaComment": "كن أول من يضيف تعليق!",
   "reminder": "تذكير",
   "message": "رسالة",
-  "all": "الكل"
+  "all": "الكل",
+  "balance": "الرصيد",
+  "remain": "المتبقي",
+  "consumedDays": "الأيام المستهلكة",
+  "noLeaveBalance": "لا يوجد رصيد إجازات"
+
+
 
 
 }

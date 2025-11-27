@@ -790,4 +790,16 @@ class AppLocalizationsUr extends AppLocalizations {
 
   @override
   String get all => 'سب';
+
+  @override
+  String get balance => 'بیلنس';
+
+  @override
+  String get remain => 'باقی';
+
+  @override
+  String get consumedDays => 'استعمال شدہ دن';
+
+  @override
+  String get noLeaveBalance => 'لا يوجد رصيد إجازات';
 }

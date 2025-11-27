@@ -790,4 +790,16 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get all => 'الكل';
+
+  @override
+  String get balance => 'الرصيد';
+
+  @override
+  String get remain => 'المتبقي';
+
+  @override
+  String get consumedDays => 'الأيام المستهلكة';
+
+  @override
+  String get noLeaveBalance => 'لا يوجد رصيد إجازات';
 }

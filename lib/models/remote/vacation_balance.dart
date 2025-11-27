@@ -1,16 +1,16 @@
 class VacationBalance {
   final String hrAbsenceCode;
-  final double totalBalance;
-  final double totalRemainingToDate;
-  final int newBalance;
+  final double currentBalance;
+  final double remain;
+  final int consumedDays;
   final String workerName;
   final String personalNumber;
 
   VacationBalance({
     required this.hrAbsenceCode,
-    required this.totalBalance,
-    required this.totalRemainingToDate,
-    required this.newBalance,
+    required this.currentBalance,
+    required this.remain,
+    required this.consumedDays,
     required this.workerName,
     required this.personalNumber,
   });
@@ -18,9 +18,9 @@ class VacationBalance {
   factory VacationBalance.fromJson(Map<String, dynamic> json) {
     return VacationBalance(
       hrAbsenceCode: json['HRMAbsenceCode'],
-      totalBalance: json['TotalBalance'].toDouble(),
-      totalRemainingToDate: json['TotalRemainingToDate'].toDouble(),
-      newBalance: json['NewBalance'],
+      currentBalance: json['TotalCurrentToDateNotRemainingNewVersion'].toDouble(),
+      remain: json['TotalRemainingToDate'].toDouble(),
+      consumedDays: json['ConsumedDays'],
       workerName: json['WorkerName'],
       personalNumber: json['PersonnelNumber'],
     );

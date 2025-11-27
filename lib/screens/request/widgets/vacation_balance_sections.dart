@@ -1,5 +1,7 @@
+import 'package:company_portal/screens/request/widgets/balance_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:line_awesome_flutter/line_awesome_flutter.dart';
 import '../../../utils/export_import.dart';
 
 Widget headerSection(String title) {
@@ -16,115 +18,6 @@ Widget headerSection(String title) {
 
 Widget loadingWidget(ThemeData theme) {
   return SliverToBoxAdapter(child: AppNotifier.loadingWidget(theme));
-}
-
-Widget leavesGrid(
-  ThemeData theme,
-  AppLocalizations local,
-  bool isArabic,
-  dynamic balance,
-  bool loading,
-) {
-  return (loading || balance == null)
-      ? loadingWidget(theme)
-      : SliverGrid(
-          gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-            crossAxisCount: 2,
-            childAspectRatio: 1.8,
-          ),
-          delegate: SliverChildListDelegate(
-            [
-              leavesTypesCard(
-                theme.colorScheme.primary,
-                local.totalBalance,
-                balance.totalBalance.toStringAsFixed(2),
-                local,
-                isArabic,
-              ),
-              leavesTypesCard(
-                theme.colorScheme.secondary,
-                local.remainBalance,
-                balance.totalRemainingToDate.toStringAsFixed(2),
-                local,
-                isArabic,
-              ),
-            ],
-          ),
-        );
-}
-
-Widget leavesTypesCard(
-  Color color,
-  String title,
-  String amount,
-  AppLocalizations local,
-  bool isArabic,
-) {
-  return Padding(
-    padding: const EdgeInsets.all(5.0),
-    child: Container(
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(10),
-        border: Border.all(
-          color: color,
-          width: 1,
-        ),
-        color: color.withValues(alpha: 0.15),
-      ),
-      child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 12.0, vertical: 5.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(
-              title,
-              style: const TextStyle(
-                fontWeight: FontWeight.w500,
-                fontSize: 14,
-              ),
-            ),
-            const SizedBox(height: 8),
-            Text(
-              convertedToArabicNumber(amount, isArabic),
-              style: TextStyle(
-                fontWeight: FontWeight.bold,
-                fontSize: 15,
-                color: color,
-              ),
-            ),
-          ],
-        ),
-      ),
-    ),
-  );
-}
-
-Widget consumedGrid(
-  ThemeData theme,
-  AppLocalizations local,
-  bool isArabic,
-  dynamic balance,
-  bool loading,
-) {
-  return (loading || balance == null)
-      ? loadingWidget(theme)
-      : SliverGrid(
-          gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-            crossAxisCount: 2,
-            childAspectRatio: 2,
-          ),
-          delegate: SliverChildListDelegate(
-            [
-              leavesTypesCard(
-                theme.colorScheme.secondary,
-                local.consumedLeaves,
-                balance.newBalance.toString(),
-                local,
-                isArabic,
-              ),
-            ],
-          ),
-        );
 }
 
 Widget transactionsList(
@@ -151,14 +44,20 @@ Widget transactionsList(
         );
 }
 
-Widget noDataExist(String title, ThemeData theme){
+Widget noDataExist(String title, ThemeData theme) {
   return SliverToBoxAdapter(
     child: Padding(
       padding: const EdgeInsets.symmetric(vertical: 30.0),
       child: Column(
         children: [
-          Icon(Icons.not_interested_rounded, color: theme.colorScheme.secondary,),
-          Text(title, style: const TextStyle(fontSize: 15),)
+          Icon(
+            Icons.not_interested_rounded,
+            color: theme.colorScheme.secondary,
+          ),
+          Text(
+            title,
+            style: const TextStyle(fontSize: 15),
+          )
         ],
       ),
     ),

@@ -260,5 +260,10 @@
   "beTheFirstToAddaComment":"Be the first to add a comment!",
   "reminder": "Reminder",
   "message": "Message",
-  "all": "All"
+  "all": "All",
+  "balance": "Balance",
+  "remain" : "Remain",
+  "consumedDays": "Consumed Days",
+  "noLeaveBalance" : "No Leave Balance"
+
 }

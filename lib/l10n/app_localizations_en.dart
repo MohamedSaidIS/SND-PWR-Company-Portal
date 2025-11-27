@@ -790,4 +790,16 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get all => 'All';
+
+  @override
+  String get balance => 'Balance';
+
+  @override
+  String get remain => 'Remain';
+
+  @override
+  String get consumedDays => 'Consumed Days';
+
+  @override
+  String get noLeaveBalance => 'No Leave Balance';
 }
