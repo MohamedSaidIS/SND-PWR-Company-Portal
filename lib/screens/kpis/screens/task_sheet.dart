@@ -43,13 +43,12 @@ class _TaskSheetState extends State<TaskSheet> {
         completedTasks ++;
       }
     }
-    print("Percentage: ${(completedTasks / items.length)}");
+    AppNotifier.logWithScreen("Task Sheet","Percentage: ${(completedTasks / items.length)}");
     return (completedTasks / items.length);
   }
   @override
   Widget build(BuildContext context) {
     final theme = context.theme;
-    final local = context.local;
     return Scaffold(
       backgroundColor: theme.colorScheme.surface,
       appBar: const CustomAppBar(title: "Task Sheet", backBtn: false),

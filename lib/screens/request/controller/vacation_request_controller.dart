@@ -126,7 +126,7 @@ class VacationRequestController  {
     }
 
     if (provider.loading) {
-      AppNotifier.snackBar(context, "Please Wait", SnackBarType.info);
+      AppNotifier.snackBar(context, context.local.pleaseWait, SnackBarType.info);
       return;
     }
     if (startDate != null || endDate != null) {

@@ -117,7 +117,7 @@ class _TimelineCardState extends State<_TimelineCard> {
     final box = context.findRenderObject() as RenderBox;
     setState(() {
       _descriptionHeight = box.size.height;
-      print("Description Height: $_descriptionHeight");
+      AppNotifier.logWithScreen("Task Screen","Description Height: $_descriptionHeight");
     });
   }
 
@@ -156,8 +156,8 @@ class _TimelineCardState extends State<_TimelineCard> {
                     widget.onItemChanged();
                   },
                   icon: isCompleted
-                      ? Icon(Icons.check_circle)
-                      : Icon(Icons.radio_button_unchecked),
+                      ? const Icon(Icons.check_circle)
+                      : const Icon(Icons.radio_button_unchecked),
                   color:
                       isCompleted ? theme.colorScheme.secondary : Colors.grey,
                 ),

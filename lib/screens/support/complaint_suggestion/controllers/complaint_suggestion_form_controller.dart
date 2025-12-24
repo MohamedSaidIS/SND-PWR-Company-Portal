@@ -34,10 +34,8 @@ class ComplaintSuggestionFormController extends ChangeNotifier {
     final fileController = context.read<FileController>();
     if (!formKey.currentState!.validate()) return;
 
-    print("EnsureId: $ensureId");
-
     if (provider.loading) {
-      AppNotifier.snackBar(context, "Please Wait", SnackBarType.info);
+      AppNotifier.snackBar(context, context.local.pleaseWait, SnackBarType.info);
       return;
     }
 
@@ -69,6 +67,7 @@ class ComplaintSuggestionFormController extends ChangeNotifier {
     }
   }
 
+  @override
   void dispose() {
     super.dispose();
     issueTitle.dispose();

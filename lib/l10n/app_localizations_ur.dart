@@ -802,4 +802,7 @@ class AppLocalizationsUr extends AppLocalizations {
 
   @override
   String get noLeaveBalance => 'لا يوجد رصيد إجازات';
+
+  @override
+  String get pleaseWait => 'براہِ کرم انتظار کریں';
 }

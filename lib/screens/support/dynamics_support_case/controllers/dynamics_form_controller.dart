@@ -40,7 +40,7 @@ class DynamicsFormController extends ChangeNotifier {
     if (!formKey.currentState!.validate()) return;
 
     if (provider.loading) {
-      AppNotifier.snackBar(context, "Please Wait", SnackBarType.info);
+      AppNotifier.snackBar(context, context.local.pleaseWait, SnackBarType.info);
       return;
     }
     final parsed = DatesHelper.parseTimeToSend(date.text);
@@ -72,7 +72,9 @@ class DynamicsFormController extends ChangeNotifier {
     }
   }
 
+  @override
   void dispose() {
+    super.dispose();
     title.dispose();
     description.dispose();
   }

@@ -1,3 +1,4 @@
+import 'package:company_portal/utils/app_notifier.dart';
 import 'package:flutter/material.dart';
 import 'carousel_slider.dart';
 
@@ -20,7 +21,7 @@ class LogoAndCarouselWidget extends StatelessWidget {
         final double verticalPadding = isLandScape? 5 : 10;
 
 
-        print("📏 CarouselSlider width: ${screenSize.width} | padding: $padding | isLandScape: $isLandScape");
+        AppNotifier.logWithScreen("Logo Carousel Widget","📏 CarouselSlider width: ${screenSize.width} | padding: $padding | isLandScape: $isLandScape");
 
         return Column(
           children: [

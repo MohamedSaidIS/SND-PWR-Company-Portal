@@ -1686,6 +1686,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'No Leave Balance'**
   String get noLeaveBalance;
+
+  /// No description provided for @pleaseWait.
+  ///
+  /// In en, this message translates to:
+  /// **'Please Wait'**
+  String get pleaseWait;
 }
 
 class _AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> {

@@ -238,15 +238,6 @@ class _AttendLeaveScreenState extends State<AttendLeaveScreen> {
     );
   }
 
-  Widget _shimmerBox() {
-    return Container(
-      height: 120,
-      decoration: BoxDecoration(
-        color: Colors.grey.shade200,
-        borderRadius: BorderRadius.circular(16),
-      ),
-    );
-  }
 }
 
 class _AttendanceShimmer extends StatelessWidget {

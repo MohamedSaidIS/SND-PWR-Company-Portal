@@ -802,4 +802,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get noLeaveBalance => 'No Leave Balance';
+
+  @override
+  String get pleaseWait => 'Please Wait';
 }

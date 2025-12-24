@@ -1,12 +1,6 @@
-import 'package:company_portal/models/remote/kpi_sheet.dart';
-import 'package:company_portal/models/remote/management_kpi_model.dart';
-import 'package:company_portal/providers/management_kpi.dart';
 import 'package:company_portal/utils/export_import.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-
-import '../widgets/kpi_evaluation.dart';
-import '../widgets/kpi_evaluation_years.dart';
 
 class ManagementKpiScreen extends StatefulWidget {
   const ManagementKpiScreen({super.key});
@@ -55,9 +49,6 @@ class _ManagementKpiScreenState extends State<ManagementKpiScreen> {
         padding: const EdgeInsets.symmetric(horizontal: 16),
         child: Column(
           children: [
-            // provider.loadingSheet
-            //     ? AppNotifier.loadingWidget(theme)
-            //     :
             KpiEvaluationYears(userEmail: userEmail, kpiSheets: sheets),
             Expanded(
               child: provider.loadingSheet || provider.loading

@@ -1,3 +1,5 @@
+import 'package:company_portal/utils/app_notifier.dart';
+
 class KPISheet {
   final String id;
   final String name;
@@ -17,7 +19,7 @@ class KPISheet {
     final rawName = json['name'];
 
     final parsed = splitKpiName(rawName);
-    print("Splitted ${parsed.normalizedName} ${parsed.year} ${parsed.quarter}");
+    AppNotifier.logWithScreen("KpiSheet", "ParsedValues: ${parsed.normalizedName} ${parsed.year} ${parsed.quarter}");
 
     return KPISheet(
         id: json['id'],

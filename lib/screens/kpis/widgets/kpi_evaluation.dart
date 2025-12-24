@@ -166,20 +166,12 @@ class OverallScoreCard extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Row(
+              const Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  const Text(
+                  Text(
                     'Overall Score',
                     style: TextStyle(fontWeight: FontWeight.w600),
-                  ),
-                  Text(
-                    calculateOverAllScore(items).toStringAsFixed(2),
-                    style: TextStyle(
-                      fontSize: 20,
-                      fontWeight: FontWeight.bold,
-                      color: theme.colorScheme.primary,
-                    ),
                   ),
                 ],
               ),
@@ -201,6 +193,10 @@ class OverallScoreCard extends StatelessWidget {
                   Text(
                     '${calculateOverAllPercentage(items).toStringAsFixed(2)}%',
                     textAlign: TextAlign.center,
+                    style: const TextStyle(
+                      fontSize: 18,
+                      fontWeight: FontWeight.bold,
+                    ),
                   ),
                 ],
               ),
