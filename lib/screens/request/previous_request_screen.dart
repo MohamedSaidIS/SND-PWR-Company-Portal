@@ -1,46 +1,49 @@
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 
 import '../../utils/export_import.dart';
 
 class PreviousRequestScreen extends StatefulWidget {
-  const PreviousRequestScreen({super.key});
+  final String? personnelNumber;
+
+  const PreviousRequestScreen({required this.personnelNumber, super.key});
 
   @override
   State<PreviousRequestScreen> createState() => _PreviousRequestScreenState();
 }
 
 class _PreviousRequestScreenState extends State<PreviousRequestScreen> {
+  late ThemeData theme;
+
   @override
   void initState() {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((_) async {
       var provider = context.read<VacationPermissionRequestProvider>();
-      await provider.getPreviousRequests("");
+      await provider.getPreviousRequests(widget.personnelNumber?? "");
     });
   }
 
   @override
-  Widget build(BuildContext context) {
-    final theme = context.theme;
-    final local = context.local;
-    final locale = context.currentLocale();
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    theme = context.theme;
+  }
 
+  @override
+  Widget build(BuildContext context) {
     return Scaffold(
       body: Consumer<VacationPermissionRequestProvider>(
         builder: (context, provider, _) {
           if (provider.loading) return AppNotifier.loadingWidget(theme);
-
+          if(provider.error != null) return Text("${provider.error}");
           final previousRequests = provider.previousRequests;
           return ListView.builder(
             itemCount: previousRequests.length,
             padding: const EdgeInsets.all(10),
             itemBuilder: (context, index) {
               var item = previousRequests[index];
-              return AnimatedContainer(
-                duration: const Duration(milliseconds: 300),
-                curve: Curves.easeOut,
+              return Container(
                 margin: const EdgeInsets.only(bottom: 10),
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(15),
@@ -48,46 +51,11 @@ class _PreviousRequestScreenState extends State<PreviousRequestScreen> {
                 ),
                 child: Padding(
                   padding: const EdgeInsets.symmetric(vertical: 10),
-                  child: ListTile(
-                    title: Text(
-                      item.absenceCode,
-                      style: const TextStyle(
-                          fontSize: 15, fontWeight: FontWeight.bold),
-                    ),
-                    subtitle: Padding(
-                      padding: const EdgeInsets.symmetric(
-                          vertical: 5.0, horizontal: 20),
-                      child: Transform.translate(
-                        offset: Offset(locale == "en" ? -20 : 20, 0),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                              "${local.from}: ${formateDate(item.startDateTime!, locale)}",
-                              style: TextStyle(
-                                  fontSize: 12,
-                                  fontWeight: FontWeight.bold,
-                                  color: theme.colorScheme.secondary),
-                            ),
-                            Text(
-                              "${local.to}: ${formateDate(item.endDateTime!, locale)}",
-                              style: TextStyle(
-                                  fontSize: 12,
-                                  fontWeight: FontWeight.bold,
-                                  color: theme.colorScheme.secondary),
-                            ),
-                          ],
-                        ),
-                      ),
-                    ),
-                    trailing: Transform.translate(
-                      offset: Offset(locale == "en" ? 10 : -10, 0),
-                      child: BadgeWidget(
-                          translatedTitle:
-                              getTranslatedApproval(item.approved, local),
-                          color: getApprovalColor(item.approved),
-                          icon: getApprovalIcon(item.approved)),
-                    ),
+                  child: Column(
+                    children: [
+                      PreviousRequestItem(item: item),
+                      PreviousRequestAttachments(item: item)
+                    ],
                   ),
                 ),
               );
@@ -96,10 +64,5 @@ class _PreviousRequestScreenState extends State<PreviousRequestScreen> {
         },
       ),
     );
-  }
-
-  String formateDate(DateTime date, String locale) {
-    return DateFormat(locale == 'ar' ? 'yyyy/MM/dd' : 'dd/MM/yyyy', locale)
-        .format(DateTime.now());
   }
 }

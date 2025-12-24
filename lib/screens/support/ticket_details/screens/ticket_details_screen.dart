@@ -4,21 +4,21 @@ import 'package:flutter_mentions/flutter_mentions.dart';
 import 'package:provider/provider.dart';
 import '../../../../utils/export_import.dart';
 
-class HistoryItemDetails extends StatefulWidget {
+class TicketDetailsScreen extends StatefulWidget {
   final String modifiedDate, createdDate, commentCall;
-  final String? itemId,
-      type,
-      title,
-      description,
-      status,
-      priority,
-      area,
-      purpose;
+  final String? itemId;
+  final String? type;
+  final String? title;
+  final String? description;
+  final String? status;
+  final String? priority;
+  final String? area;
+  final String? purpose;
   final List<String>? app;
   final Uint8List? userImage;
   final dynamic userInfo;
 
-  const HistoryItemDetails({
+  const TicketDetailsScreen({
     required this.itemId,
     required this.title,
     required this.description,
@@ -37,49 +37,48 @@ class HistoryItemDetails extends StatefulWidget {
   });
 
   @override
-  State<HistoryItemDetails> createState() => _HistoryItemDetailsState();
+  State<TicketDetailsScreen> createState() => _TicketDetailsScreenState();
 }
 
-class _HistoryItemDetailsState extends State<HistoryItemDetails> {
+class _TicketDetailsScreenState extends State<TicketDetailsScreen> {
   final ScrollController _attachmentsController = ScrollController();
+  late ThemeData theme;
+  late AppLocalizations local;
+  late CommentProvider commentProvider;
+  late List<ItemComments> comments;
+
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((_) async {
+      var commentProvider = context.read<CommentProvider>();
+      await commentProvider.getComments(widget.itemId!, widget.commentCall);
+    });
+  }
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    theme = context.theme;
+    local = context.local;
+    commentProvider = context.watch<CommentProvider>();
+    comments = commentProvider.comments;
+  }
 
   @override
   void dispose() {
     _attachmentsController.dispose();
     super.dispose();
   }
-  @override
-  void initState() {
-    super.initState();
-
-    Future.delayed(Duration.zero, () {
-      final commentProvider = context.read<CommentProvider>();
-      final attachmentProvider = context.read<AttachmentsProvider>();
-      if (widget.commentCall == "Dynamics") {
-        commentProvider.getDynamicsComments(widget.itemId!, widget.commentCall);
-        attachmentProvider.getAttachments(widget.itemId!, widget.commentCall);
-      } else {
-        commentProvider.getComments(widget.itemId!, widget.commentCall);
-        attachmentProvider.getAttachments(widget.itemId!, widget.commentCall);
-      }
-    });
-  }
 
   @override
   Widget build(BuildContext context) {
-    final commentProvider = context.watch<CommentProvider>();
-    final comments = commentProvider.comments;
-    final attachmentProvider = context.watch<AttachmentsProvider>();
-    final attachments = attachmentProvider.fileBytes;
-
-    final theme = context.theme;
-    final local = context.local;
     return Portal(
       child: Scaffold(
         resizeToAvoidBottomInset: true,
         backgroundColor: theme.colorScheme.surface,
         appBar: CustomAppBar(
-          title: local.issue_details,
+          title: local.ticketDetails,
           backBtn: true,
         ),
         body: SafeArea(
@@ -98,25 +97,28 @@ class _HistoryItemDetailsState extends State<HistoryItemDetails> {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        titleWidget(widget.title ?? "-", theme, widget.status ?? "-"),
+                        TicketHeader(
+                            headerTitle: widget.title ?? "-",
+                            status: widget.status ?? "-"),
                         const SizedBox(height: 24),
-                        descriptionWidget(widget.description ?? "-", theme, widget.priority ?? "-", local),
+                        TicketDescription(
+                            description: widget.description ?? "-",
+                            priority: widget.priority ?? "-"),
                         const SizedBox(height: 24),
-                        attachmentsWidget(attachmentProvider, attachments, theme, local, _attachmentsController),
+                        AttachmentsWidget(itemId: widget.itemId!, commentCall: widget.commentCall),
                         const SizedBox(height: 24),
-                        timeWidget(widget.createdDate, widget.modifiedDate.toString(), local),
+                        TicketDates(
+                            createdDate: widget.createdDate,
+                            modifiedDate: widget.modifiedDate.toString()),
                         const SizedBox(height: 10),
-                        CommentsWidget(
+                        TicketComments(
                           comments: comments,
                           userImage: widget.userImage,
                           userInfo: widget.userInfo,
                           commentProvider: commentProvider,
                         ),
                         const SizedBox(height: 24),
-                        SendCommentWidget(
-                          itemId: widget.itemId!,
-                          commentCall: widget.commentCall,
-                        ),
+                        SendComment(itemId: widget.itemId!, commentCall: widget.commentCall),
                       ],
                     ),
                   ),
@@ -129,5 +131,3 @@ class _HistoryItemDetailsState extends State<HistoryItemDetails> {
     );
   }
 }
-
-

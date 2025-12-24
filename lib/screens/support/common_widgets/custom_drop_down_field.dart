@@ -3,14 +3,14 @@ import 'package:flutter/material.dart';
 
 import '../../../../utils/export_import.dart';
 
-class CustomDropDownFieldWidget extends StatelessWidget {
+class CustomDropDownField extends StatelessWidget {
   final String? value;
   final String label;
   final String? Function(String?)? validator;
   final ValueChanged<String?> onChanged;
   final List<Map<String, String>> items;
 
-  const CustomDropDownFieldWidget(
+  const CustomDropDownField(
       {super.key,
       required this.value,
       required this.label,
@@ -30,8 +30,8 @@ class CustomDropDownFieldWidget extends StatelessWidget {
           .map((e) =>
               DropdownMenuItem(value: e['value'], child: Text(e['label']!)))
           .toList(),
-      decoration: CommonTextFieldForm.textFormFieldDecoration(label, local),
-      dropdownStyleData: CommonTextFieldForm.dropDownDecoration(),
+      decoration: TextFieldHelper.textFormFieldDecoration(label, local),
+      dropdownStyleData: TextFieldHelper.dropDownDecoration(),
       validator: validator,
       onChanged: onChanged,
     );

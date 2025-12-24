@@ -111,8 +111,6 @@ class _SalesKpisDetailsScreenState extends State<SalesKpisDetailsScreen> {
     final theme = context.theme;
     final local = context.local;
 
-    print("Details SalesList count ${List.from(widget.salesKpis).length}");
-
     return PopScope(
       canPop: false,
       child: Scaffold(

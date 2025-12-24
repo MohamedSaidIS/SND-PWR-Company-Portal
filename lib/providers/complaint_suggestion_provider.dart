@@ -1,3 +1,4 @@
+import 'package:company_portal/data/constants.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
 import '../utils/export_import.dart';
@@ -26,7 +27,7 @@ class ComplaintSuggestionProvider with ChangeNotifier {
 
     try {
       final response = await sharePointDioClient.get(
-          "/sites/IT-Requests/_api/Web/Lists(guid'35274cd8-ad05-4d42-adc1-20a127aad3d3')/items?\$top=999");
+          "/sites/IT-Requests/_api/Web/Lists(guid'${Constants.itListId}')/items?\$top=999");
 
       if (response.statusCode == 200) {
         final parsedResponse = response.data;
@@ -62,18 +63,16 @@ class ComplaintSuggestionProvider with ChangeNotifier {
 
     try {
       final response = await sharePointDioClient.post(
-        "/sites/IT-Requests/_api/Web/Lists(guid'35274cd8-ad05-4d42-adc1-20a127aad3d3')/items",
+        "/sites/IT-Requests/_api/Web/Lists(guid'${Constants.itListId}')/items",
         data: item.toJson(),
       );
 
       if (response.statusCode == 201) {
         final ticket = await compute(
-              (Map<String, dynamic> data) => EcommerceItem.fromJson(data),
+              (Map<String, dynamic> data) => ComplaintSuggestionItem.fromJson(data),
           Map<String, dynamic>.from(response.data),
         );
-        AppNotifier.logWithScreen("ComplaintSuggestion Provider",
-            "ComplaintSuggestion Send: Success ${response.statusCode}");
-        print("TicketId: $ticket.id");
+        AppNotifier.logWithScreen("ComplaintSuggestion Provider", "ComplaintSuggestion Send: Success ${response.statusCode}");
         await sendAttachments(attachedFiles, ticket.id);
         return true;
       } else {
@@ -96,7 +95,7 @@ class ComplaintSuggestionProvider with ChangeNotifier {
   Future<bool> sendAttachments(List<AttachedBytes> attachedFiles, int ticketId) async {
     _loading = true;
     _error = null;
-    print("TicketId2: $ticketId");
+
     bool sendAttachedSuccessfully = false;
     try {
       for(var attachedFile in attachedFiles){
@@ -114,10 +113,9 @@ class ComplaintSuggestionProvider with ChangeNotifier {
     }
   }
   Future<bool> uploadSingleFile(String ticketId, AttachedBytes attachedFile) async {
-    print("TicketId3: $ticketId");
     try {
       final response = await sharePointDioClient.dio.post(
-        "https://alsanidi.sharepoint.com/sites/IT-Requests/_api/Web/Lists(guid'35274cd8-ad05-4d42-adc1-20a127aad3d3')/items($ticketId)/AttachmentFiles/add(FileName='${attachedFile.fileName}')",
+        "https://alsanidi.sharepoint.com/sites/IT-Requests/_api/Web/Lists(guid'${Constants.itListId}')/items($ticketId)/AttachmentFiles/add(FileName='${attachedFile.fileName}')",
         data: attachedFile.fileBytes,
         options: Options(
           headers: {

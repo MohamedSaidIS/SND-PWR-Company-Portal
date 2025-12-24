@@ -66,8 +66,8 @@ class _NewUserRequestHistoryState extends State<NewUserRequestHistory>
                 itemCount: newUserRequestList.length,
                 itemBuilder: (context, index) {
                   final item = newUserRequestList[index];
-                  return HistoryTileWidget(
-                    title: item.enName ?? '',
+                  return TicketsHistory(
+                    title: TextHelper.capitalizeWords(item.enName ?? ''),
                     id: item.id.toString(),
                     needStatus: false,
                     status: '',

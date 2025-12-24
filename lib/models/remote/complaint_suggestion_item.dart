@@ -1,5 +1,5 @@
 class ComplaintSuggestionItem {
-  final int? id;
+  final int id;
   final String? title;
   final String? description;
   final String? priority;

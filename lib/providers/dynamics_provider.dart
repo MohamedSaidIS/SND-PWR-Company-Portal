@@ -1,6 +1,6 @@
+import 'package:company_portal/data/constants.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
-import '../models/local/attached_file_info.dart';
 import '../utils/export_import.dart';
 
 class DynamicsProvider extends ChangeNotifier {
@@ -25,7 +25,7 @@ class DynamicsProvider extends ChangeNotifier {
 
     try {
       final response = await mySharePointDioClient.get(
-        "/_api/Web/Lists(guid'3b2e2dd6-55a0-4ee4-b517-5ccd63b6a12a')/items?\$top=2999",
+        "/_api/Web/Lists(guid'${Constants.dynamicsListId}')/items?\$top=2999",
       );
       if (response.statusCode == 200) {
         final parsedResponse = response.data;
@@ -64,7 +64,7 @@ class DynamicsProvider extends ChangeNotifier {
 
     try {
       final response = await mySharePointDioClient.post(
-        "/_api/Web/Lists(guid'3b2e2dd6-55a0-4ee4-b517-5ccd63b6a12a')/items",
+        "/_api/Web/Lists(guid'${Constants.dynamicsListId}')/items",
         data: item.toJson(),
       );
       if (response.statusCode == 201) {
@@ -121,7 +121,7 @@ class DynamicsProvider extends ChangeNotifier {
   ) async {
     try {
       final response = await mySharePointDioClient.dio.post(
-        "https://alsanidi-my.sharepoint.com/personal/retail_alsanidi_onmicrosoft_com/_api/Web/Lists(guid'3b2e2dd6-55a0-4ee4-b517-5ccd63b6a12a')/items($ticketId)/AttachmentFiles/add(FileName='${attachedFile.fileName}')",
+        "https://alsanidi-my.sharepoint.com/personal/retail_alsanidi_onmicrosoft_com/_api/Web/Lists(guid'${Constants.dynamicsListId}')/items($ticketId)/AttachmentFiles/add(FileName='${attachedFile.fileName}')",
         data: attachedFile.fileBytes,
         options: Options(
           headers: {

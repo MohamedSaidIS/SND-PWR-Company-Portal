@@ -1,16 +1,16 @@
 import 'package:animations/animations.dart';
 import 'package:flutter/material.dart';
 
-import '../../../../utils/export_import.dart';
+import '../../../../../utils/export_import.dart';
 
-class HistoryTileWidget extends StatelessWidget {
+class TicketsHistory extends StatelessWidget {
   final String title;
   final String id;
   final bool needStatus;
   final String status;
   final Widget navigatedScreen;
 
-  const HistoryTileWidget({
+  const TicketsHistory({
     required this.title,
     required this.id,
     required this.needStatus,
@@ -44,7 +44,7 @@ class HistoryTileWidget extends StatelessWidget {
             padding: const EdgeInsets.symmetric(vertical: 8.0),
             child: ListTile(
               title: Text(
-                title,
+                TextHelper.capitalize(title),
                 style:
                     const TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
               ),

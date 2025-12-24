@@ -1,5 +1,5 @@
-import 'package:company_portal/utils/context_extensions.dart';
 import 'package:flutter/material.dart';
+import '../../utils/export_import.dart';
 
 class LoadingOverlay extends StatelessWidget {
 
@@ -11,21 +11,18 @@ class LoadingOverlay extends StatelessWidget {
     final local = context.local;
 
     return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 8.0),
+      padding: const EdgeInsets.all(5.0),
       child: Container(
-        height: 20,
+        height: 25,
        color: Colors.transparent,
         child: Center(
           child: Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               SizedBox(
-                width: 20,
-                height: 20,
-                child: CircularProgressIndicator(
-                  strokeWidth: 2,
-                  valueColor: AlwaysStoppedAnimation(theme.colorScheme.secondary),
-                ),
+                width: 18,
+                height: 18,
+                child: AppNotifier.loadingWidget(theme)
               ),
               const SizedBox(width: 16),
               Text(

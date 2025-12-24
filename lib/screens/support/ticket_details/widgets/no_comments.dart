@@ -1,8 +1,8 @@
 import 'package:company_portal/utils/export_import.dart';
 import 'package:flutter/material.dart';
 
-class NoCommentsWidget extends StatelessWidget {
-  const NoCommentsWidget({super.key});
+class NoComments extends StatelessWidget {
+  const NoComments({super.key});
 
   @override
   Widget build(BuildContext context) {

@@ -122,7 +122,7 @@ void showLoadingDialog(BuildContext context, ThemeData theme) {
         height: double.infinity,
         color: theme.colorScheme.surface,
         child: const Center(
-          child: CircularProgressIndicator(color: Color(0xFF1B818E)),
+          child: CircularProgressIndicator.adaptive(valueColor: AlwaysStoppedAnimation(Color(0xFF1B818E))),
         ),
       );
     },

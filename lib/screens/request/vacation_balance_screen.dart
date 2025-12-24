@@ -1,6 +1,6 @@
 import 'package:company_portal/screens/request/widgets/balance_screen.dart';
+import 'package:company_portal/screens/request/widgets/transactions_screen.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 import '../../../../utils/export_import.dart';
 
 class VacationBalanceScreen extends StatefulWidget {
@@ -11,27 +11,22 @@ class VacationBalanceScreen extends StatefulWidget {
 }
 
 class _VacationBalanceScreenState extends State<VacationBalanceScreen> {
-  @override
-  void initState() {
-    super.initState();
-
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      final userId = context.read<UserInfoProvider>().userInfo?.id;
-      if (userId != null) {
-        context.read<VacationBalanceProvider>().getVacationTransactions(userId);
-      }
-    });
-  }
+  // @override
+  // void initState() {
+  //   super.initState();
+  //
+  //   WidgetsBinding.instance.addPostFrameCallback((_) {
+  //     final userId = context.read<UserInfoProvider>().userInfo?.id;
+  //     if (userId != null) {
+  //       context.read<VacationBalanceProvider>().getVacationTransactions(userId);
+  //     }
+  //   });
+  // }
 
   @override
   Widget build(BuildContext context) {
     final theme = context.theme;
     final local = context.local;
-    final locale = context.currentLocale();
-    final isArabic = context.isArabic();
-    final provider = context.watch<VacationBalanceProvider>();
-    final balance = provider.vacationBalance;
-    final transactions = provider.vacationTransactions;
 
     return PopScope(
       canPop: false,
@@ -46,12 +41,9 @@ class _VacationBalanceScreenState extends State<VacationBalanceScreen> {
           child: CustomScrollView(
             slivers: [
               headerSection(local.leavesBalance),
-             const BalanceScreen(),
+              const BalanceScreen(),
               headerSection(local.leavesTransactions),
-              transactions.isEmpty
-                  ? noDataExist("There is No Transactions", theme)
-                  : transactionsList(theme, local, isArabic, locale,
-                      transactions, provider.loading),
+              const TransactionsScreen()
             ],
           ),
         ),

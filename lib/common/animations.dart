@@ -25,8 +25,7 @@ class SideFadeSlideAnimation extends StatelessWidget {
   final int delay;
   final Widget child;
 
-  const SideFadeSlideAnimation(
-      {super.key, required this.delay, required this.child});
+  const SideFadeSlideAnimation({super.key, required this.delay, required this.child});
 
   @override
   Widget build(BuildContext context) {

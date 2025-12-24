@@ -2,10 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../../../../utils/export_import.dart';
 
-class SendCommentWidget extends StatelessWidget {
+class SendComment extends StatelessWidget {
   final String itemId, commentCall;
 
-  const SendCommentWidget(
+  const SendComment(
       {super.key, required this.itemId, required this.commentCall});
 
   @override
@@ -26,7 +26,7 @@ class SendCommentWidget extends StatelessWidget {
               borderRadius: BorderRadius.circular(15),
 
             ),
-            child: SendCommentMentionsField(
+            child: SendCommentWithMentions(
               mentionUsers: mentionUsers,
               itemId: itemId,
               commentCall: commentCall,

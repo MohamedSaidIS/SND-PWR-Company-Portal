@@ -64,6 +64,10 @@
                 <category android:name="android.intent.category.BROWSABLE"/>
                 <data android:scheme="com.alsanidi.sndpower"
                     android:host="oauthredirect"/>
+
+<!--                <data-->
+<!--                    android:host="com.alsanidi.company_portal"-->
+<!--                    android:scheme="msauth" />-->
             </intent-filter>
         </activity>
 

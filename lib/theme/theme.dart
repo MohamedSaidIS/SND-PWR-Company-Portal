@@ -16,9 +16,9 @@ ThemeData lightMode = ThemeData(
   bottomSheetTheme: const BottomSheetThemeData(
     backgroundColor: Color(0xffffffff),
   ),
-  navigationBarTheme: NavigationBarThemeData(
-    backgroundColor: const Color(0xffe5dad3),
-    shadowColor: const Color(0xfff3f3f3)
+  navigationBarTheme: const NavigationBarThemeData(
+    backgroundColor: Color(0xffe5dad3),
+    shadowColor: Color(0xfff3f3f3)
   ),
   textTheme: const TextTheme(
     titleLarge: TextStyle(
@@ -101,9 +101,9 @@ ThemeData darkMode = ThemeData(
   bottomSheetTheme: const BottomSheetThemeData(
     backgroundColor: Color(0xFF555454),
   ),
-  navigationBarTheme: NavigationBarThemeData(
-      backgroundColor: const Color(0xff292929),
-      shadowColor: const Color(0xfff3f3f3)
+  navigationBarTheme: const NavigationBarThemeData(
+      backgroundColor: Color(0xff292929),
+      shadowColor: Color(0xfff3f3f3)
   ),
   textTheme: const TextTheme(
     titleLarge: TextStyle(

@@ -339,7 +339,7 @@ class AppLocalizationsAr extends AppLocalizations {
   String get openingApp => 'جارٍ فتح التطبيق...';
 
   @override
-  String get issue_details => ' تفاصيل الشكوى';
+  String get ticketDetails => 'تفاصيل التذكرة';
 
   @override
   String get exceeded => 'تجاوز';

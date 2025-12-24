@@ -23,21 +23,21 @@ class _DynamicsFormState extends State<DynamicsForm> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            CustomTextFieldWidget(
+            CustomTextField(
               controller: controller.title,
               label: local.title,
-              validator: (v) => CommonTextFieldForm.optional(""),
+              validator: (v) => TextFieldHelper.optional(""),
             ),
             const SizedBox(height: 16),
             Row(
               children: [
                 Expanded(
-                    child: CustomTextFieldWidget(
+                    child: CustomTextField(
                       key: const ValueKey('joiningDateField'),
                       controller: controller.date,
                       label: local.date,
                       readOnly: true,
-                      validator: (v) => CommonTextFieldForm.textFormFieldValidation(
+                      validator: (v) => TextFieldHelper.textFormFieldValidation(
                           v, local.pleaseEnterDate),
                     )),
                 Align(
@@ -49,36 +49,36 @@ class _DynamicsFormState extends State<DynamicsForm> {
               ],
             ),
             const SizedBox(height: 16),
-            CustomTextFieldWidget(
+            CustomTextField(
               controller: controller.description,
               label: local.description,
               maxLines: 3,
-              validator: (val) => CommonTextFieldForm.textFormFieldValidation(val, local.pleaseEnterYourDescription),
+              validator: (val) => TextFieldHelper.textFormFieldValidation(val, local.pleaseEnterYourDescription),
             ),
             const SizedBox(height: 16),
-            CustomTextFieldWidget(
+            CustomTextField(
               controller: controller.area,
               label: local.area,
-              validator: (val) => CommonTextFieldForm.textFormFieldValidation(val, local.enterArea),
+              validator: (val) => TextFieldHelper.textFormFieldValidation(val, local.enterArea),
             ),
             const SizedBox(height: 16),
-            CustomDropDownFieldWidget(
+            CustomDropDownField(
               value: controller.selectedPriority,
               label: local.priority,
               onChanged: (val) => controller.selectedPriority = val,
-              validator: (val) => CommonTextFieldForm.textFormFieldValidation(val, local.pleaseSelectPriority),
+              validator: (val) => TextFieldHelper.textFormFieldValidation(val, local.pleaseSelectPriority),
               items: getPriorities(local),
             ),
             const SizedBox(height: 16),
-            CustomDropDownFieldWidget(
+            CustomDropDownField(
               value: controller.selectedPurpose,
               label: local.purpose,
               onChanged: (val) => controller.selectedPurpose = val,
-              validator: (val) => CommonTextFieldForm.textFormFieldValidation(val, local.pleaseSelectPurpose),
+              validator: (val) => TextFieldHelper.textFormFieldValidation(val, local.pleaseSelectPurpose),
               items: getPurpose(local),
             ),
             const SizedBox(height: 16),
-           const AttachmentWidget(),
+           const AttachmentPicker(),
             const SizedBox(height: 10),
             SubmitButton(
               btnText: local.submit,

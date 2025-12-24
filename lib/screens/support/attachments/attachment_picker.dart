@@ -1,19 +1,21 @@
-import 'package:company_portal/screens/support/ecommerce_support_case/controllers/file_controller.dart';
+import 'package:company_portal/screens/support/attachments/controller/file_controller.dart';
 import 'package:company_portal/utils/context_extensions.dart';
 import 'package:flutter/material.dart';
 import 'package:line_awesome_flutter/line_awesome_flutter.dart';
 import 'package:provider/provider.dart';
 
-class AttachmentWidget extends StatefulWidget {
-  const AttachmentWidget({
+class AttachmentPicker extends StatefulWidget {
+  final bool isVacationRequest;
+  const AttachmentPicker({
+    this.isVacationRequest = false,
     super.key,
   });
 
   @override
-  State<AttachmentWidget> createState() => _AttachmentWidgetState();
+  State<AttachmentPicker> createState() => _AttachmentPickerState();
 }
 
-class _AttachmentWidgetState extends State<AttachmentWidget> {
+class _AttachmentPickerState extends State<AttachmentPicker> {
   @override
   Widget build(BuildContext context) {
     final theme = context.theme;
@@ -27,7 +29,7 @@ class _AttachmentWidgetState extends State<AttachmentWidget> {
             splashColor: Colors.black12,
             borderRadius: BorderRadius.circular(10),
             onTap: () async {
-              await provider.pickFiles();
+              widget.isVacationRequest? await provider.pickBase64Files(): await provider.pickFiles();
             },
             child: Padding(
               padding: const EdgeInsets.all(5),

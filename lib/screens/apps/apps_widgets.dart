@@ -33,9 +33,11 @@ Widget buildCardInfo(String iconStr, String text, bool isTablet) {
     crossAxisAlignment: CrossAxisAlignment.center,
     mainAxisAlignment: MainAxisAlignment.center,
     children: [
-      Image.asset(
-        iconStr,
-        scale: isTablet ? 1 : 1.4,
+      RepaintBoundary(
+        child: Image.asset(
+          iconStr,
+          scale: isTablet ? 1 : 1.4,
+        ),
       ),
       Padding(
         padding: const EdgeInsets.only(top: 10.0),

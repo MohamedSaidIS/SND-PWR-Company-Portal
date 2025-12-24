@@ -1,6 +1,5 @@
 import 'package:company_portal/screens/request/widgets/request_form.dart';
 import 'package:flutter/material.dart';
-
 import '../../../../utils/export_import.dart';
 
 class VacationRequestFormScreen extends StatefulWidget {
@@ -14,13 +13,12 @@ class VacationRequestFormScreen extends StatefulWidget {
 }
 
 class _VacationRequestFormScreenState extends State<VacationRequestFormScreen> {
-  late final VacationRequestController controller;
+ late final VacationRequestController controller;
 
   @override
   void initState() {
     super.initState();
-    controller = VacationRequestController(context,
-        personnelNumber: widget.personnelNumber);
+   controller = VacationRequestController(context, personnelNumber: widget.personnelNumber);
   }
 
   @override
@@ -31,15 +29,11 @@ class _VacationRequestFormScreenState extends State<VacationRequestFormScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final theme = context.theme;
 
     return Scaffold(
-      backgroundColor: theme.colorScheme.surface,
       body: Padding(
         padding: const EdgeInsets.all(16.0),
-        child: RequestForm(
-          controller: controller,
-        ),
+        child: RequestForm( controller: controller,),
       ),
     );
   }

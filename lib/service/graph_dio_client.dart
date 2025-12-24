@@ -29,9 +29,11 @@ class GraphDioClient {
           final expired = await isTokenExpired();
           AppNotifier.logWithScreen("GraphDioClient","Graph AccessToken Expired $expired");
           if (expired) {
-            token = await _refreshToken();
+           token = await _refreshToken();
             AppNotifier.logWithScreen("GraphDioClient","Graph AccessToken Expired And New Token is $token");
           }
+
+          AppNotifier.logWithScreen("GraphDioClient","Graph AccessToken Expired And not null Token is before $token");
           if (token != null) {
             AppNotifier.logWithScreen("GraphDioClient","Graph AccessToken Expired And not null Token is $token");
             options.headers['Authorization'] = 'Bearer $token';
@@ -54,8 +56,8 @@ class GraphDioClient {
   Future<bool> isTokenExpired(
       {Duration expiryDuration = const Duration(hours: 1)}) async {
     String? savedAtStr = await secureStorage.getData("TokenSavedAt");
-
-    if (savedAtStr == "") return true; // Token hadn't been saved yet
+    AppNotifier.logWithScreen("GraphDioClient","Graph AccessToken savedAtStr $savedAtStr");
+    if (savedAtStr == "") return true;
 
     final savedAt = DateTime.tryParse(savedAtStr);
     if (savedAt == null) return true;

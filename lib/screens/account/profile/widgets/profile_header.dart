@@ -1,7 +1,6 @@
 import 'dart:io';
 import 'dart:typed_data';
 import 'package:flutter/material.dart';
-import 'package:shimmer/shimmer.dart';
 import '../../../../utils/export_import.dart';
 
 class ProfileHeader extends StatelessWidget {
@@ -39,21 +38,19 @@ class ProfileHeader extends StatelessWidget {
           onEdit: onPickImage,
         ),
         const SizedBox(height: 16),
-
         StateHandlerWidget(
           state: state,
           error: error,
-          loadingBuilder: (context) => _skeletonLoading(theme),
+          loadingBuilder: (context) => const UserInfoLoading(),
           errorBuilder: (context) => Padding(
             padding: const EdgeInsets.all(8.0),
             child: Text(
-              "حدث خطأ أثناء تحميل البيانات: ${error ?? ''}",
-              style: theme.textTheme.bodyLarge
-                  ?.copyWith(color: Colors.redAccent),
+              "حدث خطأ أثناء تحميل البيانات",
+              style: theme.textTheme.bodyLarge?.copyWith(color: Colors.redAccent),
               textAlign: TextAlign.center,
             ),
           ),
-          dataBuilder: (context) => _buildUserInfo(theme),
+          dataBuilder: (context) => UserInfoWidget(userInfo: userInfo),
           emptyTitle: '',
           emptySubtitle: '',
         ),
@@ -61,71 +58,4 @@ class ProfileHeader extends StatelessWidget {
     );
   }
 
-  Widget _buildUserInfo(ThemeData theme) {
-    return AnimatedSwitcher(
-      duration: const Duration(milliseconds: 400),
-      transitionBuilder: (child, animation) {
-        return FadeTransition(
-          opacity: animation,
-          child: SlideTransition(
-            position: Tween<Offset>(
-              begin: const Offset(0, 0.1),
-              end: Offset.zero,
-            ).animate(CurvedAnimation(
-              parent: animation,
-              curve: Curves.easeOut,
-            )),
-            child: child,
-          ),
-        );
-      },
-      child: Column(
-        key: ValueKey("${userInfo?.givenName ?? ''} ${userInfo?.surname ?? ''}"),
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: [
-          UserText(
-            textStr: "${userInfo?.givenName ?? "-"} ${userInfo?.surname ?? "-"}",
-            textStyle: theme.textTheme.displayLarge!,
-          ),
-          UserText(
-            textStr: userInfo?.jobTitle ?? "-",
-            textStyle: theme.textTheme.displayMedium!,
-          ),
-          UserText(
-            textStr: userInfo?.mail ?? "-",
-            textStyle: theme.textTheme.displaySmall!,
-          ),
-        ],
-      ),
-    );
-  }
-
-  Widget _skeletonLoading(ThemeData theme) {
-    Widget skeletonBox(double width, double height) {
-      return Padding(
-        padding: const EdgeInsets.symmetric(vertical: 6.0),
-        child: Container(
-          width: width,
-          height: height,
-          decoration: BoxDecoration(
-            color: theme.colorScheme.surface,
-            borderRadius: BorderRadius.circular(8),
-          ),
-        ),
-      );
-    }
-
-    return Shimmer.fromColors(
-      baseColor: theme.colorScheme.surface,
-      highlightColor: theme.colorScheme.onSurface.withValues(alpha: 0.05),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: [
-          skeletonBox(200, 18),
-          skeletonBox(150, 16),
-          skeletonBox(100, 14),
-        ],
-      ),
-    );
-  }
 }

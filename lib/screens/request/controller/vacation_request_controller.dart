@@ -1,12 +1,9 @@
-import 'package:company_portal/models/remote/vacation_permission_request.dart';
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import 'package:signature/signature.dart';
-
 import '../../../../utils/export_import.dart';
 
-class VacationRequestController {
+class VacationRequestController  {
   BuildContext context;
   final GlobalKey<FormState> formKey = GlobalKey<FormState>();
   final String? personnelNumber;
@@ -19,7 +16,8 @@ class VacationRequestController {
 
   DateTime? startDate;
   DateTime? endDate;
-  bool startDateSelected = true, endDateSelected = true;
+  bool startDateSelected = true,
+      endDateSelected = true;
   bool isLoading = false;
 
   String? vacationType;
@@ -32,8 +30,8 @@ class VacationRequestController {
   int calculateWorkingDays(DateTime start, DateTime end) {
     int workingDays = 0;
     for (DateTime date = start;
-        !date.isAfter(end);
-        date = date.add(const Duration(days: 1))) {
+    !date.isAfter(end);
+    date = date.add(const Duration(days: 1))) {
       // 5 = Friday, 6 = Saturday
       if (date.weekday != DateTime.friday &&
           date.weekday != DateTime.saturday) {
@@ -61,7 +59,7 @@ class VacationRequestController {
     final pickedDate = await showDatePicker(
       context: context,
       initialDate:
-          isStartDate ? startDate ?? DateTime.now() : endDate ?? DateTime.now(),
+      isStartDate ? startDate ?? DateTime.now() : endDate ?? DateTime.now(),
       firstDate: DateTime(2020),
       lastDate: DateTime(2100),
       builder: (context, child) {
@@ -106,14 +104,12 @@ class VacationRequestController {
     }
   }
 
-  String formatDate(DateTime? date, AppLocalizations local, String locale) {
-    if (date == null) return local.selectDate;
-    return DateFormat('dd-MM-yyyy', locale).format(date);
-  }
 
-  Future<void> submitRequest(
-      BuildContext context, AppLocalizations local) async {
+
+  Future<void> submitRequest(BuildContext context,
+      AppLocalizations local) async {
     final provider = context.read<VacationPermissionRequestProvider>();
+    final fileController = context.read<FileController>();
 
     final isValid = formKey.currentState?.validate() ?? false;
     if (!isValid) return;
@@ -142,6 +138,7 @@ class VacationRequestController {
           personnelNumber: code.text,
           absenceCode: vacationType!,
           notes: note.text,
+          attachments: vacationType == "001" ? getAttachments(fileController.attachedFiles) : null,
         ),
       );
 
@@ -156,12 +153,25 @@ class VacationRequestController {
     }
   }
 
+  List<VacationAttachment> getAttachments(List<AttachedBytes> attachedFiles) {
+    // print("Base64Files ${attachedFiles.first.fileName} ${attachedFiles.first.fileBytesBase64}");
+    return attachedFiles.map((attachment) {
+      return VacationAttachment(
+          fileNameWithExtension: attachment.fileName,
+          fileType: attachment.fileType?? "",
+          file: attachment.fileBytesBase64!);
+    }).toList();
+
+  }
+
   void clearData() {
     management.clear();
     department.clear();
     jobTitle.clear();
     vacationType = null;
     selectedType = 'Vacation';
+    startDate = null;
+    endDate = null;
   }
 
   void dispose() {

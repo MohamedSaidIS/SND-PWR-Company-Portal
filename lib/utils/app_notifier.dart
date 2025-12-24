@@ -1,5 +1,8 @@
+import 'package:company_portal/config/auth_controller.dart';
+import 'package:company_portal/controllers/msal_auth_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
+import 'package:provider/provider.dart';
 import '../../../../utils/export_import.dart';
 import '../main.dart';
 
@@ -12,6 +15,7 @@ class AppNotifier {
   static void showLogoutDialog(BuildContext context) {
     final theme = context.theme;
     final local = context.local;
+    final oauth = context.read<AuthConfigController>();
 
     showDialog(
       context: context,
@@ -38,7 +42,7 @@ class AppNotifier {
                 onPressed: () async {
                   try {
                     await SecureStorageService().deleteData();
-
+                    await MsalAuthController(context: context, oauth: oauth).logout();
                     // final logoutUrl =
                     //     "https://login.microsoftonline.com/${EnvConfig.msTenantId}/oauth2/v2.0/logout"
                     //     "?post_logout_redirect_uri=${Uri.encodeComponent(EnvConfig.msRedirectUri)}";
@@ -291,7 +295,7 @@ class AppNotifier {
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
-              const CircularProgressIndicator(),
+              loadingWidget(context.theme),
               const SizedBox(height: 16),
               Text(
                 message,
@@ -313,11 +317,18 @@ class AppNotifier {
 
   static Widget loadingWidget(ThemeData theme) {
     return Center(
-      child: CircularProgressIndicator(
-        backgroundColor: theme.colorScheme.primary.withValues(alpha: 0.5),
+      child: CircularProgressIndicator.adaptive(
+        padding: const EdgeInsets.all(20),
         strokeWidth: 2.5,
-        color: theme.colorScheme.secondary,
+        valueColor: AlwaysStoppedAnimation(theme.colorScheme.secondary),
       ),
+    );
+  }
+
+  static Widget commentLoadingWidget(ThemeData theme) {
+    return CircularProgressIndicator.adaptive(
+      strokeWidth: 2.5,
+      valueColor: AlwaysStoppedAnimation(theme.colorScheme.secondary),
     );
   }
 

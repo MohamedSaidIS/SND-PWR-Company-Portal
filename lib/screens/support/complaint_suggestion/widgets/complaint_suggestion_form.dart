@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import '../../../../utils/export_import.dart';
-import '../../common_widgets/attachment_widget.dart';
 
 class ComplaintSuggestionForm extends StatefulWidget {
   final int ensureUser;
@@ -70,41 +69,41 @@ class _ComplaintSuggestionFormState extends State<ComplaintSuggestionForm> {
               ],
             ),
             const SizedBox(height: 16),
-            CustomDropDownFieldWidget(
+            CustomDropDownField(
               value: controller.selectedCategory,
               label: local.category,
               onChanged: (val) => controller.selectedCategory = val,
               items: getCategories(local),
-              validator: (val) => CommonTextFieldForm.textFormFieldValidation(
+              validator: (val) => TextFieldHelper.textFormFieldValidation(
                   val, local.pleaseSelectCategory),
             ),
             const SizedBox(height: 16),
-            CustomDropDownFieldWidget(
+            CustomDropDownField(
               value: controller.selectedPriority,
               label: local.priority,
               onChanged: (val) => controller.selectedPriority = val,
               items: getPriorities(local),
-              validator: (val) => CommonTextFieldForm.textFormFieldValidation(
+              validator: (val) => TextFieldHelper.textFormFieldValidation(
                   val, local.pleaseSelectPriority),
             ),
             const SizedBox(height: 16),
-            CustomTextFieldWidget(
+            CustomTextField(
               controller: controller.issueTitle,
               label: local.issueTitle,
               maxLines: 2,
-              validator: (value) => CommonTextFieldForm.textFormFieldValidation(
+              validator: (value) => TextFieldHelper.textFormFieldValidation(
                   value, local.pleaseEnterTitle),
             ),
             const SizedBox(height: 16),
-            CustomTextFieldWidget(
+            CustomTextField(
               controller: controller.issueDescription,
               label: local.issueDescription,
               maxLines: 4,
-              validator: (value) => CommonTextFieldForm.textFormFieldValidation(
+              validator: (value) => TextFieldHelper.textFormFieldValidation(
                   value, local.pleaseEnterYourDescription),
             ),
             const SizedBox(height: 16),
-            const AttachmentWidget(),
+            const AttachmentPicker(),
             const SizedBox(height: 16),
             SubmitButton(
               btnText: local.submit,

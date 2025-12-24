@@ -21,9 +21,9 @@ class SectionWidget extends StatelessWidget {
     final screenWidth = MediaQuery.of(context).size.width;
 
 
-    return SizedBox(
-      height: carouselHeight,
-      child: SingleChildScrollView(
+    return RepaintBoundary(
+      child: SizedBox(
+        height: carouselHeight,
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -41,12 +41,14 @@ class SectionWidget extends StatelessWidget {
               ),
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 21.0),
-              child: Text(
-                section.description,
-                style: theme.textTheme.bodyLarge?.copyWith(
-                  fontSize: isLandScape ? (carouselHeight * 0.1) : (carouselHeight * 0.035),
+              child: RepaintBoundary(
+                child: Text(
+                  section.description,
+                  style: theme.textTheme.bodyLarge?.copyWith(
+                    fontSize: isLandScape ? (carouselHeight * 0.1) : (carouselHeight * 0.035),
+                  ),
+                  textAlign: !isEnglish ? TextAlign.right : TextAlign.left,
                 ),
-                textAlign: !isEnglish ? TextAlign.right : TextAlign.left,
               ),
             ),
           ],

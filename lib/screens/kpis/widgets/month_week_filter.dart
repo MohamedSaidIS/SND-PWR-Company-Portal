@@ -1,7 +1,5 @@
 import '../../../../utils/export_import.dart';
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
-
 
 class MonthWeekFilter extends StatelessWidget {
   final int? selectedMonth;
@@ -42,7 +40,7 @@ class MonthWeekFilter extends StatelessWidget {
               final month = index + 1;
               return DropdownMenuItem(
                 value: month,
-                child: Text(DateFormat.MMMM(locale).format(DateTime(0, month)),
+                child: Text(DatesHelper.monthFormatted(DateTime(0, month), locale),
                 ),
               );
             }),

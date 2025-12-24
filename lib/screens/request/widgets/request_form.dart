@@ -17,7 +17,6 @@ class _RequestFormState extends State<RequestForm> {
     final theme = context.theme;
     final local = context.local;
 
-    print("Selected Type: ${widget.controller.selectedType}");
     return Scaffold(
       backgroundColor: theme.colorScheme.surface,
       body: SafeArea(
@@ -39,6 +38,11 @@ class _RequestFormState extends State<RequestForm> {
                           onChange: (val) {
                             setState(() {
                               widget.controller.selectedType = val;
+
+                              widget.controller.vacationType = null;
+                              // widget.controller.vacationDays = 0;
+                              // widget.controller.clearDates(); // لو عندك method تمسح التواريخ
+                              // widget.controller.allFilesAttached.clear(); // لو فيه مرفقات
                             });
                           }),
                     ),
@@ -51,6 +55,11 @@ class _RequestFormState extends State<RequestForm> {
                         onChange: (val) {
                           setState(() {
                             widget.controller.selectedType = val;
+
+                            widget.controller.vacationType = null;
+                            // widget.controller.vacationDays = 0;
+                            // widget.controller.clearDates();
+                            // widget.controller.allFilesAttached.clear();
                           });
                         },
                       ),
@@ -58,15 +67,15 @@ class _RequestFormState extends State<RequestForm> {
                   ],
                 ),
                 const SizedBox(height: 16),
-                CustomTextFieldWidget(
+                CustomTextField(
                   controller: widget.controller.code,
                   label: local.employeeCode,
                   readOnly: true,
-                  validator: (v) => CommonTextFieldForm.textFormFieldValidation(
+                  validator: (v) => TextFieldHelper.textFormFieldValidation(
                       v, local.requiredField),
                 ),
                 const SizedBox(height: 16),
-                CustomDropDownFieldWidget(
+                CustomDropDownField(
                   value: widget.controller.vacationType,
                   label: local.vacationType,
                   onChanged: (val) {
@@ -74,7 +83,7 @@ class _RequestFormState extends State<RequestForm> {
                       widget.controller.vacationType = val;
                     });
                   },
-                  validator: (v) => CommonTextFieldForm.textFormFieldValidation(
+                  validator: (v) => TextFieldHelper.textFormFieldValidation(
                       v, local.requiredField),
                   items: widget.controller.selectedType == "Vacation"
                       ? getVacationCode(local)
@@ -85,18 +94,22 @@ class _RequestFormState extends State<RequestForm> {
                   controller: widget.controller,
                 ),
                 const SizedBox(height: 8),
-                widget.controller.selectedType == "Vacation"
-                    ? Text(
-                        '${local.vacationDays}: ${widget.controller.vacationDays}',
-                        style: theme.textTheme.headlineSmall,
-                      )
+                // widget.controller.selectedType == "Vacation"
+                //     ? Text(
+                //         '${local.vacationDays}: ${widget.controller.vacationDays}',
+                //         style: theme.textTheme.headlineSmall,
+                //       )
+                //     : const SizedBox.shrink(),
+                const SizedBox(height: 8),
+                widget.controller.vacationType == "001"
+                    ? const AttachmentPicker(isVacationRequest: true,)
                     : const SizedBox.shrink(),
                 const SizedBox(height: 16),
-                CustomTextFieldWidget(
+                CustomTextField(
                   controller: widget.controller.note,
                   label: local.note,
                   maxLines: 3,
-                  validator: (v) => CommonTextFieldForm.optional(v),
+                  validator: (v) => TextFieldHelper.optional(v),
                 ),
                 const SizedBox(height: 16),
                 SubmitButton(

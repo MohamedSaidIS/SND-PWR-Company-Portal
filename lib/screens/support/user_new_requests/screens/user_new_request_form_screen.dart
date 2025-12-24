@@ -35,8 +35,8 @@ class _UserNewRequestFormScreenState extends State<UserNewRequestFormScreen> {
     final local = context.local;
 
     if (controller.isFilling) {
-      return const Scaffold(
-        body: Center(child: CircularProgressIndicator()),
+      return Scaffold(
+        body: AppNotifier.loadingWidget(theme),
       );
     }
 

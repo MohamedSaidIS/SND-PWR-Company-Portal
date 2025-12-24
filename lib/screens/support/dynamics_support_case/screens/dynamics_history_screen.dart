@@ -75,12 +75,12 @@ class _DynamicsHistoryScreenState extends State<DynamicsHistoryScreen>
                 itemCount: dynamicsItemsList.length,
                 itemBuilder: (context, index) {
                   final item = dynamicsItemsList[index];
-                  return HistoryTileWidget(
+                  return TicketsHistory(
                     title: item.title ?? '',
                     id: item.id.toString(),
                     needStatus: true,
                     status: item.status ?? '',
-                    navigatedScreen: HistoryItemDetails(
+                    navigatedScreen: TicketDetailsScreen(
                       itemId: item.id.toString(),
                       title: item.title,
                       description: item.description,

@@ -1,3 +1,4 @@
+import 'package:company_portal/data/constants.dart';
 import 'package:flutter/foundation.dart';
 import '../utils/export_import.dart';
 
@@ -8,9 +9,7 @@ class CommentProvider extends ChangeNotifier {
   CommentProvider(
       {required this.sharePointDioClient, required this.mySharePointDioClient});
 
-  static const itListId = '35274cd8-ad05-4d42-adc1-20a127aad3d3';
-  static const alsanidiListId = 'c09e3694-3b81-43b5-b39c-49a26155612e';
-  static const dynamicsListId = '3b2e2dd6-55a0-4ee4-b517-5ccd63b6a12a';
+
 
   List<ItemComments> _comments = [];
   bool _loading = false;
@@ -24,19 +23,19 @@ class CommentProvider extends ChangeNotifier {
 
   String retrieveUrl(String ticketId, String commentCall) {
     var url =
-        "/sites/IT-Requests/_api/web/lists(guid'$itListId')/items($ticketId)/comments";
+        "/sites/IT-Requests/_api/web/lists(guid'${Constants.itListId}')/items($ticketId)/comments";
     switch (commentCall) {
       case "It":
         url =
-            "/sites/IT-Requests/_api/web/lists(guid'$itListId')/items($ticketId)/comments";
+            "/sites/IT-Requests/_api/web/lists(guid'${Constants.itListId}')/items($ticketId)/comments";
         break;
       case "Alsanidi":
         url =
-            "/sites/AbdulrahmanHamadAlsanidi/_api/Web/Lists(guid'$alsanidiListId')/items($ticketId)/comments";
+            "/sites/AbdulrahmanHamadAlsanidi/_api/Web/Lists(guid'${Constants.alsanidiListId}')/items($ticketId)/comments";
         break;
       case "Dynamics":
         url =
-            "/_api/Web/Lists(guid'$dynamicsListId')/items($ticketId)/comments";
+            "https://alsanidi-my.sharepoint.com/personal/retail_alsanidi_onmicrosoft_com/_api/Web/Lists(guid'${Constants.dynamicsListId}')/items($ticketId)/comments";
         break;
     }
     return url;

@@ -1,4 +1,3 @@
-import 'package:company_portal/screens/support/ecommerce_support_case/controllers/file_controller.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:provider/provider.dart';
 import '../../../../utils/export_import.dart';
@@ -71,6 +70,7 @@ class ComplaintSuggestionFormController extends ChangeNotifier {
   }
 
   void dispose() {
+    super.dispose();
     issueTitle.dispose();
     issueDescription.dispose();
     name.dispose();

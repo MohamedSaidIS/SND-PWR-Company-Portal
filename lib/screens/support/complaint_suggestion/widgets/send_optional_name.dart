@@ -18,7 +18,7 @@ class SendOptionalName extends StatelessWidget {
         Expanded(
           child: TextFormField(
             controller: nameController,
-            decoration: CommonTextFieldForm.textFormFieldDecoration(
+            decoration: TextFieldHelper.textFormFieldDecoration(
                 local.nameOptional, local),
             enabled: false,
             readOnly: true,

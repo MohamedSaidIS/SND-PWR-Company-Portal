@@ -11,11 +11,33 @@ class SettingsScreen extends StatefulWidget {
 }
 
 class _SettingsScreenState extends State<SettingsScreen> {
+  List<MenuItem> items = [];
+  late AppLocalizations local;
+  late ThemeData theme;
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+
+    local = context.local;
+    theme = context.theme;
+    items = [
+      MenuItem(
+        title: local.notifications,
+        isNotification: true,
+        icon: LineAwesomeIcons.bell,
+        navigatedPage: () => const NotificationScreen(),
+      ),
+      MenuItem(
+        title: local.language,
+        icon: LineAwesomeIcons.language_solid,
+        navigatedPage: () => const LanguageScreen(),
+      ),
+    ];
+  }
+
   @override
   Widget build(BuildContext context) {
-    final theme = context.theme;
-    final local = context.local;
-
     return PopScope(
       canPop: false,
       child: Scaffold(
@@ -30,23 +52,16 @@ class _SettingsScreenState extends State<SettingsScreen> {
           child: SingleChildScrollView(
             child: Container(
               padding: const EdgeInsets.symmetric(vertical: 15, horizontal: 35),
-              child: Column(
-                children: [
-                  const SizedBox(
-                    height: 30.0,
-                  ),
-                  MenuWidget(
-                    title: local.notifications,
-                    isNotification: true,
-                    icon: LineAwesomeIcons.bell,
-                    navigatedPage: () => const NotificationScreen(),
-                  ),
-                  MenuWidget(
-                    title: local.language,
-                    icon: LineAwesomeIcons.language_solid,
-                    navigatedPage: () => const LanguageScreen(),
-                  ),
-                ],
+              child: ListView.builder(
+                shrinkWrap: true,
+                physics: const NeverScrollableScrollPhysics(),
+                itemCount: items.length,
+                itemBuilder: (context, index) {
+                  final item = items[index];
+                  return MenuWidget(
+                    item: item,
+                  );
+                },
               ),
             ),
           ),

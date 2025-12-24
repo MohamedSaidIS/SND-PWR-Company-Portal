@@ -26,43 +26,43 @@ class _EcommerceFormState extends State<EcommerceForm> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            CustomTextFieldWidget(
+            CustomTextField(
               controller: controller.title,
               label: local.title,
-              validator: (v) => CommonTextFieldForm.optional(""),
+              validator: (v) => TextFieldHelper.optional(""),
             ),
             const SizedBox(height: 16),
-            CustomTextFieldWidget(
+            CustomTextField(
               controller: controller.description,
               label: local.description,
               maxLines: 3,
-              validator: (v) => CommonTextFieldForm.optional(""),
+              validator: (v) => TextFieldHelper.optional(""),
             ),
             const SizedBox(height: 16),
-            CustomDropDownFieldWidget(
+            CustomDropDownField(
               value: controller.selectedPriority,
               label: local.priority,
               onChanged: (val) => controller.selectedPriority = val,
-              validator: (v) => CommonTextFieldForm.textFormFieldValidation(v, local.pleaseSelectPriority),
+              validator: (v) => TextFieldHelper.textFormFieldValidation(v, local.pleaseSelectPriority),
               items: getPriorities(local),
             ),
             const SizedBox(height: 16),
-            CustomDropDownFieldWidget(
+            CustomDropDownField(
               value: controller.selectedApp,
               label: local.app,
               onChanged: (val) => controller.selectedApp = val,
-              validator: (v) => CommonTextFieldForm.textFormFieldValidation(v, local.pleaseSelectApp),
+              validator: (v) => TextFieldHelper.textFormFieldValidation(v, local.pleaseSelectApp),
               items: getAppList(local),
             ),
             const SizedBox(height: 16),
-            CustomDropDownFieldWidget(
+            CustomDropDownField(
               value: controller.selectedType,
               label: local.type,
               onChanged: (val) => controller.selectedType = val,
               items: getTypeList(local),
             ),
             const SizedBox(height: 16),
-            const AttachmentWidget(),
+            const AttachmentPicker(),
             const SizedBox(height: 10),
             SubmitButton(
               btnText: local.submit,

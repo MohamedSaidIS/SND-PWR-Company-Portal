@@ -15,7 +15,6 @@ class LogoAndCarouselWidget extends StatelessWidget {
       builder: (context, orientation) {
         final isLandScape = orientation == Orientation.landscape;
         final screenSize = MediaQuery.of(context).size;
-
         final double logoHeight = screenSize.height * (isLandScape ? 0.16 : 0.15);
         final double padding = screenSize.width * (isLandScape ? 0.01 : 0.13);
         final double verticalPadding = isLandScape? 5 : 10;
@@ -25,12 +24,15 @@ class LogoAndCarouselWidget extends StatelessWidget {
 
         return Column(
           children: [
-            Padding(
-              padding: EdgeInsets.only(right: padding, left: padding, bottom: verticalPadding),
-              child: Image.asset(
-                assetPath,
-                height: logoHeight,
-                fit: BoxFit.contain,
+            RepaintBoundary(
+              key: Key(assetPath),
+              child: Padding(
+                padding: EdgeInsets.only(right: padding, left: padding, bottom: verticalPadding),
+                child: Image.asset(
+                  assetPath,
+                  height: logoHeight,
+                  fit: BoxFit.contain,
+                ),
               ),
             ),
             const Expanded(child: CarouselSliderWidget()),

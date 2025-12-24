@@ -71,11 +71,8 @@ class AttachmentsProvider extends ChangeNotifier {
           parsedResponse,
         );
         List<String> fileNames = _attachments.map((e) => e.fileName).toList();
-        print("FileNames: $fileNames");
         await fetchAttachedFiles(ticketId, fileNames, commentCall);
-
-        AppNotifier.logWithScreen("Attachment Provider",
-            "Attachments Fetching parsed: ${attachments[0].fileName}");
+        AppNotifier.logWithScreen("Attachment Provider", "Attachments Fetching parsed: ${attachments[0].fileName}");
       } else {
         _error = 'Failed to load Attachments data';
         AppNotifier.logWithScreen(
@@ -155,7 +152,7 @@ class AttachmentsProvider extends ChangeNotifier {
         Uint8List? fileBytes = await downloadSingleFile(ticketId, fileName, commentCall);
 
         if (fileBytes != null) {
-          _fetchedFileBytes.add(AttachedBytes(fileName: fileName, fileBytes: fileBytes));
+          _fetchedFileBytes.add(AttachedBytes(fileName: fileName, fileBytes: fileBytes, fileBytesBase64: null, fileType: null));
 
           AppNotifier.logWithScreen(
             "Ecommerce Provider",

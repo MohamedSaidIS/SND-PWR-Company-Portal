@@ -130,7 +130,7 @@ abstract class AppLocalizations {
   /// No description provided for @requestsCreation.
   ///
   /// In en, this message translates to:
-  /// **'Requests Creation'**
+  /// **'Requests \nCreation'**
   String get requestsCreation;
 
   /// No description provided for @vacationRequestLine.
@@ -757,11 +757,11 @@ abstract class AppLocalizations {
   /// **'Opening App...'**
   String get openingApp;
 
-  /// No description provided for @issue_details.
+  /// No description provided for @ticketDetails.
   ///
   /// In en, this message translates to:
-  /// **'Issue Details'**
-  String get issue_details;
+  /// **'Ticket Details'**
+  String get ticketDetails;
 
   /// No description provided for @exceeded.
   ///

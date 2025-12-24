@@ -30,9 +30,9 @@ class SubmitButton extends StatelessWidget {
           ? const SizedBox(
               width: 24,
               height: 24,
-              child: CircularProgressIndicator(
+              child: CircularProgressIndicator.adaptive(
                 strokeWidth: 2,
-                color: Colors.white,
+                valueColor: AlwaysStoppedAnimation(Colors.white),
               ),
             )
           : Text(

@@ -53,7 +53,7 @@ class UserImageWidget extends StatelessWidget {
                     height: 250,
                     child: ClipRRect(
                       borderRadius: BorderRadius.circular(100),
-                      child: _buildImageContent(),
+                      child: _buildImageContent(theme),
                     ),
                   ),
                 ),
@@ -81,16 +81,22 @@ class UserImageWidget extends StatelessWidget {
           );
   }
 
-  Widget _buildImageContent() {
-    return !imageIsUploading && imageLoading
-        ? const Center(child: CircularProgressIndicator())
+  Widget _buildImageContent(ThemeData theme) {
+    return imageIsUploading || imageLoading
+        ? AppNotifier.loadingWidget(theme)
         : image != null
-            ? Image.file(image!, width: 200, height: 200, fit: BoxFit.cover)
+            ? RepaintBoundary(
+                child: Image.file(image!,
+                    cacheWidth: 200, cacheHeight: 200, fit: BoxFit.cover))
             : imageBytes != null
-                ? Image.memory(imageBytes!,
-                    width: 200, height: 200, fit: BoxFit.cover)
-                : const Image(
-                    image: AssetImage("assets/images/profile_avatar.png"),
+                ? RepaintBoundary(
+                    child: Image.memory(imageBytes!,
+                        cacheWidth: 200, cacheHeight: 200, fit: BoxFit.cover),
+                  )
+                : const RepaintBoundary(
+                    child: Image(
+                      image: AssetImage("assets/images/profile_avatar.png"),
+                    ),
                   );
   }
 

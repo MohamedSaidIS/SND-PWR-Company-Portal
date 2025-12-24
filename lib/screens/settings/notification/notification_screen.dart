@@ -159,7 +159,6 @@ class _NotificationScreenState extends State<NotificationScreen> {
                 itemCount: filteredNotifications.length,
                 itemBuilder: (context, index) {
                   final notification = filteredNotifications[index];
-                  print("List Builder ${filteredNotifications.length}");
 
                   return Card(
                     color: notification["bgColor"],
@@ -216,7 +215,7 @@ class FilterButton extends StatelessWidget {
       onPressed: onPressed,
       child: Text(
         text,
-        style: TextStyle(fontSize: 14),
+        style: const TextStyle(fontSize: 14),
       ),
     );
   }

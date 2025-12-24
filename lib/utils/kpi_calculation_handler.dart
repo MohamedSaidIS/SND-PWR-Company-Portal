@@ -1,5 +1,4 @@
 import 'dart:math';
-import 'package:intl/intl.dart';
 import 'package:week_number/iso.dart';
 import 'package:jiffy/jiffy.dart';
 import 'export_import.dart';
@@ -191,7 +190,7 @@ class KpiCalculationHandler {
       date = DateTime(now.year, selectedMonth);
     }
     AppNotifier.logWithScreen("KpiCalculation Handler", "Date: $date");
-    final monthName = DateFormat.yMMMM(locale).format(date);
+    final monthName = DatesHelper.monthToYearFormatted(date, locale);
     AppNotifier.logWithScreen("KpiCalculation Handler", "Month Name: $monthName");
     return monthName;
   }
@@ -202,7 +201,7 @@ class KpiCalculationHandler {
     if (data.isEmpty) {
       now = DateTime(DateTime.now().year, selectedMonth);
       AppNotifier.logWithScreen("KpiCalculation Handler", "LastDay $now");
-      return DateFormat.yMMMEd(locale).format(now);
+      return DatesHelper.dayToMonToYearFormatted(now, locale);
     }
 
     final startOfWeek = getIsoWeekStart(DateTime.now().year, selectedWeek);
@@ -225,7 +224,7 @@ class KpiCalculationHandler {
     if (weekData.isEmpty){
       now = DateTime(DateTime.now().year, selectedMonth);
       AppNotifier.logWithScreen("KpiCalculation Handler", "LastDay $now");
-      return DateFormat.yMMMEd(locale).format(now);
+      return DatesHelper.dayToMonToYearFormatted(now, locale);
     }
 
     final lastKpi = weekData.reduce((a, b) =>
@@ -235,7 +234,7 @@ class KpiCalculationHandler {
     if (weekData.isNotEmpty) {
       now = lastKpi.transDate;
     }
-    final lastDayName = DateFormat.yMMMEd(locale).format(now);
+    final lastDayName = DatesHelper.dayToMonToYearFormatted(now, locale);
     AppNotifier.logWithScreen("KpiCalculation Handler", "after LastDay $lastDayName");
     return lastDayName;
   }

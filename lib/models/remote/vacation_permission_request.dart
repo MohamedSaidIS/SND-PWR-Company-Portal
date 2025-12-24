@@ -1,3 +1,5 @@
+import '../../utils/export_import.dart';
+
 class VacationPermissionRequest {
   final DateTime profileDate = DateTime.now();
   final DateTime startDate;
@@ -5,6 +7,7 @@ class VacationPermissionRequest {
   final String personnelNumber;
   final String absenceCode;
   final String notes;
+  final List<VacationAttachment>? attachments;
 
   VacationPermissionRequest({
     required this.startDate,
@@ -12,6 +15,7 @@ class VacationPermissionRequest {
     required this.personnelNumber,
     required this.absenceCode,
     required this.notes,
+    required this.attachments,
   });
 
   Map<String, dynamic> toJson() => {
@@ -21,6 +25,7 @@ class VacationPermissionRequest {
         "PersonnelNumber": personnelNumber,
         "AbsenceCode": absenceCode,
         "Notes": notes,
+        "Lines": attachments
       };
 }
 

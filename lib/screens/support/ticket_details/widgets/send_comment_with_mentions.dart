@@ -1,14 +1,17 @@
-import 'package:company_portal/utils/context_extensions.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mentions/flutter_mentions.dart';
 import 'package:provider/provider.dart';
-import '../../../../utils/app_notifier.dart';
-import '../../history_item_details_with_comments/controller/send_comment_controller.dart';
+import '../../../../utils/export_import.dart' hide Mention;
 
-class SendCommentMentionsField extends StatelessWidget {
+class SendCommentWithMentions extends StatelessWidget {
   final List<Map<String, dynamic>> mentionUsers;
   final String itemId, commentCall;
-  const SendCommentMentionsField({required this.mentionUsers, required this.itemId, required this.commentCall, super.key});
+
+  const SendCommentWithMentions(
+      {required this.mentionUsers,
+      required this.itemId,
+      required this.commentCall,
+      super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -16,7 +19,7 @@ class SendCommentMentionsField extends StatelessWidget {
     final theme = context.theme;
     final local = context.local;
 
-    return  FlutterMentions(
+    return FlutterMentions(
       key: controller.mentionsKey,
       maxLines: 3,
       minLines: 1,
@@ -43,19 +46,19 @@ class SendCommentMentionsField extends StatelessWidget {
           child: IconButton(
             icon: controller.isSending
                 ? SizedBox(
-              height: 20,
-              width: 20,
-              child: AppNotifier.loadingWidget(theme),
-            )
+                    height: 20,
+                    width: 20,
+                    child: AppNotifier.commentLoadingWidget(theme),
+                  )
                 : Icon(Icons.send, color: theme.colorScheme.secondary),
             onPressed: controller.isSending
                 ? null
                 : () => controller.sendComment(
-              context: context,
-              itemId: itemId,
-              commentCall: commentCall,
-              mentionUsers: mentionUsers,
-            ),
+                      context: context,
+                      itemId: itemId,
+                      commentCall: commentCall,
+                      mentionUsers: mentionUsers,
+                    ),
           ),
         ),
       ),

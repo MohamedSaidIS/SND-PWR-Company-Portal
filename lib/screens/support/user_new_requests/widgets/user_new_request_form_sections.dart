@@ -5,22 +5,22 @@ Widget buildBasicInfoSection(AppLocalizations local, UserNewRequestFormControlle
   return _buildCard(
     local.basicInformation,
     [
-      CustomTextFieldWidget(
+      CustomTextField(
         key: const ValueKey('titleField'),
         controller: c.title,
         label: local.title,
-        validator: (v) => CommonTextFieldForm.textFormFieldValidation(
+        validator: (v) => TextFieldHelper.textFormFieldValidation(
             v, local.pleaseEnterTitle),
       ),
       Row(
         children: [
           Expanded(
-              child: CustomTextFieldWidget(
+              child: CustomTextField(
                 key: const ValueKey('joiningDateField'),
             controller: c.joiningDate,
             label: local.joiningDate,
             readOnly: true,
-            validator: (v) => CommonTextFieldForm.textFormFieldValidation(
+            validator: (v) => TextFieldHelper.textFormFieldValidation(
                 v, local.pleaseEnterJoiningDate),
           )),
           Align(
@@ -31,11 +31,11 @@ Widget buildBasicInfoSection(AppLocalizations local, UserNewRequestFormControlle
           ),
         ],
       ),
-      CustomTextFieldWidget(
+      CustomTextField(
         key: const ValueKey('locationField'),
         controller: c.location,
         label: local.locationStr,
-        validator: (v) => CommonTextFieldForm.textFormFieldValidation(
+        validator: (v) => TextFieldHelper.textFormFieldValidation(
             v, local.pleaseEnterLocation),
       ),
     ], theme
@@ -45,33 +45,33 @@ Widget buildBasicInfoSection(AppLocalizations local, UserNewRequestFormControlle
 Widget buildEmployeeInfoSection(
     AppLocalizations local, UserNewRequestFormController c, ThemeData theme) {
   return _buildCard(local.employeeInformation, [
-    CustomTextFieldWidget(
+    CustomTextField(
       key: const ValueKey('englishName'),
       controller: c.englishName,
       label: local.enName,
-      validator: (v) => CommonTextFieldForm.textFormFieldValidation(
+      validator: (v) => TextFieldHelper.textFormFieldValidation(
           v, local.pleaseEnterEnName),
     ),
-    CustomTextFieldWidget(
+    CustomTextField(
       key: const ValueKey('arabicName'),
       controller: c.arabicName,
       label: local.arName,
-      validator: (v) => CommonTextFieldForm.textFormFieldValidation(
+      validator: (v) => TextFieldHelper.textFormFieldValidation(
           v, local.pleaseEnterArName),
     ),
-    CustomTextFieldWidget(
+    CustomTextField(
       key: const ValueKey('jobTitle'),
       controller: c.jobTitle,
       label: local.jobTitlesStr,
-      validator: (v) => CommonTextFieldForm.textFormFieldValidation(
+      validator: (v) => TextFieldHelper.textFormFieldValidation(
           v, local.pleaseEnterJobTitle),
     ),
-    CustomTextFieldWidget(
+    CustomTextField(
       key: const ValueKey('mobile'),
       controller: c.mobile,
       label: local.phoneNo,
       inputType: TextInputType.phone,
-      validator: (v) => CommonTextFieldForm.textFormFieldValidation(
+      validator: (v) => TextFieldHelper.textFormFieldValidation(
           v, local.pleaseEnterPhoneNo),
     ),
 
@@ -81,36 +81,36 @@ Widget buildEmployeeInfoSection(
 Widget buildDeviceEmailSection(
     AppLocalizations local, UserNewRequestFormController c, ThemeData theme) {
   return _buildCard(local.deviceAndEmailRequests, [
-    CustomDropDownFieldWidget(
+    CustomDropDownField(
       key: const ValueKey('deviceRequestedType'),
       label: local.deviceRequestedType,
       value: c.deviceType,
       items: getDeviceType(local),
       onChanged: (v) => c.deviceType = v,
-      validator: (v) => CommonTextFieldForm.textFormFieldValidation(
+      validator: (v) => TextFieldHelper.textFormFieldValidation(
           v, local.pleaseEnterDeviceType),
     ),
-    CustomDropDownFieldWidget(
+    CustomDropDownField(
       key: const ValueKey('newEmailRequested'),
       label: local.newEmailRequested,
       value: c.newEmail,
       items: getYesNoList(local),
       onChanged: (v) => c.newEmail = v,
-      validator: (v) => CommonTextFieldForm.textFormFieldValidation(
+      validator: (v) => TextFieldHelper.textFormFieldValidation(
           v, local.pleaseEnterNeedNewEMail),
     ),
-    CustomTextFieldWidget(
+    CustomTextField(
       key: const ValueKey('currentMail'),
       controller: c.currentMail,
       label: local.currentEmail,
-      validator: (v) => CommonTextFieldForm.optional(""),
+      validator: (v) => TextFieldHelper.optional(""),
     ),
-    CustomTextFieldWidget(
+    CustomTextField(
       key: const ValueKey('specifyNewMail'),
       controller: c.specifyNewMail,
       label: local.specifyTheBusinessNeedForNewEmail,
       maxLines: 3,
-      validator: (v) => CommonTextFieldForm.optional(""),
+      validator: (v) => TextFieldHelper.optional(""),
     ),
   ], theme);
 }
@@ -118,42 +118,42 @@ Widget buildDeviceEmailSection(
 Widget buildAdditionalRequestsSection(
     AppLocalizations local, UserNewRequestFormController c, ThemeData theme) {
   return _buildCard(local.additionalRequests, [
-    CustomDropDownFieldWidget(
+    CustomDropDownField(
       key: const ValueKey('specifyTheRoleMSDynamics'),
       label: local.specifyTheRoleMSDynamics,
       value: c.useDynamics,
       items: getYesNoList(local),
       onChanged: (v) => c.useDynamics = v,
-      validator: (v) => CommonTextFieldForm.optional(""),
+      validator: (v) => TextFieldHelper.optional(""),
     ),
-    CustomTextFieldWidget(
+    CustomTextField(
       key: const ValueKey('specifyDynamics'),
       controller: c.specifyDynamics,
       label: local.specifyTheRoleMSDynamics,
       maxLines: 3,
-      validator: (v) => CommonTextFieldForm.optional(""),
+      validator: (v) => TextFieldHelper.optional(""),
     ),
-    CustomDropDownFieldWidget(
+    CustomDropDownField(
       key: const ValueKey('requestPhoneLine'),
       label: local.requestPhoneLine,
       value: c.needPhone,
       items: getYesNoList(local),
       onChanged: (v) => c.needPhone = v,
-      validator: (v) => CommonTextFieldForm.optional(""),
+      validator: (v) => TextFieldHelper.optional(""),
     ),
-    CustomTextFieldWidget(
+    CustomTextField(
       key: const ValueKey('specialSpecs'),
       controller: c.specialSpecs,
       label: local.requestSpecialSpecsForApproval,
       maxLines: 3,
-      validator: (v) => CommonTextFieldForm.optional(""),
+      validator: (v) => TextFieldHelper.optional(""),
     ),
-    CustomTextFieldWidget(
+    CustomTextField(
       key: const ValueKey('specialSoftwareNeeded'),
       controller: c.software,
       label: local.specificSoftwareNeeded,
       maxLines: 3,
-      validator: (v) => CommonTextFieldForm.optional(""),
+      validator: (v) => TextFieldHelper.optional(""),
     ),
   ], theme);
 }

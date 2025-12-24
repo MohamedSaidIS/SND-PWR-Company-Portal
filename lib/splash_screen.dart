@@ -71,7 +71,7 @@ class _SplashScreenState extends State<SplashScreen> {
     return Scaffold(
       backgroundColor: const Color(0xff0f768e),
       body: Center(
-        child: Image.asset("assets/images/logo_launcher.png"),
+        child: RepaintBoundary(child: Image.asset("assets/images/logo_launcher.png")),
       ),
     );
   }

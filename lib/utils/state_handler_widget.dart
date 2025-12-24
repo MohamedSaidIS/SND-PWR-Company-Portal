@@ -37,7 +37,7 @@ class StateHandlerWidget extends StatelessWidget {
   Widget _buildContent(BuildContext context) {
     switch (state) {
       case ViewState.loading:
-        return loadingBuilder?.call(context) ?? const _LoadingView();
+        return loadingBuilder?.call(context) ?? AppNotifier.loadingWidget(context.theme);
 
       case ViewState.error:
         return errorBuilder?.call(context) ?? _ErrorView(error: error ?? "حدث خطأ غير متوقع");
@@ -51,14 +51,6 @@ class StateHandlerWidget extends StatelessWidget {
   }
 }
 
-class _LoadingView extends StatelessWidget {
-  const _LoadingView();
-
-  @override
-  Widget build(BuildContext context) => const Center(
-    child: CircularProgressIndicator(),
-  );
-}
 
 class _ErrorView extends StatelessWidget {
   final String error;
@@ -109,9 +101,11 @@ class _DefaultEmptyView extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Image.asset(
-              "assets/images/no_team_member.png",
-              height: 200,
+            RepaintBoundary(
+              child: Image.asset(
+                "assets/images/no_team_member.png",
+                cacheHeight: 200,
+              ),
             ),
             const SizedBox(height: 30),
             Text(

@@ -2,7 +2,7 @@ import 'package:company_portal/l10n/app_localizations.dart';
 import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:flutter/material.dart';
 
-class CommonTextFieldForm{
+class TextFieldHelper{
   static String? textFormFieldValidation(String? value, String validateText) {
     debugPrint('Validator called for $value -> value: $validateText');
     return (value == null || value.trim().isEmpty) ? validateText : null;

@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../../../../utils/export_import.dart';
-import 'file_controller.dart';
 
 class EcommerceFormController extends ChangeNotifier{
   final GlobalKey<FormState> formKey = GlobalKey<FormState>();
@@ -18,8 +17,6 @@ class EcommerceFormController extends ChangeNotifier{
     selectedPriority = 'Normal';
     selectedType = null;
   }
-
-
 
 
   Future<void> submitForm(BuildContext context, AppLocalizations local, EcommerceProvider provider, int ensureUserId) async {

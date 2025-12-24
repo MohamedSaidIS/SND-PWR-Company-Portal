@@ -2,60 +2,51 @@ import 'package:company_portal/utils/export_import.dart';
 import 'package:flutter/material.dart';
 
 class MenuWidget extends StatelessWidget {
-  final String title;
-  final IconData icon;
-  final bool endIcon;
-  final bool isNotification;
-  final Color? textColor;
-  final Widget Function()? navigatedPage;
-  final Function()? logout;
+  final MenuItem item;
 
-  const MenuWidget(
-      {super.key,
-      required this.title,
-      required this.icon,
-      this.endIcon = true,
-      this.isNotification = false,
-      this.textColor,
-      this.navigatedPage,
-      this.logout});
+  const MenuWidget({super.key, required this.item});
 
   @override
   Widget build(BuildContext context) {
     final itemArrowIcon = context.itemArrowIcon;
     final theme = context.theme;
 
-    return ListTile(
-      onTap: endIcon
-          ? () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) {
-                  return navigatedPage!();
-                }),
-              );
-            }
-          : logout,
-      leading: buildNotification(isNotification, icon, textColor, theme),
-      title: Text(
-        title,
-        style: theme.textTheme.displaySmall!.copyWith(color: textColor),
-      ),
-      trailing: endIcon
-          ? Container(
-              width: 30,
-              height: 30,
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(100),
-                color: theme.colorScheme.primary.withValues(alpha: 0.1),
-              ),
-              child: Icon(
-                itemArrowIcon,
-                size: 18.0,
-                color: theme.colorScheme.primary,
-              ),
-            )
-          : null,
+    return Column(
+      children: [
+        ListTile(
+          onTap: item.endIcon
+              ? () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) {
+                      return  item.navigatedPage!();
+                    }),
+                  );
+                }
+              :  item.logout,
+          leading: buildNotification( item.isNotification,  item.icon,  item.textColor, theme),
+          title: Text(
+            item.title,
+            style: theme.textTheme.displaySmall!.copyWith(color:  item.textColor),
+          ),
+          trailing:  item.endIcon
+              ? Container(
+                  width: 30,
+                  height: 30,
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(100),
+                    color: theme.colorScheme.primary.withValues(alpha: 0.1),
+                  ),
+                  child: Icon(
+                    itemArrowIcon,
+                    size: 18.0,
+                    color: theme.colorScheme.primary,
+                  ),
+                )
+              : null,
+        ),
+        item.addSeparator? AppSeparators.dividerSeparate(): const SizedBox.shrink(),
+      ],
     );
   }
 }

@@ -28,7 +28,7 @@ class UserInfoDetailsScreen extends StatelessWidget {
           backBtn: true,
         ),
         body: provider.loading
-            ? const Center(child: CircularProgressIndicator())
+            ? AppNotifier.loadingWidget(theme)
             : provider.error != null
                 ? Center(
                     child: Text("Error: ${provider.error}"),

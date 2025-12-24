@@ -1,5 +1,6 @@
 import 'package:flutter/foundation.dart';
 
+import '../data/constants.dart';
 import '../utils/export_import.dart';
 
 class VacationBalanceProvider extends ChangeNotifier {
@@ -43,7 +44,6 @@ class VacationBalanceProvider extends ChangeNotifier {
         if (_workerPersonnel != null) {
           AppNotifier.logWithScreen("Vacation Balance Provider",
               "Personnel Data Fetching ${_workerPersonnel!.personnelNumber}");
-
           await getVacationBalance(_workerPersonnel!.personnelNumber);
         }
       } else {
@@ -65,7 +65,7 @@ class VacationBalanceProvider extends ChangeNotifier {
 
     try {
       final response = await kpiDioClient.getRequest(
-          "https://alsenidiuat.sandbox.operations.dynamics.com/data/AbsenceLines?\$filter=Worker eq $workerId and ProfileDate ge 2025-01-01T12:00:00Z and ProfileDate le 2025-12-31T12:00:00Z&\$count=true",
+          "https://alsenidiuat.sandbox.operations.dynamics.com/data/AbsenceLines?\$filter=Worker eq $workerId and ProfileDate ge ${Constants.currentStartDate.toIso8601String()} and ProfileDate le ${Constants.currentEndDate.toIso8601String()}&\$count=true",
           true);
       if (response.statusCode == 200) {
         final parsedResponse = response.data;
@@ -73,20 +73,20 @@ class VacationBalanceProvider extends ChangeNotifier {
           (final data) => (data['value'] as List)
               .map((e) =>
                   VacationTransaction.fromJson(e as Map<String, dynamic>))
+              .where((item) => item.absenceCode != "ح.غ.م تأخي")
               .toList(),
           parsedResponse,
         );
+        _vacationTransactions.isNotEmpty
+            ? AppNotifier.logWithScreen("Vacation Balance Provider",
+            "Vacation Transactions Fetching: ${response.statusCode} ${_vacationTransactions[0].absenceCode}")
+            : AppNotifier.logWithScreen("Vacation Balance Provider",
+            "Vacation Transactions Fetching: ${response.statusCode}");
       } else {
         _error = 'Failed to load Vacation Transactions data';
         AppNotifier.logWithScreen("Vacation Balance Provider",
             "Vacation Transactions Error: $_error ${response.statusCode}");
       }
-
-      _vacationTransactions.isNotEmpty
-          ? AppNotifier.logWithScreen("Vacation Balance Provider",
-              "Vacation Transactions Fetching: ${response.statusCode} ${_vacationTransactions[0].absenceCode}")
-          : AppNotifier.logWithScreen("Vacation Balance Provider",
-              "Vacation Transactions Fetching: ${response.statusCode}");
     } catch (e) {
       _error = e.toString();
       AppNotifier.logWithScreen("Vacation Balance Provider",
@@ -103,7 +103,7 @@ class VacationBalanceProvider extends ChangeNotifier {
 
     try {
       final response = await kpiDioClient.getRequest(
-          "https://alsenidiuat.sandbox.operations.dynamics.com/data/MyTeamLeaveBalances?\$filter= Year eq 2025 and PersonnelNumber eq '$personalNumber' &\$count=true",
+          "https://alsenidiuat.sandbox.operations.dynamics.com/data/MyTeamLeaveBalances?\$filter= Year eq ${Constants.currentYear} and PersonnelNumber eq '$personalNumber' &\$count=true",
           true);
       if (response.statusCode == 200) {
         final parsedResponse = response.data;

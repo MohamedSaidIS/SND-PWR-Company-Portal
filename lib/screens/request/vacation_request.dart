@@ -25,7 +25,7 @@ class _VacationRequestScreenState extends State<VacationRequestScreen> {
         subTitle: local.previousRequests,
         tabBarChildren: [
           VacationRequestFormScreen(personnelNumber: personnelNumber),
-          const PreviousRequestScreen(),
+          PreviousRequestScreen(personnelNumber: personnelNumber),
         ],
       ),
     );

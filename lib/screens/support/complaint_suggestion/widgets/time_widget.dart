@@ -1,6 +1,6 @@
+import 'package:company_portal/utils/app_helper.dart';
 import 'package:company_portal/utils/context_extensions.dart';
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
 
 class TimeWidget extends StatelessWidget {
   final IconData icon;
@@ -12,11 +12,6 @@ class TimeWidget extends StatelessWidget {
       required this.icon,
       required this.label,
       required this.value});
-
-  String formatDateTime(DateTime? dt, String locale) {
-    if (dt == null) return "-";
-    return DateFormat('MMM d, yyyy, hh:mm a', locale).format(dt.toLocal());
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -32,7 +27,7 @@ class TimeWidget extends StatelessWidget {
           ),
         ),
         Text(
-          formatDateTime(
+          DatesHelper.formatDateTime(
               DateTime.parse(
                 value,
               ),

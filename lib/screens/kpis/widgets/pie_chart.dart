@@ -31,8 +31,6 @@ class KpiPieChart extends StatelessWidget {
     final percent = (target == 0) ? 0 : (achieved / target * 100);
     final locale = context.currentLocale();
 
-    print("CurrentLocal here $locale");
-
     final filteredSales = salesKpi.where((item) {
       return item.transDate.month == selectedMonth &&
           item.transDate.year == DateTime.now().year;

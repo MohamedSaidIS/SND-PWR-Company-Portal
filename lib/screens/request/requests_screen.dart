@@ -9,8 +9,9 @@ class RequestsScreen extends StatefulWidget {
 }
 
 class _RequestsScreenState extends State<RequestsScreen> {
-  bool isPressed = false;
-  Map<int, bool> animatedCards = {};
+  final ValueNotifier<bool> isPressedNotifier = ValueNotifier(false);
+  final ValueNotifier<Map<int, bool>> animatedCardsNotifier =
+      ValueNotifier<Map<int, bool>>({});
 
   @override
   Widget build(BuildContext context) {
@@ -18,7 +19,6 @@ class _RequestsScreenState extends State<RequestsScreen> {
     final local = context.local;
     final isTablet = context.isTablet();
     final isLandScape = context.isLandScape();
-
 
     final items = getRequestItems(local);
 
@@ -44,22 +44,24 @@ class _RequestsScreenState extends State<RequestsScreen> {
               ),
               itemBuilder: (context, index) {
                 final item = items[index];
-                final isAnimated = animatedCards[index] ?? false;
                 return InkWell(
                   splashColor: Colors.transparent,
                   onTap: () async {
-                    setState(() {
-                      isPressed = true;
-                      animatedCards[index] = true;
-                    });
-                    await Future.delayed(
-                        const Duration(milliseconds: 70));
-                    setState(() {
-                      animatedCards[index] = false;
-                    });
+                    isPressedNotifier.value = true;
+                    animatedCardsNotifier.value[index] = true;
+                    await Future.delayed(const Duration(milliseconds: 70));
+                    animatedCardsNotifier.value[index] = false;
+
                     navigationScreen(context, item.navigatedScreen);
                   },
-                  child: buildRequestCard(theme, item, isAnimated, isTablet, isLandScape),
+                  child: ValueListenableBuilder<Map<int, bool>>(
+                    valueListenable: animatedCardsNotifier,
+                    builder: (context, animMap, _) {
+                      final isAnimated = animMap[index] ?? false;
+                      return buildRequestCard(
+                          theme, item, isAnimated, isTablet, isLandScape);
+                    },
+                  ),
                 );
               },
             ),
@@ -69,5 +71,3 @@ class _RequestsScreenState extends State<RequestsScreen> {
     );
   }
 }
-
-

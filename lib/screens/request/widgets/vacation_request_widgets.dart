@@ -33,8 +33,7 @@ class _VacationDatesState extends State<VacationDates> {
             ),
             child: _buildDateText(
               local.startDate,
-              widget.controller
-                  .formatDate(widget.controller.startDate, local, locale),
+              DatesHelper.formatSelectedDate(widget.controller.startDate, local, locale),
               theme,
             ),
           ),
@@ -52,8 +51,7 @@ class _VacationDatesState extends State<VacationDates> {
             ),
             child: _buildDateText(
               local.endDate,
-              widget.controller
-                  .formatDate(widget.controller.endDate, local, locale),
+              DatesHelper.formatSelectedDate(widget.controller.endDate, local, locale),
               theme,
             ),
           ),

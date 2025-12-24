@@ -75,12 +75,12 @@ class _EcommerceHistoryScreenState extends State<EcommerceHistoryScreen>
                 itemCount: ecommerceList.length,
                 itemBuilder: (context, index) {
                   final item = ecommerceList[index];
-                  return HistoryTileWidget(
+                  return TicketsHistory(
                     title: item.title ?? '',
                     id: item.id.toString(),
                     needStatus: true,
                     status: item.status ?? '',
-                    navigatedScreen: HistoryItemDetails(
+                    navigatedScreen: TicketDetailsScreen(
                       itemId: item.id.toString(),
                       title: item.title,
                       description: item.description,

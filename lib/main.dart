@@ -1,6 +1,4 @@
-import 'package:aad_oauth/aad_oauth.dart';
-import 'package:company_portal/providers/attachments_provider.dart';
-import 'package:company_portal/screens/support/ecommerce_support_case/controllers/file_controller.dart';
+import 'package:company_portal/providers/management_kpi.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
@@ -8,6 +6,7 @@ import 'package:flutter_appauth/flutter_appauth.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:provider/provider.dart';
 
+import 'config/auth_controller.dart';
 import 'firebase_options.dart';
 import 'utils/export_import.dart';
 
@@ -19,6 +18,8 @@ Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
 }
 
 void main() async {
+  // debugProfileBuildsEnabled = true;
+  // debugPrintRebuildDirtyWidgets = true;
   WidgetsFlutterBinding.ensureInitialized();
   await EnvConfig.load();
 
@@ -36,9 +37,9 @@ void main() async {
   runApp(
     MultiProvider(
       providers: [
-        Provider<AadOAuth>(
-            create: (_) =>
-                AadOAuth(AuthConfig.createMicrosoftConfig(navigatorKey))),
+        Provider<AuthConfigController>(
+          create: (_) => AuthConfigController(navigatorKey),
+        ),
         Provider<GraphDioClient>(
           create: (context) => GraphDioClient(
             appAuth: const FlutterAppAuth(),
@@ -92,6 +93,11 @@ void main() async {
         ),
         ChangeNotifierProvider(
           create: (context) => UserImageProvider(
+            dioClient: context.read<GraphDioClient>(),
+          ),
+        ),
+        ChangeNotifierProvider(
+          create: (context) => ManagementKpiProvider(
             dioClient: context.read<GraphDioClient>(),
           ),
         ),

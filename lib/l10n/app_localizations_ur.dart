@@ -24,7 +24,7 @@ class AppLocalizationsUr extends AppLocalizations {
   String get vacationBalanceRequest => 'رخصت \nبیلنس';
 
   @override
-  String get requestsCreation => 'درخواستیں بنانے کا عمل';
+  String get requestsCreation => 'درخواستوں کا \nاندراج';
 
   @override
   String get vacationRequestLine => 'رخصت درخواست';
@@ -339,7 +339,7 @@ class AppLocalizationsUr extends AppLocalizations {
   String get openingApp => 'ایپ کھولی جا رہی ہے...';
 
   @override
-  String get issue_details => 'مسئلے کی تفصیلات';
+  String get ticketDetails => 'ٹکٹ کی تفصیلات';
 
   @override
   String get exceeded => 'زیادہ ہوگیا';

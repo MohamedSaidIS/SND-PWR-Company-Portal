@@ -17,14 +17,20 @@ class SupportScreen extends StatefulWidget {
 }
 
 class _SupportScreenState extends State<SupportScreen> {
-  bool isPressed = false;
-  Map<int, bool> animatedCards = {};
+  final ValueNotifier<bool> isPressedNotifier = ValueNotifier(false);
+  final ValueNotifier<Map<int, bool>> animatedCardsNotifier =
+      ValueNotifier<Map<int, bool>>({});
+  late AppLocalizations local;
+  late ThemeData theme;
+  late ColorScheme colorScheme;
+  late List<SupportItem> items;
 
   @override
   void initState() {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((_) => fetchData());
   }
+
   void fetchData() {
     final provider = context.read<SPEnsureUserProvider>();
     if (widget.userInfo != null) {
@@ -33,14 +39,21 @@ class _SupportScreenState extends State<SupportScreen> {
       provider.fetchAlsanidiSiteEnsureUser("${widget.userInfo!.mail}");
     }
   }
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+     theme = context.theme;
+     local = context.local;
+     colorScheme = theme.colorScheme;
+     items = getSupportItems(local);
+  }
+
   @override
   Widget build(BuildContext context) {
     final directReportList =
         context.watch<DirectReportsProvider>().directReportList;
-    final theme = context.theme;
-    final local = context.local;
-    final colorScheme = theme.colorScheme;
-    final items = getSupportItems(local);
+
 
     return PopScope(
       canPop: false,
@@ -65,31 +78,31 @@ class _SupportScreenState extends State<SupportScreen> {
               ),
               itemBuilder: (context, index) {
                 final item = items[index];
-                final isAnimated = animatedCards[index] ?? false;
-                return (item.name != "Users New \nRequests" &&
+                return (item.name == "Users New \nRequests" &&
                         directReportList != null &&
-                        directReportList.isNotEmpty)
+                        directReportList.isEmpty)
                     ? const SizedBox.shrink()
                     : InkWell(
                         splashColor: Colors.transparent,
                         onTap: () async {
-                          setState(() {
-                            isPressed = true;
-                            animatedCards[index] = true;
-                          });
+                          isPressedNotifier.value = true;
+                          animatedCardsNotifier.value[index] = true;
                           await Future.delayed(
-                              const Duration(milliseconds: 10));
-                          setState(() {
-                            animatedCards[index] = false;
-                          });
-                          navigatedScreen(context, item.name, widget.userInfo,
-                              widget.userImage);
+                              const Duration(milliseconds: 70));
+                          animatedCardsNotifier.value[index] = false;
+
+                          navigatedScreen(context, item.name, widget.userInfo, widget.userImage);
                         },
-                        child: supportCard(
-                          item.translatedName,
-                          item.image,
-                          colorScheme,
-                          isAnimated,
+                        child: ValueListenableBuilder<Map<int, bool>>(
+                          valueListenable: animatedCardsNotifier,
+                          builder: (context, animMap, _) {
+                            final isAnimated = animMap[index] ?? false;
+                            return SupportCard(
+                              title: item.translatedName,
+                              image: item.image,
+                              isAnimated: isAnimated,
+                            );
+                          },
                         ),
                       );
               },
@@ -99,6 +112,4 @@ class _SupportScreenState extends State<SupportScreen> {
       ),
     );
   }
-
-
 }

@@ -1,12 +1,8 @@
-import 'package:company_portal/screens/support/ecommerce_support_case/controllers/file_controller.dart';
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import '../../../../utils/export_import.dart';
 
-
-class DynamicsFormController extends ChangeNotifier{
-
+class DynamicsFormController extends ChangeNotifier {
   final GlobalKey<FormState> formKey = GlobalKey<FormState>();
   final title = TextEditingController();
   final description = TextEditingController();
@@ -15,8 +11,7 @@ class DynamicsFormController extends ChangeNotifier{
   String? selectedPurpose, selectedPriority = 'Normal';
   bool isLoading = false;
 
-
-  void clearData(){
+  void clearData() {
     title.clear();
     description.clear();
     area.clear();
@@ -25,7 +20,9 @@ class DynamicsFormController extends ChangeNotifier{
     selectedPriority = 'Normal';
   }
 
-  Future<void> pickDate(BuildContext context,) async {
+  Future<void> pickDate(
+    BuildContext context,
+  ) async {
     final picked = await showDatePicker(
       context: context,
       initialDate: DateTime.now(),
@@ -33,36 +30,35 @@ class DynamicsFormController extends ChangeNotifier{
       lastDate: DateTime(2100),
     );
     if (picked != null) {
-      date.text =
-          DateFormat('dd-MM-yyyy', context.currentLocale()).format(picked);
+      date.text = DatesHelper.dashedFormatting(picked, context.currentLocale());
     }
   }
 
-  Future<void> submitForm(BuildContext context, AppLocalizations local, DynamicsProvider provider, int ensureUserId) async {
+  Future<void> submitForm(BuildContext context, AppLocalizations local,
+      DynamicsProvider provider, int ensureUserId) async {
     final fileController = context.read<FileController>();
     if (!formKey.currentState!.validate()) return;
-
 
     if (provider.loading) {
       AppNotifier.snackBar(context, "Please Wait", SnackBarType.info);
       return;
     }
-     final parsed = DateFormat('dd-MM-yyyy').parse(date.text);
+    final parsed = DatesHelper.parseTimeToSend(date.text);
     var success = await provider.createDynamicsItem(
-        DynamicsItem(
-          id: -1,
-          title: title.text,
-          description: description.text,
-          priority: selectedPriority!,
-          status: "New",
-          authorId: ensureUserId,
-          createdDate: null,
-          modifiedDate: null,
-          area: area.text,
-          purpose: selectedPurpose!,
-          dateReported: parsed,
-        ),
-      fileController.attachedFiles ,
+      DynamicsItem(
+        id: -1,
+        title: title.text,
+        description: description.text,
+        priority: selectedPriority!,
+        status: "New",
+        authorId: ensureUserId,
+        createdDate: null,
+        modifiedDate: null,
+        area: area.text,
+        purpose: selectedPurpose!,
+        dateReported: parsed,
+      ),
+      fileController.attachedFiles,
     );
 
     if (success) {
@@ -76,12 +72,8 @@ class DynamicsFormController extends ChangeNotifier{
     }
   }
 
-
-
   void dispose() {
     title.dispose();
     description.dispose();
   }
-
-
 }

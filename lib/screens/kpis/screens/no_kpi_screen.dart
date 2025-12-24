@@ -23,9 +23,11 @@ class NoKpiScreen extends StatelessWidget {
             children: [
               SizedBox(
                 height: 180,
-                child: Image.asset(
-                  "assets/images/no_kpi_found.png",
-                  fit: BoxFit.contain,
+                child: RepaintBoundary(
+                  child: Image.asset(
+                    "assets/images/no_kpi_found.png",
+                    fit: BoxFit.contain,
+                  ),
                 ),
               ),
               const SizedBox(height: 24),

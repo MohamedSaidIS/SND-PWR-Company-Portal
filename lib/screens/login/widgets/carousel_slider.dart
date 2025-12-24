@@ -2,7 +2,6 @@ import 'package:carousel_slider/carousel_slider.dart';
 import '../../../../utils/export_import.dart';
 import 'package:flutter/material.dart';
 
-
 class CarouselSliderWidget extends StatefulWidget {
   const CarouselSliderWidget({super.key});
 
@@ -12,7 +11,13 @@ class CarouselSliderWidget extends StatefulWidget {
 
 class _CarouselSliderWidgetState extends State<CarouselSliderWidget> {
   final CarouselSliderController controller = CarouselSliderController();
-  int current = 0;
+  final ValueNotifier<int> currentNotifier = ValueNotifier(0);
+
+  @override
+  void dispose() {
+    currentNotifier.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -21,54 +26,63 @@ class _CarouselSliderWidgetState extends State<CarouselSliderWidget> {
     final isTablet = context.isTablet();
     final isLandScape = context.isLandScape();
     final screenSize = MediaQuery.of(context).size.height;
-    final carouselHeight = screenSize * (isLandScape? 0.3: 0.5);
-    final items = getSections(local, theme, context, carouselHeight);
+    final carouselHeight = screenSize * (isLandScape ? 0.3 : 0.5);
+    //final items = getSections(local, theme, context, carouselHeight);
 
     return Column(
       children: [
         SizedBox(
-          height:carouselHeight,
-          child: CarouselSlider(
-            carouselController: controller,
-            options: CarouselOptions(
-                autoPlay: true,
-                aspectRatio: 3.0,
-                enlargeCenterPage: true,
-                disableCenter: true,
-                animateToClosest: true,
-                onPageChanged: (index, reason) {
-                  setState(() {
-                    current = index;
-                  });
-                }),
-            items: items,
+          height: carouselHeight,
+          child: RepaintBoundary(
+            child: CarouselSlider(
+              carouselController: controller,
+              options: CarouselOptions(
+                  autoPlay: true,
+                  aspectRatio: 3.0,
+                  enlargeCenterPage: true,
+                  disableCenter: true,
+                  // animateToClosest: true,
+                  onPageChanged: (index, reason) {
+                    currentNotifier.value = index;
+                  }),
+              items: List.generate(5, (index) {
+                final sections = getSectionsData(local, context);
+                final s = sections[index];
+                return SectionWidget(
+                  key: ValueKey(s.title ?? s.description),
+                  section: s,
+                  theme: theme,
+                  isEnglish: context.isEnglish(),
+                  carouselHeight: carouselHeight,
+                );
+              }),
+            ),
           ),
         ),
         Padding(
           padding: const EdgeInsets.only(top: 8.0),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: List.generate(items.length, (index) {
-              return AnimatedContainer(
-                duration: const Duration(milliseconds: 300),
-                margin: EdgeInsets.symmetric(
-                  horizontal: isTablet ? 6 : 5,
-                  vertical: isTablet ? 8 : 5,
-                ),
-                height: 8,
-                width: current == index
-                    ? (isTablet ? 35 : 25)
-                    : (isTablet ? 10 : 8),
-                decoration: BoxDecoration(
-                  color:
-                      current == index
-                          ? const Color(0xFF1B818E)
-                          : Colors.grey,
-                  borderRadius: BorderRadius.circular(4),
-                ),
-              );
-            }),
-          ),
+          child: ValueListenableBuilder<int>(
+              valueListenable: currentNotifier,
+              builder: (context, current, _) {
+                return Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: List.generate(5, (index) {
+                    final isActive = current == index;
+                    return Container(
+
+                      margin: const EdgeInsets.symmetric(horizontal: 4),
+                      height: 8,
+                      width: isActive ? (isTablet ? 35 : 25) : (isTablet ? 10 : 8),
+                      decoration: BoxDecoration(
+                        color: current == index
+                            ? const Color(0xFF1B818E)
+                            : Colors.grey,
+                        borderRadius: BorderRadius.circular(4),
+                      ),
+                    );
+                  }),
+                );
+              }),
         ),
       ],
     );

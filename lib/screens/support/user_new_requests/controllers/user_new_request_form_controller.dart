@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import '../../../../utils/export_import.dart';
 
@@ -40,8 +39,7 @@ class UserNewRequestFormController {
     if (req == null) return;
     isFilling = true;
     title.text = req.title ?? '';
-    joiningDate.text = DateFormat('dd-MM-yyyy', context.currentLocale())
-        .format(req.joiningDate);
+    joiningDate.text = DatesHelper.dashedFormatting(req.joiningDate, context.currentLocale());
     location.text = req.location ?? '';
     englishName.text = req.enName ?? '';
     arabicName.text = req.arName ?? '';
@@ -70,8 +68,7 @@ class UserNewRequestFormController {
       lastDate: DateTime(2100),
     );
     if (picked != null) {
-      joiningDate.text =
-          DateFormat('dd-MM-yyyy', context.currentLocale()).format(picked);
+      joiningDate.text = DatesHelper.dashedFormatting(picked, context.currentLocale());
     }
   }
 
@@ -92,7 +89,7 @@ class UserNewRequestFormController {
 
     final provider = context.read<NewUserRequestProvider>();
     try {
-      final parsed = DateFormat('dd-MM-yyyy').parse(joiningDate.text);
+      final parsed = DatesHelper.parseTimeToSend(joiningDate.text);
       final success = request != null
           ? await provider.updateNewUserRequest(
               request.id, _buildRequest(parsed, ensureUserId))

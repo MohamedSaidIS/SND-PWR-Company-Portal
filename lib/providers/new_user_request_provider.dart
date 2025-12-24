@@ -1,3 +1,4 @@
+import 'package:company_portal/data/constants.dart';
 import 'package:flutter/foundation.dart';
 import 'package:dio/dio.dart';
 import '../utils/export_import.dart';
@@ -27,7 +28,7 @@ class NewUserRequestProvider extends ChangeNotifier {
 
     try {
       final response = await sharePointDioClient.dio.get(
-          "/sites/IT-Requests/_api/Web/Lists(guid'222d515f-cc0e-4deb-a088-ba22acfd129b')/items");
+          "/sites/IT-Requests/_api/Web/Lists(guid'${Constants.newUserListId}')/items");
 
       if (response.statusCode == 200) {
         final parsedResponse = response.data;
@@ -64,7 +65,7 @@ class NewUserRequestProvider extends ChangeNotifier {
 
     try {
       final response = await sharePointDioClient.dio.post(
-        "/sites/IT-Requests/_api/Web/Lists(guid'222d515f-cc0e-4deb-a088-ba22acfd129b')/items($requestId)",
+        "/sites/IT-Requests/_api/Web/Lists(guid'${Constants.newUserListId}')/items($requestId)",
         data: item.toJson(),
 
         options: Options(
@@ -107,7 +108,7 @@ class NewUserRequestProvider extends ChangeNotifier {
 
     try {
       final response = await sharePointDioClient.dio.post(
-        "/sites/IT-Requests/_api/Web/Lists(guid'222d515f-cc0e-4deb-a088-ba22acfd129b')/items",
+        "/sites/IT-Requests/_api/Web/Lists(guid'${Constants.newUserListId}')/items",
         data: item.toJson(),
       );
 

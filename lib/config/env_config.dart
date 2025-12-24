@@ -9,6 +9,7 @@ class EnvConfig {
   static String get msScope => dotenv.get('scope');
   static String get msRedirectUri => dotenv.get('redirect_uri');
   static String get msDomainHint => dotenv.get('domain_hint');
+  static String get msalRedirectUri => dotenv.get('redirect_uri_msal');
 
 
   static String get kpiGrantType => dotenv.get('kpi_grant_type');
