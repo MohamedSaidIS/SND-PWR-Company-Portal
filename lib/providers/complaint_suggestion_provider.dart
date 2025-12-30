@@ -40,16 +40,16 @@ class ComplaintSuggestionProvider with ChangeNotifier {
           parsedResponse
         );
 
-        AppNotifier.logWithScreen("ComplaintSuggestion Provider",
+        AppLogger.info("ComplaintSuggestion Provider",
             "ComplaintSuggestion Fetching: ${response.statusCode} ${_complaintSuggestionList[0].priority} ");
       } else {
         _error = 'Failed to load ComplaintSuggestion data';
-        AppNotifier.logWithScreen("ComplaintSuggestion Provider",
+        AppLogger.error("ComplaintSuggestion Provider",
             "ComplaintSuggestion Error: $_error ${response.statusCode}");
       }
     } catch (e) {
       _error = e.toString();
-      AppNotifier.logWithScreen("ComplaintSuggestion Provider",
+      AppLogger.error("ComplaintSuggestion Provider",
           "ComplaintSuggestion Exception: $_error");
     }
     _loading = false;
@@ -72,18 +72,18 @@ class ComplaintSuggestionProvider with ChangeNotifier {
               (Map<String, dynamic> data) => ComplaintSuggestionItem.fromJson(data),
           Map<String, dynamic>.from(response.data),
         );
-        AppNotifier.logWithScreen("ComplaintSuggestion Provider", "ComplaintSuggestion Send: Success ${response.statusCode}");
+        AppLogger.info("ComplaintSuggestion Provider", "ComplaintSuggestion Send: Success ${response.statusCode}");
         await sendAttachments(attachedFiles, ticket.id);
         return true;
       } else {
         _error = 'Failed to send ComplaintSuggestion data';
-        AppNotifier.logWithScreen("ComplaintSuggestion Provider",
+        AppLogger.error("ComplaintSuggestion Provider",
             "ComplaintSuggestion Send Error:$_error ${response.statusCode}");
         return false;
       }
     } catch (e) {
       _error = e.toString();
-      AppNotifier.logWithScreen("ComplaintSuggestion Provider",
+      AppLogger.error("ComplaintSuggestion Provider",
           "ComplaintSuggestion Send Exception: $_error");
       return false;
     } finally {
@@ -104,7 +104,7 @@ class ComplaintSuggestionProvider with ChangeNotifier {
       return sendAttachedSuccessfully;
     } catch (e) {
       _error = e.toString();
-      AppNotifier.logWithScreen(
+      AppLogger.error(
           "ComplaintSuggestion Provider", "Send Attachments Exceptions: $_error");
       return false;
     } finally {
@@ -126,16 +126,16 @@ class ComplaintSuggestionProvider with ChangeNotifier {
       );
 
       if (response.statusCode == 200) {
-        AppNotifier.logWithScreen("ComplaintSuggestion Provider",
+        AppLogger.info("ComplaintSuggestion Provider",
             "Send Attachments Success: ${response.statusCode}");
         return true;
       } else {
-        AppNotifier.logWithScreen("ComplaintSuggestion Provider",
+        AppLogger.error("ComplaintSuggestion Provider",
             "Send Attachments Failed: ${ response.statusCode}");
         return false;
       }
     } catch (e) {
-      AppNotifier.logWithScreen(
+      AppLogger.error(
           "ComplaintSuggestion Provider", "Upload Exception: ${e.toString()}");
       return false;
     }

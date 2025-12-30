@@ -61,7 +61,7 @@ class AttachmentsProvider extends ChangeNotifier {
 
       if (response.statusCode == 200) {
         final parsedResponse = response.data["value"];
-        AppNotifier.logWithScreen(
+        AppLogger.info(
             "Attachment Provider", "Attachments Fetching: $parsedResponse");
 
         _attachments = await compute(
@@ -72,15 +72,15 @@ class AttachmentsProvider extends ChangeNotifier {
         );
         List<String> fileNames = _attachments.map((e) => e.fileName).toList();
         await fetchAttachedFiles(ticketId, fileNames, commentCall);
-        AppNotifier.logWithScreen("Attachment Provider", "Attachments Fetching parsed: ${attachments[0].fileName}");
+        AppLogger.info("Attachment Provider", "Attachments Fetching parsed: ${attachments[0].fileName}");
       } else {
         _error = 'Failed to load Attachments data';
-        AppNotifier.logWithScreen(
+        AppLogger.error(
             "Attachments Error: ", "$_error ${response.statusCode}");
       }
     } catch (e) {
       _error = e.toString();
-      AppNotifier.logWithScreen(
+      AppLogger.error(
           "Attachment Provider", "Attachments Exception: $_error");
     }
     _loading = false;
@@ -135,7 +135,7 @@ class AttachmentsProvider extends ChangeNotifier {
         return Uint8List.fromList(response.data);
       }
     } catch (e) {
-      AppNotifier.logWithScreen(
+      AppLogger.error(
           "Ecommerce Provider", "Download Exception: ${e.toString()}");
     }
     return null;
@@ -154,7 +154,7 @@ class AttachmentsProvider extends ChangeNotifier {
         if (fileBytes != null) {
           _fetchedFileBytes.add(AttachedBytes(fileName: fileName, fileBytes: fileBytes, fileBytesBase64: null, fileType: null));
 
-          AppNotifier.logWithScreen(
+          AppLogger.info(
             "Ecommerce Provider",
             "Fetched File: $fileName | Size: ${fileBytes.lengthInBytes} bytes | Length: ${_fetchedFileBytes.length} | AttachedItem ${_fetchedFileBytes[0].fileName}",
           );
@@ -164,7 +164,7 @@ class AttachmentsProvider extends ChangeNotifier {
         _error = "No files fetched";
       }
     } catch (e) {
-      AppNotifier.logWithScreen(
+      AppLogger.error(
           "Ecommerce Provider", "Ecommerce Image Exception: ${e.toString()}");
     }
 

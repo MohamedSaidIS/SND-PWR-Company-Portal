@@ -265,6 +265,6 @@
   "remain" : "Remain",
   "consumedDays": "Consumed Days",
   "noLeaveBalance" : "No Leave Balance",
-  "pleaseWait":"Please Wait"
-
+  "pleaseWait":"Please Wait",
+  "searchForEmployee": "Search for an employee..."
 }

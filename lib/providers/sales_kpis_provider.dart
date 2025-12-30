@@ -38,18 +38,18 @@ class SalesKPIProvider extends ChangeNotifier {
 
         // _kpiList.sort((a, b) => b.createdDateTime!.compareTo(a.createdDateTime!));
         _kpiList.isNotEmpty
-            ? AppNotifier.logWithScreen("Sales Kpi Provider",
+            ? AppLogger.info("Sales Kpi Provider",
                 "Sales KPI Fetching: ${response.statusCode} ${_kpiList[0].worker}")
-            : AppNotifier.logWithScreen("Sales Kpi Provider",
+            : AppLogger.info("Sales Kpi Provider",
                 "Sales KPI Fetching: ${response.statusCode}");
       } else {
         _error = 'Failed to load Sales KPI data';
-        AppNotifier.logWithScreen("Sales Kpi Provider",
+        AppLogger.error("Sales Kpi Provider",
             "Sales KPI Error: $_error ${response.statusCode}");
       }
     } catch (e) {
       _error = e.toString();
-      AppNotifier.logWithScreen(
+      AppLogger.error(
           "Sales Kpi Provider", "Sales KPI Exception: $_error");
     }
     _loading = false;

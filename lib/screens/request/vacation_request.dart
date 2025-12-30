@@ -3,14 +3,9 @@ import 'package:provider/provider.dart';
 
 import '../../../../utils/export_import.dart';
 
-class VacationRequestScreen extends StatefulWidget {
+class VacationRequestScreen extends StatelessWidget {
   const VacationRequestScreen({super.key});
 
-  @override
-  State<VacationRequestScreen> createState() => _VacationRequestScreenState();
-}
-
-class _VacationRequestScreenState extends State<VacationRequestScreen> {
   @override
   Widget build(BuildContext context) {
     final provider = context.watch<VacationBalanceProvider>();

@@ -29,16 +29,16 @@ class ManagerInfoProvider with ChangeNotifier {
           (Map<String, dynamic> data) => UserInfo.fromJson(data),
           Map<String, dynamic>.from(response.data),
         );
-        AppNotifier.logWithScreen("Manager Info Provider",
+        AppLogger.info("Manager Info Provider",
             "Manager Info Fetching Success: $_managerInfo");
       } else {
         _error = 'Failed to load manager data';
-        AppNotifier.logWithScreen("Manager Info Provider",
+        AppLogger.error("Manager Info Provider",
             "Manager Info Error: $_error ${response.statusCode}");
       }
     } catch (e) {
       _error = e.toString();
-      AppNotifier.logWithScreen(
+      AppLogger.error(
           "Manager Info Provider", "Manager Info Exception: $_error");
     }
     _loading = false;

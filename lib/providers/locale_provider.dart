@@ -12,7 +12,7 @@ class LocaleProvider extends ChangeNotifier{
     _locale = locale;
     final prefs = await SharedPreferences.getInstance();
     await prefs.setString('language_code', locale.languageCode);
-    AppNotifier.logWithScreen("Selected Locale: ",locale.languageCode);
+    AppLogger.info("Selected Locale: ",locale.languageCode);
 
     notifyListeners();
   }
@@ -20,7 +20,7 @@ class LocaleProvider extends ChangeNotifier{
   Future<void> loadSavedLocale() async {
     final prefs = await SharedPreferences.getInstance();
     final langCode = prefs.getString('language_code');
-    AppNotifier.logWithScreen("Loaded Locale: ",locale.languageCode);
+    AppLogger.info("Loaded Locale: ",locale.languageCode);
 
     if (langCode != null) {
       _locale = Locale(langCode);

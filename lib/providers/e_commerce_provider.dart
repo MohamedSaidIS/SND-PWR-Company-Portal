@@ -43,18 +43,18 @@ class EcommerceProvider extends ChangeNotifier {
         );
       } else {
         _error = 'Failed to load Ecommerce data';
-        AppNotifier.logWithScreen("Ecommerce Provider",
+        AppLogger.error("Ecommerce Provider",
             "Ecommerce Error: $_error ${response.statusCode}");
       }
       _ecommerceItemsList.isNotEmpty ?
-        AppNotifier.logWithScreen("Ecommerce Provider",
+      AppLogger.info("Ecommerce Provider",
             "Ecommerce Fetching: ${response.statusCode} ${_ecommerceItemsList[0].app[0]}") :
-      AppNotifier.logWithScreen("Ecommerce Provider",
+      AppLogger.info("Ecommerce Provider",
           "Ecommerce Fetching: ${response.statusCode} ${_ecommerceItemsList.length}");
 
     } catch (e) {
       _error = e.toString();
-      AppNotifier.logWithScreen(
+      AppLogger.error(
           "Ecommerce Provider", "Ecommerce Exception: $_error");
     }
     _loading = false;
@@ -76,7 +76,7 @@ class EcommerceProvider extends ChangeNotifier {
               (Map<String, dynamic> data) => EcommerceItem.fromJson(data),
           Map<String, dynamic>.from(response.data),
         );
-        AppNotifier.logWithScreen("Ecommerce Provider",
+        AppLogger.info("Ecommerce Provider",
             "Ecommerce Item Created: ${response.statusCode} ${ticket
                 .id} ${ticket.title}");
 
@@ -85,13 +85,13 @@ class EcommerceProvider extends ChangeNotifier {
         return true;
       } else {
         _error = 'Failed to load Ecommerce data';
-        AppNotifier.logWithScreen("Ecommerce Provider",
+        AppLogger.error("Ecommerce Provider",
             "Ecommerce Item Error: $_error ${response.statusCode}");
         return false;
       }
     } catch (e) {
       _error = e.toString();
-      AppNotifier.logWithScreen(
+      AppLogger.error(
           "Ecommerce Provider", "Ecommerce Item Exception: $_error");
       return false;
     } finally {
@@ -111,7 +111,7 @@ class EcommerceProvider extends ChangeNotifier {
      return sendAttachedSuccessfully;
     } catch (e) {
       _error = e.toString();
-      AppNotifier.logWithScreen(
+      AppLogger.error(
           "Ecommerce Provider", "Send Attachments Exceptions: $_error");
       return false;
     } finally {
@@ -133,16 +133,16 @@ class EcommerceProvider extends ChangeNotifier {
       );
 
       if (response.statusCode == 200) {
-        AppNotifier.logWithScreen("Ecommerce Provider",
+        AppLogger.info("Ecommerce Provider",
             "Send Attachments Success: ${response.statusCode}");
         return true;
       } else {
-        AppNotifier.logWithScreen("Ecommerce Provider",
+        AppLogger.error("Ecommerce Provider",
             "Send Attachments Failed: ${ response.statusCode}");
         return false;
       }
     } catch (e) {
-      AppNotifier.logWithScreen(
+      AppLogger.error(
           "Ecommerce Provider", "Upload Exception: ${e.toString()}");
       return false;
     }

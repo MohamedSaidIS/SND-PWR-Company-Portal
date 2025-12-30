@@ -1692,6 +1692,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Please Wait'**
   String get pleaseWait;
+
+  /// No description provided for @searchForEmployee.
+  ///
+  /// In en, this message translates to:
+  /// **'Search for an employee...'**
+  String get searchForEmployee;
 }
 
 class _AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> {

@@ -31,9 +31,9 @@ class AppSeparators{
     padding: const EdgeInsets.symmetric(vertical: 8.0),
     child: Container(
       margin: const EdgeInsets.symmetric(vertical: 10),
-      height: 1,                 // بيكسل كامل = خط حاد
+      height: 1,
       width: double.infinity,
-      color: theme.colorScheme.outline, // لون ثابت وواضح
+      color: theme.colorScheme.outline,
     ),
   );
 }

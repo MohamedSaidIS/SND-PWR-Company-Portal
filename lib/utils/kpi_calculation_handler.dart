@@ -31,7 +31,7 @@ class KpiCalculationHandler {
     final lastKpi = weekData.reduce((a, b) =>
     onlyDate(a.transDate).isAfter(onlyDate(b.transDate)) ? a : b);
 
-    AppNotifier.logWithScreen("KpiCalculation Handler",
+     AppLogger.info("KpiCalculation Handler",
         "Last KPI Date: ${lastKpi.transDate} Sales: ${lastKpi
             .dailySalesAmount}");
 
@@ -81,7 +81,7 @@ class KpiCalculationHandler {
 
     filteredData.sort((a, b) => a.transDate.compareTo(b.transDate));
 
-    AppNotifier.logWithScreen("KpiCalculation Handler", "Filtered Data: ${filteredData.length}");
+     AppLogger.info("KpiCalculation Handler", "Filtered Data: ${filteredData.length}");
 
     return filteredData.isNotEmpty ? filteredData.last.lastSalesAmount : 0.0;
   }
@@ -96,12 +96,11 @@ class KpiCalculationHandler {
     return getIsoWeekStart(year, weekNumber).add(const Duration(days: 6));
   }
 
-  static List<DailyKPI> calculateDailySalesPerWeek(List<SalesKPI> data,
-      int currentWeek, int year, List<DailyKPI> weeklyValues) {
+  static List<DailyKPI> calculateDailySalesPerWeek(List<SalesKPI> data, int currentWeek, int year, List<DailyKPI> weeklyValues) {
     final start = getIsoWeekStart(year, currentWeek);
     final end = getIsoWeekEnd(year, currentWeek);
 
-    AppNotifier.logWithScreen(
+     AppLogger.info(
         "KpiCalculation Handler", "Start: $start, End: $end");
 
     DateTime onlyDate(DateTime dt) => DateTime(dt.year, dt.month, dt.day);
@@ -116,7 +115,7 @@ class KpiCalculationHandler {
           (d.isAfter(startOnlyDate) && d.isBefore(endOnlyDate));
     });
 
-    AppNotifier.logWithScreen("KpiCalculation Handler", "weekData count: ${weekData.length}");
+     AppLogger.info("KpiCalculation Handler", "weekData count: ${weekData.length}");
 
     for (var kpi in weekData) {
       final index = kpi.transDate.weekday - 1;
@@ -142,11 +141,11 @@ class KpiCalculationHandler {
 
   static List<DailyKPI> calculateDailySalesPerMonth(List<SalesKPI> data, int month, int year) {
     final start = DateTime(year, month, 1);
-    AppNotifier.logWithScreen("KpiCalculation Handler", "Days In Month: $year, $month}");
+     AppLogger.info("KpiCalculation Handler", "Days In Month: $year, $month}");
     final totalDays = daysInMonthForYear(year, month);
     final end = DateTime(year, month, totalDays, 23, 59, 59);
 
-    AppNotifier.logWithScreen(
+     AppLogger.info(
         "KpiCalculation Handler", "Month Start: $start, End: $end");
 
     final daysInMonth = List.generate(end.day, (index) {
@@ -165,7 +164,7 @@ class KpiCalculationHandler {
       return !d.isBefore(start) && !d.isAfter(end);
     }).toList();
 
-    AppNotifier.logWithScreen(
+     AppLogger.info(
         "KpiCalculation Handler", "monthData count: ${monthData.length}");
 
     for (var kpi in monthData) {
@@ -189,9 +188,9 @@ class KpiCalculationHandler {
       now = data.last.transDate;
       date = DateTime(now.year, selectedMonth);
     }
-    AppNotifier.logWithScreen("KpiCalculation Handler", "Date: $date");
+     AppLogger.info("KpiCalculation Handler", "Date: $date");
     final monthName = DatesHelper.monthToYearFormatted(date, locale);
-    AppNotifier.logWithScreen("KpiCalculation Handler", "Month Name: $monthName");
+     AppLogger.info("KpiCalculation Handler", "Month Name: $monthName");
     return monthName;
   }
 
@@ -200,7 +199,7 @@ class KpiCalculationHandler {
     var now = DateTime.now();
     if (data.isEmpty) {
       now = DateTime(DateTime.now().year, selectedMonth);
-      AppNotifier.logWithScreen("KpiCalculation Handler", "LastDay $now");
+       AppLogger.info("KpiCalculation Handler", "LastDay $now");
       return DatesHelper.dayToMonToYearFormatted(now, locale);
     }
 
@@ -218,12 +217,12 @@ class KpiCalculationHandler {
     }).toList();
 
 
-    AppNotifier.logWithScreen("KpiCalculation Handler", "WeekData content: ${weekData.map((e) => e.transDate).toList()}");
-    AppNotifier.logWithScreen("KpiCalculation Handler", "Length actually: ${weekData.length}");
+     AppLogger.info("KpiCalculation Handler", "WeekData content: ${weekData.map((e) => e.transDate).toList()}");
+     AppLogger.info("KpiCalculation Handler", "Length actually: ${weekData.length}");
 
     if (weekData.isEmpty){
       now = DateTime(DateTime.now().year, selectedMonth);
-      AppNotifier.logWithScreen("KpiCalculation Handler", "LastDay $now");
+       AppLogger.info("KpiCalculation Handler", "LastDay $now");
       return DatesHelper.dayToMonToYearFormatted(now, locale);
     }
 
@@ -235,7 +234,7 @@ class KpiCalculationHandler {
       now = lastKpi.transDate;
     }
     final lastDayName = DatesHelper.dayToMonToYearFormatted(now, locale);
-    AppNotifier.logWithScreen("KpiCalculation Handler", "after LastDay $lastDayName");
+     AppLogger.info("KpiCalculation Handler", "after LastDay $lastDayName");
     return lastDayName;
   }
 
@@ -279,7 +278,7 @@ class KpiCalculationHandler {
     double step = calculateStep(maxVal, true); // landscape view
     double roundedMax = (maxVal / step).ceil() * step;
 
-    AppNotifier.logWithScreen("KpiCalculation Handler", "Daily Max: $maxVal $step Rounded Max: $roundedMax");
+     AppLogger.info("KpiCalculation Handler", "Daily Max: $maxVal $step Rounded Max: $roundedMax");
 
     return ChartScale(roundedMax, step);
   }
@@ -291,7 +290,7 @@ class KpiCalculationHandler {
     double step = calculateStep(maxVal, false); // portrait view
     double roundedMax = (maxVal / step).ceil() * step;
 
-    AppNotifier.logWithScreen("KpiCalculation Handler", "Weekly Max: $maxVal $step Rounded Max: $roundedMax");
+     AppLogger.info("KpiCalculation Handler", "Weekly Max: $maxVal $step Rounded Max: $roundedMax");
 
     return ChartScale(roundedMax, step);
   }
@@ -303,7 +302,7 @@ class KpiCalculationHandler {
     double step = calculateStep(maxVal, false);
     double roundedMax = (maxVal / step).ceil() * step;
 
-    AppNotifier.logWithScreen("KpiCalculation Handler", "Monthly Max: $maxVal $step Rounded Max: $roundedMax");
+     AppLogger.info("KpiCalculation Handler", "Monthly Max: $maxVal $step Rounded Max: $roundedMax");
 
     return ChartScale(roundedMax, step);
   }

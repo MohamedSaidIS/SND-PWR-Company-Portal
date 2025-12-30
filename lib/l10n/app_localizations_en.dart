@@ -805,4 +805,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get pleaseWait => 'Please Wait';
+
+  @override
+  String get searchForEmployee => 'Search for an employee...';
 }

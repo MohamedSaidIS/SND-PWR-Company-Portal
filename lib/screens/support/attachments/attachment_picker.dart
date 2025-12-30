@@ -4,18 +4,13 @@ import 'package:flutter/material.dart';
 import 'package:line_awesome_flutter/line_awesome_flutter.dart';
 import 'package:provider/provider.dart';
 
-class AttachmentPicker extends StatefulWidget {
+class AttachmentPicker extends StatelessWidget {
   final bool isVacationRequest;
   const AttachmentPicker({
     this.isVacationRequest = false,
     super.key,
   });
 
-  @override
-  State<AttachmentPicker> createState() => _AttachmentPickerState();
-}
-
-class _AttachmentPickerState extends State<AttachmentPicker> {
   @override
   Widget build(BuildContext context) {
     final theme = context.theme;
@@ -29,7 +24,7 @@ class _AttachmentPickerState extends State<AttachmentPicker> {
             splashColor: Colors.black12,
             borderRadius: BorderRadius.circular(10),
             onTap: () async {
-              widget.isVacationRequest? await provider.pickBase64Files(): await provider.pickFiles();
+              isVacationRequest? await provider.pickBase64Files(): await provider.pickFiles();
             },
             child: Padding(
               padding: const EdgeInsets.all(5),
@@ -48,7 +43,7 @@ class _AttachmentPickerState extends State<AttachmentPicker> {
               : SizedBox(
             height: (25 * (allFiles.length)).toDouble(),
             child: Scrollbar(
-              thumbVisibility: allFiles.length >= 2? true : false,
+              thumbVisibility: allFiles.length >= 2 ? true : false,
               child: ListView.builder(
                   physics: allFiles.length >= 2
                       ? const AlwaysScrollableScrollPhysics()

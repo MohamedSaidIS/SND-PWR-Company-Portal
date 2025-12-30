@@ -42,18 +42,18 @@ class VacationBalanceProvider extends ChangeNotifier {
           parsedResponse,
         );
         if (_workerPersonnel != null) {
-          AppNotifier.logWithScreen("Vacation Balance Provider",
+          AppLogger.info("Vacation Balance Provider",
               "Personnel Data Fetching ${_workerPersonnel!.personnelNumber}");
           await getVacationBalance(_workerPersonnel!.personnelNumber);
         }
       } else {
         _error = 'Failed to load Personnel data';
-        AppNotifier.logWithScreen("Vacation Balance Provider",
+        AppLogger.error("Vacation Balance Provider",
             "Personnel Data Error: $_error ${response.statusCode}");
       }
     } catch (e) {
       _error = e.toString();
-      AppNotifier.logWithScreen(
+      AppLogger.error(
           "Vacation Balance Provider", "Personnel Data Exception: $_error");
     }
   }
@@ -78,18 +78,18 @@ class VacationBalanceProvider extends ChangeNotifier {
           parsedResponse,
         );
         _vacationTransactions.isNotEmpty
-            ? AppNotifier.logWithScreen("Vacation Balance Provider",
+            ? AppLogger.info("Vacation Balance Provider",
             "Vacation Transactions Fetching: ${response.statusCode} ${_vacationTransactions[0].absenceCode}")
-            : AppNotifier.logWithScreen("Vacation Balance Provider",
+            : AppLogger.info("Vacation Balance Provider",
             "Vacation Transactions Fetching: ${response.statusCode}");
       } else {
         _error = 'Failed to load Vacation Transactions data';
-        AppNotifier.logWithScreen("Vacation Balance Provider",
+        AppLogger.error("Vacation Balance Provider",
             "Vacation Transactions Error: $_error ${response.statusCode}");
       }
     } catch (e) {
       _error = e.toString();
-      AppNotifier.logWithScreen("Vacation Balance Provider",
+      AppLogger.error("Vacation Balance Provider",
           "Vacation Transactions Exception: $_error");
     }
     _loading = false;
@@ -115,18 +115,18 @@ class VacationBalanceProvider extends ChangeNotifier {
         );
       } else {
         _error = 'Failed to load Vacation Balance data';
-        AppNotifier.logWithScreen("Vacation Balance Provider",
+        AppLogger.error("Vacation Balance Provider",
             "Vacation Balance Error: $_error ${response.statusCode}");
       }
 
       _vacationTransactions.isNotEmpty
-          ? AppNotifier.logWithScreen("Vacation Balance Provider",
+          ? AppLogger.info("Vacation Balance Provider",
               "Vacation Balance Fetching: ${response.statusCode} ${_vacationBalance!.remain}")
-          : AppNotifier.logWithScreen("Vacation Balance Provider",
+          : AppLogger.info("Vacation Balance Provider",
               "Vacation Balance Fetching: ${response.statusCode}");
     } catch (e) {
       _error = e.toString();
-      AppNotifier.logWithScreen(
+      AppLogger.error(
           "Vacation Balance Provider", "Vacation Balance Exception: $_error");
     }
     _loading = false;

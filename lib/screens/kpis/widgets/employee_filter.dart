@@ -70,7 +70,7 @@ class _EmployeeFilterState extends State<EmployeeFilter> {
                 controller: searchController,
                 decoration: InputDecoration(
                   contentPadding: const EdgeInsets.symmetric(horizontal: 8),
-                  hintText: 'ابحث عن موظف...',
+                  hintText: local.searchForEmployee,
                   border: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(10),
                   ),

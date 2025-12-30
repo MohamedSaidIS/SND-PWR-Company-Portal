@@ -1,9 +1,12 @@
-
+import 'package:company_portal/service/notification_service.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 import '../../utils/export_import.dart';
+
+Map<String, dynamic>? initialMessageData;
 
 class DashboardScreen extends StatefulWidget {
   final VoidCallback? onDataLoaded;
@@ -23,16 +26,24 @@ class _DashboardScreenState extends State<DashboardScreen> {
   double webProgress = 0;
   String? accessToken;
   bool _isLoading = true;
+  late final UserInfo userInfo;
 
   @override
   void initState() {
     super.initState();
-    debugPrint("OnLoadedFun: ${widget.onDataLoaded}");
+
+    NotificationService.instance.init();
+    // NotificationService.instance.notificationStream
+    //     .listen((data) {
+    //   debugPrint("📨 Stream data: $data");
+    // });
+
     WidgetsBinding.instance.addPostFrameCallback((_) async {
       await initialDataValues();
+
       if (mounted) {
         setState(() => _isLoading = false);
-        AppNotifier.logWithScreen("Dashboard", "Calling onDataLoaded()");
+        AppLogger.info("Dashboard", "Calling onDataLoaded()");
         widget.onDataLoaded?.call();
       }
 
@@ -40,25 +51,12 @@ class _DashboardScreenState extends State<DashboardScreen> {
 
       await SecureStorageService().getData("SPAccessToken").then((value) {
         setState(() {
-          AppNotifier.logWithScreen(
+          AppLogger.info(
               "Dashboard Screen", "DashBoard Token: $value");
           accessToken = value.trim();
         });
       });
     });
-
-
-    final microsoftLoginUrl = Uri.https(
-      "login.microsoftonline.com",
-      "/common/oauth2/v2.0/authorize",
-      {
-        "client_id": "a8a7099a-9387-42b7-8b3b-a2876d62b011",
-        "response_type": "code",
-        "redirect_uri":
-            "https://login.microsoftonline.com/common/oauth2/nativeclient",
-        "scope": "openid profile email offline_access select_account",
-      },
-    ).toString();
 
     _controller = WebViewController()
       ..setJavaScriptMode(JavaScriptMode.unrestricted)
@@ -83,7 +81,8 @@ class _DashboardScreenState extends State<DashboardScreen> {
 
       await userProvider.fetchUserInfo();
       await userProvider.getGroupId();
-      await userProvider.getGroupMembers("4053f91a-d9a0-4a65-8057-1a816e498d0f");
+      await userProvider
+          .getGroupMembers("4053f91a-d9a0-4a65-8057-1a816e498d0f");
       await imageProvider.fetchImage();
       await managerProvider.fetchManagerInfo();
       await allUsersProvider.getAllUsers();
@@ -92,29 +91,33 @@ class _DashboardScreenState extends State<DashboardScreen> {
         await directReportProvider.fetchRedirectReport();
       }
 
-      final userInfo = userProvider.userInfo;
+      userInfo = userProvider.userInfo!;
+      await NotificationService.instance.registerUser(userInfo.id);
+
       final groupInfo = userProvider.groupInfo;
 
-      if (userInfo != null && groupInfo != null) {
+      if (groupInfo != null) {
         // ToDo: GetGroupMembers according to groupId   e662e0d0-25d6-41a1-8bf3-55326a51cc16
-        AppNotifier.logWithScreen("Dashboard Screen", "✅ User Info Loaded: ${userInfo.id} |${userInfo.mail} | ${groupInfo.groupId}");
+        AppLogger.info("Dashboard Screen",
+            "✅ User Info Loaded: ${userInfo.id} |${userInfo.mail} | ${groupInfo.groupId}");
         await vacationBalanceProvider.getWorkerPersonnelNumber(userInfo.id);
         await vacationBalanceProvider.getVacationTransactions(userInfo.id);
         await SharedPrefsHelper().saveUserData("UserId", userInfo.id);
-        await SharedPrefsHelper().saveUserData("UserEmail", userInfo.mail?? "");
+        await SharedPrefsHelper()
+            .saveUserData("UserEmail", userInfo.mail ?? "");
         await SharedPrefsHelper().saveUserData("groupInfo", groupInfo.groupId);
 
         if (mounted) {
-          AppNotifier.logWithScreen(
-              "Dashboard", "✅ All data loaded, calling onDataLoaded()");
+          AppLogger.info(
+              "Dashboard", "All data loaded, calling onDataLoaded()");
           widget.onDataLoaded?.call();
         }
       } else {
-        AppNotifier.logWithScreen(
-            "Dashboard", "⚠️ userInfo or groupInfo is null");
+        AppLogger.error(
+            "Dashboard", "userInfo or groupInfo is null");
       }
     } catch (e, st) {
-      AppNotifier.logWithScreen(
+      AppLogger.error(
           "Dashboard", "❌ initialDataValues error: $e\n$st");
     }
   }
@@ -129,12 +132,12 @@ class _DashboardScreenState extends State<DashboardScreen> {
   //     if (value != null && value.toString().isNotEmpty) {
   //       String domain = c["domain"];
   //
-  //       AppNotifier.logWithScreen("Dashboard Screen",
+  //       AppLogger.info("Dashboard Screen",
   //           "✅ Restored Cookie: ${c["name"]} =========== $value");
   //
   //       if (c["name"] == "FedAuth" || c["name"] == "rtFa") {
   //         domain = ".sharepoint.com";
-  //         AppNotifier.logWithScreen(
+  //         AppLogger.info(
   //             "Dashboard Screen", "✅ Restored Cookie Domain: $domain");
   //       }
   //
@@ -147,7 +150,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
   //         isSecure: c["isSecure"] ?? true,
   //         isHttpOnly: c["isHttpOnly"] ?? true,
   //       );
-  //       AppNotifier.logWithScreen("Dashboard Screen",
+  //       AppLogger.info("Dashboard Screen",
   //           "Restored Cookie: ${c["name"]}=$value; domain=$domain");
   //     }
   //   }
@@ -158,14 +161,14 @@ class _DashboardScreenState extends State<DashboardScreen> {
   //     );
   //   }
   //
-  //   AppNotifier.logWithScreen(
+  //   AppLogger.info(
   //       "Dashboard Screen", "✅ Cookies restored and WebView reloaded");
   // }
   //
   // Future<void> _saveCookies() async {
   //   final cookies = await cookieManager.getCookies(url: WebUri(sharepointUrl));
   //   for (var c in cookies) {
-  //     AppNotifier.logWithScreen("Dashboard Screen",
+  //     AppLogger.info("Dashboard Screen",
   //         "Restored Cookie: ${c.name}=${c.value}; domain=${c.domain}");
   //   }
   //
@@ -184,7 +187,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
   //
   //   await SecureStorageService().saveData("savedCookies", cookiesJson);
   //
-  //   AppNotifier.logWithScreen(
+  //   AppLogger.info(
   //       "Dashboard Screen", "Cookies saved to storage: $cookiesJson");
   // }
 
@@ -193,7 +196,6 @@ class _DashboardScreenState extends State<DashboardScreen> {
     // webViewController = null;
     super.dispose();
   }
-
 
   @override
   Widget build(BuildContext context) {
@@ -238,7 +240,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
                       //     webViewController = controller;
                       //   },
                       //   onLoadStop: (controller, url) async {
-                      //     AppNotifier.logWithScreen(
+                      //     AppLogger.info(
                       //         "Dashboard Screen", "Finished loading: $url");
                       //     await _saveCookies();
                       //   },

@@ -32,17 +32,17 @@ class SharePointDioClient {
           String? token = await secureStorage.getData("SPAccessToken");
 
           final expired = await isTokenExpired();
-          AppNotifier.logWithScreen(
-              "SharePoint DioClient", "SPAccessToken expired: $expired");
+          AppLogger.error(
+              "SharePoint DioClient", "SPAccessToken Expired: $expired");
 
           if (expired) {
             token = await _refreshToken();
-            AppNotifier.logWithScreen("SharePoint DioClient",
+            AppLogger.info("SharePoint DioClient",
                 "New SPAccessToken after refresh: $token");
           }
 
           if (token == null) {
-            AppNotifier.logWithScreen("SharePoint DioClient",
+            AppLogger.error("SharePoint DioClient",
                 "The session has expired, please log in again.");
             onUnauthorized();
             return;
@@ -52,10 +52,8 @@ class SharePointDioClient {
           handler.next(options);
         },
         onError: (error, handler) {
-          AppNotifier.logWithScreen("SharePoint DioClient","⚠️ Unauthorized called! before");
           if (error.response?.statusCode == 401) {
-            AppNotifier.logWithScreen("SharePoint DioClient","⚠️ Unauthorized called! after");
-            AppNotifier.logWithScreen("SharePoint DioClient","Graph AccessToken Expired And Error 401");
+            AppNotifier.logWithScreen("SharePoint DioClient","Unauthorized | Token Expired | Error 401");
             onUnauthorized();
           }
           handler.next(error);
@@ -67,13 +65,13 @@ class SharePointDioClient {
 
   Future<bool> isTokenExpired({Duration expiryDuration = const Duration(hours: 1)}) async {
     String? savedAtStr = await secureStorage.getData("SPTokenSavedAt");
-    AppNotifier.logWithScreen("SharePoint DioClient", "Date: $savedAtStr");
+    AppLogger.info("SharePoint DioClient", "Date: $savedAtStr");
 
     if (savedAtStr == "") return true;
 
     final savedAt = DateTime.tryParse(savedAtStr);
     if (savedAt == null) return true;
-    AppNotifier.logWithScreen("SharePoint DioClient", "savedAt: $savedAt");
+    AppLogger.info("SharePoint DioClient", "savedAt: $savedAt");
 
     final now = DateTime.now();
     final expiryTime = savedAt.add(expiryDuration);
@@ -85,8 +83,7 @@ class SharePointDioClient {
       final refreshToken = await secureStorage.getData("RefreshToken");
 
       if (refreshToken == "") {
-        AppNotifier.logWithScreen(
-            "SharePoint RefreshToken", "Missing refresh token, need login");
+        AppLogger.error("SharePoint", "Missing refresh token, need login");
         return null;
       }
 
@@ -105,8 +102,8 @@ class SharePointDioClient {
       );
 
       if (result.accessToken == null) {
-        AppNotifier.logWithScreen(
-            "SharePoint RefreshToken", "Null token result");
+        AppLogger.error(
+            "SharePoint", "RefreshToken failed Null token result");
         return null;
       }
 
@@ -119,7 +116,7 @@ class SharePointDioClient {
 
       return result.accessToken!;
     } catch (e) {
-      AppNotifier.logWithScreen("SharePoint RefreshToken", "Error: $e");
+      AppLogger.error("SharePoint", "RefreshToken Error: $e");
     }
     return null;
   }

@@ -34,7 +34,7 @@ class UserInfoProvider with ChangeNotifier {
           (Map<String, dynamic> data) => UserInfo.fromJson(data),
           Map<String, dynamic>.from(response.data),
         );
-        AppNotifier.logWithScreen("UserInfo Provider", "UserInfo Fetching: $_userInfo");
+        AppLogger.info("UserInfo Provider", "UserInfo Fetching: $_userInfo");
         if (_userInfo == null) {
           _state = ViewState.empty;
         } else {
@@ -44,13 +44,13 @@ class UserInfoProvider with ChangeNotifier {
         _error = 'Failed to load user data';
         _state = ViewState.error;
 
-        AppNotifier.logWithScreen("UserInfo Provider",
+        AppLogger.error("UserInfo Provider",
             "UserInfo Error: $_error ${response.statusCode}");
       }
     } catch (e) {
       _error = e.toString();
       _state = ViewState.error;
-      AppNotifier.logWithScreen(
+      AppLogger.error(
           "UserInfo Provider", "UserInfo Exception: $_error");
     }
     notifyListeners();
@@ -76,7 +76,7 @@ class UserInfoProvider with ChangeNotifier {
         final List<dynamic> matchedGroupIds = response.data["value"];
         _groupInfo = await compute(
           (List<dynamic> ids) {
-            AppNotifier.logWithScreen(
+            AppLogger.info(
               "UserInfo Provider",
               "Group Info Parsed: $ids ${ids[0]}",
             );
@@ -92,7 +92,7 @@ class UserInfoProvider with ChangeNotifier {
           matchedGroupIds,
         );
 
-        AppNotifier.logWithScreen(
+        AppLogger.info(
           "UserInfo Provider",
           "Group Info Parsed: $_groupInfo ${_groupInfo?.groupId}",
         );
@@ -105,13 +105,13 @@ class UserInfoProvider with ChangeNotifier {
         _error = 'Failed to get group info';
         _state = ViewState.error;
 
-        AppNotifier.logWithScreen("UserInfo Provider",
+        AppLogger.error("UserInfo Provider",
             "Group Info Error: $_error ${response.statusCode} ${response.data}");
       }
     } catch (e) {
       _error = e.toString();
       _state = ViewState.error;
-      AppNotifier.logWithScreen(
+      AppLogger.error(
           "UserInfo Provider", "Group Info  Exception: $_error");
     }
     notifyListeners();
@@ -137,7 +137,7 @@ class UserInfoProvider with ChangeNotifier {
           parsedResponse,
         );
 
-        AppNotifier.logWithScreen(
+        AppLogger.info(
           "UserInfo Provider",
           "Group Members Parsed: ${_groupMembers?[0].displayName} ${_groupMembers?[0].givenName}",
         );
@@ -151,14 +151,14 @@ class UserInfoProvider with ChangeNotifier {
         _error = 'Failed to get group info';
         _state = ViewState.error;
 
-        AppNotifier.logWithScreen("UserInfo Provider",
+        AppLogger.error("UserInfo Provider",
             "Group Members Error: $_error ${response.statusCode} ${response.data}");
       }
     } catch (e) {
       _error = e.toString();
       _state = ViewState.error;
 
-      AppNotifier.logWithScreen(
+      AppLogger.error(
           "UserInfo Provider", "Group Members  Exception: $_error");
     }
     notifyListeners();

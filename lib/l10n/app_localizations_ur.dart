@@ -805,4 +805,7 @@ class AppLocalizationsUr extends AppLocalizations {
 
   @override
   String get pleaseWait => 'براہِ کرم انتظار کریں';
+
+  @override
+  String get searchForEmployee => 'ملازم تلاش کریں...';
 }

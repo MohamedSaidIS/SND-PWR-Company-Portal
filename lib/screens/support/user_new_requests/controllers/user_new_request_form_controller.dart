@@ -75,8 +75,7 @@ class UserNewRequestFormController {
   Future<void> submitForm(
     AppLocalizations local,
     NewUserRequest? request,
-    int ensureUserId,
-  ) async {
+    int ensureUserId,) async {
     AppNotifier.logWithScreen("UserNewRequestFormController", "Validating form...");
     final isValid = formKey.currentState?.validate() ?? false;
     AppNotifier.logWithScreen("UserNewRequestFormController","Form valid? $isValid");
@@ -95,22 +94,19 @@ class UserNewRequestFormController {
               request.id, _buildRequest(parsed, ensureUserId))
           : await provider
               .createNewUserRequest(_buildRequest(parsed, ensureUserId));
-
-      if (success) {
-        if (request == null) clearData();
-        AppNotifier.snackBar(
-          context,
-          local.fromSubmittedSuccessfully,
-          SnackBarType.success,
-        );
-      }
+      snackBar(local, success, request);
     } catch (e) {
-      AppNotifier.snackBar(
-        context,
-        local.somethingWentWrong,
-        SnackBarType.error,
-      );
+      AppNotifier.logWithScreen("UserNewRequestController", "$e");
     }
+  }
+
+  void snackBar(AppLocalizations local, bool success, NewUserRequest? request){
+    if (request == null) clearData();
+    AppNotifier.snackBar(
+      context,
+      success? local.fromSubmittedSuccessfully: local.somethingWentWrong,
+      success? SnackBarType.success: SnackBarType.error,
+    );
   }
 
   NewUserRequest _buildRequest(DateTime date, int ensureUserId) =>

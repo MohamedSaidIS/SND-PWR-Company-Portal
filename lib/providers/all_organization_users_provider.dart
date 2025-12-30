@@ -32,15 +32,15 @@ class AllOrganizationUsersProvider extends ChangeNotifier {
           parsedResponse
         );
 
-        AppNotifier.logWithScreen("All Users Provider: ", "All Users Fetching: ${allUsers.length}");
+        AppLogger.info("All Users Provider: ", "All Users Fetching: ${allUsers.length}");
       } else {
         _error = 'Failed to load user data';
-        AppNotifier.logWithScreen(
+        AppLogger.error(
             "All Users Provider: ", "All Users Error: $_error ${response.statusCode}");
       }
     } catch (e) {
       _error = e.toString();
-      AppNotifier.logWithScreen("All Users Provider: ", "All Users Exception: $_error" );
+      AppLogger.error("All Users Provider: ", "All Users Exception: $_error" );
     }
     _loading = false;
     notifyListeners();

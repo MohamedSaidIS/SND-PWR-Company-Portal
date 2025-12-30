@@ -31,7 +31,7 @@ class DirectReportsProvider with ChangeNotifier {
           parsedResponse,
         );
 
-        AppNotifier.logWithScreen("DirectReport Provider",
+        AppLogger.info("DirectReport Provider",
             "DirectReport Fetching: ${response.statusCode} $_directReportList ");
         if (_directReportList == null || _directReportList!.isEmpty) {
           _state = ViewState.empty;
@@ -42,14 +42,14 @@ class DirectReportsProvider with ChangeNotifier {
         _error = 'Failed to load direct_report data';
         _state = ViewState.error;
 
-        AppNotifier.logWithScreen("DirectReport Provider",
+        AppLogger.error("DirectReport Provider",
             "DirectReport Error: $_error ${response.statusCode}");
       }
     } catch (e) {
       _error = e.toString();
       _state = ViewState.error;
 
-      AppNotifier.logWithScreen(
+      AppLogger.error(
           "DirectReport Provider", "DirectReport Exception: $_error");
     }
     notifyListeners();

@@ -6,6 +6,16 @@ import 'package:provider/provider.dart';
 import '../../../../utils/export_import.dart';
 import '../main.dart';
 
+class AppLogger {
+  static void info(String tag, String msg) {
+    debugPrint("ℹ️ [$tag] $msg");
+  }
+
+  static void error(String tag, String msg) {
+    debugPrint("❌ [$tag] $msg");
+  }
+}
+
 class AppNotifier {
 
   static void logWithScreen(String screen, String message) {
@@ -70,7 +80,7 @@ class AppNotifier {
   }
 
   static void sessionExpiredDialog() {
-    final ctx = navigatorKey.currentContext;
+    final ctx = AppNavigator.key.currentContext;
     if (ctx == null) return;
 
     final theme = ctx.theme;
@@ -121,7 +131,7 @@ class AppNotifier {
                   TextButton(
                     onPressed: () async {
                       await SecureStorageService().deleteData();
-                      navigatorKey.currentState?.pushAndRemoveUntil(
+                      AppNavigator.state?.pushAndRemoveUntil(
                           AppNotifier.createLogoutRoute(const LoginScreen()),
                           (route) => false,
                       );

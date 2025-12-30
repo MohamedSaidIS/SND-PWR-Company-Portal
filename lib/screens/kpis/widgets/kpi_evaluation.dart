@@ -1,3 +1,4 @@
+import 'package:company_portal/utils/context_extensions.dart';
 import 'package:flutter/material.dart';
 
 import '../../../models/remote/management_kpi_model.dart';
@@ -48,11 +49,14 @@ class KpiSection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final theme = Theme.of(context);
+    final theme = context.theme;
+    final isDark = context.isDark();
 
     return Card(
       elevation: 2,
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+      shadowColor: isDark ? theme.colorScheme.primary.withValues(alpha: 0.1) : null,
+      color: isDark ? theme.navigationBarTheme.backgroundColor!.withValues(alpha: 0.2): null,
       child: Column(
         children: [
           Container(

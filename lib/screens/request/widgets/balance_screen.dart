@@ -26,11 +26,11 @@ class BalanceScreen extends StatelessWidget {
                 ),
                 delegate: SliverChildListDelegate(
                   [
-                    BalanceCard(
-                      title: local.balance,
-                      amount: balance.currentBalance.toInt().toString(),
-                      icon: LineAwesomeIcons.calendar,
-                    ),
+                    // BalanceCard(
+                    //   title: local.balance,
+                    //   amount: balance.currentBalance.toInt().toString(),
+                    //   icon: LineAwesomeIcons.calendar,
+                    // ),
                     BalanceCard(
                       title: local.remain,
                       remainAmount: balance.remain.toInt().toString(),

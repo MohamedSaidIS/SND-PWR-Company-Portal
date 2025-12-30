@@ -43,17 +43,15 @@ class UserImageProvider extends ChangeNotifier {
 
       if (response.statusCode == 200) {
         _fetchedImageBytes = Uint8List.fromList(response.data);
-        AppNotifier.logWithScreen("User Image Provider",
+        AppLogger.info("User Image Provider",
             "User Image Fetching Success: $_fetchedImageBytes");
-      } else if (response.statusCode == 401) {
-        _error = response.statusMessage.toString();
       } else {
         _error = 'Failed to load user image';
-        AppNotifier.logWithScreen("User Image Provider",
+        AppLogger.error("User Image Provider",
             "User Image Error: $_error ${response.statusCode}");
       }
     } catch (e) {
-      AppNotifier.logWithScreen(
+      AppLogger.error(
           "User Image Provider", "User Image Exception: ${e.toString()}");
     }
 
@@ -79,17 +77,17 @@ class UserImageProvider extends ChangeNotifier {
           ));
 
       if (response.statusCode == 200 || response.statusCode == 204) {
-        AppNotifier.logWithScreen("User Image Provider",
+        AppLogger.info("User Image Provider",
             "Upload Image Success: Photo updated Successfully");
         return true;
       } else {
         _error = 'Failed to upload image to server';
-        AppNotifier.logWithScreen("User Image Provider",
+        AppLogger.error("User Image Provider",
             "Upload Image Error: $_error ${response.statusCode}");
         return false;
       }
     } catch (e) {
-      AppNotifier.logWithScreen(
+      AppLogger.error(
           "User Image Provider", "Upload Image Exception: ${e.toString()}");
       return false;
     } finally {

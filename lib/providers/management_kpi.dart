@@ -47,18 +47,18 @@ class ManagementKpiProvider extends ChangeNotifier {
         );
         if (_sheets.isNotEmpty) {
           for (var sheet in _sheets) {
-            AppNotifier.logWithScreen("Management KPI Provider",
+            AppLogger.info("Management KPI Provider",
                 "KPI Sheets Fetching ${sheet.name} ${sheet.normalizedName}");
           }
         }
       } else {
         _error = 'Failed to load KPI Sheets';
-        AppNotifier.logWithScreen("Management KPI Provider",
+        AppLogger.error("Management KPI Provider",
             "KPI Sheets Error: $_error ${response.statusCode}");
       }
     } catch (e) {
       _error = e.toString();
-      AppNotifier.logWithScreen(
+      AppLogger.error(
           "Management KPI Provider", "KPI Sheets Exception: $_error");
     }
     _loadingSheet = false;
@@ -93,14 +93,14 @@ class ManagementKpiProvider extends ChangeNotifier {
           parsedResponse,
         );
 
-        AppNotifier.logWithScreen(
+        AppLogger.info(
           "Management KPI Provider",
           "KPI Sheet Url Success: ${_sheetUrl!.url} | ${_sheetUrl!.name}",
         );
       }
     } catch (e) {
       _error = e.toString();
-      AppNotifier.logWithScreen(
+      AppLogger.error(
         "Management KPI Provider",
         "KPI Sheet Url Exception: $_error",
       );
@@ -132,7 +132,7 @@ class ManagementKpiProvider extends ChangeNotifier {
             : _sheets.firstWhere((item) =>
                 item.normalizedName == normalizeSheetName(email) &&
                 item.year == year);
-        AppNotifier.logWithScreen("Management KPI Provider","TableName is: $tableName");
+        AppLogger.info("Management KPI Provider","TableName is: $tableName");
 
         final sheet = excel.tables[tableName.name]!;
         for (final row in sheet.rows) {
@@ -145,17 +145,17 @@ class ManagementKpiProvider extends ChangeNotifier {
         _managementKpiItems = await csvToManagementKpi(csvData);
 
         for (final section in _managementKpiItems) {
-          AppNotifier.logWithScreen("Management KPI Provider",
+          AppLogger.info("Management KPI Provider",
               '${section.sectionTitle} (${section.secWeight})');
           for (final kpi in section.items) {
-            AppNotifier.logWithScreen("Management KPI Provider",
+            AppLogger.info("Management KPI Provider",
                 ' - ${kpi.title} => ${kpi.averageWeight}');
           }
         }
       }
     } catch (e) {
       _error = e.toString();
-      AppNotifier.logWithScreen(
+      AppLogger.error(
           "Management KPI Provider", "Management KPI Exception: $_error");
     }
     _loading = false;
@@ -214,9 +214,9 @@ class ManagementKpiProvider extends ChangeNotifier {
           ),
         );
       }
-      AppNotifier.logWithScreen("Management KPI Provider","CurrentSection: $currentSectionTitle | $sectionTitle");
+      AppLogger.info("Management KPI Provider","CurrentSection: $currentSectionTitle | $sectionTitle");
       if (currentSectionTitle != null) {
-        AppNotifier.logWithScreen("Management KPI Provider","CurrentSection Now: $currentSectionTitle | $sectionTitle");
+        AppLogger.info("Management KPI Provider","CurrentSection Now: $currentSectionTitle | $sectionTitle");
         final kpiTitle = map['Factor']?.toString().trim() ?? '';
         if (kpiTitle.isNotEmpty) {
           sections[currentSectionTitle]!.items.add(
@@ -255,9 +255,9 @@ class ManagementKpiProvider extends ChangeNotifier {
             value = item.ratings.indexOf(i) + 1;
           }
         }
-        AppNotifier.logWithScreen("Management KPI Provider","Index before: $value");
+        AppLogger.info("Management KPI Provider","Index before: $value");
         final double score = 1 / 5 * value;
-        AppNotifier.logWithScreen("Management KPI Provider","Index after: $score");
+        AppLogger.info("Management KPI Provider","Index after: $score");
         item.score = double.parse(score.toString());
         item.averageWeight =
             double.parse((score * itemWeight).toString());
@@ -265,9 +265,9 @@ class ManagementKpiProvider extends ChangeNotifier {
     }
 
     for (var i in sections.values.toList()) {
-      AppNotifier.logWithScreen("Management KPI Provider","Section Values: ${i.sectionTitle} | ${i.secWeight}");
+      AppLogger.info("Management KPI Provider","Section Values: ${i.sectionTitle} | ${i.secWeight}");
       for (var item in i.items) {
-        AppNotifier.logWithScreen("Management KPI Provider",
+        AppLogger.info("Management KPI Provider",
             "Item List: ${item.title} | ${item.ratings} | Weight: ${item.weight} | Score: ${item.score} | AW: ${item.averageWeight}");
       }
     }
@@ -276,19 +276,19 @@ class ManagementKpiProvider extends ChangeNotifier {
 
   int parseExcelNumber(String value) {
     final str = value.toString().trim();
-    AppNotifier.logWithScreen("Management KPI Provider","Value is: $str");
+    AppLogger.info("Management KPI Provider","Value is: $str");
     if (str.contains(RegExp(r'[\=\+\-\*/\$A-Za-z]'))) {
-      AppNotifier.logWithScreen("Management KPI Provider","Value contains Strings $value");
+      AppLogger.info("Management KPI Provider","Value contains Strings $value");
       return 0;
     } else {
-      AppNotifier.logWithScreen("Management KPI Provider","Parsed Value before: $str");
+      AppLogger.info("Management KPI Provider","Parsed Value before: $str");
       final double? parsedDouble = double.tryParse(str);
       if (parsedDouble == null) {
-        AppNotifier.logWithScreen("Management KPI Provider","Cannot parse value: $str");
+        AppLogger.error("Management KPI Provider","Cannot parse value: $str");
         return 0;
       }
       final int parsedValue = (parsedDouble * 100).toInt();
-      AppNotifier.logWithScreen("Management KPI Provider","Parsed Value is: $parsedValue");
+      AppLogger.info("Management KPI Provider","Parsed Value is: $parsedValue");
       return parsedValue;
     }
   }

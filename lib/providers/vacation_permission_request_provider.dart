@@ -40,22 +40,21 @@ class VacationPermissionRequestProvider extends ChangeNotifier {
           (final data) => VacationPermissionResponse.fromJson(data),
           parsedResponse,
         );
-        if (_creationResponse != null) {
-          AppNotifier.logWithScreen("VacationPermissionRequest Provider",
-              "VacationPermissionRequest Data Fetching ${_creationResponse!.success} ${_creationResponse!.message}");
-        }
-        AppNotifier.logWithScreen(
-            "VacationPermissionRequest Provider", "${response.statusCode}");
+        _creationResponse != null
+            ? AppLogger.info("VacationPermissionRequest Provider",
+                "VacationPermissionRequest Data Fetching ${_creationResponse!.success} ${_creationResponse!.message}")
+            : AppLogger.info(
+                "VacationPermissionRequest Provider", "${response.statusCode}");
         return true;
       } else {
         _error = 'Failed to load Personnel data';
-        AppNotifier.logWithScreen("VacationPermissionRequest Provider",
+        AppLogger.error("VacationPermissionRequest Provider",
             "VacationPermissionRequest Data Error: $_error ${response.statusCode}");
         return false;
       }
     } catch (e) {
       _error = e.toString();
-      AppNotifier.logWithScreen("VacationPermissionRequest Provider",
+      AppLogger.error("VacationPermissionRequest Provider",
           "VacationPermissionRequest Data Exception: $_error");
       return false;
     } finally {
@@ -106,7 +105,11 @@ class VacationPermissionRequestProvider extends ChangeNotifier {
               }
 
               if (item.attachment != null && item.attachment!.isNotEmpty) {
-                grouped[key]!.attachments.add(AttachedBytes(fileName: item.fileName, fileType: item.fileType, fileBytes: null, fileBytesBase64:item.attachment!));
+                grouped[key]!.attachments.add(AttachedBytes(
+                    fileName: item.fileName,
+                    fileType: item.fileType,
+                    fileBytes: null,
+                    fileBytesBase64: item.attachment!));
               }
             }
             final groupedList = grouped.values.toList();
@@ -138,18 +141,18 @@ class VacationPermissionRequestProvider extends ChangeNotifier {
 
         if (_previousRequests.isNotEmpty) {
           for (var i in _previousRequests) {
-            AppNotifier.logWithScreen("VacationPermissionRequest Provider",
+            AppLogger.info("VacationPermissionRequest Provider",
                 "PreviousRequests Data ${response.statusCode} ${_previousRequests.length} ${i.absenceCode} ${i.approved} ${i.startDateTime} ${i.attachments.length} ${i.fileName} ${i.attachment}");
           }
         }
       } else {
         _error = 'Failed to load Personnel data';
-        AppNotifier.logWithScreen("VacationPermissionRequest Provider",
+        AppLogger.error("VacationPermissionRequest Provider",
             "VacationPermissionRequest Data Error: $_error ${response.statusCode}");
       }
     } catch (e) {
       _error = e.toString();
-      AppNotifier.logWithScreen("VacationPermissionRequest Provider",
+      AppLogger.error("VacationPermissionRequest Provider",
           "VacationPermissionRequest Data Exception: $_error");
     } finally {
       _loading = false;

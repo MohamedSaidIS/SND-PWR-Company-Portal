@@ -2,6 +2,15 @@ import 'package:flutter/material.dart';
 
 import '../utils/export_import.dart';
 
+List<Map<String, String>> getNotificationSearch(AppLocalizations local) {
+  return [
+    {'value': 'All', 'label': local.all},
+    {'value': 'update', 'label': 'Update'},
+    {'value': 'Reminder', 'label': 'Reminder'},
+    {'value': 'Message', 'label': 'Message'},
+  ];
+}
+
 List<Map<String, String>> getCategories(AppLocalizations local) {
   return [
     {'value': 'IT', 'label': local.it},

@@ -38,17 +38,17 @@ class DynamicsProvider extends ChangeNotifier {
         );
       } else {
         _error = 'Failed to load Dynamics data';
-        AppNotifier.logWithScreen("Dynamics Provider",
+        AppLogger.error("Dynamics Provider",
             "Dynamics Error: $_error ${response.statusCode}");
       }
       _dynamicsItemsList.isNotEmpty
-          ? AppNotifier.logWithScreen("Dynamics Provider",
+          ? AppLogger.info("Dynamics Provider",
               "Dynamics Fetching: ${response.statusCode} ${_dynamicsItemsList[0].area}")
           : AppNotifier.logWithScreen("Dynamics Provider",
               "Dynamics Fetching: ${response.statusCode} ${_dynamicsItemsList.length}");
     } catch (e) {
       _error = e.toString();
-      AppNotifier.logWithScreen(
+      AppLogger.error(
           "Dynamics Provider", "Dynamics Exception: $_error");
     }
     _loading = false;
@@ -72,20 +72,20 @@ class DynamicsProvider extends ChangeNotifier {
           (Map<String, dynamic> data) => DynamicsItem.fromJson(data),
           Map<String, dynamic>.from(response.data),
         );
-        AppNotifier.logWithScreen("Dynamics Provider",
+        AppLogger.info("Dynamics Provider",
             "Dynamics Item Created: ${response.statusCode} ${ticket.id}");
 
         await sendAttachments(attachedFiles, ticket.id);
         return true;
       } else {
         _error = 'Failed to load Dynamics data';
-        AppNotifier.logWithScreen("Dynamics Provider",
+        AppLogger.error("Dynamics Provider",
             "Dynamics Item Error: $_error ${response.statusCode}");
         return false;
       }
     } catch (e) {
       _error = e.toString();
-      AppNotifier.logWithScreen(
+      AppLogger.error(
           "Dynamics Provider", "Dynamics Item Exception: $_error");
       return false;
     } finally {
@@ -106,7 +106,7 @@ class DynamicsProvider extends ChangeNotifier {
       return sendAttachedSuccessfully;
     } catch (e) {
       _error = e.toString();
-      AppNotifier.logWithScreen(
+      AppLogger.error(
           "Dynamics Provider", "Send Attachments Exceptions: $_error");
       return false;
     } finally {
@@ -131,14 +131,14 @@ class DynamicsProvider extends ChangeNotifier {
         ),
       );
       if(response.statusCode == 200){
-        AppNotifier.logWithScreen("Dynamics Provider", "Send Attachments Success: ${response.statusCode}");
+        AppLogger.info("Dynamics Provider", "Send Attachments Success: ${response.statusCode}");
         return true;
       }else{
-        AppNotifier.logWithScreen("Dynamics Provider", "Send Attachments Failed: ${response.statusCode}");
+        AppLogger.error("Dynamics Provider", "Send Attachments Failed: ${response.statusCode}");
         return false;
       }
     } catch (e) {
-      AppNotifier.logWithScreen(
+      AppLogger.error(
           "Ecommerce Provider", "Upload Exception: ${e.toString()}");
       return false;
     }

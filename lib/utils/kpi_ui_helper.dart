@@ -15,6 +15,7 @@ class KpiUIHelper{
       return Colors.red;
     }
   }
+
   static Color getDailyKPiBarColor(DailyKPI kpi , double monthlyTarget) {
     Color wantedColor = Colors.blue;
     double dailyTarget = monthlyTarget / 30;

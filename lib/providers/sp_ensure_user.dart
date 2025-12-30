@@ -40,16 +40,16 @@ class SPEnsureUserProvider extends ChangeNotifier {
           (Map<String, dynamic> data) => EnsureUser.fromJson(data),
           Map<String, dynamic>.from(response.data),
         );
-        AppNotifier.logWithScreen("Ensure User Provider",
+        AppLogger.info("Ensure User Provider",
             "IT Ensure User Fetching: ${_itSiteEnsureUser?.id.toString()}");
       } else {
         _error = 'Failed to load ensure user data ${response.statusCode}';
-        AppNotifier.logWithScreen(
+        AppLogger.error(
             "IT Ensure User Provider", "Ensure User Exception: $_error");
       }
     } catch (e) {
       _error = e.toString();
-      AppNotifier.logWithScreen(
+      AppLogger.error(
           "Ensure UserProvider", "IT Ensure User Exception: $_error");
     }
     _loading = false;
@@ -73,16 +73,16 @@ class SPEnsureUserProvider extends ChangeNotifier {
               (Map<String, dynamic> data) => EnsureUser.fromJson(data),
           Map<String, dynamic>.from(response.data),
         );
-        AppNotifier.logWithScreen("Ensure User Provider",
+        AppLogger.info("Ensure User Provider",
             "Alsanidi Ensure User Fetching: ${_alsanidiSiteEnsureUser?.id.toString()}");
       } else {
         _error = 'Failed to load ensure user data ${response.statusCode}';
-        AppNotifier.logWithScreen(
+        AppLogger.error(
             "Ensure User Provider", "Alsanidi Ensure User Exception: $_error");
       }
     } catch (e) {
       _error = e.toString();
-      AppNotifier.logWithScreen(
+      AppLogger.error(
           "Ensure UserProvider", "Alsanidi Ensure User Exception: $_error");
     }
     _loading = false;
@@ -106,16 +106,16 @@ class SPEnsureUserProvider extends ChangeNotifier {
               (Map<String, dynamic> data) => EnsureUser.fromJson(data),
           Map<String, dynamic>.from(response.data),
         );
-        AppNotifier.logWithScreen("Ensure User Provider",
+        AppLogger.info("Ensure User Provider",
             "Dynamics Ensure User Fetching: ${_dynamicsEnsureUser?.id.toString()} ${_dynamicsEnsureUser?.email.toString()}");
       } else {
         _error = 'Failed to load ensure user data ${response.statusCode}';
-        AppNotifier.logWithScreen(
+        AppLogger.error(
             "Ensure User Provider", "Dynamics Ensure User Exception: $_error");
       }
     } catch (e) {
       _error = e.toString();
-      AppNotifier.logWithScreen(
+      AppLogger.error(
           "Ensure UserProvider", "Dynamics Ensure User Exception: $_error");
     }
     _loading = false;

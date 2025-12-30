@@ -60,7 +60,6 @@ class _HomeScreenState extends State<HomeScreen> {
     final local = context.local;
 
     final List screens = [
-      // SharePointPage(),
      DashboardScreen(onDataLoaded: _onDataLoaded),
       const AppsScreen(),
       getKpiScreen(groupId),

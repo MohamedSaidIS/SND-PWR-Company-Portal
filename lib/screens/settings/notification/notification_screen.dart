@@ -1,4 +1,7 @@
+import 'package:company_portal/models/local/app_notification.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import '../../../providers/notification_provider.dart';
 import '../../../utils/export_import.dart';
 
 class NotificationScreen extends StatefulWidget {
@@ -9,7 +12,8 @@ class NotificationScreen extends StatefulWidget {
 }
 
 class _NotificationScreenState extends State<NotificationScreen> {
-  List<Map<String, dynamic>> filteredNotifications = [];
+  List<AppNotification> filteredNotifications = [];
+
   final List<Map<String, dynamic>> notifications = [
     {
       "title": "New Message",
@@ -72,18 +76,19 @@ class _NotificationScreenState extends State<NotificationScreen> {
       "type": "update"
     },
   ];
-  String selectedFilter = "all";
+  String selectedFilter = "All";
 
   @override
   void initState() {
     super.initState();
-    filteredNotifications = List.from(notifications);
+    // filteredNotifications = List.from(notifications);
   }
 
   @override
   Widget build(BuildContext context) {
     final theme = context.theme;
     final local = context.local;
+    final notificationSearch = getNotificationSearch(local);
 
     return PopScope(
       canPop: false,
@@ -93,99 +98,72 @@ class _NotificationScreenState extends State<NotificationScreen> {
           title: local.notifications,
           backBtn: true,
         ),
-        body: Column(
-          children: [
-            SingleChildScrollView(
-              scrollDirection: Axis.horizontal,
-              padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 8),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: [
-                  const SizedBox(width: 8),
-                  FilterButton(
-                    text: local.all,
-                    selected: selectedFilter == "all",
-                    onPressed: () {
-                      setState(() {
-                        selectedFilter = "all";
-                        filteredNotifications = notifications.toList();
-                      });
-                    },
-                  ),
-                  const SizedBox(width: 8),
-                  FilterButton(
-                    text: local.message,
-                    selected: selectedFilter == "message",
-                    onPressed: () {
-                      setState(() {
-                        selectedFilter = "message";
-                        filteredNotifications = notifications
-                            .where((n) => n["type"] == selectedFilter)
-                            .toList();
-                      });
-                    },
-                  ),
-                  const SizedBox(width: 8),
-                  FilterButton(
-                    text: local.reminder,
-                    selected: selectedFilter == "reminder",
-                    onPressed: () {
-                      setState(() {
-                        selectedFilter = "reminder";
-                        filteredNotifications = notifications
-                            .where((n) => n["type"] == selectedFilter)
-                            .toList();
-                      });
-                    },
-                  ),
-                  const SizedBox(width: 8),
-                  FilterButton(
-                    text: local.update,
-                    selected: selectedFilter == "update",
-                    onPressed: () {
-                      setState(() {
-                        selectedFilter = "update";
-                        filteredNotifications = notifications
-                            .where((n) => n["type"] == selectedFilter)
-                            .toList();
-                      });
-                    },
-                  ),
-                ],
-              ),
-            ),
-            Expanded(
-              child: ListView.builder(
-                itemCount: filteredNotifications.length,
-                itemBuilder: (context, index) {
-                  final notification = filteredNotifications[index];
-
-                  return Card(
-                    color: notification["bgColor"],
-                    elevation: 5,
-                    margin:
-                        const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(12),
+        body: Consumer<NotificationProvider>(
+          builder: (_, provider, __) {
+            if (provider.notifications.isEmpty) {
+              return const Center(
+                child: Text('No notifications'),
+              );
+            }
+            return Column(
+              children: [
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 10.0),
+                  child: SizedBox(
+                    height: 60,
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(vertical: 8.0),
+                      child: ListView.builder(
+                          scrollDirection: Axis.horizontal,
+                          shrinkWrap: true,
+                          itemCount: notificationSearch.length,
+                          itemBuilder: (context, index) {
+                            final item = notificationSearch[index];
+                            return FilterButton(
+                              text: item['label']!,
+                              selected: provider.selectedFilter == item['value'],
+                              onPressed: () => provider.applyFilter(item['value']!),
+                            );
+                          }),
                     ),
-                    child: ListTile(
-                      leading: Icon(
-                        notification["icon"],
-                        color: notification["iconColor"],
-                      ),
-                      title: Text(notification["title"]!),
-                      subtitle: Text(notification["subtitle"]!),
-                      trailing: IconButton(
-                        onPressed: () {},
-                        icon: const Icon(Icons.arrow_forward_ios_outlined),
-                        color: Colors.black,
-                      ),
-                    ),
-                  );
-                },
-              ),
-            ),
-          ],
+                  ),
+                ),
+                Expanded(
+                  child: ListView.builder(
+                      itemCount: provider.filteredNotifications.length,
+                      itemBuilder: (context, index) {
+                        final notification = provider.filteredNotifications[index];
+                        return Card(
+                          // color: notification["bgColor"],
+                          elevation: 5,
+                          margin: const EdgeInsets.symmetric(
+                              horizontal: 16, vertical: 8),
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(12),
+                          ),
+                          child: ListTile(
+                            leading: const Icon(
+                              Icons.update,
+                              // color: notification["iconColor"],
+                            ),
+                            title: Text(notification.title ?? ''),
+                            subtitle: Text(notification.body ?? ''),
+                            trailing: notification.isRead
+                                ? null
+                                : const Icon(
+                                    Icons.circle,
+                                    size: 15,
+                                  ),
+                            onTap: () {
+                              provider.markAsRead(notification.id);
+                            },
+                          ),
+                        );
+                      }),
+                ),
+              ],
+            );
+          },
         ),
       ),
     );
@@ -206,17 +184,69 @@ class FilterButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ElevatedButton(
-      style: ElevatedButton.styleFrom(
-        backgroundColor: selected ? Colors.blueAccent : Colors.white,
-        foregroundColor: selected ? Colors.white : Colors.black,
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
-      ),
-      onPressed: onPressed,
-      child: Text(
-        text,
-        style: const TextStyle(fontSize: 14),
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 3, vertical: 5),
+      child: ElevatedButton(
+        style: ElevatedButton.styleFrom(
+          backgroundColor: selected ? Colors.blueAccent : Colors.white,
+          foregroundColor: selected ? Colors.white : Colors.black,
+          shape:
+              RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+        ),
+        onPressed: onPressed,
+        child: Text(
+          text,
+          style: const TextStyle(fontSize: 14),
+        ),
       ),
     );
   }
 }
+
+// class NotificationScreen extends StatelessWidget {
+//   const NotificationScreen({super.key});
+//
+//   @override
+//   Widget build(BuildContext context) {
+//     return Scaffold(
+//       appBar: AppBar(
+//         title: const Text('Notifications'),
+//         actions: [
+//           IconButton(
+//             icon: const Icon(Icons.delete),
+//             onPressed: () {
+//               context.read<NotificationProvider>().clearAll();
+//             },
+//           ),
+//         ],
+//       ),
+//       body: Consumer<NotificationProvider>(
+//         builder: (_, provider, __) {
+//           if (provider.notifications.isEmpty) {
+//             return const Center(
+//               child: Text('No notifications'),
+//             );
+//           }
+//
+//           return ListView.builder(
+//             itemCount: provider.notifications.length,
+//             itemBuilder: (_, i) {
+//               final n = provider.notifications[i];
+//
+//               return ListTile(
+//                 title: Text(n.title ?? ''),
+//                 subtitle: Text(n.body ?? ''),
+//                 trailing: n.isRead
+//                     ? null
+//                     : const Icon(Icons.circle, size: 10),
+//                 onTap: () {
+//                   provider.markAsRead(n.id);
+//                 },
+//               );
+//             },
+//           );
+//         },
+//       ),
+//     );
+//   }
+// }

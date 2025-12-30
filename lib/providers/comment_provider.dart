@@ -56,7 +56,7 @@ class CommentProvider extends ChangeNotifier {
 
       if (response.statusCode == 200) {
         final parsedResponse = response.data["value"];
-        AppNotifier.logWithScreen(
+        AppLogger.info(
             "Comment Provider", "Comments Fetching: $parsedResponse");
 
         _comments = await compute(
@@ -66,16 +66,16 @@ class CommentProvider extends ChangeNotifier {
           parsedResponse,
         );
 
-        AppNotifier.logWithScreen(
+        AppLogger.info(
             "Comment Provider", "Comments Fetching parsed: $parsedResponse");
       } else {
         _error = 'Failed to load Comments data';
-        AppNotifier.logWithScreen(
+        AppLogger.error(
             "Comments Error: ", "$_error ${response.statusCode}");
       }
     } catch (e) {
       _error = e.toString();
-      AppNotifier.logWithScreen(
+      AppLogger.error(
           "Comment Provider", "Comments Exception: $_error");
     }
     _loading = false;
@@ -108,7 +108,7 @@ class CommentProvider extends ChangeNotifier {
             );
 
       if (response.statusCode == 201) {
-        AppNotifier.logWithScreen(
+        AppLogger.info(
             "Comment Provider", "CommentSend: Success ${response.statusCode}");
 
         Future.microtask(() => getComments(ticketId, commentCall));
@@ -116,12 +116,12 @@ class CommentProvider extends ChangeNotifier {
         return true;
       } else {
         _error = 'Failed to send comment. Status code: ${response.statusCode}';
-        AppNotifier.logWithScreen("Comments Error: ", "$_error");
+        AppLogger.error("Comments Error: ", "$_error");
         return false;
       }
     } catch (e) {
       _error = e.toString();
-      AppNotifier.logWithScreen(
+      AppLogger.error(
           "Comment Provider", "CommentSend Exception: $_error");
       return false;
     } finally {
@@ -143,7 +143,7 @@ class CommentProvider extends ChangeNotifier {
 
       if (response.statusCode == 200) {
         final parsedResponse = response.data["value"];
-        AppNotifier.logWithScreen(
+        AppLogger.info(
             "Comment Provider", "Dynamics Comments Fetching: $parsedResponse");
 
         _comments = await compute(
@@ -153,16 +153,16 @@ class CommentProvider extends ChangeNotifier {
           parsedResponse,
         );
 
-        AppNotifier.logWithScreen(
+        AppLogger.info(
             "Comment Provider", "Dynamics Comments Fetching parsed: $parsedResponse");
       } else {
         _error = 'Failed to load Comments data';
-        AppNotifier.logWithScreen(
+        AppLogger.error(
             "Comments Error: ", "$_error ${response.statusCode}");
       }
     } catch (e) {
       _error = e.toString();
-      AppNotifier.logWithScreen(
+      AppLogger.error(
           "Comment Provider", " Dynamics Comments Exception: $_error");
     }
     _loading = false;
@@ -186,7 +186,7 @@ class CommentProvider extends ChangeNotifier {
       );
 
       if (response.statusCode == 201) {
-        AppNotifier.logWithScreen(
+        AppLogger.info(
             "Comment Provider", "Dynamics CommentSend: Success ${response.statusCode}");
 
         Future.microtask(() => getDynamicsComments(ticketId, commentCall));
@@ -194,12 +194,12 @@ class CommentProvider extends ChangeNotifier {
         return true;
       } else {
         _error = 'Failed to send comment. Status code: ${response.statusCode}';
-        AppNotifier.logWithScreen("Dynamics Comments Error: ", "$_error");
+        AppLogger.error("Dynamics Comments Error: ", "$_error");
         return false;
       }
     } catch (e) {
       _error = e.toString();
-      AppNotifier.logWithScreen(
+      AppLogger.error(
           "Comment Provider", " Dynamics CommentSend Exception: $_error");
       return false;
     } finally {

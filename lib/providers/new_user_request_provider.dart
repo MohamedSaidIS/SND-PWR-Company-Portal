@@ -41,17 +41,17 @@ class NewUserRequestProvider extends ChangeNotifier {
         );
       } else {
         _error = 'Failed to load New Users data';
-        AppNotifier.logWithScreen("New Users Request Provider",
+        AppLogger.error("New Users Request Provider",
             "New Users Error: $_error ${response.statusCode}");
       }
       _newUserRequestList.isNotEmpty
-          ? AppNotifier.logWithScreen("New Users Request Provider",
+          ? AppLogger.info("New Users Request Provider",
           "New Users Fetching: ${response.statusCode} ${_newUserRequestList[0].directManagerId}")
-          : AppNotifier.logWithScreen("New Users Request Provider",
+          : AppLogger.info("New Users Request Provider",
           "New Users Fetching: ${response.statusCode} ${_newUserRequestList.length}");
     } catch (e) {
       _error = e.toString();
-      AppNotifier.logWithScreen(
+      AppLogger.error(
           "New Users Request Provider", "New Users Exception: $_error");
     }
     _loading = false;
@@ -78,7 +78,7 @@ class NewUserRequestProvider extends ChangeNotifier {
 
       if (response.statusCode == 204) {
         _updated = true;
-        AppNotifier.logWithScreen(
+        AppLogger.info(
             "New Users Request Provider", "Update New Users: $_updated");
         await getNewUserRequest(item.directManagerId);
 
@@ -86,13 +86,13 @@ class NewUserRequestProvider extends ChangeNotifier {
       } else {
         _updated = false;
         _error = 'Failed to load New Users data';
-        AppNotifier.logWithScreen("New Users Request Provider",
+        AppLogger.error("New Users Request Provider",
             "Update New Users Error: $_error ${response.statusCode}");
         return false;
       }
     } catch (e) {
       _error = e.toString();
-      AppNotifier.logWithScreen(
+      AppLogger.error(
           "New Users Request Provider", "Update New Users Exception: $_error");
       return false;
     } finally {
@@ -113,18 +113,18 @@ class NewUserRequestProvider extends ChangeNotifier {
       );
 
       if (response.statusCode == 201) {
-        AppNotifier.logWithScreen("New Users Request Provider",
+        AppLogger.info("New Users Request Provider",
             "Create New User Request: Success ${response.statusCode}");
         return true;
       } else {
         _error = 'Failed to send ComplaintSuggestion data';
-        AppNotifier.logWithScreen("ComplaintSuggestion Provider",
+        AppLogger.error("ComplaintSuggestion Provider",
             "Create New User Request Error:$_error ${response.statusCode}");
         return false;
       }
     } catch (e) {
       _error = e.toString();
-      AppNotifier.logWithScreen(
+      AppLogger.error(
         "ComplaintSuggestion Provider",
         "Create New User Request Exception: $_error",
       );

@@ -27,24 +27,27 @@ class GraphDioClient {
           String? token = await secureStorage.getData("GraphAccessToken");
 
           final expired = await isTokenExpired();
-          AppNotifier.logWithScreen("GraphDioClient","Graph AccessToken Expired $expired");
+          AppLogger.error("GraphDioClient", "GraphToken Expired $expired");
           if (expired) {
-           token = await _refreshToken();
-            AppNotifier.logWithScreen("GraphDioClient","Graph AccessToken Expired And New Token is $token");
+            token = await _refreshToken();
+            AppLogger.info(
+                "GraphDioClient", "New GraphToken after refresh: $token");
           }
 
-          AppNotifier.logWithScreen("GraphDioClient","Graph AccessToken Expired And not null Token is before $token");
-          if (token != null) {
-            AppNotifier.logWithScreen("GraphDioClient","Graph AccessToken Expired And not null Token is $token");
-            options.headers['Authorization'] = 'Bearer $token';
+          if (token == null) {
+            AppLogger.error("GraphDioClient",
+                "The session has expired, please log in again.");
+            onUnauthorized();
+            return;
           }
+
+          options.headers['Authorization'] = 'Bearer $token';
           handler.next(options);
         },
         onError: (error, handler) {
-          AppNotifier.logWithScreen("GraphDioClient","⚠️ Unauthorized called! before");
           if (error.response?.statusCode == 401) {
-            AppNotifier.logWithScreen("GraphDioClient","⚠️ Unauthorized called! after");
-            AppNotifier.logWithScreen("GraphDioClient","Graph AccessToken Expired And Error 401");
+            AppLogger.error(
+                "GraphDioClient", "Unauthorized | Token Expired | Error 401");
             onUnauthorized();
           }
           handler.next(error);
@@ -56,11 +59,12 @@ class GraphDioClient {
   Future<bool> isTokenExpired(
       {Duration expiryDuration = const Duration(hours: 1)}) async {
     String? savedAtStr = await secureStorage.getData("TokenSavedAt");
-    AppNotifier.logWithScreen("GraphDioClient","Graph AccessToken savedAtStr $savedAtStr");
+    AppLogger.info("GraphDioClient", "Date: $savedAtStr");
     if (savedAtStr == "") return true;
 
     final savedAt = DateTime.tryParse(savedAtStr);
     if (savedAt == null) return true;
+    AppLogger.info("GraphDioClient", "savedAt: $savedAt");
 
     final now = DateTime.now();
     final expiryTime = savedAt.add(expiryDuration);
@@ -71,7 +75,7 @@ class GraphDioClient {
     try {
       final refreshToken = await secureStorage.getData("RefreshToken");
       if (refreshToken == "") {
-        AppNotifier.logWithScreen("GraphDioClient","GraphRefreshToken missing User must login again");
+        AppLogger.error("GraphDioClient", "Missing refresh token, need login");
         return null;
       }
 
@@ -80,7 +84,7 @@ class GraphDioClient {
           EnvConfig.msClientId,
           EnvConfig.msRedirectUri,
           discoveryUrl:
-          "https://login.microsoftonline.com/${EnvConfig.msTenantId}/v2.0/.well-known/openid-configuration",
+              "https://login.microsoftonline.com/${EnvConfig.msTenantId}/v2.0/.well-known/openid-configuration",
           refreshToken: refreshToken,
           scopes: [
             "openid",
@@ -93,7 +97,8 @@ class GraphDioClient {
       );
 
       if (result.accessToken == null) {
-        AppNotifier.logWithScreen("GraphDioClient", "GraphRefreshToken failed Null token response");
+        AppLogger.error(
+            "GraphDioClient", "GraphRefreshToken failed Null token response");
         return null;
       }
 
@@ -106,7 +111,7 @@ class GraphDioClient {
           "TokenSavedAt", DateTime.now().toIso8601String());
       return result.accessToken!;
     } catch (e) {
-      AppNotifier.logWithScreen("GraphDioClient", "GraphRefreshToken token failed $e");
+      AppLogger.error("GraphDioClient", "RefreshToken Error: $e");
     }
     return null;
   }
