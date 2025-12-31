@@ -8,23 +8,24 @@ class NotificationProvider extends ChangeNotifier{
   List<AppNotification> _notifications = [];
   List<AppNotification> _filteredNotifications = [];
 
-  List<AppNotification> get notifications => _notifications;
-  List<AppNotification> get filteredNotifications => _filteredNotifications;
+  String selectedFilter = 'all';
 
-  String selectedFilter = 'All';
+  List<AppNotification> get notifications => _filteredNotifications;
 
-  void applyFilter(String type) {
-    selectedFilter = type;
-
-    if (type == 'All') {
+  void _applyCurrentFilter() {
+    if (selectedFilter == 'all') {
       _filteredNotifications = List.from(_notifications);
     } else {
       _filteredNotifications = _notifications
-          .where((e) => e.data['notificationType'] == type)
+          .where((e) => e.data['notificationType'] == selectedFilter)
           .toList();
     }
+  }
 
-    notifyListeners(); // 🔥 مهم جدًا
+  void applyFilter(String type) {
+    selectedFilter = type;
+    _applyCurrentFilter();
+    notifyListeners();
   }
 
 
@@ -32,13 +33,24 @@ class NotificationProvider extends ChangeNotifier{
   int get unreadCount => _notifications.where((e) => !e.isRead).length;
 
   Future<void> load() async{
-    _notifications = await _storage.getAll();
+    final stored = await _storage.getAll();
+
+    for (final n in stored) {
+      if (!_notifications.any((e) => e.id == n.id)) {
+        _notifications.add(n);
+      }
+    }
+
+    _applyCurrentFilter();
     notifyListeners();
   }
 
   Future<void> add(AppNotification notification)async{
+    if (_notifications.any((e) => e.id == notification.id)) return;
+
     _notifications.insert(0, notification);
     await _storage.save(notification);
+    _applyCurrentFilter();
     notifyListeners();
   }
 
@@ -46,13 +58,23 @@ class NotificationProvider extends ChangeNotifier{
     final index = _notifications.indexWhere((e) => e.id == id);
     if(index != -1){
       _notifications[index].isRead = true;
+      _applyCurrentFilter();
       notifyListeners();
     }
   }
 
   Future<void> clearAll()async{
     _notifications.clear();
+    _filteredNotifications.clear();
     await _storage.clear();
+    notifyListeners();
+  }
+
+  void markAllAsRead() {
+    for (final n in _notifications) {
+      n.isRead = true;
+    }
+    _applyCurrentFilter();
     notifyListeners();
   }
 }

@@ -16,7 +16,8 @@ class NotificationService {
   static final NotificationService instance = NotificationService._();
 
   final FirebaseMessaging _fcm = FirebaseMessaging.instance;
-  final FlutterLocalNotificationsPlugin _local = FlutterLocalNotificationsPlugin();
+  final FlutterLocalNotificationsPlugin _local =
+      FlutterLocalNotificationsPlugin();
 
   bool _initialized = false;
   Map<String, dynamic>? _pendingNavigationData;
@@ -34,7 +35,8 @@ class NotificationService {
     AppLogger.info("Notification Service", 'Initialization: $_initialized');
     await _fcm.subscribeToTopic('allUsers');
 
-    const AndroidNotificationChannel androidChannel = AndroidNotificationChannel(
+    const AndroidNotificationChannel androidChannel =
+        AndroidNotificationChannel(
       'default_channel', // نفس id المستخدم في NotificationDetails
       'General',
       description: 'General notifications',
@@ -42,31 +44,29 @@ class NotificationService {
     );
 
     await _local
-        .resolvePlatformSpecificImplementation<AndroidFlutterLocalNotificationsPlugin>()
+        .resolvePlatformSpecificImplementation<
+            AndroidFlutterLocalNotificationsPlugin>()
         ?.createNotificationChannel(androidChannel);
 
     // Local notification init
-    const androidSettings =
-        AndroidInitializationSettings('@mipmap/ic_launcher');
+    const androidSettings = AndroidInitializationSettings('@mipmap/ic_launcher');
     const settings = InitializationSettings(android: androidSettings);
 
-    await _local.initialize(settings, onDidReceiveNotificationResponse: _onLocalNotificationTap);
+    await _local.initialize(settings,
+        onDidReceiveNotificationResponse: _onLocalNotificationTap);
 
     _listen();
   }
 
   void _onLocalNotificationTap(NotificationResponse response) {
-    AppLogger.info(
-        "Notification Service", "🔔 Local notification tapped");
+    AppLogger.info("Notification Service", "🔔 Local notification tapped");
 
     if (response.payload == null) return;
 
-    final data =
-    Map<String, dynamic>.from(jsonDecode(response.payload!));
+    final data = Map<String, dynamic>.from(jsonDecode(response.payload!));
 
     _handleNavigation(data);
   }
-
 
   void _listen() {
     /// Foreground
@@ -81,7 +81,7 @@ class NotificationService {
     });
   }
 
-  void _onForeground(RemoteMessage message) async{
+  void _onForeground(RemoteMessage message) async {
     final notification = message.notification;
     if (notification == null) return;
     AppLogger.info("Notification Service", '🔔 Notification opened');
@@ -97,13 +97,16 @@ class NotificationService {
       notification.title,
       notification.body,
       const NotificationDetails(
-        android: AndroidNotificationDetails('default_channel', 'General',
-            importance: Importance.max,
-            priority: Priority.high,
-            playSound: true,
-            enableVibration: true,
-            autoCancel: false,
-            sound: RawResourceAndroidNotificationSound('notification_sound')),
+        android: AndroidNotificationDetails(
+          'default_channel',
+          'General',
+          importance: Importance.max,
+          priority: Priority.high,
+          playSound: true,
+          enableVibration: true,
+          autoCancel: true,
+          sound: RawResourceAndroidNotificationSound('notification_sound'),
+        ),
       ),
       payload: message.data.isNotEmpty ? jsonEncode(message.data) : null,
     );

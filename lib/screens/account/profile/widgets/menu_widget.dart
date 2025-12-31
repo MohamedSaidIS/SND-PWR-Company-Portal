@@ -3,8 +3,9 @@ import 'package:flutter/material.dart';
 
 class MenuWidget extends StatelessWidget {
   final MenuItem item;
+  final int? badgeCount;
 
-  const MenuWidget({super.key, required this.item});
+  const MenuWidget({super.key, required this.item, this.badgeCount});
 
   @override
   Widget build(BuildContext context) {
@@ -24,7 +25,7 @@ class MenuWidget extends StatelessWidget {
                   );
                 }
               :  item.logout,
-          leading: buildNotification( item.isNotification,  item.icon,  item.textColor, theme),
+          leading: buildNotification( item.isNotification,  item.icon,  item.textColor, theme, badgeCount),
           title: Text(
             item.title,
             style: theme.textTheme.displaySmall!.copyWith(color:  item.textColor),
@@ -52,7 +53,7 @@ class MenuWidget extends StatelessWidget {
 }
 
 Widget buildNotification(
-    bool isNotification, IconData icon, Color? textColor, ThemeData theme) {
+    bool isNotification, IconData icon, Color? textColor, ThemeData theme, int? badgeCount) {
   return Container(
     width: 50,
     height: 50,
@@ -70,7 +71,8 @@ Widget buildNotification(
                 onPressed: () {},
                 icon: Icon(icon),
               ),
-              Positioned(
+              if (badgeCount != null && badgeCount > 0)
+                Positioned(
                 top: 8,
                 left: 22,
                 child: Container(
@@ -83,9 +85,9 @@ Widget buildNotification(
                       minHeight: 18,
                       minWidth: 18,
                     ),
-                    child: const Text(
-                      "10",
-                      style: TextStyle(color: Colors.white, fontSize: 10),
+                    child: Text(
+                    badgeCount.toString(),
+                      style: const TextStyle(color: Colors.white, fontSize: 10),
                       textAlign: TextAlign.center,
                     )),
               ),

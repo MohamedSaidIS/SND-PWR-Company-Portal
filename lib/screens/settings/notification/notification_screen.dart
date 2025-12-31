@@ -1,4 +1,3 @@
-import 'package:company_portal/models/local/app_notification.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../../../providers/notification_provider.dart';
@@ -12,76 +11,74 @@ class NotificationScreen extends StatefulWidget {
 }
 
 class _NotificationScreenState extends State<NotificationScreen> {
-  List<AppNotification> filteredNotifications = [];
-
-  final List<Map<String, dynamic>> notifications = [
-    {
-      "title": "New Message",
-      "subtitle": "You received a message from John",
-      "icon": Icons.message,
-      "iconColor": Colors.blue,
-      "bgColor": Colors.white,
-      "type": "message"
-    },
-    {
-      "title": "Reminder",
-      "subtitle": "Meeting at 3 PM",
-      "icon": Icons.calendar_today,
-      "iconColor": Colors.orange,
-      "bgColor": Colors.yellow[100],
-      "type": "reminder"
-    },
-    {
-      "title": "Vacation Approved",
-      "subtitle": "Your vacation request has been approved",
-      "icon": Icons.beach_access,
-      "iconColor": Colors.teal,
-      "bgColor": Colors.green[100],
-      "type": "update"
-    },
-    {
-      "title": "New Update is here",
-      "subtitle": "Update number 1.2.0",
-      "icon": Icons.update,
-      "iconColor": Colors.orangeAccent,
-      "bgColor": Colors.orange[50],
-      "type": "update"
-    },
-    {
-      "title": "New Message",
-      "subtitle": "You received a message from John",
-      "icon": Icons.message,
-      "iconColor": Colors.blue,
-      "type": "message"
-    },
-    {
-      "title": "Reminder",
-      "subtitle": "Meeting at 3 PM",
-      "icon": Icons.calendar_today,
-      "iconColor": Colors.orange,
-      "type": "reminder"
-    },
-    {
-      "title": "Vacation Approved",
-      "subtitle": "Your vacation request has been approved",
-      "icon": Icons.beach_access,
-      "iconColor": Colors.teal,
-      "type": "update"
-    },
-    {
-      "title": "New Update is here",
-      "subtitle": "Update number 1.2.0",
-      "icon": Icons.update,
-      "iconColor": Colors.orangeAccent,
-      "type": "update"
-    },
-  ];
-  String selectedFilter = "All";
-
+  // final List<Map<String, dynamic>> notifications = [
+  //   {
+  //     "title": "New Message",
+  //     "subtitle": "You received a message from John",
+  //     "icon": Icons.message,
+  //     "iconColor": Colors.blue,
+  //     "bgColor": Colors.white,
+  //     "type": "message"
+  //   },
+  //   {
+  //     "title": "Reminder",
+  //     "subtitle": "Meeting at 3 PM",
+  //     "icon": Icons.calendar_today,
+  //     "iconColor": Colors.orange,
+  //     "bgColor": Colors.yellow[100],
+  //     "type": "reminder"
+  //   },
+  //   {
+  //     "title": "Vacation Approved",
+  //     "subtitle": "Your vacation request has been approved",
+  //     "icon": Icons.beach_access,
+  //     "iconColor": Colors.teal,
+  //     "bgColor": Colors.green[100],
+  //     "type": "update"
+  //   },
+  //   {
+  //     "title": "New Update is here",
+  //     "subtitle": "Update number 1.2.0",
+  //     "icon": Icons.update,
+  //     "iconColor": Colors.orangeAccent,
+  //     "bgColor": Colors.orange[50],
+  //     "type": "update"
+  //   },
+  //   {
+  //     "title": "New Message",
+  //     "subtitle": "You received a message from John",
+  //     "icon": Icons.message,
+  //     "iconColor": Colors.blue,
+  //     "type": "message"
+  //   },
+  //   {
+  //     "title": "Reminder",
+  //     "subtitle": "Meeting at 3 PM",
+  //     "icon": Icons.calendar_today,
+  //     "iconColor": Colors.orange,
+  //     "type": "reminder"
+  //   },
+  //   {
+  //     "title": "Vacation Approved",
+  //     "subtitle": "Your vacation request has been approved",
+  //     "icon": Icons.beach_access,
+  //     "iconColor": Colors.teal,
+  //     "type": "update"
+  //   },
+  //   {
+  //     "title": "New Update is here",
+  //     "subtitle": "Update number 1.2.0",
+  //     "icon": Icons.update,
+  //     "iconColor": Colors.orangeAccent,
+  //     "type": "update"
+  //   },
+  // ];
   @override
   void initState() {
     super.initState();
-    // filteredNotifications = List.from(notifications);
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      context.read<NotificationProvider>().markAllAsRead();
+    });
   }
 
   @override
@@ -100,11 +97,6 @@ class _NotificationScreenState extends State<NotificationScreen> {
         ),
         body: Consumer<NotificationProvider>(
           builder: (_, provider, __) {
-            if (provider.notifications.isEmpty) {
-              return const Center(
-                child: Text('No notifications'),
-              );
-            }
             return Column(
               children: [
                 Padding(
@@ -121,45 +113,56 @@ class _NotificationScreenState extends State<NotificationScreen> {
                             final item = notificationSearch[index];
                             return FilterButton(
                               text: item['label']!,
-                              selected: provider.selectedFilter == item['value'],
-                              onPressed: () => provider.applyFilter(item['value']!),
+                              selected:
+                                  provider.selectedFilter == item['value'],
+                              onPressed: () =>
+                                  provider.applyFilter(item['value']!),
                             );
                           }),
                     ),
                   ),
                 ),
                 Expanded(
-                  child: ListView.builder(
-                      itemCount: provider.filteredNotifications.length,
-                      itemBuilder: (context, index) {
-                        final notification = provider.filteredNotifications[index];
-                        return Card(
-                          // color: notification["bgColor"],
-                          elevation: 5,
-                          margin: const EdgeInsets.symmetric(
-                              horizontal: 16, vertical: 8),
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(12),
-                          ),
-                          child: ListTile(
-                            leading: const Icon(
-                              Icons.update,
-                              // color: notification["iconColor"],
-                            ),
-                            title: Text(notification.title ?? ''),
-                            subtitle: Text(notification.body ?? ''),
-                            trailing: notification.isRead
-                                ? null
-                                : const Icon(
-                                    Icons.circle,
-                                    size: 15,
-                                  ),
-                            onTap: () {
-                              provider.markAsRead(notification.id);
-                            },
-                          ),
-                        );
-                      }),
+                  child: provider.notifications.isEmpty
+                      ? const Center(
+                          child: Text('No notifications'),
+                        )
+                      : ListView.builder(
+                          itemCount: provider.notifications.length,
+                          itemBuilder: (context, index) {
+                            final notification = provider.notifications[index];
+                            return Card(
+                              color: getNotificationBackgroundColor(
+                                  notification.data['notificationType']),
+                              elevation: 5,
+                              margin: const EdgeInsets.symmetric(
+                                  horizontal: 16, vertical: 8),
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(12),
+                              ),
+                              child: ListTile(
+                                leading: Icon(
+                                  getNotificationIcon(
+                                      notification.data['notificationType']),
+                                  color: getNotificationIconColor(
+                                      notification.data['notificationType']),
+                                ),
+                                title: Text(notification.title ?? ''),
+                                subtitle: Text(notification.body ?? ''),
+                                trailing: notification.isRead
+                                    ? null
+                                    : const Icon(
+                                        Icons.circle,
+                                        size: 15,
+                                        color: Colors.red,
+                                      ),
+                                onTap: () {
+                                  provider.markAsRead(notification.id);
+                                },
+                              ),
+                            );
+                          },
+                        ),
                 ),
               ],
             );

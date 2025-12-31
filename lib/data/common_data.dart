@@ -4,11 +4,51 @@ import '../utils/export_import.dart';
 
 List<Map<String, String>> getNotificationSearch(AppLocalizations local) {
   return [
-    {'value': 'All', 'label': local.all},
+    {'value': 'all', 'label': local.all},
     {'value': 'update', 'label': 'Update'},
-    {'value': 'Reminder', 'label': 'Reminder'},
-    {'value': 'Message', 'label': 'Message'},
+    {'value': 'reminder', 'label': 'Reminder'},
+    {'value': 'vacation', 'label': 'Vacation'},
   ];
+}
+
+IconData getNotificationIcon(String notification) {
+  switch (notification.toLowerCase()) {
+    case "reminder":
+      return Icons.calendar_today;
+    case "vacation":
+      return Icons.beach_access;
+    case "update":
+      return Icons.update;
+    default:
+      return Icons.help_outline;
+  }
+}
+
+Color getNotificationIconColor(String notification){
+  switch (notification.toLowerCase()) {
+    case "reminder":
+      return Colors.orange;
+    case "vacation":
+      return Colors.teal;
+    case "update":
+      return  Colors.orangeAccent;
+    default:
+      return Colors.blue;
+  }
+}
+
+
+Color? getNotificationBackgroundColor(String notification){
+  switch (notification.toLowerCase()) {
+    case "reminder":
+      return Colors.yellow[100];
+    case "vacation":
+      return Colors.green[100];
+    case "update":
+      return  Colors.orange[50];
+    default:
+      return Colors.white;
+  }
 }
 
 List<Map<String, String>> getCategories(AppLocalizations local) {
