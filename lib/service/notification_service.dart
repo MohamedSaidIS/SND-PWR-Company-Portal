@@ -49,7 +49,8 @@ class NotificationService {
         ?.createNotificationChannel(androidChannel);
 
     // Local notification init
-    const androidSettings = AndroidInitializationSettings('@mipmap/ic_launcher');
+    const androidSettings =
+        AndroidInitializationSettings('@mipmap/ic_launcher');
     const settings = InitializationSettings(android: androidSettings);
 
     await _local.initialize(settings,
@@ -164,11 +165,17 @@ class NotificationService {
   }
 
   Future<void> sendTokenToServer(String userId, String token) async {
+    AppLogger.info(
+        "Notification Service", '📱 Token: $token | UserId: $userId');
     final url = Uri.parse(
         'https://geophagous-nontrailing-moon.ngrok-free.dev/save-token');
-    await http.post(url, body: {
-      'userId': userId,
-      'token': token,
-    });
+    await http.post(
+      url,
+      headers: {"Content-Type": "application/json"},
+      body: jsonEncode({
+        'userId': userId,
+        'token': token,
+      }),
+    );
   }
 }
