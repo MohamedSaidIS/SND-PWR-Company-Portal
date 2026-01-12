@@ -95,7 +95,8 @@ class _DashboardScreenState extends State<DashboardScreen> {
       await NotificationService.instance.registerUser(userInfo.id);
 
       final groupInfo = userProvider.groupInfo;
-
+      AppLogger.info("Dashboard Screen",
+          "✅ User Info Loaded: ${userInfo.id} |${userInfo.mail}");
       if (groupInfo != null) {
         // ToDo: GetGroupMembers according to groupId   e662e0d0-25d6-41a1-8bf3-55326a51cc16
         AppLogger.info("Dashboard Screen",

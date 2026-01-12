@@ -28,10 +28,16 @@
 	<true/>
 	<key>NSCameraUsageDescription</key>
 	<string>This app uses your camera to let you take a profile photo, which will be displayed in your account.</string>
+	<key>NSFaceIDUsageDescription</key>
+	<string>We use Face ID to let you sign in faster and more securely.</string>
 	<key>NSPhotoLibraryUsageDescription</key>
 	<string>This app uses your Gallery so you can select existing pictures to use as your profile image.</string>
 	<key>UIApplicationSupportsIndirectInputEvents</key>
 	<true/>
+	<key>UIBackgroundModes</key>
+	<array>
+		<string>remote-notification</string>
+	</array>
 	<key>UILaunchStoryboardName</key>
 	<string>LaunchScreen</string>
 	<key>UIMainStoryboardFile</key>
@@ -53,7 +59,5 @@
 	</array>
 	<key>UIViewControllerBasedStatusBarAppearance</key>
 	<false/>
-	<key>NSFaceIDUsageDescription</key>
-    <string>We use Face ID to let you sign in faster and more securely.</string>
 </dict>
 </plist>

@@ -71,7 +71,7 @@ class _HomeScreenState extends State<HomeScreen> {
       child: Scaffold(
           body: screens[_currentIndex],
           bottomNavigationBar: CurvedNavigationBar(
-              height: 60,
+              height: 70,
               index: _currentIndex,
               letIndexChange: (newIndex) {
                 if (!_isUserDataLoaded && newIndex != 0) {
