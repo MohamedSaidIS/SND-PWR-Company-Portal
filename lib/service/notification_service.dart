@@ -1,10 +1,10 @@
 import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
+import 'package:dio/dio.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
-import 'package:http/http.dart' as http;
 import 'package:provider/provider.dart';
 import '../main.dart';
 import '../models/local/app_notification.dart';
@@ -17,67 +17,36 @@ class NotificationService {
   static final NotificationService instance = NotificationService._();
 
   final FirebaseMessaging _fcm = FirebaseMessaging.instance;
-  final FlutterLocalNotificationsPlugin _local =
-  FlutterLocalNotificationsPlugin();
+  final FlutterLocalNotificationsPlugin _local = FlutterLocalNotificationsPlugin();
 
   bool _initialized = false;
-  Map<String, dynamic>? _pendingNavigationData;
+  String? _currentUserId;
+  static int _notificationId = 0;
 
-  /// init once
-  // Future<void> init() async {
-  //   if (_initialized) return;
-  //   _initialized = true;
-  //   // iOS permission
-  //   await _fcm.requestPermission(
-  //     alert: true,
-  //     badge: true,
-  //     sound: true,
-  //   );
-  //
-  //
-  //   AppLogger.info("Notification Service", 'Initialization: $_initialized');
-  //   await _fcm.subscribeToTopic('allUsers');
-  //
-  //   const AndroidNotificationChannel androidChannel =
-  //       AndroidNotificationChannel(
-  //     'default_channel', // نفس id المستخدم في NotificationDetails
-  //     'General',
-  //     description: 'General notifications',
-  //     importance: Importance.max,
-  //   );
-  //
-  //   await _local
-  //       .resolvePlatformSpecificImplementation<
-  //           AndroidFlutterLocalNotificationsPlugin>()
-  //       ?.createNotificationChannel(androidChannel);
-  //
-  //   // Local notification init
-  //   const androidSettings = AndroidInitializationSettings('@mipmap/ic_launcher');
-  //   const settings = InitializationSettings(android: androidSettings);
-  //
-  //   await _local.initialize(settings,
-  //       onDidReceiveNotificationResponse: _onLocalNotificationTap);
-  //
-  //   _listen();
-  // }
+  Future<void> init(String userId) async {
+    AppLogger.info("Notification Service", 'Initialization: $_initialized | $_currentUserId');
 
-  Future<void> init() async {
-    if (_initialized) return;
-    _initialized = true;
+    if (_initialized) {
+      _initialized = true;
+      await _requestPermissions();
+      await _initLocalNotification();
+      await _subscribeTopics();
+      _listen();
+    }
 
-    // iOS permission
-    await _fcm.requestPermission(
-      alert: true,
-      badge: true,
-      sound: true,
-    );
 
-    AppLogger.info("Notification Service", 'Initialization: $_initialized');
+    _currentUserId = userId;
 
-    // --- iOS: انتظري APNS token قبل الاشتراك ---
-    if (Platform.isIOS) {
-      await FirebaseMessaging.instance
-          .setForegroundNotificationPresentationOptions(
+    AppLogger.info("Notification Service", 'Initialization: $_initialized | $_currentUserId');
+
+
+    await _registerTokenWithRetry(userId);
+  }
+
+  Future<void> _requestPermissions() async {
+    AppLogger.info("Notification Service","RequestPermission");
+    if(Platform.isIOS){
+      await _fcm.setForegroundNotificationPresentationOptions(
         alert: true,
         badge: true,
         sound: true,
@@ -91,13 +60,11 @@ class NotificationService {
       }
       AppLogger.info("Notification Service", 'APNS Token: $apnsToken');
     }
+  }
 
-    // بعد كده اشتراك في Topic
-    await _fcm.subscribeToTopic('allUsers');
-
-    // --- إعداد القناة على Android ---
-    const AndroidNotificationChannel androidChannel =
-    AndroidNotificationChannel(
+  Future<void> _initLocalNotification() async {
+    AppLogger.info("Notification Service","LocalNotification");
+    const androidChannel = AndroidNotificationChannel(
       'default_channel', // نفس id المستخدم في NotificationDetails
       'General',
       description: 'General notifications',
@@ -109,21 +76,73 @@ class NotificationService {
         AndroidFlutterLocalNotificationsPlugin>()
         ?.createNotificationChannel(androidChannel);
 
-    // Local notification init
-    const androidSettings = AndroidInitializationSettings('@mipmap/ic_launcher');
-    const DarwinInitializationSettings iosSettings = DarwinInitializationSettings(
-      requestAlertPermission: true,
-      requestBadgePermission: true,
-      requestSoundPermission: true,
+    const settings = InitializationSettings(android: AndroidInitializationSettings('@mipmap/ic_launcher'), iOS: DarwinInitializationSettings());
+
+    await _local.initialize(
+        settings,
+        onDidReceiveNotificationResponse: _onLocalNotificationTap,
     );
-    const settings = InitializationSettings(android: androidSettings, iOS: iosSettings);
 
-    await _local.initialize(settings,
-        onDidReceiveNotificationResponse: _onLocalNotificationTap);
-
-    _listen();
   }
 
+  Future<void> _subscribeTopics() async {
+    AppLogger.info("Notification Service","SubscribeTopics");
+    await _fcm.subscribeToTopic('allUsers');
+    if (_currentUserId != null) {
+      await _fcm.subscribeToTopic('user_$_currentUserId');
+    }
+  }
+
+  Future<void> _registerTokenWithRetry(String userId) async {
+    AppLogger.info("Notification Service", "UserId: $userId");
+      try {
+        final fcmToken = await getFCMTokenSafe();
+        AppLogger.info("Notification Service", "Token: $fcmToken");
+        if (fcmToken != null) {
+          await _sendTokenToServer(userId, fcmToken);
+          return;
+        } else {
+          AppLogger.error("Notification Service", 'FCM Token is null');
+        }
+      }catch(e){
+        AppLogger.error("Notification Service", "❌ Failed to get FCM token  $e");
+      }
+
+  }
+
+  Future<String?> getFCMTokenSafe() async {
+    if (Platform.isIOS) {
+      String? apnsToken;
+      while (apnsToken == null) {
+        apnsToken = await _fcm.getAPNSToken();
+        await Future.delayed(const Duration(milliseconds: 300));
+      }
+      AppLogger.info("Notification Service", "APNS ready $apnsToken");
+    }
+    return await _fcm.getToken();
+  }
+
+  Future<void> _sendTokenToServer(String userId, String token) async {
+    try {
+      await Dio(BaseOptions(
+        connectTimeout: const Duration(seconds: 5),
+        receiveTimeout: const Duration(seconds: 5),
+        headers: {"Content-Type": "application/json"},
+      )).post(
+        'https://geophagous-nontrailing-moon.ngrok-free.dev/save-token',
+        options: Options(
+          headers: {
+            "Content-Type": "application/json"
+          },
+        ),
+        data: {'userId': userId, 'token': token},
+      );
+
+      AppLogger.info("Notification Service", "✅ Token sent");
+    } catch (e) {
+      AppLogger.error("Notification Service", "❌ Token send failed: $e");
+    }
+  }
 
 
   void _onLocalNotificationTap(NotificationResponse response) {
@@ -147,6 +166,12 @@ class NotificationService {
     _fcm.getInitialMessage().then((message) {
       if (message != null) _onOpen(message);
     });
+
+    _fcm.onTokenRefresh.listen((token) {
+      if (_currentUserId != null) {
+        _sendTokenToServer(_currentUserId!, token);
+      }
+    });
   }
 
   void _onForeground(RemoteMessage message) async {
@@ -156,13 +181,10 @@ class NotificationService {
     AppLogger.info("Notification Service", 'DATA: ${message.data}');
 
     await Future.delayed(const Duration(milliseconds: 100));
-    _pendingNavigationData = message.data;
-
-    int notificationId = 0;
 
     if(Platform.isAndroid){
       _local.show(
-      notificationId++,
+      _notificationId++,
       notification.title,
       notification.body,
       const NotificationDetails(
@@ -186,36 +208,32 @@ class NotificationService {
     );
     }
 
-    final appNotification = AppNotification(
-      id: message.messageId ?? DateTime.now().toString(),
-      title: notification.title,
-      body: notification.body,
-      data: message.data,
-      date: DateTime.now(),
-    );
-    AppNavigator.key.currentContext
-        ?.read<NotificationProvider>()
-        .add(appNotification);
-    // _handleNavigation(message.data);
+    _saveNotification(message);
+
   }
 
   void _onOpen(RemoteMessage message) {
     AppLogger.info("Notification Service", '🔔 Notification opened');
     AppLogger.info("Notification Service", 'DATA: ${message.data}');
 
+    _saveNotification(message);
+    _handleNavigation(message.data);
+  }
+
+  void _saveNotification(RemoteMessage message) {
     final notification = message.notification;
+
     final appNotification = AppNotification(
-      id: message.messageId ?? DateTime.now().toString(),
+      id: message.messageId ?? DateTime.now().toIso8601String(),
       title: notification?.title,
       body: notification?.body,
       data: message.data,
       date: DateTime.now(),
     );
+
     AppNavigator.key.currentContext
         ?.read<NotificationProvider>()
         .add(appNotification);
-    // _notificationStreamController.add(message.data);
-    _handleNavigation(message.data);
   }
 
   void _handleNavigation(Map<String, dynamic> data) {
@@ -228,47 +246,12 @@ class NotificationService {
     });
   }
 
-  Future<void> registerUser(String userId) async {
-    try {
-      final fcmToken = await getFCMTokenSafe();
-      if (fcmToken != null) {
-        AppLogger.info("Notification Service", 'FCM Token: $fcmToken');
-        await sendTokenToServer(userId, fcmToken);
-        await _fcm.subscribeToTopic('user_$userId');
-      } else {
-        AppLogger.error("Notification Service", 'FCM Token is null');
-      }
-    } catch (e) {
-      AppLogger.error("Notification Service", 'Failed to get FCM Token: $e');
-    }
-  }
-
-  Future<String?> getFCMTokenSafe() async {
-    if (Platform.isIOS) {
-      // انتظار APNS Token قبل FCM Token
-      String? apnsToken;
-      while (apnsToken == null) {
-        apnsToken = await FirebaseMessaging.instance.getAPNSToken();
-        await Future.delayed(const Duration(milliseconds: 300));
-      }
-      AppLogger.info("Notification Service", 'APNS Token ready: $apnsToken');
-    }
-
-    return await FirebaseMessaging.instance.getToken();
-  }
 
 
-  Future<void> sendTokenToServer(String userId, String token) async {
-    AppLogger.info("Notification Service", "$userId |$token");
-    final url = Uri.parse(
-        'https://geophagous-nontrailing-moon.ngrok-free.dev/save-token');
-    await http.post(url, headers: {
-      "Content-Type": "application/json"
-    },body: jsonEncode({
-        'userId': userId,
-        'token': token,
-        }),
-    );
-  }
+
+
+
+
+
 }
 

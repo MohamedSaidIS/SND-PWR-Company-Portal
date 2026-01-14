@@ -32,7 +32,6 @@ class _DashboardScreenState extends State<DashboardScreen> {
   void initState() {
     super.initState();
 
-    NotificationService.instance.init();
     // NotificationService.instance.notificationStream
     //     .listen((data) {
     //   debugPrint("📨 Stream data: $data");
@@ -92,7 +91,8 @@ class _DashboardScreenState extends State<DashboardScreen> {
       }
 
       userInfo = userProvider.userInfo!;
-      await NotificationService.instance.registerUser(userInfo.id);
+      NotificationService.instance.init(userInfo.id);
+      // await NotificationService.instance.registerUser(userInfo.id);
 
       final groupInfo = userProvider.groupInfo;
       AppLogger.info("Dashboard Screen",
