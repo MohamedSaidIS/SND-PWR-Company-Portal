@@ -33,10 +33,8 @@ class _MenuSectionState extends State<MenuSection> {
         title: local.userInformation,
         icon: LineAwesomeIcons.user,
         navigatedPage: () => UserInfoDetailsScreen(
-            userName:
-                "${widget.userInfo?.givenName} ${widget.userInfo?.surname}",
-            userPhone: widget.userInfo?.mobilePhone ?? "",
-            userOfficeLocation: widget.userInfo?.officeLocation ?? ""),
+          userInfo: widget.userInfo!,
+        ),
         textColor: theme.colorScheme.primary,
       ),
       MenuItem(

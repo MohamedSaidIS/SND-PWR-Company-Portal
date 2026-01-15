@@ -20,7 +20,6 @@ class _DirectReportCardWidgetState extends State<DirectReportCardWidget> {
     return Padding(
       padding: const EdgeInsets.only(bottom: 8.0),
       child: Container(
-        height: 180,
         padding: const EdgeInsets.all(5.0),
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(
@@ -79,24 +78,21 @@ class _DirectReportCardWidgetState extends State<DirectReportCardWidget> {
 }
 
 Widget _buildInfoRow(String title, IconData icon, BuildContext context) {
-  return SizedBox(
-    height: 30,
-    child: ListTile(
-      leading: SizedBox(
-        width: 20,
-        height: 20,
-        child: Icon(
-          icon,
-          color: Theme.of(context).colorScheme.primary,
-        ),
+  return ListTile(
+    leading: SizedBox(
+      width: 20,
+      height: 20,
+      child: Icon(
+        icon,
+        color: Theme.of(context).colorScheme.primary,
       ),
-      title: Text(
-        title,
-        style: TextStyle(
-            fontSize: 14,
-            fontWeight: FontWeight.normal,
-            color: Theme.of(context).colorScheme.primary),
-      ),
+    ),
+    title: Text(
+      title,
+      style: TextStyle(
+          fontSize: 14,
+          fontWeight: FontWeight.normal,
+          color: Theme.of(context).colorScheme.primary),
     ),
   );
 }

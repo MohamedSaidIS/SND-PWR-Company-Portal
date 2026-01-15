@@ -3,13 +3,11 @@ import 'package:provider/provider.dart';
 import '../../../../utils/export_import.dart';
 
 class UserInfoDetailsScreen extends StatelessWidget {
-  final String userName, userPhone, userOfficeLocation;
+  final UserInfo userInfo;
 
   const UserInfoDetailsScreen({
     super.key,
-    required this.userName,
-    required this.userPhone,
-    required this.userOfficeLocation,
+    required this.userInfo,
   });
 
   @override
@@ -41,17 +39,9 @@ class UserInfoDetailsScreen extends StatelessWidget {
                         padding: const EdgeInsets.symmetric(horizontal: 20.0),
                         child: Column(
                           children: [
-                            buildPersonalCard(
-                              local,
-                              context,
-                              theme,
-                              userName,
-                              userPhone,
-                              userOfficeLocation,
-                            ),
+                            buildPersonalCard(local, userInfo),
                             const SizedBox(height: 10),
-                            buildManagerCard(
-                                local, context, theme, managerInfo!),
+                            buildManagerCard(local, managerInfo!),
                           ],
                         ),
                       ),

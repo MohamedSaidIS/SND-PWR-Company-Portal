@@ -71,8 +71,7 @@ class _EcommerceHistoryScreenState extends State<EcommerceHistoryScreen>
               switchInCurve: Curves.easeInOut,
               child: ListView.builder(
                 key: ValueKey(ecommerceList.length),
-                padding: const EdgeInsets.all(10),
-                itemCount: ecommerceList.length,
+                padding: const EdgeInsets.only(top: 10, left: 10, right: 10, bottom: 25),                itemCount: ecommerceList.length,
                 itemBuilder: (context, index) {
                   final item = ecommerceList[index];
                   return TicketsHistory(

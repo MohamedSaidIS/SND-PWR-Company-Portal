@@ -34,11 +34,8 @@ class NotificationService {
       _listen();
     }
 
-
     _currentUserId = userId;
-
     AppLogger.info("Notification Service", 'Initialization: $_initialized | $_currentUserId');
-
 
     await _registerTokenWithRetry(userId);
   }

@@ -79,7 +79,6 @@ class _ListView extends StatelessWidget {
               separatorBuilder: (_, __) => const SizedBox(height: 12),
               itemBuilder: (context, index) {
                 final item = directReports[index];
-
                 return FutureBuilder(
                   future: Future.delayed(Duration(milliseconds: 100 * index)),
                   builder: (context, snapshot) {

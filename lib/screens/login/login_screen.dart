@@ -51,11 +51,14 @@ class _LoginScreenState extends State<LoginScreen> {
 
     final graphToken = await SecureStorageService().getData("GraphAccessToken");
     final spToken = await SecureStorageService().getData("SPAccessToken");
+    final mySpToken = await SecureStorageService().getData("MySPAccessToken");
 
     bool success = false;
     String type = "";
 
-    if (graphToken.isNotEmpty && spToken.isEmpty && mySpToken.isEmpty) {
+    // TODO: When Production you need to make it all isNotEmpty
+
+    if (graphToken.isNotEmpty && spToken.isNotEmpty && mySpToken.isEmpty) {
       type = "Biometric";
       success = await _authController.loginWithBiometrics();
       SecureStorageService().saveData("BiometricLogin", "$type $success");

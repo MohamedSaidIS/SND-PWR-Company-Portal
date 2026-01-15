@@ -69,7 +69,7 @@ class _ComplaintSuggestionHistoryScreenState
               switchInCurve: Curves.easeInOut,
               child: ListView.builder(
                 key: ValueKey(complaintList.length),
-                padding: const EdgeInsets.all(10),
+                padding: const EdgeInsets.only(top: 10, left: 10, right: 10, bottom: 25),
                 itemCount: complaintList.length,
                 itemBuilder: (context, index) {
                   final item = complaintList[index];

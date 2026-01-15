@@ -71,8 +71,7 @@ class _DynamicsHistoryScreenState extends State<DynamicsHistoryScreen>
               switchInCurve: Curves.easeInOut,
               child: ListView.builder(
                 key: ValueKey(dynamicsItemsList.length),
-                padding: const EdgeInsets.all(10),
-                itemCount: dynamicsItemsList.length,
+                padding: const EdgeInsets.only(top: 10, left: 10, right: 10, bottom: 25),                itemCount: dynamicsItemsList.length,
                 itemBuilder: (context, index) {
                   final item = dynamicsItemsList[index];
                   return TicketsHistory(
