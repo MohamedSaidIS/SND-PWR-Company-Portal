@@ -62,7 +62,8 @@ class _NewUserRequestHistoryState extends State<NewUserRequestHistory>
               switchInCurve: Curves.easeInOut,
               child: ListView.builder(
                 key: ValueKey(newUserRequestList.length),
-                padding: const EdgeInsets.only(top: 10, left: 10, right: 10, bottom: 25),                itemCount: newUserRequestList.length,
+                padding: const EdgeInsets.only(top: 10, left: 10, right: 10, bottom: 25),
+                itemCount: newUserRequestList.length,
                 itemBuilder: (context, index) {
                   final item = newUserRequestList[index];
                   return TicketsHistory(

@@ -26,7 +26,7 @@ class NotificationService {
   Future<void> init(String userId) async {
     AppLogger.info("Notification Service", 'Initialization: $_initialized | $_currentUserId');
 
-    if (_initialized) {
+    if (!_initialized) {
       _initialized = true;
       await _requestPermissions();
       await _initLocalNotification();
@@ -43,6 +43,18 @@ class NotificationService {
   Future<void> _requestPermissions() async {
     AppLogger.info("Notification Service","RequestPermission");
     if(Platform.isIOS){
+      NotificationSettings settings = await _fcm.requestPermission(
+        alert: true,
+        badge: true,
+        sound: true,
+        provisional: false,
+      );
+
+      AppLogger.info(
+        "Notification Service",
+        "Permission status: ${settings.authorizationStatus}",
+      );
+
       await _fcm.setForegroundNotificationPresentationOptions(
         alert: true,
         badge: true,
