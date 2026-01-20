@@ -132,7 +132,14 @@ class NotificationService {
   }
 
   Future<void> _sendTokenToServer(String userId, String token) async {
+    final platform = Platform.isAndroid
+        ? 'android'
+        : Platform.isIOS
+        ? 'ios'
+        : 'web'; // optional
+
     try {
+      print("Platform $platform");
       await Dio(BaseOptions(
         connectTimeout: const Duration(seconds: 5),
         receiveTimeout: const Duration(seconds: 5),
@@ -144,7 +151,7 @@ class NotificationService {
             "Content-Type": "application/json"
           },
         ),
-        data: {'userId': userId, 'token': token},
+        data: {'userId': userId, 'token': token, 'platform': platform},
       );
 
       AppLogger.info("Notification Service", "✅ Token sent");
@@ -184,6 +191,7 @@ class NotificationService {
   }
 
   void _onForeground(RemoteMessage message) async {
+    AppLogger.info("Notification Service", '🔔 Notification opened');
     final notification = message.notification;
     if (notification == null) return;
     AppLogger.info("Notification Service", '🔔 Notification opened');

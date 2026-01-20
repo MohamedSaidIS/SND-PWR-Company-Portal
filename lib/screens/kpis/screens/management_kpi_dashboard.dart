@@ -26,7 +26,7 @@ class _ManagementKpiScreenState extends State<ManagementKpiScreen> {
       final prefs = SharedPrefsHelper();
       userEmail = (await prefs.getUserData("UserEmail"))!;
       await kpiProvider.getSheets(/*"Sm@alsanidi.com.sa"*/ userEmail);
-      await kpiProvider.getKpiSheet(/*"Sm@alsanidi.com.sa"*/ userEmail, DateTime.now().year, null);
+      //await kpiProvider.getKpiSheet(/*"Sm@alsanidi.com.sa"*/ userEmail, DateTime.now().year, 'Q1');
     });
   }
 
@@ -53,7 +53,7 @@ class _ManagementKpiScreenState extends State<ManagementKpiScreen> {
             Expanded(
               child: provider.loadingSheet || provider.loading
                   ? AppNotifier.loadingWidget(theme)
-                  : KpiEvaluationScreen(items: items),
+                  :KpiEvaluationScreen(items: items),
             ),
           ],
         ),

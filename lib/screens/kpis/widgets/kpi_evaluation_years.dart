@@ -20,18 +20,23 @@ class _KpiEvaluationYearsState extends State<KpiEvaluationYears> {
   void initState() {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((_) async {
-      context.read<ManagementKpiProvider>();
+     context.read<ManagementKpiProvider>();
     });
   }
 
   @override
   Widget build(BuildContext context) {
+    final kpiProvider = context.watch<ManagementKpiProvider>();
+
     if (selectedFilter == null && widget.kpiSheets.isNotEmpty) {
-      selectedFilter =
-          "${DateTime.now().year}_${widget.kpiSheets.first.quarter}";
+      final item = widget.kpiSheets[0];
+      selectedFilter = "${item.year.toString()}_${item.quarter}";
+      //"${DateTime.now().year}_${widget.kpiSheets.first.quarter}";
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        kpiProvider.getKpiSheet(widget.userEmail, item.year, item.quarter);
+      });
     }
 
-    final kpiProvider = context.watch<ManagementKpiProvider>();
     return SingleChildScrollView(
       scrollDirection: Axis.horizontal,
       padding: const EdgeInsets.symmetric(horizontal: 8),
