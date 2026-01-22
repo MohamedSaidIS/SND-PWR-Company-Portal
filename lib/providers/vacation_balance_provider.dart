@@ -62,6 +62,7 @@ class VacationBalanceProvider extends ChangeNotifier {
     _loading = true;
     _error = null;
     notifyListeners();
+    print("Transactions Url: https://alsenidiuat.sandbox.operations.dynamics.com/data/AbsenceLines?\$filter=Worker eq $workerId and ProfileDate ge ${Constants.currentStartDate.toIso8601String()} and ProfileDate le ${Constants.currentEndDate.toIso8601String()}&\$count=true");
 
     try {
       final response = await kpiDioClient.getRequest(
@@ -101,6 +102,7 @@ class VacationBalanceProvider extends ChangeNotifier {
     _error = null;
     notifyListeners();
 
+    print("Url: https://alsenidiuat.sandbox.operations.dynamics.com/data/MyTeamLeaveBalances?\$filter= Year eq ${Constants.currentYear} and PersonnelNumber eq '$personalNumber' &\$count=true");
     try {
       final response = await kpiDioClient.getRequest(
           "https://alsenidiuat.sandbox.operations.dynamics.com/data/MyTeamLeaveBalances?\$filter= Year eq ${Constants.currentYear} and PersonnelNumber eq '$personalNumber' &\$count=true",
@@ -108,9 +110,15 @@ class VacationBalanceProvider extends ChangeNotifier {
       if (response.statusCode == 200) {
         final parsedResponse = response.data;
         _vacationBalance = await compute(
-          (final data) => (data['value'] as List)
-              .map((e) => VacationBalance.fromJson(e as Map<String, dynamic>))
-              .first,
+          (final data) {
+            final list = data['value'] as List;
+            if(list.isEmpty){
+              return null;
+            }
+            return VacationBalance.fromJson(
+              list.first as Map<String, dynamic>,
+            );
+          },
           parsedResponse,
         );
       } else {

@@ -15,10 +15,10 @@ class BalanceScreen extends StatelessWidget {
     final local = context.local;
     final theme = context.theme;
 
-    return balance?.currentBalance == 0
-        ? noDataExist(local.noLeaveBalance, theme)
-        : (provider.loading || balance == null)
-            ? loadingWidget(theme)
+    return provider.loading
+        ? loadingWidget(theme)
+        : (balance?.currentBalance == 0 || balance == null)
+            ? noDataExist(local.noLeaveBalance, theme)
             : SliverGrid(
                 gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                   crossAxisCount: 2,

@@ -25,7 +25,7 @@ Widget noDataExist(String title, ThemeData theme) {
       child: Column(
         children: [
           Icon(
-            LineAwesomeIcons.circle_notch_solid,
+            Icons.not_interested_rounded,
             color: theme.colorScheme.secondary,
           ),
           Text(

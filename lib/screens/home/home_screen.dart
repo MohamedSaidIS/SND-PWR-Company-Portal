@@ -31,19 +31,19 @@ class _HomeScreenState extends State<HomeScreen> {
       return const NoKpiScreen();
     }
 
-   // switch (userGroupIds.groupId) {
-   //    case "1ea1d494-a377-4071-beac-301a99746d2a": // Management
-   //      return const ManagementKpiScreen();
-   //    case "4053f91a-d9a0-4a65-8057-1a816e498d0f": // Sales
-   //      return const SalesKpiScreen();
-   //    // case "9876abcd-4321-aaaa-9999-bbbbb1111ddd": // Sales
-   //    //   return const SalesKpiScreen();
-   //    // case "9876abcd-4321-aaaa-9999-bbbbbcc11ddd": // Sales
-   //    //   return const SalesKpiScreen();
-   //    default:
-   //      return const SalesKpiScreen();
-   //  }
-    return const ManagementKpiScreen();
+   switch (userGroupIds.groupId) {
+      case "1ea1d494-a377-4071-beac-301a99746d2a": // Management
+        return const ManagementKpiScreen();
+      case "4053f91a-d9a0-4a65-8057-1a816e498d0f": // Sales
+        return const SalesKpiScreen();
+      // case "9876abcd-4321-aaaa-9999-bbbbb1111ddd": // Sales
+      //   return const SalesKpiScreen();
+      // case "9876abcd-4321-aaaa-9999-bbbbbcc11ddd": // Sales
+      //   return const SalesKpiScreen();
+      default:
+        return const SalesKpiScreen();
+    }
+    // return const ManagementKpiScreen();
   }
 
   void _onDataLoaded() {
