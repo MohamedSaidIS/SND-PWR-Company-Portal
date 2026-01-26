@@ -5,7 +5,6 @@ import 'package:url_launcher/url_launcher.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 import '../../utils/export_import.dart';
 
-
 class DashboardScreen extends StatefulWidget {
   final VoidCallback? onDataLoaded;
 
@@ -31,46 +30,47 @@ class _DashboardScreenState extends State<DashboardScreen> {
     super.initState();
     _initWebView();
     _bootStrap();
+
+    _openInBrowser();
   }
 
-  void _initWebView(){
+  void _initWebView() {
     _webController = WebViewController()
       ..setJavaScriptMode(JavaScriptMode.unrestricted)
-        ..setNavigationDelegate(
-          NavigationDelegate(
-            onProgress: (p){
-              if(!mounted) return;
+      ..setNavigationDelegate(
+        NavigationDelegate(
+          onProgress: (p) {
+            if (!mounted) return;
             setState(() => _progress = p / 100);
-            },
-            onWebResourceError: (error){
-              AppLogger.error("WebView", error.description);
-            },
-          ),
-        )
-        ..loadRequest(Uri.parse(_sharePointUrl));
+          },
+          onWebResourceError: (error) {
+            AppLogger.error("WebView", error.description);
+          },
+        ),
+      )
+      ..loadRequest(Uri.parse(_sharePointUrl));
   }
 
-  Future<void> _bootStrap() async{
-    try{
+  Future<void> _bootStrap() async {
+    try {
       await _loadInitialData();
       await _loadToken();
 
-      if(!mounted) return;
+      if (!mounted) return;
       setState(() => _isLoading = false);
       widget.onDataLoaded?.call();
-
-    }catch (e, st) {
+    } catch (e, st) {
       AppLogger.error("Dashboard", "$e\n$st");
     }
   }
 
-  Future<void> _loadToken() async{
+  Future<void> _loadToken() async {
     final token = await SecureStorageService().getData("SPAccessToken");
-    if(!mounted) return;
-    setState(()  => _accessToken = token.trim());
+    if (!mounted) return;
+    setState(() => _accessToken = token.trim());
   }
 
-  Future<void> _loadInitialData() async{
+  Future<void> _loadInitialData() async {
     final userProvider = context.read<UserInfoProvider>();
     final imageProvider = context.read<UserImageProvider>();
     final managerProvider = context.read<ManagerInfoProvider>();
@@ -88,14 +88,14 @@ class _DashboardScreenState extends State<DashboardScreen> {
     ]);
 
     _userInfo = userProvider.userInfo;
-    if(_userInfo == null) return;
+    if (_userInfo == null) return;
 
     NotificationService.instance.init(_userInfo!.id);
 
     await vacationProvider.getWorkerPersonnelNumber(_userInfo!.id);
     await vacationProvider.getVacationTransactions(_userInfo!.id);
 
-    if(reportsProvider.directReportList == null){
+    if (reportsProvider.directReportList == null) {
       await reportsProvider.fetchRedirectReport();
     }
 
@@ -103,10 +103,10 @@ class _DashboardScreenState extends State<DashboardScreen> {
     await SharedPrefsHelper().saveUserData("UserEmail", _userInfo!.mail ?? "");
 
     _groupInfo = userProvider.groupInfo;
-    if(_groupInfo == null) return;
+    if (_groupInfo == null) return;
 
-    await SharedPrefsHelper().saveUserData("groupInfo", _groupInfo?.groupId ?? "");
-
+    await SharedPrefsHelper()
+        .saveUserData("groupInfo", _groupInfo?.groupId ?? "");
   }
 
   void _openInBrowser() async {
@@ -185,7 +185,6 @@ class _DashboardScreenState extends State<DashboardScreen> {
   //       "Dashboard Screen", "Cookies saved to storage: $cookiesJson");
   // }
 
-
   @override
   Widget build(BuildContext context) {
     final theme = context.theme;
@@ -197,24 +196,23 @@ class _DashboardScreenState extends State<DashboardScreen> {
         body: Stack(
           children: [
             SafeArea(
-              child: Column(
-                children: [
-                  if (_progress < 1)
-                    LinearProgressIndicator(
-                      value: _progress,
-                      color: theme.colorScheme.secondary,
-                      backgroundColor: Colors.grey[300],
-                      minHeight: 4,
-                    ),
-                  Expanded(
-                      child: _accessToken == null
-                          ? AppNotifier.loadingWidget(theme)
-                          : WebViewWidget(
-                              controller: _webController,
-                            )
-                      ),
-                ],
-              ),
+              // child: Column(
+              //   children: [
+              //     if (_progress < 1)
+              //       LinearProgressIndicator(
+              //         value: _progress,
+              //         color: theme.colorScheme.secondary,
+              //         backgroundColor: Colors.grey[300],
+              //         minHeight: 4,
+              //       ),
+              //     Expanded(
+              //       child: _accessToken == null
+              //           ? AppNotifier.loadingWidget(theme)
+              //           : WebViewWidget(controller: _webController),
+              //     ),
+              //   ],
+              // ),
+              child: _isLoading? AppNotifier.loadingWidget(theme) : SizedBox.shrink()
             ),
             if (_isLoading)
               const Align(
