@@ -54,7 +54,7 @@ class VacationBalanceProvider extends ChangeNotifier {
     } catch (e) {
       _error = e.toString();
       AppLogger.error(
-          "Vacation Balance Provider", "Personnel Data Exception: $_error");
+          " ", "Personnel Data Exception: $_error");
     }
   }
 
@@ -113,8 +113,10 @@ class VacationBalanceProvider extends ChangeNotifier {
           (final data) {
             final list = data['value'] as List;
             if(list.isEmpty){
+              AppLogger.info("Vacation Balance Provider", "Vacation Balance is: 0");
               return null;
             }
+            AppLogger.info("Vacation Balance Provider", "Vacation Balance is: ${_vacationBalance!.remain}");
             return VacationBalance.fromJson(
               list.first as Map<String, dynamic>,
             );

@@ -37,8 +37,8 @@ android {
         applicationId = "com.alsanidi.sndpower"
         minSdk = flutter.minSdkVersion
         targetSdk = flutter.targetSdkVersion
-        versionCode = 15
-        versionName = '1.15'
+        versionCode = 16
+        versionName = '1.16'
         ndk {
             abiFilters "armeabi-v7a", "arm64-v8a", "x86_64"
         }
