@@ -1,6 +1,5 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
-import 'package:webview_flutter/webview_flutter.dart';
 import '../../../../utils/export_import.dart';
 
 class LoginScreen extends StatefulWidget {
@@ -189,19 +188,6 @@ class _LoginScreenState extends State<LoginScreen> {
       context,
       MaterialPageRoute(
         builder: (context) => const HomeScreen(),
-      ),
-    );
-  }
-
-  void _navigateToWeb() {
-    Navigator.push(
-      context,
-      MaterialPageRoute(
-        builder: (_) => WebViewWidget(
-          controller: WebViewController()
-            ..setJavaScriptMode(JavaScriptMode.unrestricted)
-            ..loadRequest(Uri.parse("https://alsanidi.sharepoint.com")),
-        ),
       ),
     );
   }

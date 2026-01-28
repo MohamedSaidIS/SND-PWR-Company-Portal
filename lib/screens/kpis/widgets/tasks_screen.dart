@@ -46,42 +46,6 @@ class TimelineScreen extends StatelessWidget {
   }
 }
 
-class _TimelineDot extends StatelessWidget {
-  final bool isCompleted;
-  final bool isLast;
-
-  const _TimelineDot({
-    required this.isCompleted,
-    required this.isLast,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return Column(
-      children: [
-        Container(
-          margin: const EdgeInsets.only(left: 5, right: 5),
-          padding: const EdgeInsets.all(5),
-          // decoration: const BoxDecoration(
-          //   color: Color(0xFFFF8A00),
-          //   // shape: BoxShape.circle,
-          // ),
-          child: const Icon(
-            Icons.circle_outlined,
-            size: 13,
-            color: Color(0xFFFF8A00),
-          ),
-        ),
-        if (!isLast)
-          Container(
-            width: 2,
-            height: 100,
-            color: const Color(0xFFFF8A00),
-          ),
-      ],
-    );
-  }
-}
 
 class _TimelineCard extends StatefulWidget {
   final TimelineItem item;
