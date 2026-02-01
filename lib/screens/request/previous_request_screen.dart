@@ -38,6 +38,7 @@ class _PreviousRequestScreenState extends State<PreviousRequestScreen> {
           if (provider.loading) return AppNotifier.loadingWidget(theme);
           if(provider.error != null) return Text("${provider.error}");
           final previousRequests = provider.previousRequests;
+          if(previousRequests.isEmpty) return const Center(child: Text("No Requests yet!"));
           return ListView.builder(
             itemCount: previousRequests.length,
             padding: const EdgeInsets.all(10),

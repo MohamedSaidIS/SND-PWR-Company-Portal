@@ -130,7 +130,6 @@ class KpiCalculationHandler {
   }
 
   static int daysInMonthForYear(int year, int month) {
-
     var beginningNextMonth = (month < 12)
         ? DateTime(year, month + 1, 1)
         : DateTime(year + 1, 1, 1);
@@ -176,7 +175,6 @@ class KpiCalculationHandler {
         totalSales: kpi.dailySalesAmount,
       );
     }
-
     return daysInMonth.where((e) => e.totalSales > 0).toList();
   }
 
@@ -215,7 +213,6 @@ class KpiCalculationHandler {
           !d.isBefore(onlyDate(startOfWeek)) &&
           !d.isAfter(onlyDate(endOfWeek));
     }).toList();
-
 
      AppLogger.info("KpiCalculation Handler", "WeekData content: ${weekData.map((e) => e.transDate).toList()}");
      AppLogger.info("KpiCalculation Handler", "Length actually: ${weekData.length}");
@@ -308,7 +305,7 @@ class KpiCalculationHandler {
   }
 
   static double calculateStep(double maxVal, bool landscape) {
-    if(maxVal <= 5000) return 1000;
+    if (maxVal <= 5000) return 1000;
     if (maxVal <= 20000) return landscape? 3000 : 2000;
     if (maxVal <= 50000) return 5000;
     if (maxVal <= 100000) return 10000;

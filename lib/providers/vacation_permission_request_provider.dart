@@ -68,6 +68,7 @@ class VacationPermissionRequestProvider extends ChangeNotifier {
     _error = null;
     notifyListeners();
 
+    print("Previous Request url: https://alsenidiuat.sandbox.operations.dynamics.com/data/EmployeeRequests?\$filter=PersonnelNumber eq 'EMC000001' and StartDate ge ${Constants.currentStartDate.toIso8601String()} and EndDate  le ${Constants.currentEndDate.toIso8601String()}");
     try {
       final response = await kpiDioClient.getRequest(
         "https://alsenidiuat.sandbox.operations.dynamics.com/data/EmployeeRequests?\$filter=PersonnelNumber eq 'EMC000001' and StartDate ge ${Constants.currentStartDate.toIso8601String()} and EndDate  le ${Constants.currentEndDate.toIso8601String()}",
@@ -144,6 +145,9 @@ class VacationPermissionRequestProvider extends ChangeNotifier {
             AppLogger.info("VacationPermissionRequest Provider",
                 "PreviousRequests Data ${response.statusCode} ${_previousRequests.length} ${i.absenceCode} ${i.approved} ${i.startDateTime} ${i.attachments.length} ${i.fileName} ${i.attachment}");
           }
+        }else{
+          AppLogger.info("VacationPermissionRequest Provider", "PreviousRequests Data ${response.statusCode} ${_previousRequests.length}");
+
         }
       } else {
         _error = 'Failed to load Personnel data';

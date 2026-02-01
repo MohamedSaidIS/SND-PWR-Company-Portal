@@ -88,7 +88,7 @@ class CommentProvider extends ChangeNotifier {
     _error = null;
     notifyListeners();
     final url = retrieveUrl(ticketId, commentCall);
-    debugPrint("post Url $url");
+    debugPrint("sendComments Url $url");
 
     try {
       final response = (commentCall == " Dynamics")
