@@ -24,18 +24,17 @@ class DynamicsProvider extends ChangeNotifier {
     notifyListeners();
 
     try {
-      final response = await mySharePointDioClient.get(
-        "/_api/Web/Lists(guid'${Constants.dynamicsListId}')/items?\$top=2999",
-      );
+      final response = await mySharePointDioClient.get("/_api/Web/Lists(guid'${Constants.dynamicsListId}')/items?\$filter=AuthorId eq $ensureUserId&\$top=999",);
       if (response.statusCode == 200) {
         final parsedResponse = response.data;
         _dynamicsItemsList = await compute(
           (final data) => (data['value'] as List)
               .map((e) => DynamicsItem.fromJson(e as Map<String, dynamic>))
-              .where((item) => item.authorId == ensureUserId)
+              // .where((item) => item.authorId == ensureUserId)
               .toList(),
           parsedResponse,
         );
+        AppLogger.info("Dynamics Provider","DYNAMICS LENGTH: ${_dynamicsItemsList.length}");
       } else {
         _error = 'Failed to load Dynamics data';
         AppLogger.error("Dynamics Provider",

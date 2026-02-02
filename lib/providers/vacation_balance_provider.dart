@@ -54,7 +54,7 @@ class VacationBalanceProvider extends ChangeNotifier {
     } catch (e) {
       _error = e.toString();
       AppLogger.error(
-          " ", "Personnel Data Exception: $_error");
+          "Vacation Balance Provider", "Personnel Data Exception: $_error");
     }
   }
 

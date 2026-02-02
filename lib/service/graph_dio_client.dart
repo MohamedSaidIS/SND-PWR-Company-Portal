@@ -27,7 +27,7 @@ class GraphDioClient {
           String? token = await secureStorage.getData("GraphAccessToken");
 
           final expired = await isTokenExpired();
-          AppLogger.error("GraphDioClient", "GraphToken Expired $expired");
+          AppLogger.info("GraphDioClient", "GraphToken Expired $expired");
           if (expired) {
             token = await _refreshToken();
             AppLogger.info(

@@ -25,11 +25,12 @@ class _DashboardScreenState extends State<DashboardScreen> {
 
   Future<void> _bootStrap() async {
     try {
-      await _loadInitialData();
-
-      if (!mounted) return;
-      setState(() => _isLoading = false);
-      widget.onDataLoaded?.call();
+      WidgetsBinding.instance.addPostFrameCallback((_) async{
+        await _loadInitialData();
+        if (!mounted) return;
+        setState(() => _isLoading = false);
+        widget.onDataLoaded?.call();
+      });
     } catch (e, st) {
       AppLogger.error("Dashboard", "$e\n$st");
     }

@@ -27,7 +27,7 @@ class ComplaintSuggestionProvider with ChangeNotifier {
 
     try {
       final response = await sharePointDioClient.get(
-          "/sites/IT-Requests/_api/Web/Lists(guid'${Constants.itListId}')/items?\$top=999");
+          "/sites/IT-Requests/_api/Web/Lists(guid'${Constants.itListId}')/items?\$filter=AuthorId eq $ensureUserId&\$top=999");
 
       if (response.statusCode == 200) {
         final parsedResponse = response.data;
@@ -35,11 +35,11 @@ class ComplaintSuggestionProvider with ChangeNotifier {
         _complaintSuggestionList = await compute(
           (final data) => (data['value'] as List)
               .map((e) => ComplaintSuggestionItem.fromJson(e as Map<String, dynamic>))
-              .where((item) => item.authorId == ensureUserId)
+              // .where((item) => item.authorId == ensureUserId)
               .toList(),
           parsedResponse
         );
-
+        AppLogger.info("ComplaintSuggestion Provider","COMPLAINT_SUGGESTION LENGTH: ${_complaintSuggestionList.length}");
         AppLogger.info("ComplaintSuggestion Provider",
             "ComplaintSuggestion Fetching: ${response.statusCode} ${_complaintSuggestionList[0].priority} ");
       } else {

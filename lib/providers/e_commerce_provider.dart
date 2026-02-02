@@ -29,7 +29,7 @@ class EcommerceProvider extends ChangeNotifier {
 
     try {
       final response = await sharePointDioClient.get(
-        "/sites/AbdulrahmanHamadAlsanidi/_api/Web/Lists(guid'${Constants.alsanidiListId}')/items?\$top=999",
+        "/sites/AbdulrahmanHamadAlsanidi/_api/Web/Lists(guid'${Constants.alsanidiListId}')/items?\$filter=AuthorId eq $ensureUserId&\$top=999",
       );
       if (response.statusCode == 200) {
         final parsedResponse = response.data;
@@ -37,10 +37,11 @@ class EcommerceProvider extends ChangeNotifier {
               (final data) =>
               (data['value'] as List)
                   .map((e) => EcommerceItem.fromJson(e as Map<String, dynamic>))
-                  .where((item) => item.authorId == ensureUserId)
+                  // .where((item) => item.authorId == ensureUserId)
                   .toList(),
           parsedResponse,
         );
+        AppLogger.info("Ecommerce Provider","E-COMMERCE LENGTH: ${_ecommerceItemsList.length}");
       } else {
         _error = 'Failed to load Ecommerce data';
         AppLogger.error("Ecommerce Provider",

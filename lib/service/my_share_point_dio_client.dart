@@ -27,7 +27,7 @@ class MySharePointDioClient {
           String? token = await secureStorage.getData("MySPAccessToken");
 
           final expired = await isTokenExpired();
-          AppLogger.error("MySharePoint DioClient", "MySPToken Expired: $expired");
+          AppLogger.info("MySharePoint DioClient", "MySPToken Expired: $expired");
           if (expired) {
             token = await _refreshToken();
             AppLogger.info("MySharePoint DioClient","New MySPAccessToken after refresh: $token");

@@ -1,4 +1,4 @@
-import 'dart:async';
+ import 'dart:async';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_appauth/flutter_appauth.dart';
@@ -32,7 +32,7 @@ class SharePointDioClient {
           String? token = await secureStorage.getData("SPAccessToken");
 
           final expired = await isTokenExpired();
-          AppLogger.error(
+          AppLogger.info(
               "SharePoint DioClient", "SPAccessToken Expired: $expired");
 
           if (expired) {
