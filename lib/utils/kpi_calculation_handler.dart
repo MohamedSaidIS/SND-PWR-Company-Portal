@@ -252,9 +252,9 @@ class KpiCalculationHandler {
 
     while (
     current.isBefore(endOfMonth) || current.isAtSameMomentAs(endOfMonth)) {
-      final weekNum = Jiffy
+      final weekNum =  (Jiffy
           .parseFromDateTime(current)
-          .weekOfYear;
+          .weekOfYear) + 1;
 
       if (!weekNumbers.contains(weekNum)) {
         weekNumbers.add(weekNum);

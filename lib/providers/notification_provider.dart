@@ -1,11 +1,11 @@
 import 'package:company_portal/data/notification_storage.dart';
-import 'package:company_portal/models/local/app_notification.dart';
 import 'package:flutter/cupertino.dart';
+import '../../../utils/export_import.dart';
 
 class NotificationProvider extends ChangeNotifier{
   final _storage = NotificationStorage();
 
-  List<AppNotification> _notifications = [];
+  final List<AppNotification> _notifications = [];
   List<AppNotification> _filteredNotifications = [];
 
   String selectedFilter = 'all';

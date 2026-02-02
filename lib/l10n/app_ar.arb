@@ -266,6 +266,7 @@
   "consumedDays": "الأيام المستهلكة",
   "noLeaveBalance": "لا يوجد رصيد إجازات",
   "pleaseWait": "يرجى الانتظار",
-  "searchForEmployee": "ابحث عن موظف..."
+  "searchForEmployee": "ابحث عن موظف...",
+  "noItemsFound": "لا توجد عناصر"
 }
 

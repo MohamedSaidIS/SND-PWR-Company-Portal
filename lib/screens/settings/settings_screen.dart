@@ -1,4 +1,3 @@
-import 'package:company_portal/providers/notification_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:line_awesome_flutter/line_awesome_flutter.dart';
 import 'package:provider/provider.dart';
@@ -51,27 +50,25 @@ class _SettingsScreenState extends State<SettingsScreen> {
         ),
         body: SideFadeSlideAnimation(
           delay: 0,
-          child: SingleChildScrollView(
-            child: Container(
-              padding: const EdgeInsets.symmetric(vertical: 15, horizontal: 35),
-              child: Consumer<NotificationProvider>(
-                builder: (context, provider, _){
-                  return ListView.builder(
-                    shrinkWrap: true,
-                    physics: const NeverScrollableScrollPhysics(),
-                    itemCount: items.length,
-                    itemBuilder: (context, index) {
-                      final item = items[index];
-                      return MenuWidget(
-                        item: item,
-                        badgeCount: item.isNotification
-                            ? provider.unreadCount
-                            : null,
-                      );
-                    },
-                  );
-                },
-              ),
+          child: Container(
+            padding: const EdgeInsets.symmetric(vertical: 15, horizontal: 35),
+            child: Consumer<NotificationProvider>(
+              builder: (context, provider, _){
+                return ListView.builder(
+                  shrinkWrap: true,
+                  physics: const NeverScrollableScrollPhysics(),
+                  itemCount: items.length,
+                  itemBuilder: (context, index) {
+                    final item = items[index];
+                    return MenuWidget(
+                      item: item,
+                      badgeCount: item.isNotification
+                          ? provider.unreadCount
+                          : null,
+                    );
+                  },
+                );
+              },
             ),
           ),
         ),

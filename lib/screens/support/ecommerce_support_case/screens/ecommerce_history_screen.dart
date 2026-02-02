@@ -1,8 +1,6 @@
 import 'dart:typed_data';
-
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-
 import '../../../../utils/export_import.dart';
 
 class EcommerceHistoryScreen extends StatefulWidget {
@@ -38,7 +36,9 @@ class _EcommerceHistoryScreenState extends State<EcommerceHistoryScreen>
         CurvedAnimation(parent: _controller, curve: Curves.easeInOut);
 
     WidgetsBinding.instance.addPostFrameCallback((_) async {
-      await context.read<EcommerceProvider>().getEcommerceItems(widget.ensureUserId);
+      await context
+          .read<EcommerceProvider>()
+          .getEcommerceItems(widget.ensureUserId);
       if (mounted) _controller.forward();
     });
   }
@@ -61,9 +61,9 @@ class _EcommerceHistoryScreenState extends State<EcommerceHistoryScreen>
       body: Consumer<EcommerceProvider>(
         builder: (context, provider, _) {
           if (provider.loading) return AppNotifier.loadingWidget(theme);
+          if(provider.ecommerceItemsList.isEmpty) return const EmptyListScreen();
 
           final ecommerceList = provider.ecommerceItemsList;
-
           return FadeTransition(
             opacity: _fadeAnimation,
             child: AnimatedSwitcher(
@@ -71,7 +71,9 @@ class _EcommerceHistoryScreenState extends State<EcommerceHistoryScreen>
               switchInCurve: Curves.easeInOut,
               child: ListView.builder(
                 key: ValueKey(ecommerceList.length),
-                padding: const EdgeInsets.only(top: 10, left: 10, right: 10, bottom: 25),                itemCount: ecommerceList.length,
+                padding: const EdgeInsets.only(
+                    top: 10, left: 10, right: 10, bottom: 25),
+                itemCount: ecommerceList.length,
                 itemBuilder: (context, index) {
                   final item = ecommerceList[index];
                   return TicketsHistory(

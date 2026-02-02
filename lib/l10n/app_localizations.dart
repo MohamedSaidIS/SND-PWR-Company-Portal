@@ -1698,6 +1698,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Search for an employee...'**
   String get searchForEmployee;
+
+  /// No description provided for @noItemsFound.
+  ///
+  /// In en, this message translates to:
+  /// **'No Items Found'**
+  String get noItemsFound;
 }
 
 class _AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> {

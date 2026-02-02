@@ -266,6 +266,7 @@
   "consumedDays": "استعمال شدہ دن",
   "noLeaveBalance": "لا يوجد رصيد إجازات",
   "pleaseWait": "براہِ کرم انتظار کریں",
-  "searchForEmployee": "ملازم تلاش کریں..."
+  "searchForEmployee": "ملازم تلاش کریں...",
+  "noItemsFound": "کوئی آئٹمز نہیں ملے"
 
 }

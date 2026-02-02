@@ -6,9 +6,6 @@ import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:provider/provider.dart';
-import '../main.dart';
-import '../models/local/app_notification.dart';
-import '../providers/notification_provider.dart';
 import '../utils/export_import.dart';
 
 class NotificationService {
@@ -74,7 +71,7 @@ class NotificationService {
   Future<void> _initLocalNotification() async {
     AppLogger.info("Notification Service","LocalNotification");
     const androidChannel = AndroidNotificationChannel(
-      'default_channel', // نفس id المستخدم في NotificationDetails
+      'default_channel',
       'General',
       description: 'General notifications',
       importance: Importance.max,
@@ -139,7 +136,6 @@ class NotificationService {
         : 'web'; // optional
 
     try {
-      print("Platform $platform");
       await Dio(BaseOptions(
         connectTimeout: const Duration(seconds: 5),
         receiveTimeout: const Duration(seconds: 5),

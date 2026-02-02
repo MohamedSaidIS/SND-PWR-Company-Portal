@@ -49,6 +49,9 @@ class _SalesKpiScreenState extends State<SalesKpiScreen> {
     if (!mounted) return;
     final salesKpiProvider = context.read<SalesKPIProvider>();
     await salesKpiProvider.getSalesKpi('$userId', isUAT: isUAT);
+
+    //clear chosen member
+    setState(() => selectedEmployee = GroupMember(memberId: "", displayName: "", givenName: "", surname: "", mail: "", jobTitle: ""));
   }
 
   void _onMonthChanged(int month) {
@@ -109,57 +112,69 @@ class _SalesKpiScreenState extends State<SalesKpiScreen> {
       appBar: CustomAppBar(title: local.kpis, backBtn: false),
       body: RefreshIndicator(
         onRefresh: _fetchKpis,
-        child: SingleChildScrollView(
+        child: CustomScrollView(
           physics: const AlwaysScrollableScrollPhysics(),
-          child: AnimatedSwitcher(
-            duration: const Duration(milliseconds: 400),
-            switchInCurve: Curves.easeOut,
-            switchOutCurve: Curves.easeIn,
-            child: isLoading
-                ? SizedBox(
-                    height: MediaQuery.of(context).size.height * 0.6,
-                    child: const Center(
-                      child: CircularProgressIndicator.adaptive(),
-                    ),
-                  )
-                : Padding(
-                    padding:
-                        const EdgeInsets.symmetric(horizontal: 8, vertical: 10),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.end,
-                      children: [
-                        if (isTester) _buildUatProdButton(),
-                        if (isManager)
-                          EmployeeFilter(
-                            selectedEmployee: selectedEmployee!,
-                            onEmployeeChanged: _onEmployeeChanged,
-                          ),
-                        const SizedBox(height: 10),
-                        MonthWeekFilter(
-                            selectedMonth: selectedMonth,
-                            selectedWeek: selectedWeek,
-                            weeksPerMonth: weeksPerMonth,
-                            onMonthChanged: _onMonthChanged,
-                            onWeekChanged: (week) => setState(() => selectedWeek = week)),
-                        const SizedBox(height: 5),
-                        GridView.count(
-                          crossAxisCount: 2,
-                          childAspectRatio: 0.7,
-                          shrinkWrap: true,
-                          physics: const NeverScrollableScrollPhysics(),
-                          children: [
-                            _buildKpiCard(local.dailyKpi, daily, monthlyTarget, kpis, currentWeek),
-                            _buildKpiCard(local.weeklyKpi, currentWeek.totalSales, monthlyTarget, kpis, currentWeek),
-                            _buildKpiCard(local.monthlyKpi, monthly, monthlyTarget, kpis, currentWeek),
-                          ],
+          slivers: [
+            /// 🔄 Loading State
+            if (isLoading)
+              const SliverFillRemaining(
+                hasScrollBody: false,
+                child: Center(
+                  child: CircularProgressIndicator.adaptive(),
+                ),
+              )
+            else ...[
+              /// Top Filters
+              SliverPadding(
+                padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 10),
+                sliver: SliverToBoxAdapter(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.end,
+                    children: [
+                      if (isTester) _buildUatProdButton(),
+                      if (isManager)
+                        EmployeeFilter(
+                          selectedEmployee: selectedEmployee!,
+                          onEmployeeChanged: _onEmployeeChanged,
                         ),
-                      ],
-                    ),
+                      const SizedBox(height: 10),
+                      MonthWeekFilter(
+                        selectedMonth: selectedMonth,
+                        selectedWeek: selectedWeek,
+                        weeksPerMonth: weeksPerMonth,
+                        onMonthChanged: _onMonthChanged,
+                        onWeekChanged: (week) =>
+                            setState(() => selectedWeek = week),
+                      ),
+                      const SizedBox(height: 5),
+                    ],
                   ),
-          ),
+                ),
+              ),
+
+              /// 📊 KPI Grid
+              SliverPadding(
+                padding: const EdgeInsets.symmetric(horizontal: 8),
+                sliver: SliverGrid(
+                  delegate: SliverChildListDelegate(
+                    [
+                      _buildKpiCard(local.dailyKpi, daily, monthlyTarget, kpis, currentWeek),
+                      _buildKpiCard(local.weeklyKpi, currentWeek.totalSales, monthlyTarget, kpis, currentWeek),
+                      _buildKpiCard(local.monthlyKpi, monthly, monthlyTarget, kpis, currentWeek),
+                    ],
+                  ),
+                  gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                    crossAxisCount: 2,
+                    childAspectRatio: 0.7,
+                  ),
+                ),
+              ),
+            ],
+          ],
         ),
       ),
     );
+
   }
 
   Widget _buildUatProdButton() {

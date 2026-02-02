@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-
 import '../../utils/export_import.dart';
 
 class PreviousRequestScreen extends StatefulWidget {
@@ -38,7 +37,7 @@ class _PreviousRequestScreenState extends State<PreviousRequestScreen> {
           if (provider.loading) return AppNotifier.loadingWidget(theme);
           if(provider.error != null) return Text("${provider.error}");
           final previousRequests = provider.previousRequests;
-          if(previousRequests.isEmpty) return const Center(child: Text("No Requests yet!"));
+          if(previousRequests.isEmpty) return const EmptyListScreen();
           return ListView.builder(
             itemCount: previousRequests.length,
             padding: const EdgeInsets.all(10),

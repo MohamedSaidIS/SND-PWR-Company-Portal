@@ -21,6 +21,10 @@ class SalesKPIProvider extends ChangeNotifier {
     _error = null;
     notifyListeners();
 
+    final url = isUAT  // true ---> test , false ---> live
+        ? "https://alsenidiuat.sandbox.operations.dynamics.com/data/WorkerSalesCommission/?\$filter= Worker  eq {$workerId}"
+        : "https://alsanidi.operations.dynamics.com/data/WorkerSalesCommission/?\$filter= Worker  eq {$workerId}";
+    AppLogger.info("SalesKpi Url", "$url | $isUAT");
     try {
       final response = await kpiDioClient.getRequest(
           isUAT

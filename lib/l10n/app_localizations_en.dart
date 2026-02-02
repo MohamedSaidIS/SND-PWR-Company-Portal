@@ -808,4 +808,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get searchForEmployee => 'Search for an employee...';
+
+  @override
+  String get noItemsFound => 'No Items Found';
 }

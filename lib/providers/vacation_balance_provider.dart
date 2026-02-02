@@ -62,7 +62,7 @@ class VacationBalanceProvider extends ChangeNotifier {
     _loading = true;
     _error = null;
     notifyListeners();
-    print("Transactions Url: https://alsenidiuat.sandbox.operations.dynamics.com/data/AbsenceLines?\$filter=Worker eq $workerId and ProfileDate ge ${Constants.currentStartDate.toIso8601String()} and ProfileDate le ${Constants.currentEndDate.toIso8601String()}&\$count=true");
+    AppLogger.info("Vacation Balance Provider","Transactions Url: https://alsenidiuat.sandbox.operations.dynamics.com/data/AbsenceLines?\$filter=Worker eq $workerId and ProfileDate ge ${Constants.currentStartDate.toIso8601String()} and ProfileDate le ${Constants.currentEndDate.toIso8601String()}&\$count=true");
 
     try {
       final response = await kpiDioClient.getRequest(
@@ -102,7 +102,7 @@ class VacationBalanceProvider extends ChangeNotifier {
     _error = null;
     notifyListeners();
 
-    print("Url: https://alsenidiuat.sandbox.operations.dynamics.com/data/MyTeamLeaveBalances?\$filter= Year eq ${Constants.currentYear} and PersonnelNumber eq '$personalNumber' &\$count=true");
+    AppLogger.info("Vacation Balance Provider","Url: https://alsenidiuat.sandbox.operations.dynamics.com/data/MyTeamLeaveBalances?\$filter= Year eq ${Constants.currentYear} and PersonnelNumber eq '$personalNumber' &\$count=true");
     try {
       final response = await kpiDioClient.getRequest(
           "https://alsenidiuat.sandbox.operations.dynamics.com/data/MyTeamLeaveBalances?\$filter= Year eq ${Constants.currentYear} and PersonnelNumber eq '$personalNumber' &\$count=true",

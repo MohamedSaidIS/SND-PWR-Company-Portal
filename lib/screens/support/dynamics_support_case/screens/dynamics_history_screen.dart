@@ -1,8 +1,6 @@
 import 'dart:typed_data';
-
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-
 import '../../../../utils/export_import.dart';
 
 class DynamicsHistoryScreen extends StatefulWidget {
@@ -62,7 +60,7 @@ class _DynamicsHistoryScreenState extends State<DynamicsHistoryScreen>
       body: Consumer<DynamicsProvider>(
         builder: (context, provider, _) {
           if (provider.loading) return AppNotifier.loadingWidget(theme);
-
+          if(provider.dynamicsItemsList.isEmpty) return const EmptyListScreen();
           final dynamicsItemsList = provider.dynamicsItemsList;
           return FadeTransition(
             opacity: _fadeAnimation,
@@ -71,7 +69,9 @@ class _DynamicsHistoryScreenState extends State<DynamicsHistoryScreen>
               switchInCurve: Curves.easeInOut,
               child: ListView.builder(
                 key: ValueKey(dynamicsItemsList.length),
-                padding: const EdgeInsets.only(top: 10, left: 10, right: 10, bottom: 25),                itemCount: dynamicsItemsList.length,
+                padding: const EdgeInsets.only(
+                    top: 10, left: 10, right: 10, bottom: 25),
+                itemCount: dynamicsItemsList.length,
                 itemBuilder: (context, index) {
                   final item = dynamicsItemsList[index];
                   return TicketsHistory(

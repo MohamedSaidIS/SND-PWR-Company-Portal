@@ -266,5 +266,6 @@
   "consumedDays": "Consumed Days",
   "noLeaveBalance" : "No Leave Balance",
   "pleaseWait":"Please Wait",
-  "searchForEmployee": "Search for an employee..."
+  "searchForEmployee": "Search for an employee...",
+  "noItemsFound": "No Items Found"
 }

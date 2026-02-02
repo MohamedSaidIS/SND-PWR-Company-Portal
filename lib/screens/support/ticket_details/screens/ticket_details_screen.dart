@@ -70,7 +70,6 @@ class _TicketDetailsScreenState extends State<TicketDetailsScreen> {
     _attachmentsController.dispose();
     super.dispose();
   }
-
   @override
   Widget build(BuildContext context) {
     return Portal(
@@ -82,11 +81,11 @@ class _TicketDetailsScreenState extends State<TicketDetailsScreen> {
           backBtn: true,
         ),
         body: SafeArea(
-          child: Column(
-            children: [
-              Expanded(
-                child: SingleChildScrollView(
-                  padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+            child: CustomScrollView(
+              slivers: [
+                SliverToBoxAdapter(
                   child: Container(
                     padding: const EdgeInsets.all(20),
                     decoration: BoxDecoration(
@@ -97,19 +96,29 @@ class _TicketDetailsScreenState extends State<TicketDetailsScreen> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         TicketHeader(
-                            headerTitle: widget.title ?? "-",
-                            status: widget.status ?? "-"),
+                          headerTitle: widget.title ?? "-",
+                          status: widget.status ?? "-",
+                        ),
                         const SizedBox(height: 24),
+
                         TicketDescription(
-                            description: widget.description ?? "-",
-                            priority: widget.priority ?? "-"),
+                          description: widget.description ?? "-",
+                          priority: widget.priority ?? "-",
+                        ),
                         const SizedBox(height: 24),
-                        AttachmentsWidget(itemId: widget.itemId!, commentCall: widget.commentCall),
+
+                        AttachmentsWidget(
+                          itemId: widget.itemId!,
+                          commentCall: widget.commentCall,
+                        ),
                         const SizedBox(height: 24),
+
                         TicketDates(
-                            createdDate: widget.createdDate,
-                            modifiedDate: widget.modifiedDate.toString()),
+                          createdDate: widget.createdDate,
+                          modifiedDate: widget.modifiedDate.toString(),
+                        ),
                         const SizedBox(height: 10),
+
                         TicketComments(
                           comments: comments,
                           userImage: widget.userImage,
@@ -117,16 +126,73 @@ class _TicketDetailsScreenState extends State<TicketDetailsScreen> {
                           commentProvider: commentProvider,
                         ),
                         const SizedBox(height: 24),
-                        SendComment(itemId: widget.itemId!, commentCall: widget.commentCall),
+
+                        SendComment(
+                          itemId: widget.itemId!,
+                          commentCall: widget.commentCall,
+                        ),
                       ],
                     ),
                   ),
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
         ),
       ),
     );
   }
+
+  // @override
+  // Widget build(BuildContext context) {
+  //   return Portal(
+  //     child: Scaffold(
+  //       resizeToAvoidBottomInset: true,
+  //       backgroundColor: theme.colorScheme.surface,
+  //       appBar: CustomAppBar(
+  //         title: local.ticketDetails,
+  //         backBtn: true,
+  //       ),
+  //       body: SafeArea(
+  //         child: SingleChildScrollView(
+  //           padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+  //           child: Container(
+  //             padding: const EdgeInsets.all(20),
+  //             decoration: BoxDecoration(
+  //               color: theme.colorScheme.primary.withValues(alpha: 0.1),
+  //               borderRadius: BorderRadius.circular(18),
+  //             ),
+  //             child: Column(
+  //               crossAxisAlignment: CrossAxisAlignment.start,
+  //               children: [
+  //                 TicketHeader(
+  //                     headerTitle: widget.title ?? "-",
+  //                     status: widget.status ?? "-"),
+  //                 const SizedBox(height: 24),
+  //                 TicketDescription(
+  //                     description: widget.description ?? "-",
+  //                     priority: widget.priority ?? "-"),
+  //                 const SizedBox(height: 24),
+  //                 AttachmentsWidget(itemId: widget.itemId!, commentCall: widget.commentCall),
+  //                 const SizedBox(height: 24),
+  //                 TicketDates(
+  //                     createdDate: widget.createdDate,
+  //                     modifiedDate: widget.modifiedDate.toString()),
+  //                 const SizedBox(height: 10),
+  //                 TicketComments(
+  //                   comments: comments,
+  //                   userImage: widget.userImage,
+  //                   userInfo: widget.userInfo,
+  //                   commentProvider: commentProvider,
+  //                 ),
+  //                 const SizedBox(height: 24),
+  //                 SendComment(itemId: widget.itemId!, commentCall: widget.commentCall),
+  //               ],
+  //             ),
+  //           ),
+  //         ),
+  //       ),
+  //     ),
+  //   );
+  // }
 }

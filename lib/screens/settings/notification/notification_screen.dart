@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import '../../../providers/notification_provider.dart';
 import '../../../utils/export_import.dart';
 
 class NotificationScreen extends StatefulWidget {
@@ -11,68 +10,6 @@ class NotificationScreen extends StatefulWidget {
 }
 
 class _NotificationScreenState extends State<NotificationScreen> {
-  // final List<Map<String, dynamic>> notifications = [
-  //   {
-  //     "title": "New Message",
-  //     "subtitle": "You received a message from John",
-  //     "icon": Icons.message,
-  //     "iconColor": Colors.blue,
-  //     "bgColor": Colors.white,
-  //     "type": "message"
-  //   },
-  //   {
-  //     "title": "Reminder",
-  //     "subtitle": "Meeting at 3 PM",
-  //     "icon": Icons.calendar_today,
-  //     "iconColor": Colors.orange,
-  //     "bgColor": Colors.yellow[100],
-  //     "type": "reminder"
-  //   },
-  //   {
-  //     "title": "Vacation Approved",
-  //     "subtitle": "Your vacation request has been approved",
-  //     "icon": Icons.beach_access,
-  //     "iconColor": Colors.teal,
-  //     "bgColor": Colors.green[100],
-  //     "type": "update"
-  //   },
-  //   {
-  //     "title": "New Update is here",
-  //     "subtitle": "Update number 1.2.0",
-  //     "icon": Icons.update,
-  //     "iconColor": Colors.orangeAccent,
-  //     "bgColor": Colors.orange[50],
-  //     "type": "update"
-  //   },
-  //   {
-  //     "title": "New Message",
-  //     "subtitle": "You received a message from John",
-  //     "icon": Icons.message,
-  //     "iconColor": Colors.blue,
-  //     "type": "message"
-  //   },
-  //   {
-  //     "title": "Reminder",
-  //     "subtitle": "Meeting at 3 PM",
-  //     "icon": Icons.calendar_today,
-  //     "iconColor": Colors.orange,
-  //     "type": "reminder"
-  //   },
-  //   {
-  //     "title": "Vacation Approved",
-  //     "subtitle": "Your vacation request has been approved",
-  //     "icon": Icons.beach_access,
-  //     "iconColor": Colors.teal,
-  //     "type": "update"
-  //   },
-  //   {
-  //     "title": "New Update is here",
-  //     "subtitle": "Update number 1.2.0",
-  //     "icon": Icons.update,
-  //     "iconColor": Colors.orangeAccent,
-  //     "type": "update"
-  //   },
-  // ];
   @override
   void initState() {
     super.initState();

@@ -1,8 +1,6 @@
 import 'dart:typed_data';
-
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-
 import '../../../../utils/export_import.dart';
 
 class ComplaintSuggestionHistoryScreen extends StatefulWidget {
@@ -60,7 +58,7 @@ class _ComplaintSuggestionHistoryScreenState
       body: Consumer<ComplaintSuggestionProvider>(
         builder: (context, provider, _) {
           if (provider.loading) return AppNotifier.loadingWidget(theme);
-
+          if(provider.complaintSuggestionList!.isEmpty || provider.complaintSuggestionList == []) return const EmptyListScreen();
           final complaintList = provider.complaintSuggestionList ?? [];
           return FadeTransition(
             opacity: _fadeAnimation,

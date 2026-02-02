@@ -1,9 +1,6 @@
-import 'package:company_portal/providers/notification_provider.dart';
 import 'package:flutter_appauth/flutter_appauth.dart';
 import 'package:provider/provider.dart';
 import 'package:provider/single_child_widget.dart';
-import '../config/auth_controller.dart';
-import '../main.dart';
 import '../utils/export_import.dart';
 
 List<SingleChildWidget> appProviders(LocaleProvider localeProvider) {
