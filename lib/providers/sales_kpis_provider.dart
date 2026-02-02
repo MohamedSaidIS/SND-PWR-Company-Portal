@@ -6,9 +6,33 @@ class SalesKPIProvider extends ChangeNotifier {
 
   SalesKPIProvider({required this.kpiDioClient});
 
+
   List<SalesKPI> _kpiList = [];
   bool _loading = false;
   String? _error;
+
+  GroupMember _selectedEmployee = GroupMember(
+    memberId: "",
+    displayName: "",
+    givenName: "",
+    surname: "",
+    mail: "",
+    jobTitle: "",
+  );
+
+  GroupMember get selectedEmployee => _selectedEmployee;
+
+  void clearSelectedEmployee() {
+    _selectedEmployee = GroupMember(
+      memberId: "",
+      displayName: "",
+      givenName: "",
+      surname: "",
+      mail: "",
+      jobTitle: "",
+    );
+    notifyListeners();
+  }
 
   List<SalesKPI>? get kpiList => _kpiList;
 

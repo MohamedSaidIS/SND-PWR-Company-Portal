@@ -76,10 +76,10 @@ class UserInfoProvider with ChangeNotifier {
         final List<dynamic> matchedGroupIds = response.data["value"];
         _groupInfo = await compute(
           (List<dynamic> ids) {
-            AppLogger.info(
-              "UserInfo Provider",
-              "Group Info Parsed: $ids ${ids[0]}",
-            );
+            // AppLogger.info(
+            //   "UserInfo Provider",
+            //   "Group Info Parsed: $ids ${ids[0]}",
+            // );
             if (ids.isNotEmpty) {
               return GroupInfo(
                 groupId: ids.first,

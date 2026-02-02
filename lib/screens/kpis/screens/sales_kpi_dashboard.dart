@@ -49,10 +49,7 @@ class _SalesKpiScreenState extends State<SalesKpiScreen> {
     if (!mounted) return;
     final salesKpiProvider = context.read<SalesKPIProvider>();
     await salesKpiProvider.getSalesKpi('$userId', isUAT: isUAT);
-
-    //clear chosen member
-    setState(() => selectedEmployee = GroupMember(memberId: "", displayName: "", givenName: "", surname: "", mail: "", jobTitle: ""));
-  }
+}
 
   void _onMonthChanged(int month) {
     setState(() {
@@ -86,6 +83,21 @@ class _SalesKpiScreenState extends State<SalesKpiScreen> {
       return weekly.isNotEmpty ? weekly.last.totalSales : 0.0;
     }
   }
+  Future<void> _onRefresh() async {
+    await _fetchKpis();
+
+    if (!mounted) return;
+    setState(() {
+      selectedEmployee = GroupMember(
+        memberId: "",
+        displayName: "",
+        givenName: "",
+        surname: "",
+        mail: "",
+        jobTitle: "",
+      );
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -107,11 +119,14 @@ class _SalesKpiScreenState extends State<SalesKpiScreen> {
       orElse: () => WeeklyKPI(weekNumber: 0, totalSales: 0, monthNumber: 0),
     );
 
+
+
+
     return Scaffold(
       backgroundColor: theme.colorScheme.surface,
       appBar: CustomAppBar(title: local.kpis, backBtn: false),
       body: RefreshIndicator(
-        onRefresh: _fetchKpis,
+        onRefresh: _onRefresh,
         child: CustomScrollView(
           physics: const AlwaysScrollableScrollPhysics(),
           slivers: [
