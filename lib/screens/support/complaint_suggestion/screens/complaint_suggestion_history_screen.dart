@@ -9,7 +9,10 @@ class ComplaintSuggestionHistoryScreen extends StatefulWidget {
   final int ensureUserId;
 
   const ComplaintSuggestionHistoryScreen(
-      {required this.userInfo, required this.userImage,required this.ensureUserId, super.key});
+      {required this.userInfo,
+      required this.userImage,
+      required this.ensureUserId,
+      super.key});
 
   @override
   State<ComplaintSuggestionHistoryScreen> createState() =>
@@ -35,7 +38,9 @@ class _ComplaintSuggestionHistoryScreenState
         CurvedAnimation(parent: _controller, curve: Curves.easeInOut);
 
     WidgetsBinding.instance.addPostFrameCallback((_) async {
-      await context.read<ComplaintSuggestionProvider>().getSuggestionsAndComplaints(widget.ensureUserId);
+      await context
+          .read<ComplaintSuggestionProvider>()
+          .getSuggestionsAndComplaints(widget.ensureUserId);
       if (mounted) _controller.forward();
     });
   }
@@ -49,6 +54,7 @@ class _ComplaintSuggestionHistoryScreenState
   @override
   Widget build(BuildContext context) {
     final theme = context.theme;
+    final local = context.local;
 
     AppNotifier.logWithScreen(
         "History Screen", "Image: ${widget.userImage != null}");
@@ -58,7 +64,13 @@ class _ComplaintSuggestionHistoryScreenState
       body: Consumer<ComplaintSuggestionProvider>(
         builder: (context, provider, _) {
           if (provider.loading) return AppNotifier.loadingWidget(theme);
-          if(provider.complaintSuggestionList!.isEmpty || provider.complaintSuggestionList == []) return const EmptyListScreen();
+          if (provider.complaintSuggestionList!.isEmpty ||
+              provider.complaintSuggestionList == []) {
+            return NotFoundScreen(
+                image: "assets/images/empty_list.png",
+                title: local.noItemsFound,
+                subtitle: local.thereIsNoDataToDisplay);
+          }
           final complaintList = provider.complaintSuggestionList ?? [];
           return FadeTransition(
             opacity: _fadeAnimation,
@@ -67,7 +79,8 @@ class _ComplaintSuggestionHistoryScreenState
               switchInCurve: Curves.easeInOut,
               child: ListView.builder(
                 key: ValueKey(complaintList.length),
-                padding: const EdgeInsets.only(top: 10, left: 10, right: 10, bottom: 25),
+                padding: const EdgeInsets.only(
+                    top: 10, left: 10, right: 10, bottom: 25),
                 itemCount: complaintList.length,
                 itemBuilder: (context, index) {
                   final item = complaintList[index];

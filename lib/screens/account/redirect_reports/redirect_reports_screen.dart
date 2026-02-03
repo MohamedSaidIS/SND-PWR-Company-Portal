@@ -12,8 +12,6 @@ class DirectReportsScreen extends StatefulWidget {
 class _DirectReportsScreenState extends State<DirectReportsScreen> {
   @override
   Widget build(BuildContext context) {
-    final provider = context.watch<DirectReportsProvider>();
-    final directReports = provider.directReportList;
     final theme = context.theme;
     final local = context.local;
 
@@ -27,21 +25,19 @@ class _DirectReportsScreenState extends State<DirectReportsScreen> {
         ),
         body: Padding(
           padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 20),
-          child: AnimatedSwitcher(
-            duration: const Duration(milliseconds: 300),
-            child: StateHandlerWidget(
-              state: provider.state,
-              error: provider.error,
-              emptyTitle: local.noTeamMembersAssigned,
-              emptySubtitle:
-                  local.thereAreCurrentlyNoTeamMembersAssignedToYouForDisplay,
-              dataBuilder: (_) => _ListView(
-                directReports: directReports!,
-                local: local,
-                theme: theme,
-              ),
-            ),
-          ),
+          child: Consumer<DirectReportsProvider>(
+              builder: (context, provider,_){
+                if (provider.loading) return AppNotifier.loadingWidget(theme);
+                if (provider.error != null) return Text("${provider.error}");
+                final reports =  provider.directReportList;
+                if (reports!.isEmpty || reports == []) {
+                  return NotFoundScreen(
+                      image: "assets/images/no_team_member.png",
+                      title: local.noTeamMembersAssigned,
+                      subtitle: local.thereAreCurrentlyNoTeamMembersAssignedToYouForDisplay);
+                }
+                return _ListView(directReports: reports);
+              })
         ),
       ),
     );
@@ -50,17 +46,15 @@ class _DirectReportsScreenState extends State<DirectReportsScreen> {
 
 class _ListView extends StatelessWidget {
   final List<DirectReport> directReports;
-  final AppLocalizations local;
-  final ThemeData theme;
 
   const _ListView({
     required this.directReports,
-    required this.local,
-    required this.theme,
   });
 
   @override
   Widget build(BuildContext context) {
+    final theme = context.theme;
+    final local = context.local;
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [

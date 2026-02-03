@@ -1702,8 +1702,26 @@ abstract class AppLocalizations {
   /// No description provided for @noItemsFound.
   ///
   /// In en, this message translates to:
-  /// **'No Items Found'**
+  /// **'No items found'**
   String get noItemsFound;
+
+  /// No description provided for @thereIsNoDataToDisplay.
+  ///
+  /// In en, this message translates to:
+  /// **'There is no data to display'**
+  String get thereIsNoDataToDisplay;
+
+  /// No description provided for @noNotificationsFound.
+  ///
+  /// In en, this message translates to:
+  /// **'No notifications found'**
+  String get noNotificationsFound;
+
+  /// No description provided for @youAllCaughtUp.
+  ///
+  /// In en, this message translates to:
+  /// **'You’re all caught up'**
+  String get youAllCaughtUp;
 }
 
 class _AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> {

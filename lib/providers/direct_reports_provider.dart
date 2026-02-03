@@ -7,15 +7,15 @@ class DirectReportsProvider with ChangeNotifier {
   DirectReportsProvider({required this.dioClient});
 
   List<DirectReport>? _directReportList;
-  ViewState _state = ViewState.loading;
+  bool _loading = false;
   String? _error;
 
   List<DirectReport>? get directReportList => _directReportList;
-  ViewState get state => _state;
+  bool get loading => _loading;
   String? get error => _error;
 
   Future<void> fetchRedirectReport() async {
-    _state = ViewState.loading;
+    _loading = true;
     _error = null;
     notifyListeners();
 
@@ -33,25 +33,19 @@ class DirectReportsProvider with ChangeNotifier {
 
         AppLogger.info("DirectReport Provider",
             "DirectReport Fetching: ${response.statusCode} $_directReportList ");
-        if (_directReportList == null || _directReportList!.isEmpty) {
-          _state = ViewState.empty;
-        } else {
-          _state = ViewState.data;
-        }
       } else {
         _error = 'Failed to load direct_report data';
-        _state = ViewState.error;
 
         AppLogger.error("DirectReport Provider",
             "DirectReport Error: $_error ${response.statusCode}");
       }
     } catch (e) {
       _error = e.toString();
-      _state = ViewState.error;
-
       AppLogger.error(
           "DirectReport Provider", "DirectReport Exception: $_error");
+    } finally {
+      _loading = false;
+      notifyListeners();
     }
-    notifyListeners();
   }
 }

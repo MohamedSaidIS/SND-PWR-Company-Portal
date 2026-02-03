@@ -267,6 +267,9 @@
   "noLeaveBalance": "لا يوجد رصيد إجازات",
   "pleaseWait": "يرجى الانتظار",
   "searchForEmployee": "ابحث عن موظف...",
-  "noItemsFound": "لا توجد عناصر"
+  "noItemsFound": "لا توجد عناصر",
+  "thereIsNoDataToDisplay": "لا توجد بيانات للعرض",
+  "noNotificationsFound": "لا توجد إشعارات",
+  "youAllCaughtUp": "لا توجد عناصر تتطلب إجراء"
 }
 

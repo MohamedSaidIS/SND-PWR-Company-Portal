@@ -51,6 +51,7 @@ class _DynamicsHistoryScreenState extends State<DynamicsHistoryScreen>
   @override
   Widget build(BuildContext context) {
     final theme = context.theme;
+    final local = context.local;
 
     AppNotifier.logWithScreen(
         "Dynamics History Screen", "Image: ${widget.userImage != null}");
@@ -60,7 +61,12 @@ class _DynamicsHistoryScreenState extends State<DynamicsHistoryScreen>
       body: Consumer<DynamicsProvider>(
         builder: (context, provider, _) {
           if (provider.loading) return AppNotifier.loadingWidget(theme);
-          if(provider.dynamicsItemsList.isEmpty) return const EmptyListScreen();
+          if(provider.dynamicsItemsList.isEmpty) {
+            return NotFoundScreen(
+                image: "assets/images/empty_list.png",
+                title: local.noItemsFound,
+                subtitle: local.thereIsNoDataToDisplay);
+          }
           final dynamicsItemsList = provider.dynamicsItemsList;
           return FadeTransition(
             opacity: _fadeAnimation,

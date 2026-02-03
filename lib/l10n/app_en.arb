@@ -267,5 +267,9 @@
   "noLeaveBalance" : "No Leave Balance",
   "pleaseWait":"Please Wait",
   "searchForEmployee": "Search for an employee...",
-  "noItemsFound": "No Items Found"
+  "noItemsFound": "No items found",
+  "thereIsNoDataToDisplay": "There is no data to display",
+  "noNotificationsFound":"No notifications found",
+  "youAllCaughtUp":"You’re all caught up"
+
 }

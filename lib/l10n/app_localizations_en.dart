@@ -810,5 +810,14 @@ class AppLocalizationsEn extends AppLocalizations {
   String get searchForEmployee => 'Search for an employee...';
 
   @override
-  String get noItemsFound => 'No Items Found';
+  String get noItemsFound => 'No items found';
+
+  @override
+  String get thereIsNoDataToDisplay => 'There is no data to display';
+
+  @override
+  String get noNotificationsFound => 'No notifications found';
+
+  @override
+  String get youAllCaughtUp => 'You’re all caught up';
 }

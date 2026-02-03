@@ -13,13 +13,14 @@ class PreviousRequestScreen extends StatefulWidget {
 
 class _PreviousRequestScreenState extends State<PreviousRequestScreen> {
   late ThemeData theme;
+  late AppLocalizations local;
 
   @override
   void initState() {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((_) async {
       var provider = context.read<VacationPermissionRequestProvider>();
-      await provider.getPreviousRequests(widget.personnelNumber?? "");
+      await provider.getPreviousRequests(widget.personnelNumber ?? "");
     });
   }
 
@@ -27,6 +28,7 @@ class _PreviousRequestScreenState extends State<PreviousRequestScreen> {
   void didChangeDependencies() {
     super.didChangeDependencies();
     theme = context.theme;
+    local = context.local;
   }
 
   @override
@@ -35,9 +37,14 @@ class _PreviousRequestScreenState extends State<PreviousRequestScreen> {
       body: Consumer<VacationPermissionRequestProvider>(
         builder: (context, provider, _) {
           if (provider.loading) return AppNotifier.loadingWidget(theme);
-          if(provider.error != null) return Text("${provider.error}");
+          if (provider.error != null) return Text("${provider.error}");
           final previousRequests = provider.previousRequests;
-          if(previousRequests.isEmpty) return const EmptyListScreen();
+          if (previousRequests.isEmpty) {
+            return NotFoundScreen(
+                image: "assets/images/empty_list.png",
+                title: local.noItemsFound,
+                subtitle: local.thereIsNoDataToDisplay);
+          }
           return ListView.builder(
             itemCount: previousRequests.length,
             padding: const EdgeInsets.all(10),

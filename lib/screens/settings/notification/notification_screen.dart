@@ -61,9 +61,10 @@ class _NotificationScreenState extends State<NotificationScreen> {
                 ),
                 Expanded(
                   child: provider.notifications.isEmpty
-                      ? const Center(
-                          child: Text('No notifications'),
-                        )
+                      ? NotFoundScreen(
+                          image: "assets/images/no_notification_found.png",
+                          title: local.noNotificationsFound,
+                          subtitle: local.youAllCaughtUp)
                       : ListView.builder(
                           itemCount: provider.notifications.length,
                           itemBuilder: (context, index) {

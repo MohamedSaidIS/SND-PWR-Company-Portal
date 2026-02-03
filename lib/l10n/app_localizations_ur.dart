@@ -811,4 +811,13 @@ class AppLocalizationsUr extends AppLocalizations {
 
   @override
   String get noItemsFound => 'کوئی آئٹمز نہیں ملے';
+
+  @override
+  String get thereIsNoDataToDisplay => 'ڈسپلے کرنے کے لیے کوئی ڈیٹا موجود نہیں ہے';
+
+  @override
+  String get noNotificationsFound => 'کوئی اطلاع موجود نہیں ہے';
+
+  @override
+  String get youAllCaughtUp => 'فی الحال کسی کارروائی کی ضرورت نہیں ہے';
 }

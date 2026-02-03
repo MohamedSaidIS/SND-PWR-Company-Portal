@@ -267,6 +267,9 @@
   "noLeaveBalance": "لا يوجد رصيد إجازات",
   "pleaseWait": "براہِ کرم انتظار کریں",
   "searchForEmployee": "ملازم تلاش کریں...",
-  "noItemsFound": "کوئی آئٹمز نہیں ملے"
+  "noItemsFound": "کوئی آئٹمز نہیں ملے",
+  "thereIsNoDataToDisplay": "ڈسپلے کرنے کے لیے کوئی ڈیٹا موجود نہیں ہے",
+  "noNotificationsFound": "کوئی اطلاع موجود نہیں ہے",
+  "youAllCaughtUp": "فی الحال کسی کارروائی کی ضرورت نہیں ہے"
 
 }

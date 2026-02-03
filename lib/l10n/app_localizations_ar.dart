@@ -811,4 +811,13 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get noItemsFound => 'لا توجد عناصر';
+
+  @override
+  String get thereIsNoDataToDisplay => 'لا توجد بيانات للعرض';
+
+  @override
+  String get noNotificationsFound => 'لا توجد إشعارات';
+
+  @override
+  String get youAllCaughtUp => 'لا توجد عناصر تتطلب إجراء';
 }

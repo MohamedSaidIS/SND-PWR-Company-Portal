@@ -52,6 +52,7 @@ class _EcommerceHistoryScreenState extends State<EcommerceHistoryScreen>
   @override
   Widget build(BuildContext context) {
     final theme = context.theme;
+    final local = context.local;
 
     AppNotifier.logWithScreen(
         "Ecommerce History Screen", "Image: ${widget.userImage != null}");
@@ -61,7 +62,12 @@ class _EcommerceHistoryScreenState extends State<EcommerceHistoryScreen>
       body: Consumer<EcommerceProvider>(
         builder: (context, provider, _) {
           if (provider.loading) return AppNotifier.loadingWidget(theme);
-          if(provider.ecommerceItemsList.isEmpty) return const EmptyListScreen();
+          if (provider.ecommerceItemsList.isEmpty) {
+            return NotFoundScreen(
+                image: "assets/images/empty_list.png",
+                title: local.noItemsFound,
+                subtitle: local.thereIsNoDataToDisplay);
+          }
 
           final ecommerceList = provider.ecommerceItemsList;
           return FadeTransition(
