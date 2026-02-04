@@ -58,7 +58,12 @@ class MyApp extends StatelessWidget {
 
     return Builder(builder: (context) {
       return MaterialApp(
-          //   showPerformanceOverlay: true,
+          // debugShowCheckedModeBanner: false,
+          // showPerformanceOverlay: true,
+          // debugShowMaterialGrid: false,
+          // // 👇
+          // checkerboardRasterCacheImages: true,
+          // checkerboardOffscreenLayers: true,
           locale: localeProvider.locale,
           supportedLocales: const [
             Locale('en'),

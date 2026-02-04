@@ -67,7 +67,7 @@ class _ComplaintSuggestionHistoryScreenState
           if (provider.complaintSuggestionList!.isEmpty ||
               provider.complaintSuggestionList == []) {
             return NotFoundScreen(
-                image: "assets/images/empty_list.png",
+                image: "assets/images/no_request.png",
                 title: local.noItemsFound,
                 subtitle: local.thereIsNoDataToDisplay);
           }

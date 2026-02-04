@@ -1702,7 +1702,7 @@ abstract class AppLocalizations {
   /// No description provided for @noItemsFound.
   ///
   /// In en, this message translates to:
-  /// **'No items found'**
+  /// **'No requests found'**
   String get noItemsFound;
 
   /// No description provided for @thereIsNoDataToDisplay.

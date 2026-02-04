@@ -1,4 +1,3 @@
-import 'package:company_portal/utils/context_extensions.dart';
 import 'package:flutter/material.dart';
 
 class NotFoundScreen extends StatefulWidget {
@@ -6,10 +5,7 @@ class NotFoundScreen extends StatefulWidget {
   final String title, subtitle;
 
   const NotFoundScreen(
-      {super.key,
-      this.image = "assets/images/empty_list.png",
-      this.title = "No items found",
-      this.subtitle = "There is no data to display"});
+      {super.key,required this.image, required this.title, required this.subtitle});
 
   @override
   State<NotFoundScreen> createState() => _NotFoundScreenState();
@@ -53,8 +49,6 @@ class _NotFoundScreenState extends State<NotFoundScreen>
 
   @override
   Widget build(BuildContext context) {
-    final theme = context.theme;
-
     return Center(
       child: FadeTransition(
         opacity: _fade,
@@ -73,20 +67,26 @@ class _NotFoundScreenState extends State<NotFoundScreen>
 
               Text(
                 widget.title,
-                style: theme.textTheme.titleMedium?.copyWith(
+                style: Theme.of(context).textTheme.titleMedium?.copyWith(
                   fontWeight: FontWeight.w600,
+                  fontSize: 21,
+                  color: Theme.of(context).colorScheme.onSurface,
                 ),
+                textAlign: TextAlign.center,
               ),
 
               const SizedBox(height: 6),
 
               Text(
                 widget.subtitle,
-                textAlign: TextAlign.center,
-                style: theme.textTheme.bodyMedium?.copyWith(
-                  fontSize: 14,
-                  color: theme.colorScheme.onSurface.withOpacity(0.6),
+                style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                  fontSize: 12,
+                  color: Theme.of(context)
+                      .colorScheme
+                      .onSurface
+                      .withOpacity(0.6),
                 ),
+                textAlign: TextAlign.center,
               ),
             ],
           ),

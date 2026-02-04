@@ -63,7 +63,7 @@ class _DynamicsHistoryScreenState extends State<DynamicsHistoryScreen>
           if (provider.loading) return AppNotifier.loadingWidget(theme);
           if(provider.dynamicsItemsList.isEmpty) {
             return NotFoundScreen(
-                image: "assets/images/empty_list.png",
+                image: "assets/images/no_request.png",
                 title: local.noItemsFound,
                 subtitle: local.thereIsNoDataToDisplay);
           }

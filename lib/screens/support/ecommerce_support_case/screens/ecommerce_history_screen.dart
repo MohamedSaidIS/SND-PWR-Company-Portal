@@ -64,7 +64,7 @@ class _EcommerceHistoryScreenState extends State<EcommerceHistoryScreen>
           if (provider.loading) return AppNotifier.loadingWidget(theme);
           if (provider.ecommerceItemsList.isEmpty) {
             return NotFoundScreen(
-                image: "assets/images/empty_list.png",
+                image: "assets/images/no_request.png",
                 title: local.noItemsFound,
                 subtitle: local.thereIsNoDataToDisplay);
           }

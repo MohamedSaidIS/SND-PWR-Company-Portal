@@ -41,7 +41,7 @@ class _PreviousRequestScreenState extends State<PreviousRequestScreen> {
           final previousRequests = provider.previousRequests;
           if (previousRequests.isEmpty) {
             return NotFoundScreen(
-                image: "assets/images/empty_list.png",
+                image: "assets/images/no_request.png",
                 title: local.noItemsFound,
                 subtitle: local.thereIsNoDataToDisplay);
           }
