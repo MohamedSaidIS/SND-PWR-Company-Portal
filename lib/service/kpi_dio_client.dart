@@ -51,8 +51,7 @@ class KPIDioClient {
         ? _uatTokenSavedAt = DateTime.now()
         : _prodTokenSavedAt = DateTime.now();
 
-    AppLogger.info("KPI DioClient: ",
-        "KpiAccessToken ${_uatAccessToken ?? _prodAccessToken}");
+    // AppLogger.info("KPI DioClient: ", "KpiAccessToken ${_uatAccessToken ?? _prodAccessToken}");
     return isUAT ? _uatAccessToken : _prodAccessToken;
   }
 

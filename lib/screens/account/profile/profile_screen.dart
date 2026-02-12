@@ -52,44 +52,41 @@ class _ProfileScreenState extends State<ProfileScreen> {
     final local = context.local;
 
 
-    return PopScope(
-      canPop: false,
-      child: Scaffold(
-        backgroundColor: theme.colorScheme.surface,
-        appBar: CustomAppBar(
-          title: local.profile,
-          themeBtn: true,
-        ),
-        body: SideFadeSlideAnimation(
-          delay: 0,
-          child: Builder(
-            builder: (context) {
-              return Container(
-                padding: const EdgeInsets.symmetric(vertical: 15, horizontal: 45),
-                child: CustomScrollView(
-                  slivers: [
-                    SliverToBoxAdapter(
-                      child: ProfileHeader(
-                        userInfo: userInfo,
-                        userImage: userImage,
-                        pickedImage: _image,
-                        imageProvider: userImageProvider,
-                        onPickImage: _showImagePickerOptions,
-                        state: userInfoProvider.state,
-                        error: userInfoProvider.error,
-                      ),
-                    ),
-                    SliverToBoxAdapter(child: AppSeparators.dividerSeparate()),
-                    MenuSection(
+    return Scaffold(
+      backgroundColor: theme.colorScheme.surface,
+      appBar: CustomAppBar(
+        title: local.profile,
+        themeBtn: true,
+      ),
+      body: SideFadeSlideAnimation(
+        delay: 0,
+        child: Builder(
+          builder: (context) {
+            return Container(
+              padding: const EdgeInsets.symmetric(vertical: 15, horizontal: 45),
+              child: CustomScrollView(
+                slivers: [
+                  SliverToBoxAdapter(
+                    child: ProfileHeader(
                       userInfo: userInfo,
-                      onLogout: _logout,
                       userImage: userImage,
+                      pickedImage: _image,
+                      imageProvider: userImageProvider,
+                      onPickImage: _showImagePickerOptions,
+                      state: userInfoProvider.state,
+                      error: userInfoProvider.error,
                     ),
-                  ],
-                ),
-              );
-            },
-          ),
+                  ),
+                  SliverToBoxAdapter(child: AppSeparators.dividerSeparate()),
+                  MenuSection(
+                    userInfo: userInfo,
+                    onLogout: _logout,
+                    userImage: userImage,
+                  ),
+                ],
+              ),
+            );
+          },
         ),
       ),
     );

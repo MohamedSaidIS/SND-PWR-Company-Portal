@@ -79,20 +79,17 @@ class _DashboardScreenState extends State<DashboardScreen> {
   Widget build(BuildContext context) {
     final theme = context.theme;
 
-    return PopScope(
-      canPop: false,
-      child: Scaffold(
-        backgroundColor: theme.colorScheme.surface,
-        body: Stack(
-          children: [
-           const SharePointLauncherScreen(),
-            if (_isLoading)
-              const Align(
-                alignment: Alignment.bottomCenter,
-                child: LoadingOverlay(),
-              ),
-          ],
-        ),
+    return Scaffold(
+      backgroundColor: theme.colorScheme.surface,
+      body: Stack(
+        children: [
+         const SharePointLauncherScreen(),
+          if (_isLoading)
+            const Align(
+              alignment: Alignment.bottomCenter,
+              child: LoadingOverlay(),
+            ),
+        ],
       ),
     );
   }

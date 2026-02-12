@@ -41,33 +41,39 @@ class _UserNewRequestFormScreenState extends State<UserNewRequestFormScreen> {
     }
 
     return Scaffold(
-      backgroundColor: theme.colorScheme.surface.withValues(alpha: 0.1),
+      backgroundColor: theme.colorScheme.surface,
       appBar: (widget.newUserRequest != null) ? CustomAppBar(title: local.newUserRequestDetails, backBtn: true,) : null,
       body: SafeArea(
         child: Form(
           key: controller.formKey,
           autovalidateMode: AutovalidateMode.disabled,
-          child: SingleChildScrollView(
-            padding: const EdgeInsets.all(16),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.stretch,
-              children: [
-                buildBasicInfoSection(local, controller, theme),
-                buildEmployeeInfoSection(local, controller, theme),
-                buildDeviceEmailSection(local, controller, theme),
-                buildAdditionalRequestsSection(local, controller, theme),
-                const SizedBox(height: 12),
-                SubmitButton(
-                  btnText: widget.newUserRequest != null ? local.update : local.submit,
-                  loading: controller.isLoading,
-                  btnFunction: () async {
-                    setState(() => controller.isLoading = true);
-                    await controller.submitForm(local, widget.newUserRequest, widget.ensureUserId);
-                    setState(() => controller.isLoading = false);
-                  },
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+              Expanded(
+                child: SingleChildScrollView(
+                  child: Column(
+                    children: [
+                      buildBasicInfoSection(local, controller, theme),
+                      buildEmployeeInfoSection(local, controller, theme),
+                      buildDeviceEmailSection(local, controller, theme),
+                      buildAdditionalRequestsSection(local, controller, theme),
+                      const SizedBox(height: 16),
+                    ],
+                  ),
                 ),
-              ],
-            ),
+              ),
+              const SizedBox(height: 10),
+              SubmitButton(
+                btnText: widget.newUserRequest != null ? local.update : local.submit,
+                loading: controller.isLoading,
+                btnFunction: () async {
+                  setState(() => controller.isLoading = true);
+                  await controller.submitForm(local, widget.newUserRequest, widget.ensureUserId);
+                  setState(() => controller.isLoading = false);
+                },
+              ),
+            ],
           ),
         ),
       ),

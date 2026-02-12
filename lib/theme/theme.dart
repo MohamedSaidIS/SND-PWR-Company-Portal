@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 
 ThemeData lightMode = ThemeData(
   useMaterial3: true,
+// ToDo: Add Scaffold background color here and appbar
   brightness: Brightness.light,
   colorScheme: const ColorScheme.light(
     surface: Color(0xfcfcf1e8),
@@ -10,9 +11,9 @@ ThemeData lightMode = ThemeData(
     secondary: Color(0xffba5f0f), //Color(0xFF1B818E),
     outline: Color(0xffba5f0f),
   ),
-  appBarTheme: const AppBarTheme(
-    backgroundColor: Color(0x37fae9cf),
-  ),
+  // appBarTheme: const AppBarTheme(
+  //   backgroundColor: Color(0x37fae9cf),
+  // ),
   bottomSheetTheme: const BottomSheetThemeData(
     backgroundColor: Color(0xffffffff),
   ),

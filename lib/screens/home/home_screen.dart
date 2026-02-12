@@ -1,7 +1,8 @@
 import 'package:curved_navigation_bar/curved_navigation_bar.dart';
-import 'package:line_awesome_flutter/line_awesome_flutter.dart';
 import 'package:flutter/material.dart';
+import 'package:line_awesome_flutter/line_awesome_flutter.dart';
 import 'package:provider/provider.dart';
+
 import '../../utils/export_import.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -69,7 +70,10 @@ class _HomeScreenState extends State<HomeScreen> {
     return PopScope(
       canPop: false,
       child: Scaffold(
-          body: screens[_currentIndex],
+          body: PopScope(
+            canPop: false,
+            child: screens[_currentIndex],
+          ),
           bottomNavigationBar: CurvedNavigationBar(
               height: 70,
               index: _currentIndex,
@@ -101,59 +105,6 @@ class _HomeScreenState extends State<HomeScreen> {
                 Icon(LineAwesomeIcons.file_alt_solid, size: 30),
                 Icon(LineAwesomeIcons.user, size: 30),
               ])
-          // SizedBox(
-          //   child: NavigationBar(
-          //     indicatorColor: theme.colorScheme.secondary,
-          //     labelBehavior: NavigationDestinationLabelBehavior.onlyShowSelected,
-          //     elevation: 50,
-          //     surfaceTintColor: const Color(0xff3e3d3d),
-          //     onDestinationSelected: (int newIndex) async{
-          //       if(!_isUserDataLoaded && newIndex != 0){
-          //         AppNotifier.snackBar(context, "جاري تحميل بيانات المستخدم...", SnackBarType.warning);
-          //         return;
-          //       }
-          //       setState(() {
-          //         _currentIndex = newIndex;
-          //       });
-          //       if (newIndex == 2) {
-          //         final userProvider = context.read<UserInfoProvider>();
-          //         await userProvider.getGroupId();
-          //       }
-          //     },
-          //     selectedIndex: _currentIndex,
-          //     backgroundColor: theme.colorScheme.surface,
-          //     shadowColor: const Color(0xfc070707),
-          //     labelTextStyle: const WidgetStatePropertyAll(
-          //       TextStyle(
-          //         fontSize: 11,
-          //         fontWeight: FontWeight.w600,
-          //         color: Colors.black,
-          //       ),
-          //     ),
-          //     destinations: [
-          //       NavigationDestination(
-          //         label: local.dashboard,
-          //         icon: const Icon(LineAwesomeIcons.home_solid),
-          //       ),
-          //       NavigationDestination(
-          //         label: local.apps,
-          //         icon: const Icon(Icons.apps),
-          //       ),
-          //       NavigationDestination(
-          //         label: local.kpis,
-          //         icon: const Icon(LineAwesomeIcons.chart_bar),
-          //       ),
-          //       NavigationDestination(
-          //         label: local.requests,
-          //         icon: const Icon(LineAwesomeIcons.file_alt_solid),
-          //       ),
-          //       NavigationDestination(
-          //         label: local.profile,
-          //         icon: const Icon(LineAwesomeIcons.user),
-          //       ),
-          //     ],
-          //   ),
-          // ),
           ),
     );
   }

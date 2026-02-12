@@ -26,16 +26,15 @@ class _LoginScreenState extends State<LoginScreen> {
 
     WidgetsBinding.instance.addPostFrameCallback((_) async {
       await SecureStorageService().getData("GraphAccessToken").then((value) {
-        AppNotifier.logWithScreen("LoginScreen", "✅ Graph Token: $value");
+        // AppNotifier.logWithScreen("LoginScreen", "✅ Graph Token: $value");
         graphToken = value;
       });
       await SecureStorageService().getData("SharedAccessToken").then((value) {
-        AppNotifier.logWithScreen("LoginScreen", "✅ SharedPoint Token: $value");
+        // AppNotifier.logWithScreen("LoginScreen", "✅ SharedPoint Token: $value");
         spToken = value;
       });
       await SecureStorageService().getData("MySharedAccessToken").then((value) {
-        AppNotifier.logWithScreen(
-            "LoginScreen", "✅ MySharedPoint Token: $value");
+        // AppNotifier.logWithScreen("LoginScreen", "✅ MySharedPoint Token: $value");
         mySpToken = value;
       });
     });

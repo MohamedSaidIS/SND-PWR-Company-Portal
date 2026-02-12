@@ -15,43 +15,40 @@ class _AppsScreenState extends State<AppsScreen> {
     final local = context.local;
     final isTablet = context.isTablet();
 
-    return PopScope(
-      canPop: false,
-      child: Scaffold(
-        backgroundColor: theme.colorScheme.surface,
-        appBar: CustomAppBar(
-          title: local.apps,
-          backBtn: false,
-        ),
-        body: UpFadeSlideAnimation(
-          delay: 0,
-          child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 20),
-            child: GridView.builder(
-              itemCount: getAppItems.length,
-              padding: const EdgeInsets.only(bottom: 10),
-              gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                crossAxisCount: isTablet ? 3 : 2,
-                crossAxisSpacing: 8,
-                mainAxisSpacing: 8,
-                childAspectRatio: 1,
-              ),
-              itemBuilder: (context, index) {
-                final item = getAppItems[index];
-                return buildAppCard(
-                  buildCardInfo(
-                    item.appIcon,
-                    item.appName,
-                    isTablet,
-                  ),
-                  item.packageName,
-                  item.iosAppId,
-                  context,
-                  theme,
-                  local,
-                );
-              },
+    return Scaffold(
+      backgroundColor: theme.colorScheme.surface,
+      appBar: CustomAppBar(
+        title: local.apps,
+        backBtn: false,
+      ),
+      body: UpFadeSlideAnimation(
+        delay: 0,
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 20),
+          child: GridView.builder(
+            itemCount: getAppItems.length,
+            padding: const EdgeInsets.only(bottom: 10),
+            gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+              crossAxisCount: isTablet ? 3 : 2,
+              crossAxisSpacing: 8,
+              mainAxisSpacing: 8,
+              childAspectRatio: 1,
             ),
+            itemBuilder: (context, index) {
+              final item = getAppItems[index];
+              return buildAppCard(
+                buildCardInfo(
+                  item.appIcon,
+                  item.appName,
+                  isTablet,
+                ),
+                item.packageName,
+                item.iosAppId,
+                context,
+                theme,
+                local,
+              );
+            },
           ),
         ),
       ),

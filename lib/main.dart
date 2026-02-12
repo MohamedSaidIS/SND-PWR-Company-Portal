@@ -36,17 +36,7 @@ void main() async {
   );
 }
 
-
-
-
-
-
-
 ////////////////////////////////////////////////// App Class ////////////////////////////////////////////////////
-
-
-
-
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
@@ -64,6 +54,7 @@ class MyApp extends StatelessWidget {
           // // 👇
           // checkerboardRasterCacheImages: true,
           // checkerboardOffscreenLayers: true,
+          debugShowCheckedModeBanner: false,
           locale: localeProvider.locale,
           supportedLocales: const [
             Locale('en'),
@@ -84,11 +75,11 @@ class MyApp extends StatelessWidget {
             '/login': (_) => const LoginScreen(),
             '/notification': (_) => const NotificationScreen(),
           });
-    });
+    },);
   }
 }
 
-class AppNavigator{
+class AppNavigator {
   static final key = GlobalKey<NavigatorState>();
 
   static NavigatorState? get state => key.currentState;
