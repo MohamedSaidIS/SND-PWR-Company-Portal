@@ -19,7 +19,7 @@ class SectionWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     final isLandScape = context.isLandScape();
     final screenWidth = MediaQuery.of(context).size.width;
-
+     print("Section Rebuild");
 
     return RepaintBoundary(
       child: SizedBox(

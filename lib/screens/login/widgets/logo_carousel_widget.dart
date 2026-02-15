@@ -19,7 +19,7 @@ class LogoAndCarouselWidget extends StatelessWidget {
         final double logoHeight = screenSize.height * (isLandScape ? 0.16 : 0.15);
         final double padding = screenSize.width * (isLandScape ? 0.01 : 0.13);
         final double verticalPadding = isLandScape? 5 : 10;
-
+        print("Logo_CarouselSlider Rebuild");
 
         AppNotifier.logWithScreen("Logo Carousel Widget","📏 CarouselSlider width: ${screenSize.width} | padding: $padding | isLandScape: $isLandScape");
 

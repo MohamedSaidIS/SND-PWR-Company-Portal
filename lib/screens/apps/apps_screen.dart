@@ -16,7 +16,6 @@ class _AppsScreenState extends State<AppsScreen> {
     final isTablet = context.isTablet();
 
     return Scaffold(
-      backgroundColor: theme.colorScheme.surface,
       appBar: CustomAppBar(
         title: local.apps,
         backBtn: false,

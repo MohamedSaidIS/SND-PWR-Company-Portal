@@ -41,7 +41,6 @@ class _UserNewRequestFormScreenState extends State<UserNewRequestFormScreen> {
     }
 
     return Scaffold(
-      backgroundColor: theme.colorScheme.surface,
       appBar: (widget.newUserRequest != null) ? CustomAppBar(title: local.newUserRequestDetails, backBtn: true,) : null,
       body: SafeArea(
         child: Form(

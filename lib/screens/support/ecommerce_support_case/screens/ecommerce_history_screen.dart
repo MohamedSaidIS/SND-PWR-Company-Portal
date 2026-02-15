@@ -58,7 +58,6 @@ class _EcommerceHistoryScreenState extends State<EcommerceHistoryScreen>
         "Ecommerce History Screen", "Image: ${widget.userImage != null}");
 
     return Scaffold(
-      backgroundColor: theme.colorScheme.surface,
       body: Consumer<EcommerceProvider>(
         builder: (context, provider, _) {
           if (provider.loading) return AppNotifier.loadingWidget(theme);

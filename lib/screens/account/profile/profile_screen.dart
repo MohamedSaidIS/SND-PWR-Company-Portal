@@ -53,7 +53,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
 
 
     return Scaffold(
-      backgroundColor: theme.colorScheme.surface,
       appBar: CustomAppBar(
         title: local.profile,
         themeBtn: true,

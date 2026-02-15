@@ -1,5 +1,5 @@
-import 'package:company_portal/theme/theme.dart';
 import 'package:flutter/material.dart';
+import '../utils/export_import.dart';
 
 class ThemeProvider with ChangeNotifier{
     ThemeData _themeData = lightMode;

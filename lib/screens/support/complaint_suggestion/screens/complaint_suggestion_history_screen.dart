@@ -60,7 +60,6 @@ class _ComplaintSuggestionHistoryScreenState
         "History Screen", "Image: ${widget.userImage != null}");
 
     return Scaffold(
-      backgroundColor: theme.colorScheme.surface,
       body: Consumer<ComplaintSuggestionProvider>(
         builder: (context, provider, _) {
           if (provider.loading) return AppNotifier.loadingWidget(theme);

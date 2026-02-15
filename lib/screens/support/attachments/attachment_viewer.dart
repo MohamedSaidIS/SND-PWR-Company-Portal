@@ -117,7 +117,6 @@ class PdfPreviewScreen extends StatelessWidget {
     final theme = context.theme;
     final local = context.local;
     return Scaffold(
-      backgroundColor: theme.colorScheme.surface,
         appBar: CustomAppBar(title: local.pdfPreview, backBtn: true,),
         body: SfPdfViewer.memory(file));
   }

@@ -49,7 +49,6 @@ class _NewUserRequestHistoryState extends State<NewUserRequestHistory>
     final theme = context.theme;
 
     return Scaffold(
-      backgroundColor: theme.colorScheme.surface,
       body: Consumer<NewUserRequestProvider>(
         builder: (context, provider, _) {
           if (provider.loading) return AppNotifier.loadingWidget(theme);

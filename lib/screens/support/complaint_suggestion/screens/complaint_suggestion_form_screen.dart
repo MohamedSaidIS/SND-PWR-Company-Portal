@@ -24,7 +24,6 @@ class _ComplaintSuggestionFormScreenState extends State<ComplaintSuggestionFormS
     final theme = context.theme;
 
     return Scaffold(
-      backgroundColor: theme.colorScheme.surface,
       body: Padding(
         padding: const EdgeInsets.all(16.0),
         child: ComplaintSuggestionForm(

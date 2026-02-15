@@ -22,7 +22,6 @@ class _LanguageScreenState extends State<LanguageScreen> {
     final languages = getLanguage(local);
 
     return Scaffold(
-      backgroundColor: theme.colorScheme.surface,
       appBar: CustomAppBar(
         title: local.language,
         backBtn: true,

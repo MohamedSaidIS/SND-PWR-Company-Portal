@@ -28,6 +28,7 @@ class _CarouselSliderWidgetState extends State<CarouselSliderWidget> {
     final screenSize = MediaQuery.of(context).size.height;
     final carouselHeight = screenSize * (isLandScape ? 0.3 : 0.5);
     //final items = getSections(local, theme, context, carouselHeight);
+    print("CarouselSlider Rebuild");
 
     return Column(
       children: [
@@ -69,10 +70,10 @@ class _CarouselSliderWidgetState extends State<CarouselSliderWidget> {
                   children: List.generate(5, (index) {
                     final isActive = current == index;
                     return Container(
-
                       margin: const EdgeInsets.symmetric(horizontal: 4),
                       height: 8,
-                      width: isActive ? (isTablet ? 35 : 25) : (isTablet ? 10 : 8),
+                      width:
+                          isActive ? (isTablet ? 35 : 25) : (isTablet ? 10 : 8),
                       decoration: BoxDecoration(
                         color: current == index
                             ? const Color(0xFF1B818E)

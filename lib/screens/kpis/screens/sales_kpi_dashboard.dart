@@ -123,7 +123,6 @@ class _SalesKpiScreenState extends State<SalesKpiScreen> {
 
 
     return Scaffold(
-      backgroundColor: theme.colorScheme.surface,
       appBar: CustomAppBar(title: local.kpis, backBtn: false),
       body: RefreshIndicator(
         onRefresh: _onRefresh,

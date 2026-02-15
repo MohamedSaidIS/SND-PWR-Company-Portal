@@ -18,7 +18,6 @@ class _RequestFormState extends State<RequestForm> {
     final local = context.local;
 
     return Scaffold(
-      backgroundColor: theme.colorScheme.surface,
       body: SafeArea(
         child: Form(
           key: widget.controller.formKey,

@@ -80,7 +80,6 @@ class _DashboardScreenState extends State<DashboardScreen> {
     final theme = context.theme;
 
     return Scaffold(
-      backgroundColor: theme.colorScheme.surface,
       body: Stack(
         children: [
          const SharePointLauncherScreen(),

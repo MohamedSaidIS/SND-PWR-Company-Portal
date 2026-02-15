@@ -23,7 +23,6 @@ class _RequestsScreenState extends State<RequestsScreen> {
     final items = getRequestItems(local);
 
     return Scaffold(
-      backgroundColor: theme.colorScheme.surface,
       appBar: CustomAppBar(
         title: local.requests,
         backBtn: false,

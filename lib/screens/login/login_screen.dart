@@ -195,7 +195,7 @@ class _LoginScreenState extends State<LoginScreen> {
   Widget build(BuildContext context) {
     final theme = context.theme;
     final local = context.local;
-
+    print("Login Rebuild");
     return PopScope(
       canPop: false,
       child: Scaffold(

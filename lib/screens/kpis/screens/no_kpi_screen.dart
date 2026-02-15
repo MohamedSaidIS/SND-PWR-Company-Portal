@@ -10,7 +10,6 @@ class NoKpiScreen extends StatelessWidget {
     final local = context.local;
 
     return Scaffold(
-      backgroundColor: theme.colorScheme.surface,
       appBar: CustomAppBar(
         title: local.kpis,
         backBtn: false,

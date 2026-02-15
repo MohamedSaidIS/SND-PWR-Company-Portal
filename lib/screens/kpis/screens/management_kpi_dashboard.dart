@@ -43,7 +43,6 @@ class _ManagementKpiScreenState extends State<ManagementKpiScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: theme.colorScheme.surface,
       appBar: CustomAppBar(title: local.kpis, backBtn: false),
       body: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 16),
