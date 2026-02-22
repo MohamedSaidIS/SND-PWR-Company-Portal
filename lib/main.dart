@@ -51,7 +51,6 @@ class MyApp extends StatelessWidget {
           // debugShowCheckedModeBanner: false,
           // showPerformanceOverlay: true,
           // debugShowMaterialGrid: false,
-          // // 👇
           // checkerboardRasterCacheImages: true,
           // checkerboardOffscreenLayers: true,
           debugShowCheckedModeBanner: false,

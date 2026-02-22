@@ -10,29 +10,31 @@ class SupportItem {
     required this.translatedName,
     required this.image,
   });
+
+  static List<SupportItem> getSupportItems(AppLocalizations local ){
+    return [
+      SupportItem(
+        name: "Issue and Request \nTracking",
+        translatedName: local.issueRequestTracking,
+        image: 'assets/images/issue_tracker.png',
+      ),
+      SupportItem(
+        name: "Dynamic365 \nSupport Cases",
+        translatedName: local.dynamic365SupportCases,
+        image: 'assets/images/dynamics_support.png',
+      ),
+      SupportItem(
+        name: "ECommerce \nSupport Cases",
+        translatedName: local.eCommerceSupportCases,
+        image: 'assets/images/ecommerce.png',
+      ),
+      SupportItem(
+        name: "Users New \nRequests",
+        translatedName: local.usersNewRequests,
+        image: 'assets/images/user_new_request.png',
+      ),
+    ];
+  }
 }
 
-List<SupportItem> getSupportItems(AppLocalizations local ){
-  return [
-    SupportItem(
-      name: "Issue and Request \nTracking",
-      translatedName: local.issueRequestTracking,
-      image: 'assets/images/issue_tracker.png',
-    ),
-    SupportItem(
-      name: "Dynamic365 \nSupport Cases",
-      translatedName: local.dynamic365SupportCases,
-      image: 'assets/images/dynamics_support.png',
-    ),
-    SupportItem(
-      name: "ECommerce \nSupport Cases",
-      translatedName: local.eCommerceSupportCases,
-      image: 'assets/images/ecommerce.png',
-    ),
-    SupportItem(
-      name: "Users New \nRequests",
-      translatedName: local.usersNewRequests,
-      image: 'assets/images/user_new_request.png',
-    ),
-  ];
-}
+

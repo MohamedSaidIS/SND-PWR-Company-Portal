@@ -46,7 +46,7 @@ class _SupportScreenState extends State<SupportScreen> {
      theme = context.theme;
      local = context.local;
      colorScheme = theme.colorScheme;
-     items = getSupportItems(local);
+     items = SupportItem.getSupportItems(local);
   }
 
   @override
