@@ -1,3 +1,4 @@
+import 'package:company_portal/screens/request/widgets/request_card.dart';
 import 'package:flutter/material.dart';
 import '../../../../utils/export_import.dart';
 
@@ -15,11 +16,7 @@ class _RequestsScreenState extends State<RequestsScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final theme = context.theme;
     final local = context.local;
-    final isTablet = context.isTablet();
-    final isLandScape = context.isLandScape();
-
     final items = getRequestItems(local);
 
     return Scaffold(
@@ -55,14 +52,23 @@ class _RequestsScreenState extends State<RequestsScreen> {
                   valueListenable: animatedCardsNotifier,
                   builder: (context, animMap, _) {
                     final isAnimated = animMap[index] ?? false;
-                    return buildRequestCard(
-                        theme, item, isAnimated, isTablet, isLandScape);
+                    return RequestCard(item: item,isAnimated: isAnimated);
                   },
                 ),
               );
             },
           ),
         ),
+      ),
+    );
+  }
+  void navigationScreen(BuildContext context, Widget navigatedScreen,) {
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) {
+          return navigatedScreen;
+        },
       ),
     );
   }

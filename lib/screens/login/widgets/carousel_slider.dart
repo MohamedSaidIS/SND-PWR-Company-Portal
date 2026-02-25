@@ -28,10 +28,7 @@ class _CarouselSliderWidgetState extends State<CarouselSliderWidget> {
     final theme = context.theme;
     final local = context.local;
     final isLandScape = context.isLandScape();
-    final screenSize = MediaQuery
-        .of(context)
-        .size
-        .height;
+    final screenSize = MediaQuery.of(context).size.height;
     final carouselHeight = screenSize * (isLandScape ? 0.3 : 0.5);
     //final items = getSections(local, theme, context, carouselHeight);
     print("CarouselSlider Rebuild");

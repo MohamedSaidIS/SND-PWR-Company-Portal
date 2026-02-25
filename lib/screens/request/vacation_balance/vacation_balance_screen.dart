@@ -1,7 +1,8 @@
-import 'package:company_portal/screens/request/widgets/balance_screen.dart';
-import 'package:company_portal/screens/request/widgets/transactions_screen.dart';
+import 'package:company_portal/screens/request/vacation_balance/components/balance_screen.dart';
+import 'package:company_portal/screens/request/vacation_balance/components/transactions_screen.dart';
+import 'package:company_portal/screens/request/vacation_balance/components/vacation_balance_section_header.dart';
 import 'package:flutter/material.dart';
-import '../../../../utils/export_import.dart';
+import '../../../../../utils/export_import.dart';
 
 class VacationBalanceScreen extends StatefulWidget {
   const VacationBalanceScreen({super.key});
@@ -11,17 +12,6 @@ class VacationBalanceScreen extends StatefulWidget {
 }
 
 class _VacationBalanceScreenState extends State<VacationBalanceScreen> {
-  // @override
-  // void initState() {
-  //   super.initState();
-  //
-  //   WidgetsBinding.instance.addPostFrameCallback((_) {
-  //     final userId = context.read<UserInfoProvider>().userInfo?.id;
-  //     if (userId != null) {
-  //       context.read<VacationBalanceProvider>().getVacationTransactions(userId);
-  //     }
-  //   });
-  // }
 
   @override
   Widget build(BuildContext context) {
@@ -40,9 +30,9 @@ class _VacationBalanceScreenState extends State<VacationBalanceScreen> {
           padding: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 12),
           child: CustomScrollView(
             slivers: [
-              headerSection(local.leavesBalance),
+              VacationBalanceSectionHeader(title:local.leavesBalance),
               const BalanceScreen(),
-              headerSection(local.leavesTransactions),
+              VacationBalanceSectionHeader(title: local.leavesTransactions),
               const TransactionsScreen()
             ],
           ),

@@ -1,17 +1,12 @@
 import 'package:flutter/material.dart';
 import '../../../../utils/export_import.dart';
+import 'components/app_card.dart';
 
-class AppsScreen extends StatefulWidget {
+class AppsScreen extends StatelessWidget {
   const AppsScreen({super.key});
 
   @override
-  State<AppsScreen> createState() => _AppsScreenState();
-}
-
-class _AppsScreenState extends State<AppsScreen> {
-  @override
   Widget build(BuildContext context) {
-    final theme = context.theme;
     final local = context.local;
     final isTablet = context.isTablet();
 
@@ -35,18 +30,7 @@ class _AppsScreenState extends State<AppsScreen> {
             ),
             itemBuilder: (context, index) {
               final item = getAppItems[index];
-              return buildAppCard(
-                buildCardInfo(
-                  item.appIcon,
-                  item.appName,
-                  isTablet,
-                ),
-                item.packageName,
-                item.iosAppId,
-                context,
-                theme,
-                local,
-              );
+              return AppCard(item: item,);
             },
           ),
         ),

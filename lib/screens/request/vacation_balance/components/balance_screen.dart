@@ -3,7 +3,8 @@ import 'dart:core';
 import 'package:flutter/material.dart';
 import 'package:line_awesome_flutter/line_awesome_flutter.dart';
 import 'package:provider/provider.dart';
-import '../../../utils/export_import.dart';
+import '../../../../utils/export_import.dart';
+import '../../widgets/empty_screen.dart';
 
 class BalanceScreen extends StatelessWidget {
   const BalanceScreen({super.key});
@@ -15,10 +16,10 @@ class BalanceScreen extends StatelessWidget {
     final local = context.local;
     final theme = context.theme;
 
-    return provider.loading
-        ? loadingWidget(theme)
+    return provider.balanceLoading
+        ? SliverToBoxAdapter(child: AppNotifier.loadingWidget(theme))
         : (balance?.currentBalance == 0 || balance == null)
-            ? noDataExist(local.noLeaveBalance, theme)
+            ? EmptyScreen(title: local.noLeaveBalance)
             : SliverGrid(
                 gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                   crossAxisCount: 2,

@@ -11,7 +11,9 @@ class VacationBalanceProvider extends ChangeNotifier {
   List<VacationTransaction> _vacationTransactions = [];
   VacationBalance? _vacationBalance;
   WorkerPersonnel? _workerPersonnel;
-  bool _loading = true;
+  bool _personnelLoading = true;
+  bool _transactionLoading = true;
+  bool _balanceLoading = true;
   String? _error;
 
   List<VacationTransaction> get vacationTransactions => _vacationTransactions;
@@ -20,12 +22,14 @@ class VacationBalanceProvider extends ChangeNotifier {
 
   WorkerPersonnel? get personnelNumber => _workerPersonnel;
 
-  bool get loading => _loading;
+  bool get transactionLoading => _transactionLoading;
+  bool get balanceLoading => _balanceLoading;
+  bool get personnelLoading => _personnelLoading;
 
   String? get error => _error;
 
   Future<void> getWorkerPersonnelNumber(String workerId) async {
-    _loading = true;
+    _personnelLoading= true;
     _error = null;
     notifyListeners();
 
@@ -59,7 +63,7 @@ class VacationBalanceProvider extends ChangeNotifier {
   }
 
   Future<void> getVacationTransactions(String workerId) async {
-    _loading = true;
+    _transactionLoading = true;
     _error = null;
     notifyListeners();
     AppLogger.info("Vacation Balance Provider","Transactions Url: https://alsenidiuat.sandbox.operations.dynamics.com/data/AbsenceLines?\$filter=Worker eq $workerId and ProfileDate ge ${Constants.currentStartDate.toIso8601String()} and ProfileDate le ${Constants.currentEndDate.toIso8601String()}&\$count=true");
@@ -93,12 +97,12 @@ class VacationBalanceProvider extends ChangeNotifier {
       AppLogger.error("Vacation Balance Provider",
           "Vacation Transactions Exception: $_error");
     }
-    _loading = false;
+    _transactionLoading = false;
     notifyListeners();
   }
 
   Future<void> getVacationBalance(String personalNumber) async {
-    _loading = true;
+    _balanceLoading = true;
     _error = null;
     notifyListeners();
 
@@ -139,7 +143,7 @@ class VacationBalanceProvider extends ChangeNotifier {
       AppLogger.error(
           "Vacation Balance Provider", "Vacation Balance Exception: $_error");
     }
-    _loading = false;
+    _balanceLoading = false;
     notifyListeners();
   }
 }

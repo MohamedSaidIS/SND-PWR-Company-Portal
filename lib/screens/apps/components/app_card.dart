@@ -1,54 +1,60 @@
 import 'dart:io';
+
+import 'package:company_portal/models/local/app_model.dart';
+import 'package:company_portal/utils/context_extensions.dart';
 import 'package:device_apps/device_apps.dart';
-import 'package:url_launcher/url_launcher.dart';
 import 'package:flutter/material.dart';
-import '../../utils/export_import.dart';
+import 'package:url_launcher/url_launcher.dart';
 
-Widget buildAppCard(Widget child, String packageName, String iosAppId,
-    BuildContext context, ThemeData theme, AppLocalizations local) {
-  return InkWell(
-    borderRadius: BorderRadius.circular(20),
-    onTap: () {
-      openAppOrRedirect(
-          androidPackageName: packageName,
-          iosAppId: iosAppId,
-          context: context,
-          local: local,
-          theme: theme);
-    },
-    child: AnimatedContainer(
-      duration: const Duration(milliseconds: 250),
-      curve: Curves.easeOutCubic,
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(20),
-        color: theme.colorScheme.primary.withValues(alpha: 0.1),
-      ),
-      child: child,
-    ),
-  );
-}
+import '../../../l10n/app_localizations.dart';
+import '../../../utils/app_notifier.dart';
 
-Widget buildCardInfo(String iconStr, String text, bool isTablet) {
-  return Column(
-    crossAxisAlignment: CrossAxisAlignment.center,
-    mainAxisAlignment: MainAxisAlignment.center,
-    children: [
-      RepaintBoundary(
-        child: Image.asset(
-          iconStr,
-          scale: isTablet ? 1 : 1.4,
+class AppCard extends StatelessWidget {
+  final AppItem item;
+
+  const AppCard({super.key, required this.item});
+
+  @override
+  Widget build(BuildContext context) {
+    final theme = context.theme;
+    final local = context.local;
+
+    return InkWell(
+      borderRadius: BorderRadius.circular(20),
+      onTap: () {
+        openAppOrRedirect(
+            androidPackageName: item.packageName,
+            iosAppId: item.iosAppId,
+            context: context,
+            local: local,
+            theme: theme);
+      },
+      child: AnimatedContainer(
+        duration: const Duration(milliseconds: 250),
+        curve: Curves.easeOutCubic,
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(20),
+          color: theme.colorScheme.primary.withValues(alpha: 0.1),
+        ),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            RepaintBoundary(
+              child: Image.asset(item.appIcon),
+            ),
+            Padding(
+              padding: const EdgeInsets.only(top: 10.0),
+              child: Text(
+                item.appName,
+                style: const TextStyle(fontSize: 15, fontWeight: FontWeight.w600),
+              ),
+            ),
+          ],
         ),
       ),
-      Padding(
-        padding: const EdgeInsets.only(top: 10.0),
-        child: Text(
-          text,
-          style: TextStyle(
-              fontSize: isTablet ? 20 : 15, fontWeight: FontWeight.w600),
-        ),
-      ),
-    ],
-  );
+    );
+  }
 }
 
 Future<void> openAppOrRedirect({
@@ -95,7 +101,8 @@ Future<void> openAppOrRedirect({
           }
         }
       } else if (Platform.isIOS) {
-        bool isSimulator = !Platform.isIOS || Platform.environment.containsKey('SIMULATOR_DEVICE_NAME');
+        bool isSimulator = !Platform.isIOS ||
+            Platform.environment.containsKey('SIMULATOR_DEVICE_NAME');
         if (isSimulator) {
           final Uri testUri = Uri.parse("https://apple.com");
           await launchUrl(testUri, mode: LaunchMode.externalApplication);
