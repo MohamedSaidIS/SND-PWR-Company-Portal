@@ -1,5 +1,5 @@
 import 'package:company_portal/screens/request/vacation_balance/components/transaction_item.dart';
-import 'package:company_portal/screens/request/widgets/empty_screen.dart';
+import 'package:company_portal/screens/request/components/empty_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 

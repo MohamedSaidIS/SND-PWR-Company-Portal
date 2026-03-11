@@ -1,6 +1,5 @@
-import 'package:company_portal/data/constants.dart';
 import 'package:flutter/foundation.dart';
-import '../utils/export_import.dart';
+import '../../../utils/export_import.dart';
 
 class CommentProvider extends ChangeNotifier {
   final SharePointDioClient sharePointDioClient;

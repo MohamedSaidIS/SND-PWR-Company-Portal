@@ -1,4 +1,4 @@
-import 'package:company_portal/controllers/msal_auth_controller.dart';
+
 import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
 import 'package:provider/provider.dart';

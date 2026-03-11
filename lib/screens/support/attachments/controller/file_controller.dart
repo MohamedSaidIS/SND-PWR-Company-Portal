@@ -1,6 +1,6 @@
 import 'dart:convert';
 
-import 'package:company_portal/models/local/attached_file_info.dart';
+import '../../../../utils/export_import.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/cupertino.dart';
 
