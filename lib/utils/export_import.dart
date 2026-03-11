@@ -19,6 +19,7 @@ export '../core/data/requests_data.dart';
 export '../core/data/support_data.dart';
 export '../core/data/user_data.dart';
 export '../core/data/constants.dart';
+export '../core/data/menu_data.dart';
 export '../core/data/notification_storage.dart';
 export '../l10n/app_localizations.dart';
 export '../l10n/app_localizations_ar.dart';

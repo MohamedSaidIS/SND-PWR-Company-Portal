@@ -1,6 +1,6 @@
 import 'dart:convert';
 
-import 'package:company_portal/models/local/app_notification.dart';
+import '../../../utils/export_import.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class NotificationStorage {

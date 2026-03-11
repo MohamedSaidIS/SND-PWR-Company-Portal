@@ -1,8 +1,8 @@
 import 'package:company_portal/utils/context_extensions.dart';
 import 'package:flutter/material.dart';
 
-import '../../../common/animations.dart';
-import '../../../models/local/request_model.dart';
+import '../../../utils/export_import.dart';
+
 
 class RequestCard extends StatelessWidget {
   final RequestItem item;
