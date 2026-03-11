@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:line_awesome_flutter/line_awesome_flutter.dart';
 import 'package:provider/provider.dart';
 import '../../../../utils/export_import.dart';
-import '../../widgets/empty_screen.dart';
+import '../../components/empty_screen.dart';
 
 class BalanceScreen extends StatelessWidget {
   const BalanceScreen({super.key});

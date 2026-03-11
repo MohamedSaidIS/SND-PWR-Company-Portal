@@ -1,13 +1,9 @@
 import 'dart:io';
-
-import 'package:company_portal/models/local/app_model.dart';
-import 'package:company_portal/utils/context_extensions.dart';
 import 'package:device_apps/device_apps.dart';
 import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
 
-import '../../../l10n/app_localizations.dart';
-import '../../../utils/app_notifier.dart';
+import '../../../utils/export_import.dart';
 
 class AppCard extends StatelessWidget {
   final AppItem item;
