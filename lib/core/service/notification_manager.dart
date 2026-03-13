@@ -6,12 +6,15 @@ import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:provider/provider.dart';
-import '../utils/export_import.dart';
+import '../../utils/export_import.dart';
 
-class NotificationService {
-  NotificationService._();
+class NotificationManager {
+  NotificationManager._internal();
 
-  static final NotificationService instance = NotificationService._();
+  static final NotificationManager _instance = NotificationManager._internal();
+  factory NotificationManager() {
+    return _instance;
+  }
 
   final FirebaseMessaging _fcm = FirebaseMessaging.instance;
   final FlutterLocalNotificationsPlugin _local = FlutterLocalNotificationsPlugin();

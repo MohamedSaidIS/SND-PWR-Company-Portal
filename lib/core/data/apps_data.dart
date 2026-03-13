@@ -11,7 +11,7 @@ List<AppItem> getAppItems = [
       appIcon: 'assets/images/connection_icon.png',
       appName: 'Connection',
       packageName: '',
-    iosAppId : '',
+      iosAppId : '',
   ),
   const AppItem(
       appIcon: 'assets/images/engage_icon.png',

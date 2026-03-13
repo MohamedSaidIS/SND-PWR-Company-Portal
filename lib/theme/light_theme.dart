@@ -1,3 +1,4 @@
+import 'package:company_portal/theme/app_colors.dart';
 import 'package:flutter/material.dart';
 
 ThemeData lightMode = ThemeData(
@@ -6,52 +7,52 @@ ThemeData lightMode = ThemeData(
   scaffoldBackgroundColor: const Color(0xfcfcf1e8),
   colorScheme: const ColorScheme.light(
     surface: Color(0xfcfcf1e8),
-    primary: Color(0xFF2E2E2E), // text
-    secondary: Color(0xffba5f0f), //Color(0xFF1B818E),
-    outline: Color(0xffba5f0f),
+    primary: AppLightColors.primary, // text
+    secondary: AppLightColors.secondary, //Color(0xFF1B818E),
+    outline: AppLightColors.secondary,
   ),
   appBarTheme: const AppBarTheme(
     backgroundColor: Color(0xfcfcf1e8),
     centerTitle: true,
   ),
   bottomSheetTheme: const BottomSheetThemeData(
-    backgroundColor: Color(0xffffffff),
+    backgroundColor: AppLightColors.bottomSheetBackground,
   ),
   navigationBarTheme: const NavigationBarThemeData(
-      backgroundColor: Color(0xffe5dad3),
-      shadowColor: Color(0xfff3f3f3)
+      backgroundColor: AppLightColors.navigatorBarBackground,
+      shadowColor: AppLightColors.navigatorBarShadow
 
   ),
   textTheme: const TextTheme(
     titleLarge: TextStyle(
       fontSize: 20,
       fontWeight: FontWeight.w700,
-      color: Color(0xFF1B818E),
+      color: AppLightColors.mintColor,
     ),
     bodyMedium: TextStyle(
       fontSize: 15,
       height: 1.6,
-      color: Color(0xFF2E2E2E),
+      color: AppLightColors.primary,
     ),
     displayLarge: TextStyle(
       fontSize: 19,
       fontWeight: FontWeight.bold,
-      color: Color(0xFF2E2E2E),
+      color: AppLightColors.primary,
     ),
     displayMedium: TextStyle(
       fontSize: 16,
       fontWeight: FontWeight.normal,
-      color: Color(0xFF2E2E2E),
+      color: AppLightColors.primary,
     ),
     displaySmall: TextStyle(
       fontSize: 14,
       fontWeight: FontWeight.normal,
-      color: Color(0xFF2E2E2E),
+      color: AppLightColors.primary,
     ),
     headlineLarge: TextStyle(
       fontSize: 22,
       fontWeight: FontWeight.w500,
-      color: Color(0xFF2E2E2E),
+      color: AppLightColors.primary,
     ),
     labelLarge: TextStyle(
       fontSize: 22,
@@ -60,7 +61,7 @@ ThemeData lightMode = ThemeData(
     labelMedium: TextStyle(
       fontSize: 14,
       fontWeight: FontWeight.w600,
-      color: Color(0xFF2E2E2E),
+      color: AppLightColors.primary,
     ),
     labelSmall: TextStyle(
       fontSize: 16,
@@ -70,7 +71,7 @@ ThemeData lightMode = ThemeData(
     headlineMedium: TextStyle(
       fontSize: 17,
       fontWeight: FontWeight.bold,
-      color: Color(0xFF2E2E2E),
+      color: AppLightColors.primary,
     ),
     titleMedium: TextStyle(
       fontSize: 17,
@@ -83,7 +84,7 @@ ThemeData lightMode = ThemeData(
     headlineSmall: TextStyle(
       fontSize: 17,
       fontWeight: FontWeight.w500,
-      color: Color(0xffba5f0f),
+      color: AppLightColors.secondary,
     ),
   ),
 );

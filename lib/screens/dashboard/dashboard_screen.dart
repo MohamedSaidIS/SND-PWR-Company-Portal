@@ -56,7 +56,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
     _userInfo = userProvider.userInfo;
     if (_userInfo == null) return;
 
-    NotificationService.instance.init(_userInfo!.id);
+    await NotificationManager().init(_userInfo!.id);
 
     await vacationProvider.getWorkerPersonnelNumber(_userInfo!.id);
     await vacationProvider.getVacationTransactions(_userInfo!.id);
@@ -65,20 +65,17 @@ class _DashboardScreenState extends State<DashboardScreen> {
       await reportsProvider.fetchRedirectReport();
     }
 
-    await SharedPrefsHelper().saveUserData("UserId", _userInfo!.id);
-    await SharedPrefsHelper().saveUserData("UserEmail", _userInfo!.mail ?? "");
+    await PreferenceManager().setString(Constants.userId, _userInfo!.id);
+    await PreferenceManager().setString(Constants.userEmail, _userInfo!.mail ?? "");
 
     _groupInfo = userProvider.groupInfo;
     if (_groupInfo == null) return;
 
-    await SharedPrefsHelper()
-        .saveUserData("groupInfo", _groupInfo?.groupId ?? "");
+    await PreferenceManager().setString(Constants.groupInfo, _groupInfo?.groupId ?? "");
   }
 
   @override
   Widget build(BuildContext context) {
-    final theme = context.theme;
-
     return Scaffold(
       body: Stack(
         children: [

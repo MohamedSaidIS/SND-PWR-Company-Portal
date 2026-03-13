@@ -23,8 +23,8 @@ class _ManagementKpiScreenState extends State<ManagementKpiScreen> {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((_) async {
       var kpiProvider = context.read<ManagementKpiProvider>();
-      final prefs = SharedPrefsHelper();
-      userEmail = (await prefs.getUserData("UserEmail"))!;
+      final prefs = PreferenceManager();
+      userEmail = (await prefs.getString(Constants.userEmail))!;
       await kpiProvider.getSheets(/*"Sm@alsanidi.com.sa"*/ userEmail);
       //await kpiProvider.getKpiSheet(/*"Sm@alsanidi.com.sa"*/ userEmail, DateTime.now().year, 'Q1');
     });

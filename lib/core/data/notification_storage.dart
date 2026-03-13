@@ -1,28 +1,21 @@
 import 'dart:convert';
 
 import '../../../utils/export_import.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 class NotificationStorage {
-  static const _key = 'notifications';
-
-  Future<void> save(AppNotification notification) async {
-    final prefs = await SharedPreferences.getInstance();
-    final list = prefs.getStringList(_key) ?? [];
-
+  Future<void> saveNotification(AppNotification notification) async {
+    final list = PreferenceManager().getStringList(Constants.notifications) ?? [];
     list.insert(0, jsonEncode(notification.toJson()));
-    await prefs.setStringList(_key, list);
+    await PreferenceManager().setStringList(Constants.notifications, list);
   }
 
-  Future<List<AppNotification>> getAll() async {
-    final prefs = await SharedPreferences.getInstance();
-    final list = prefs.getStringList(_key) ?? [];
+  Future<List<AppNotification>> getAllNotification() async {
+    final list = PreferenceManager().getStringList(Constants.notifications) ?? [];
 
     return list.map((e) => AppNotification.fromJson(jsonDecode(e))).toList();
   }
 
-  Future<void> clear() async{
-    final prefs = await SharedPreferences.getInstance();
-    await prefs.remove(_key);
+ clearNotification() async{
+    await PreferenceManager().remove(Constants.notifications);
   }
 }

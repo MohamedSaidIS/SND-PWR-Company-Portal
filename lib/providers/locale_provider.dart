@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:shared_preferences/shared_preferences.dart';
-import '../utils/app_notifier.dart';
+import '../utils/export_import.dart';
 
 class LocaleProvider extends ChangeNotifier{
 
@@ -10,16 +9,14 @@ class LocaleProvider extends ChangeNotifier{
 
   void setLocale(Locale locale) async{
     _locale = locale;
-    final prefs = await SharedPreferences.getInstance();
-    await prefs.setString('language_code', locale.languageCode);
+    await PreferenceManager().setString(Constants.languageCode, locale.languageCode);
     AppLogger.info("Selected Locale: ",locale.languageCode);
 
     notifyListeners();
   }
 
   Future<void> loadSavedLocale() async {
-    final prefs = await SharedPreferences.getInstance();
-    final langCode = prefs.getString('language_code');
+    final langCode = PreferenceManager().getString(Constants.languageCode);
     AppLogger.info("Loaded Locale: ",locale.languageCode);
 
     if (langCode != null) {

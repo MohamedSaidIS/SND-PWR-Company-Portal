@@ -32,7 +32,7 @@ class NotificationProvider extends ChangeNotifier{
   int get unreadCount => _notifications.where((e) => !e.isRead).length;
 
   Future<void> load() async{
-    final stored = await _storage.getAll();
+    final stored = await _storage.getAllNotification();
 
     for (final n in stored) {
       if (!_notifications.any((e) => e.id == n.id)) {
@@ -48,7 +48,7 @@ class NotificationProvider extends ChangeNotifier{
     if (_notifications.any((e) => e.id == notification.id)) return;
 
     _notifications.insert(0, notification);
-    await _storage.save(notification);
+    await _storage.saveNotification(notification);
     _applyCurrentFilter();
     notifyListeners();
   }
@@ -65,7 +65,7 @@ class NotificationProvider extends ChangeNotifier{
   Future<void> clearAll()async{
     _notifications.clear();
     _filteredNotifications.clear();
-    await _storage.clear();
+    await _storage.clearNotification();
     notifyListeners();
   }
 

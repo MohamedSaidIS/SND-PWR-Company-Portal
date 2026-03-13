@@ -28,7 +28,7 @@ class EcommerceProvider extends ChangeNotifier {
 
     try {
       final response = await sharePointDioClient.get(
-        "/sites/AbdulrahmanHamadAlsanidi/_api/Web/Lists(guid'${Constants.alsanidiListId}')/items?\$filter=AuthorId eq $ensureUserId&\$top=999",
+        "/sites/AbdulrahmanHamadAlsanidi/_api/Web/Lists(guid'${Constants.alSanidiListId}')/items?\$filter=AuthorId eq $ensureUserId&\$top=999",
       );
       if (response.statusCode == 200) {
         final parsedResponse = response.data;
@@ -68,7 +68,7 @@ class EcommerceProvider extends ChangeNotifier {
 
     try {
       final response = await sharePointDioClient.post(
-        "/sites/AbdulrahmanHamadAlsanidi/_api/Web/Lists(guid'${Constants.alsanidiListId}')/items",
+        "/sites/AbdulrahmanHamadAlsanidi/_api/Web/Lists(guid'${Constants.alSanidiListId}')/items",
         data: item.toJson(),
       );
       if (response.statusCode == 201) {
@@ -122,7 +122,7 @@ class EcommerceProvider extends ChangeNotifier {
   Future<bool> uploadSingleFile(String ticketId, AttachedBytes attachedFile,) async {
     try {
       final response = await sharePointDioClient.dio.post(
-        "https://alsanidi.sharepoint.com/sites/AbdulrahmanHamadAlsanidi/_api/Web/Lists(guid'${Constants.alsanidiListId}')/items($ticketId)/AttachmentFiles/add(FileName='${attachedFile.fileName}')",
+        "https://alsanidi.sharepoint.com/sites/AbdulrahmanHamadAlsanidi/_api/Web/Lists(guid'${Constants.alSanidiListId}')/items($ticketId)/AttachmentFiles/add(FileName='${attachedFile.fileName}')",
         data: attachedFile.fileBytes,
         options: Options(
           headers: {

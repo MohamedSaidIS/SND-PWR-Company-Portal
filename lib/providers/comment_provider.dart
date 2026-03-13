@@ -30,7 +30,7 @@ class CommentProvider extends ChangeNotifier {
         break;
       case "Alsanidi":
         url =
-            "/sites/AbdulrahmanHamadAlsanidi/_api/Web/Lists(guid'${Constants.alsanidiListId}')/items($ticketId)/comments";
+            "/sites/AbdulrahmanHamadAlsanidi/_api/Web/Lists(guid'${Constants.alSanidiListId}')/items($ticketId)/comments";
         break;
       case "Dynamics":
         url =

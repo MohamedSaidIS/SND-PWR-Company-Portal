@@ -6,12 +6,8 @@ class AttachmentsProvider extends ChangeNotifier {
   final SharePointDioClient sharePointDioClient;
   final MySharePointDioClient mySharePointDioClient;
 
-  AttachmentsProvider(
-      {required this.sharePointDioClient, required this.mySharePointDioClient});
+  AttachmentsProvider({required this.sharePointDioClient, required this.mySharePointDioClient});
 
-  static const itListId = '35274cd8-ad05-4d42-adc1-20a127aad3d3';
-  static const alsanidiListId = 'c09e3694-3b81-43b5-b39c-49a26155612e';
-  static const dynamicsListId = '3b2e2dd6-55a0-4ee4-b517-5ccd63b6a12a';
 
   List<Attachment> _attachments = [];
   List<AttachedBytes> _fetchedFileBytes = [];
@@ -28,19 +24,19 @@ class AttachmentsProvider extends ChangeNotifier {
 
   String retrieveUrl(String ticketId, String commentCall) {
     var url =
-        "/sites/IT-Requests/_api/web/lists(guid'$itListId')/items($ticketId)/AttachmentFiles";
+        "/sites/IT-Requests/_api/web/lists(guid'${Constants.itListId}')/items($ticketId)/AttachmentFiles";
     switch (commentCall) {
       case "It":
         url =
-            "/sites/IT-Requests/_api/web/lists(guid'$itListId')/items($ticketId)/AttachmentFiles";
+            "/sites/IT-Requests/_api/web/lists(guid'${Constants.itListId}')/items($ticketId)/AttachmentFiles";
         break;
       case "Alsanidi":
         url =
-            "/sites/AbdulrahmanHamadAlsanidi/_api/Web/Lists(guid'$alsanidiListId')/items($ticketId)/AttachmentFiles";
+            "/sites/AbdulrahmanHamadAlsanidi/_api/Web/Lists(guid'${Constants.alSanidiListId}')/items($ticketId)/AttachmentFiles";
         break;
       case "Dynamics":
         url =
-            "https://alsanidi-my.sharepoint.com/personal/retail_alsanidi_onmicrosoft_com/_api/Web/Lists(guid'$dynamicsListId')/items($ticketId)/AttachmentFiles";
+            "https://alsanidi-my.sharepoint.com/personal/retail_alsanidi_onmicrosoft_com/_api/Web/Lists(guid'${Constants.dynamicsListId}')/items($ticketId)/AttachmentFiles";
         break;
     }
     return url;
@@ -90,19 +86,19 @@ class AttachmentsProvider extends ChangeNotifier {
   String retrieveAttachedFileUrl(
       String ticketId, String commentCall, String fileName) {
     var url =
-        "/sites/IT-Requests/_api/web/lists(guid'$itListId')//items($ticketId)/AttachmentFiles('$fileName')/\$value";
+        "/sites/IT-Requests/_api/web/lists(guid'${Constants.itListId}')//items($ticketId)/AttachmentFiles('$fileName')/\$value";
     switch (commentCall) {
       case "It":
         url =
-            "/sites/IT-Requests/_api/web/lists(guid'$itListId')//items($ticketId)/AttachmentFiles('$fileName')/\$value";
+            "/sites/IT-Requests/_api/web/lists(guid'${Constants.itListId}')//items($ticketId)/AttachmentFiles('$fileName')/\$value";
         break;
       case "Alsanidi":
         url =
-            "/sites/AbdulrahmanHamadAlsanidi/_api/Web/Lists(guid'$alsanidiListId')//items($ticketId)/AttachmentFiles('$fileName')/\$value";
+            "/sites/AbdulrahmanHamadAlsanidi/_api/Web/Lists(guid'${Constants.alSanidiListId}')//items($ticketId)/AttachmentFiles('$fileName')/\$value";
         break;
       case "Dynamics":
         url =
-            "https://alsanidi-my.sharepoint.com/personal/retail_alsanidi_onmicrosoft_com/_api/Web/Lists(guid'$dynamicsListId')//items($ticketId)/AttachmentFiles('$fileName')/\$value";
+            "https://alsanidi-my.sharepoint.com/personal/retail_alsanidi_onmicrosoft_com/_api/Web/Lists(guid'${Constants.dynamicsListId}')//items($ticketId)/AttachmentFiles('$fileName')/\$value";
         break;
     }
     return url;
