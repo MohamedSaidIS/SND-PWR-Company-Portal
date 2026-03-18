@@ -20,7 +20,7 @@ class AppsScreen extends StatelessWidget {
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 20),
           child: GridView.builder(
-            itemCount: getAppItems.length,
+            itemCount: AppItem.getAppItems.length,
             padding: const EdgeInsets.only(bottom: 10),
             gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
               crossAxisCount: isTablet ? 3 : 2,
@@ -29,7 +29,7 @@ class AppsScreen extends StatelessWidget {
               childAspectRatio: 1,
             ),
             itemBuilder: (context, index) {
-              final item = getAppItems[index];
+              final item = AppItem.getAppItems[index];
               return AppCard(item: item,);
             },
           ),

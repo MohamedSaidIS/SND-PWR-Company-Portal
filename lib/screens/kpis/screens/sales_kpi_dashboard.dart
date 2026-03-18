@@ -34,14 +34,14 @@ class _SalesKpiScreenState extends State<SalesKpiScreen> {
 
   Future<void> _fetchKpis({String? memberId}) async {
     final prefs = PreferenceManager();
-    final userId = memberId ?? await prefs.getString(Constants.userId);
-    final managerId = await prefs.getString(Constants.groupInfo);
+    final userId = memberId ??  prefs.getString(StorageKey.userId);
+    final managerId =  prefs.getString(StorageKey.groupInfo);
 
     AppNotifier.logWithScreen("KPI Dashboard Screen",
         "Fetching KPI for UserId: $userId, isUAT: $isUAT $managerId");
 
     isManager = managerId == "6ca3fd12-cda4-4c3a-882d-a5da6a1e3c1b";
-    isTester = getTesterIds().contains(userId);
+    isTester = AllStaticData.getTesterIds().contains(userId);
 
     AppNotifier.logWithScreen(
         "KPI Dashboard Screen", "IsTaster: $isTester IsManager: $isManager");
@@ -101,7 +101,6 @@ class _SalesKpiScreenState extends State<SalesKpiScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final theme = context.theme;
     final local = context.local;
     final provider = context.watch<SalesKPIProvider>();
     final kpis = provider.kpiList ?? [];

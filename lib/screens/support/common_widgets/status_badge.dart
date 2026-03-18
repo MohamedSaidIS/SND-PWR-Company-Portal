@@ -22,9 +22,9 @@ class _StatusBadgeState extends State<StatusBadge> {
     super.didChangeDependencies();
     theme = context.theme;
     local = context.local;
-    color = getStatusColor(widget.status);
-    icon = getStatusIcon(widget.status);
-    translatedValue = getTranslatedStatus(widget.status, local).toUpperCase();
+    color = AllStaticData.getStatusColor(widget.status);
+    icon = AllStaticData.getStatusIcon(widget.status);
+    translatedValue = AllStaticData.getTranslatedStatus(widget.status, local).toUpperCase();
 
   }
   @override

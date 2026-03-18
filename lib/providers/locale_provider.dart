@@ -9,14 +9,14 @@ class LocaleProvider extends ChangeNotifier{
 
   void setLocale(Locale locale) async{
     _locale = locale;
-    await PreferenceManager().setString(Constants.languageCode, locale.languageCode);
+    await PreferenceManager().setString(StorageKey.languageCode, locale.languageCode);
     AppLogger.info("Selected Locale: ",locale.languageCode);
 
     notifyListeners();
   }
 
   Future<void> loadSavedLocale() async {
-    final langCode = PreferenceManager().getString(Constants.languageCode);
+    final langCode = PreferenceManager().getString(StorageKey.languageCode);
     AppLogger.info("Loaded Locale: ",locale.languageCode);
 
     if (langCode != null) {

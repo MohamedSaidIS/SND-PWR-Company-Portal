@@ -77,7 +77,7 @@ class _DynamicsFormState extends State<DynamicsForm> {
                     onChanged: (val) => controller.selectedPriority = val,
                     validator: (val) => TextFieldHelper.textFormFieldValidation(
                         val, local.pleaseSelectPriority),
-                    items: getPriorities(local),
+                    items: AllStaticData.getPriorities(local),
                   ),
                   const SizedBox(height: 16),
                   CustomDropDownField(
@@ -86,7 +86,7 @@ class _DynamicsFormState extends State<DynamicsForm> {
                     onChanged: (val) => controller.selectedPurpose = val,
                     validator: (val) => TextFieldHelper.textFormFieldValidation(
                         val, local.pleaseSelectPurpose),
-                    items: getPurpose(local),
+                    items: AllStaticData.getPurpose(local),
                   ),
                   const SizedBox(height: 16),
                   const AttachmentPicker(),

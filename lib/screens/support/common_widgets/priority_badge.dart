@@ -24,9 +24,9 @@ class _PriorityBadgeState extends State<PriorityBadge> {
     super.didChangeDependencies();
     theme = context.theme;
     local = context.local;
-    color = getPriorityColor(widget.priority);
-    icon = getPriorityIcon(widget.priority);
-    translatedValue = getTranslatedPriorities(widget.priority, local).toUpperCase();
+    color = AllStaticData.getPriorityColor(widget.priority);
+    icon = AllStaticData.getPriorityIcon(widget.priority);
+    translatedValue = AllStaticData.getTranslatedPriorities(widget.priority, local).toUpperCase();
 
   }
 

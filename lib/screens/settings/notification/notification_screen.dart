@@ -22,7 +22,7 @@ class _NotificationScreenState extends State<NotificationScreen> {
   Widget build(BuildContext context) {
     final theme = context.theme;
     final local = context.local;
-    final notificationSearch = getNotificationSearch(local);
+    final notificationSearch = AllStaticData.getNotificationSearch(local);
 
     return PopScope(
       canPop: false,
@@ -70,7 +70,7 @@ class _NotificationScreenState extends State<NotificationScreen> {
                           itemBuilder: (context, index) {
                             final notification = provider.notifications[index];
                             return Card(
-                              color: getNotificationBackgroundColor(
+                              color: AllStaticData.getNotificationBackgroundColor(
                                   notification.data['notificationType']),
                               elevation: 5,
                               margin: const EdgeInsets.symmetric(
@@ -80,9 +80,9 @@ class _NotificationScreenState extends State<NotificationScreen> {
                               ),
                               child: ListTile(
                                 leading: Icon(
-                                  getNotificationIcon(
+                                  AllStaticData.getNotificationIcon(
                                       notification.data['notificationType']),
-                                  color: getNotificationIconColor(
+                                  color: AllStaticData.getNotificationIconColor(
                                       notification.data['notificationType']),
                                 ),
                                 title: Text(notification.title ?? ''),

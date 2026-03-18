@@ -16,7 +16,7 @@ class _RequestsScreenState extends State<RequestsScreen> {
   @override
   Widget build(BuildContext context) {
     final local = context.local;
-    final items = getRequestItems(local);
+    final items = RequestItem.getRequestItems(local);
 
     return Scaffold(
       appBar: CustomAppBar(

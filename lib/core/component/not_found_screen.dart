@@ -26,11 +26,11 @@ class _NotFoundScreenState extends State<NotFoundScreen>
       duration: const Duration(milliseconds: 1200),
     )..repeat(reverse: true);
 
-    _scale = Tween<double>(begin: 0.95, end: 1.05).animate(
+    _scale = Tween<double>(begin: 0.95, end: 1.0).animate(
       CurvedAnimation(parent: _controller, curve: Curves.easeInOut),
     );
 
-    _fade = Tween<double>(begin: 0.7, end: 1.0).animate(
+    _fade = Tween<double>(begin: 0.8, end: 1.0).animate(
       CurvedAnimation(parent: _controller, curve: Curves.easeInOut),
     );
 
@@ -84,7 +84,7 @@ class _NotFoundScreenState extends State<NotFoundScreen>
                   color: Theme.of(context)
                       .colorScheme
                       .onSurface
-                      .withOpacity(0.6),
+                      .withValues(alpha: 0.6),
                 ),
                 textAlign: TextAlign.center,
               ),

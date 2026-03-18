@@ -15,7 +15,6 @@ class RequestForm extends StatefulWidget {
 class _RequestFormState extends State<RequestForm> {
   @override
   Widget build(BuildContext context) {
-    final theme = context.theme;
     final local = context.local;
 
     return Scaffold(
@@ -86,8 +85,8 @@ class _RequestFormState extends State<RequestForm> {
                   validator: (v) => TextFieldHelper.textFormFieldValidation(
                       v, local.requiredField),
                   items: widget.controller.selectedType == "Vacation"
-                      ? getVacationCode(local)
-                      : getPermissionCode(local),
+                      ? AllStaticData.getVacationCode(local)
+                      : AllStaticData.getPermissionCode(local),
                 ),
                 const SizedBox(height: 16),
                 VacationDates(

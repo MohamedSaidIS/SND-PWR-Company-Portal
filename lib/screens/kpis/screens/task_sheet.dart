@@ -48,7 +48,6 @@ class _TaskSheetState extends State<TaskSheet> {
   }
   @override
   Widget build(BuildContext context) {
-    final theme = context.theme;
     return Scaffold(
       appBar: const CustomAppBar(title: "Task Sheet", backBtn: false),
       body: Padding(

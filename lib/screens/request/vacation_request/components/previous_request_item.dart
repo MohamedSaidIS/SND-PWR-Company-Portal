@@ -71,10 +71,9 @@ class _PreviousRequestItemState extends State<PreviousRequestItem> {
       trailing: Transform.translate(
         offset: Offset(locale == "en" ? 10 : -10, 0),
         child: BadgeWidget(
-            translatedTitle:
-            getTranslatedApproval(widget.item.approved, local),
-            color: getApprovalColor(widget.item.approved),
-            icon: getApprovalIcon(widget.item.approved)),
+            translatedTitle: AllStaticData.getTranslatedApproval(widget.item.approved, local),
+            color: AllStaticData.getApprovalColor(widget.item.approved),
+            icon: AllStaticData.getApprovalIcon(widget.item.approved)),
       ),
     );
   }

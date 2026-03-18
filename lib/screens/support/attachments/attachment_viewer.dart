@@ -114,7 +114,6 @@ class PdfPreviewScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final theme = context.theme;
     final local = context.local;
     return Scaffold(
         appBar: CustomAppBar(title: local.pdfPreview, backBtn: true,),

@@ -19,7 +19,7 @@ class _LanguageScreenState extends State<LanguageScreen> {
     final localeProvider = context.localeProvider;
     selectedCode = context.currentLocale();
 
-    final languages = getLanguage(local);
+    final languages = AllStaticData.getLanguage(local);
 
     return Scaffold(
       appBar: CustomAppBar(

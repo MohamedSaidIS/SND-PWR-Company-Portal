@@ -21,7 +21,6 @@ class _ComplaintSuggestionFormScreenState extends State<ComplaintSuggestionFormS
 
   @override
   Widget build(BuildContext context) {
-    final theme = context.theme;
 
     return Scaffold(
       body: Padding(

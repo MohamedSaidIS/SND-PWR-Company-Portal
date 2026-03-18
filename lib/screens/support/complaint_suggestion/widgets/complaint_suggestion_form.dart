@@ -76,7 +76,7 @@ class _ComplaintSuggestionFormState extends State<ComplaintSuggestionForm> {
                    value: controller.selectedCategory,
                    label: local.category,
                    onChanged: (val) => controller.selectedCategory = val,
-                   items: getCategories(local),
+                   items: AllStaticData.getCategories(local),
                    validator: (val) => TextFieldHelper.textFormFieldValidation(
                        val, local.pleaseSelectCategory),
                  ),
@@ -85,7 +85,7 @@ class _ComplaintSuggestionFormState extends State<ComplaintSuggestionForm> {
                    value: controller.selectedPriority,
                    label: local.priority,
                    onChanged: (val) => controller.selectedPriority = val,
-                   items: getPriorities(local),
+                   items: AllStaticData.getPriorities(local),
                    validator: (val) => TextFieldHelper.textFormFieldValidation(
                        val, local.pleaseSelectPriority),
                  ),

@@ -65,13 +65,13 @@ class _DashboardScreenState extends State<DashboardScreen> {
       await reportsProvider.fetchRedirectReport();
     }
 
-    await PreferenceManager().setString(Constants.userId, _userInfo!.id);
-    await PreferenceManager().setString(Constants.userEmail, _userInfo!.mail ?? "");
+    await PreferenceManager().setString(StorageKey.userId, _userInfo!.id);
+    await PreferenceManager().setString(StorageKey.userEmail, _userInfo!.mail ?? "");
 
     _groupInfo = userProvider.groupInfo;
     if (_groupInfo == null) return;
 
-    await PreferenceManager().setString(Constants.groupInfo, _groupInfo?.groupId ?? "");
+    await PreferenceManager().setString(StorageKey.groupInfo, _groupInfo?.groupId ?? "");
   }
 
   @override

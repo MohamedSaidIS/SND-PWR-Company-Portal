@@ -59,7 +59,7 @@ class _LanguageSwitcherState extends State<LanguageSwitcher> {
 
   void _showLanguageBottomSheet(BuildContext context,
       LocaleProvider localeProvider, AppLocalizations local, ThemeData theme) {
-    final languages = getLanguage(local);
+    final languages = AllStaticData.getLanguage(local);
 
     showModalBottomSheet(
       context: context,

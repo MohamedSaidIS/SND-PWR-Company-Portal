@@ -2,7 +2,7 @@ import 'package:flutter/cupertino.dart';
 import '../../../utils/export_import.dart';
 
 class NotificationProvider extends ChangeNotifier{
-  final _storage = NotificationStorage();
+  final _storage = NotificationStorageService();
 
   final List<AppNotification> _notifications = [];
   List<AppNotification> _filteredNotifications = [];
