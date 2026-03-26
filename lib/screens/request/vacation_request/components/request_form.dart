@@ -15,7 +15,6 @@ class RequestForm extends StatefulWidget {
 class _RequestFormState extends State<RequestForm> {
   @override
   Widget build(BuildContext context) {
-    final theme = context.theme;
     final local = context.local;
 
     return Scaffold(

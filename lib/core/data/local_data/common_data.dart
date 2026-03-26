@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../../../utils/export_import.dart';
+import '../../../../utils/export_import.dart';
 
 List<Map<String, String>> getNotificationSearch(AppLocalizations local) {
   return [

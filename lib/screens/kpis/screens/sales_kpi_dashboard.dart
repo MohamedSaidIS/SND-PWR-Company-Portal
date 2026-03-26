@@ -101,7 +101,6 @@ class _SalesKpiScreenState extends State<SalesKpiScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final theme = context.theme;
     final local = context.local;
     final provider = context.watch<SalesKPIProvider>();
     final kpis = provider.kpiList ?? [];

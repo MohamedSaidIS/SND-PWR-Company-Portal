@@ -48,7 +48,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
 
     final userInfo = userInfoProvider.userInfo;
     final userImage = userImageProvider.imageBytes;
-    final theme = context.theme;
     final local = context.local;
 
 

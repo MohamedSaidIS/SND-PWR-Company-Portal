@@ -57,13 +57,13 @@ class _AttachmentsWidgetState extends State<AttachmentsWidget> {
             : attachments == null || attachments!.isEmpty
                 ? const NoAttachments()
                 : SizedBox(
-                    height: (22 * (attachments!.length)).toDouble(),
+                    height: (25 * (attachments!.length)).toDouble(),
                     child: Scrollbar(
                       controller: _attachmentsController,
-                      thumbVisibility: attachments!.length > 2 ? true : false,
+                      thumbVisibility: attachments!.length >= 2 ? true : false,
                       child: ListView.builder(
                           controller: _attachmentsController,
-                          physics: attachments!.length > 2
+                          physics: attachments!.length >= 2
                               ? const AlwaysScrollableScrollPhysics()
                               : const NeverScrollableScrollPhysics(),
                           itemCount: attachments!.length,

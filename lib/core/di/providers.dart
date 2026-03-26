@@ -1,4 +1,3 @@
-import 'package:flutter_appauth/flutter_appauth.dart';
 import 'package:provider/provider.dart';
 import 'package:provider/single_child_widget.dart';
 import '../../../utils/export_import.dart';
@@ -8,42 +7,11 @@ List<SingleChildWidget> appProviders(LocaleProvider localeProvider) {
     Provider<AuthConfigController>(
       create: (_) => AuthConfigController(AppNavigator.key),
     ),
-    Provider<GraphDioClient>(
-      create: (context) => GraphDioClient(
-        appAuth: const FlutterAppAuth(),
-        onUnauthorized: () async {
-          AppNotifier.logWithScreen(
-              "Main Screen", "⚠️Graph Dio Unauthorized called! logout");
-          AppNotifier.sessionExpiredDialog();
-        },
-      ),
-    ),
-    Provider<SharePointDioClient>(
-      create: (context) => SharePointDioClient(
-        appAuth: const FlutterAppAuth(),
-        onUnauthorized: () {
-          AppNotifier.logWithScreen(
-              "Main Screen", "⚠️SharePoint Dio Unauthorized called! logout");
-          AppNotifier.sessionExpiredDialog();
-        },
-      ),
-    ),
-    Provider<MySharePointDioClient>(
-      create: (context) => MySharePointDioClient(
-        appAuth: const FlutterAppAuth(),
-        onUnauthorized: () {
-          AppNotifier.logWithScreen(
-              "Main Screen", "⚠️MySharePoint Dio Unauthorized called! logout");
-          AppNotifier.sessionExpiredDialog();
-        },
-      ),
-    ),
-    Provider<KPIDioClient>(
-      create: (_) => KPIDioClient(),
-    ),
-    ChangeNotifierProvider(
-      create: (context) => ThemeProvider(),
-    ),
+    Provider<GraphDioClient>(create: (_) => GraphDioClient()),
+    Provider<SharePointDioClient>(create: (_) => SharePointDioClient()),
+    Provider<MySharePointDioClient>(create: (_) => MySharePointDioClient()),
+    Provider<KPIDioClient>(create: (_) => KPIDioClient()),
+    ChangeNotifierProvider(create: (context) => ThemeProvider()),
     ChangeNotifierProvider<UserInfoProvider>(
       create: (context) => UserInfoProvider(
         dioClient: context.read<GraphDioClient>(),
