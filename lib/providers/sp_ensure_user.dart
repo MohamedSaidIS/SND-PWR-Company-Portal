@@ -1,5 +1,7 @@
+import 'package:company_portal/core/data/remote_data/dio_share_point/share_api_config.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
+import '../core/data/remote_data/dio_my_share_point/my_share_api_config.dart';
 import '../utils/export_import.dart';
 
 
@@ -30,7 +32,7 @@ class SPEnsureUserProvider extends ChangeNotifier {
 
     try {
       final response = await sharePointDioClient.post(
-        "/sites/IT-Requests/_api/web/ensureuser",
+        ShareApiConfig.itEnsureUser,
         data: {
           "logonName": "i:0#.f|membership|$email",
         },
@@ -63,7 +65,7 @@ class SPEnsureUserProvider extends ChangeNotifier {
 
     try {
       final response = await sharePointDioClient.dio.post(
-        "/sites/AbdulrahmanHamadAlsanidi/_api/web/ensureuser",
+        ShareApiConfig.alsanidiEnsureUser,
         data: {
           "logonName": "i:0#.f|membership|$email",
         },
@@ -96,7 +98,7 @@ class SPEnsureUserProvider extends ChangeNotifier {
 
     try {
       final response = await mySharePointDioClient.post(
-        "/_api/Web/ensureuser",
+        MyShareApiConfig.dynamics,
         data: {
           "logonName": "i:0#.f|membership|$email",
         },

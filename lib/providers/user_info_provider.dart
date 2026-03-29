@@ -1,3 +1,4 @@
+import 'package:company_portal/core/data/remote_data/dio_graph/graph_api_config.dart';
 import 'package:flutter/foundation.dart';
 import '../utils/export_import.dart';
 
@@ -28,13 +29,12 @@ class UserInfoProvider with ChangeNotifier {
     notifyListeners();
 
     try {
-      final response = await dioClient.get('/me');
+      final response = await dioClient.get(GraphApiConfig.userInfo);
       if (response.statusCode == 200) {
         _userInfo = await compute(
           (Map<String, dynamic> data) => UserInfo.fromJson(data),
           Map<String, dynamic>.from(response.data),
         );
-        AppLogger.info("UserInfo Provider", "UserInfo Fetching: $_userInfo");
         if (_userInfo == null) {
           _state = ViewState.empty;
         } else {
@@ -43,15 +43,10 @@ class UserInfoProvider with ChangeNotifier {
       } else {
         _error = 'Failed to load user data';
         _state = ViewState.error;
-
-        AppLogger.error("UserInfo Provider",
-            "UserInfo Error: $_error ${response.statusCode}");
       }
     } catch (e) {
       _error = e.toString();
       _state = ViewState.error;
-      AppLogger.error(
-          "UserInfo Provider", "UserInfo Exception: $_error");
     }
     notifyListeners();
   }
@@ -63,7 +58,7 @@ class UserInfoProvider with ChangeNotifier {
 
     try {
       final response = await dioClient.dio.post(
-        "/me/checkMemberGroups",
+        GraphApiConfig.checkMemberGroup,
         data: {
           "groupIds": [
             "6ca3fd12-cda4-4c3a-882d-a5da6a1e3c1b",
@@ -76,10 +71,6 @@ class UserInfoProvider with ChangeNotifier {
         final List<dynamic> matchedGroupIds = response.data["value"];
         _groupInfo = await compute(
           (List<dynamic> ids) {
-            // AppLogger.info(
-            //   "UserInfo Provider",
-            //   "Group Info Parsed: $ids ${ids[0]}",
-            // );
             if (ids.isNotEmpty) {
               return GroupInfo(
                 groupId: ids.first,
@@ -91,11 +82,6 @@ class UserInfoProvider with ChangeNotifier {
           },
           matchedGroupIds,
         );
-
-        AppLogger.info(
-          "UserInfo Provider",
-          "Group Info Parsed: $_groupInfo ${_groupInfo?.groupId}",
-        );
         if (_groupInfo == null) {
           _state = ViewState.empty;
         } else {
@@ -104,15 +90,10 @@ class UserInfoProvider with ChangeNotifier {
       } else {
         _error = 'Failed to get group info';
         _state = ViewState.error;
-
-        AppLogger.error("UserInfo Provider",
-            "Group Info Error: $_error ${response.statusCode} ${response.data}");
       }
     } catch (e) {
       _error = e.toString();
       _state = ViewState.error;
-      AppLogger.error(
-          "UserInfo Provider", "Group Info  Exception: $_error");
     }
     notifyListeners();
   }
@@ -123,12 +104,8 @@ class UserInfoProvider with ChangeNotifier {
     notifyListeners();
 
     try {
-      final response = await dioClient.dio.get("/groups/$groupId/members");
+      final response = await dioClient.dio.get("${GraphApiConfig.groupMembers}/$groupId/members");
       if (response.statusCode == 200) {
-        AppNotifier.logWithScreen(
-          "UserInfo Provider",
-          "Group Members Parsed: ${response.statusCode}",
-        );
         final parsedResponse = response.data;
         _groupMembers = await compute(
           (final data) => (data['value'] as List)
@@ -136,12 +113,6 @@ class UserInfoProvider with ChangeNotifier {
               .toList(),
           parsedResponse,
         );
-
-        AppLogger.info(
-          "UserInfo Provider",
-          "Group Members Parsed: ${_groupMembers?[0].displayName} ${_groupMembers?[0].givenName}",
-        );
-
         if (_groupMembers == null || _groupMembers!.isEmpty) {
           _state = ViewState.empty;
         } else {
@@ -150,16 +121,10 @@ class UserInfoProvider with ChangeNotifier {
       } else {
         _error = 'Failed to get group info';
         _state = ViewState.error;
-
-        AppLogger.error("UserInfo Provider",
-            "Group Members Error: $_error ${response.statusCode} ${response.data}");
       }
     } catch (e) {
       _error = e.toString();
       _state = ViewState.error;
-
-      AppLogger.error(
-          "UserInfo Provider", "Group Members  Exception: $_error");
     }
     notifyListeners();
   }

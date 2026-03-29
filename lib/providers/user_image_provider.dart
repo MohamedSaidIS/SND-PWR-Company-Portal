@@ -1,5 +1,6 @@
 import 'dart:io';
 import 'dart:typed_data';
+import 'package:company_portal/core/data/remote_data/dio_graph/graph_api_config.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import '../utils/export_import.dart';
@@ -32,7 +33,7 @@ class UserImageProvider extends ChangeNotifier {
 
     try {
       final response = await dioClient.dio.get(
-        '/me/photo/\$value',
+        GraphApiConfig.userImage,
         options: Options(
           responseType: ResponseType.bytes,
           headers: {
@@ -68,7 +69,8 @@ class UserImageProvider extends ChangeNotifier {
     try {
       final imageBytes = await imageFile.readAsBytes();
 
-      final response = await dioClient.dio.put('/me/photo/\$value',
+      final response = await dioClient.dio.put(
+          GraphApiConfig.userImage,
           data: imageBytes,
           options: Options(
             headers: {

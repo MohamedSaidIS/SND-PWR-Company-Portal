@@ -1,3 +1,4 @@
+import 'package:company_portal/core/data/remote_data/dio_graph/graph_api_config.dart';
 import 'package:flutter/foundation.dart';
 import '../utils/export_import.dart';
 
@@ -22,7 +23,7 @@ class ManagerInfoProvider with ChangeNotifier {
     notifyListeners();
 
     try {
-      final response = await dioClient.get('/me/manager');
+      final response = await dioClient.get(GraphApiConfig.userManager);
 
       if (response.statusCode == 200) {
         _managerInfo = await compute(

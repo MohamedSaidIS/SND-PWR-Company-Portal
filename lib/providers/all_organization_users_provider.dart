@@ -1,3 +1,4 @@
+import 'package:company_portal/core/data/remote_data/dio_graph/graph_api_config.dart';
 import 'package:flutter/foundation.dart';
 import '../utils/export_import.dart';
 
@@ -21,7 +22,7 @@ class AllOrganizationUsersProvider extends ChangeNotifier {
     _error = null;
     notifyListeners();
     try {
-      final response = await dioClient.get("/users?\$top=999");
+      final response = await dioClient.get(GraphApiConfig.allUsers);
 
       if (response.statusCode == 200) {
         final parsedResponse = response.data;

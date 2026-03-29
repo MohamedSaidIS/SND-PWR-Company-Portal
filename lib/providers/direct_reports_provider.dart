@@ -1,3 +1,4 @@
+import 'package:company_portal/core/data/remote_data/dio_graph/graph_api_config.dart';
 import 'package:flutter/foundation.dart';
 import '../utils/export_import.dart';
 
@@ -20,7 +21,7 @@ class DirectReportsProvider with ChangeNotifier {
     notifyListeners();
 
     try {
-      final response = await dioClient.get('/me/directReports');
+      final response = await dioClient.get(GraphApiConfig.directReports);
 
       if (response.statusCode == 200) {
         final parsedResponse = response.data;
