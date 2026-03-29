@@ -41,7 +41,6 @@ class NotificationManager {
   }
 
   Future<void> _requestPermissions() async {
-    AppLogger.info("Notification Service","RequestPermission");
     if(Platform.isIOS){
       NotificationSettings settings = await _fcm.requestPermission(
         alert: true,
@@ -63,16 +62,13 @@ class NotificationManager {
 
       String? apnsToken;
       while (apnsToken == null) {
-        AppLogger.info("Notification Service", 'APNS Token b: $apnsToken');
         apnsToken = await _fcm.getAPNSToken();
         await Future.delayed(const Duration(milliseconds: 300));
       }
-      AppLogger.info("Notification Service", 'APNS Token: $apnsToken');
     }
   }
 
   Future<void> _initLocalNotification() async {
-    AppLogger.info("Notification Service","LocalNotification");
     const androidChannel = AndroidNotificationChannel(
       'default_channel',
       'General',
@@ -95,7 +91,6 @@ class NotificationManager {
   }
 
   Future<void> _subscribeTopics() async {
-    AppLogger.info("Notification Service","SubscribeTopics");
     await _fcm.subscribeToTopic('allUsers');
     if (_currentUserId != null) {
       await _fcm.subscribeToTopic('user_$_currentUserId');
@@ -103,10 +98,8 @@ class NotificationManager {
   }
 
   Future<void> _registerTokenWithRetry(String userId) async {
-    AppLogger.info("Notification Service", "UserId: $userId");
       try {
         final fcmToken = await getFCMTokenSafe();
-        AppLogger.info("Notification Service", "Token: $fcmToken");
         if (fcmToken != null) {
           await _sendTokenToServer(userId, fcmToken);
           return;
@@ -126,7 +119,6 @@ class NotificationManager {
         apnsToken = await _fcm.getAPNSToken();
         await Future.delayed(const Duration(milliseconds: 300));
       }
-      AppLogger.info("Notification Service", "APNS ready $apnsToken");
     }
     return await _fcm.getToken();
   }
@@ -153,7 +145,6 @@ class NotificationManager {
         data: {'userId': userId, 'token': token, 'platform': platform},
       );
 
-      AppLogger.info("Notification Service", "✅ Token sent");
     } catch (e) {
       AppLogger.error("Notification Service", "❌ Token send failed: $e");
     }
@@ -161,8 +152,6 @@ class NotificationManager {
 
 
   void _onLocalNotificationTap(NotificationResponse response) {
-    AppLogger.info("Notification Service", "🔔 Local notification tapped");
-
     if (response.payload == null) return;
 
     final data = Map<String, dynamic>.from(jsonDecode(response.payload!));
@@ -190,11 +179,9 @@ class NotificationManager {
   }
 
   void _onForeground(RemoteMessage message) async {
-    AppLogger.info("Notification Service", '🔔 Notification opened');
     final notification = message.notification;
     if (notification == null) return;
     AppLogger.info("Notification Service", '🔔 Notification opened');
-    AppLogger.info("Notification Service", 'DATA: ${message.data}');
 
     await Future.delayed(const Duration(milliseconds: 100));
 
@@ -229,8 +216,6 @@ class NotificationManager {
   }
 
   void _onOpen(RemoteMessage message) {
-    AppLogger.info("Notification Service", '🔔 Notification opened');
-    AppLogger.info("Notification Service", 'DATA: ${message.data}');
 
     _saveNotification(message);
     _handleNavigation(message.data);
