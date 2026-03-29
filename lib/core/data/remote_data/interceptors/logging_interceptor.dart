@@ -35,7 +35,7 @@ class LoggingInterceptor extends Interceptor {
 
     final responseData = response.data.toString();
     if (responseData.length > 500) {
-      log('║ Data: ${responseData.substring(0, 500)}... (truncated)');
+      log('║ Data: ${responseData.substring(0, 300)}... (truncated)');
     } else {
       log('║ Data: $responseData');
     }
