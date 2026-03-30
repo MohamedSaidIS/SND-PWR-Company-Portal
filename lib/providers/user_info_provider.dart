@@ -57,7 +57,7 @@ class UserInfoProvider with ChangeNotifier {
     notifyListeners();
 
     try {
-      final response = await dioClient.dio.post(
+      final response = await dioClient.post(
         GraphApiConfig.checkMemberGroup,
         data: {
           "groupIds": [
@@ -104,7 +104,7 @@ class UserInfoProvider with ChangeNotifier {
     notifyListeners();
 
     try {
-      final response = await dioClient.dio.get("${GraphApiConfig.groupMembers}/$groupId/members");
+      final response = await dioClient.get(GraphApiConfig.groupMembers(groupId: groupId));
       if (response.statusCode == 200) {
         final parsedResponse = response.data;
         _groupMembers = await compute(

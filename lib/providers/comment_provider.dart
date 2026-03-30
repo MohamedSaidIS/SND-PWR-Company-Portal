@@ -1,5 +1,7 @@
+import 'package:company_portal/core/data/remote_data/dio_share_point/share_api_config.dart';
 import 'package:flutter/foundation.dart';
 import '../../../utils/export_import.dart';
+import '../core/data/remote_data/dio_my_share_point/my_share_api_config.dart';
 
 class CommentProvider extends ChangeNotifier {
   final SharePointDioClient sharePointDioClient;
@@ -21,20 +23,17 @@ class CommentProvider extends ChangeNotifier {
   String? get error => _error;
 
   String retrieveUrl(String ticketId, String commentCall) {
-    var url =
-        "/sites/IT-Requests/_api/web/lists(guid'${Constants.itListId}')/items($ticketId)/comments";
+    var url = ShareApiConfig.complaintComments(ticketId: ticketId);
+
     switch (commentCall) {
       case "It":
-        url =
-            "/sites/IT-Requests/_api/web/lists(guid'${Constants.itListId}')/items($ticketId)/comments";
+        url = ShareApiConfig.complaintComments(ticketId: ticketId);
         break;
       case "Alsanidi":
-        url =
-            "/sites/AbdulrahmanHamadAlsanidi/_api/Web/Lists(guid'${Constants.alSanidiListId}')/items($ticketId)/comments";
+        url = ShareApiConfig.ecommerceComments(ticketId: ticketId);
         break;
       case "Dynamics":
-        url =
-            "https://alsanidi-my.sharepoint.com/personal/retail_alsanidi_onmicrosoft_com/_api/Web/Lists(guid'${Constants.dynamicsListId}')/items($ticketId)/comments";
+        url = MyShareApiConfig.dynamicsComments(ticketId: ticketId);
         break;
     }
     return url;
@@ -50,8 +49,8 @@ class CommentProvider extends ChangeNotifier {
 
     try {
       final response = (commentCall == " Dynamics")
-          ? await mySharePointDioClient.dio.get(url)
-          : await sharePointDioClient.dio.get(url);
+          ? await mySharePointDioClient.get(url)
+          : await sharePointDioClient.get(url);
 
       if (response.statusCode == 200) {
         final parsedResponse = response.data["value"];
@@ -91,14 +90,14 @@ class CommentProvider extends ChangeNotifier {
 
     try {
       final response = (commentCall == " Dynamics")
-          ? await mySharePointDioClient.dio.post(
+          ? await mySharePointDioClient.post(
               url,
               data: {
                 "text": comment,
                 "mentions": mentions,
               },
             )
-          : await sharePointDioClient.dio.post(
+          : await sharePointDioClient.post(
               url,
               data: {
                 "text": comment,
@@ -138,7 +137,7 @@ class CommentProvider extends ChangeNotifier {
     debugPrint("Dynamics Get Url $url");
 
     try {
-      final response = await mySharePointDioClient.dio.get(url);
+      final response = await mySharePointDioClient.get(url);
 
       if (response.statusCode == 200) {
         final parsedResponse = response.data["value"];
@@ -176,7 +175,7 @@ class CommentProvider extends ChangeNotifier {
     debugPrint("Dynamics Post Url $url");
 
     try {
-      final response = await mySharePointDioClient.dio.post(
+      final response = await mySharePointDioClient.post(
         url,
         data: {
           "text": comment,

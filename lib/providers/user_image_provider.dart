@@ -32,7 +32,7 @@ class UserImageProvider extends ChangeNotifier {
     notifyListeners();
 
     try {
-      final response = await dioClient.dio.get(
+      final response = await dioClient.get(
         GraphApiConfig.userImage,
         options: Options(
           responseType: ResponseType.bytes,
@@ -69,7 +69,7 @@ class UserImageProvider extends ChangeNotifier {
     try {
       final imageBytes = await imageFile.readAsBytes();
 
-      final response = await dioClient.dio.put(
+      final response = await dioClient.put(
           GraphApiConfig.userImage,
           data: imageBytes,
           options: Options(

@@ -1,5 +1,6 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
+import '../core/data/remote_data/dio_share_point/share_api_config.dart';
 import '../utils/export_import.dart';
 
 class ComplaintSuggestionProvider with ChangeNotifier {
@@ -25,8 +26,7 @@ class ComplaintSuggestionProvider with ChangeNotifier {
     notifyListeners();
 
     try {
-      final response = await sharePointDioClient.get(
-          "/sites/IT-Requests/_api/Web/Lists(guid'${Constants.itListId}')/items?\$filter=AuthorId eq $ensureUserId&\$top=999");
+      final response = await sharePointDioClient.get(ShareApiConfig.ecommerceItemsByUser(ensureUserId: ensureUserId));
 
       if (response.statusCode == 200) {
         final parsedResponse = response.data;
@@ -39,17 +39,13 @@ class ComplaintSuggestionProvider with ChangeNotifier {
           parsedResponse
         );
         AppLogger.info("ComplaintSuggestion Provider","COMPLAINT_SUGGESTION LENGTH: ${_complaintSuggestionList.length}");
-        AppLogger.info("ComplaintSuggestion Provider",
-            "ComplaintSuggestion Fetching: ${response.statusCode} ${_complaintSuggestionList[0].priority} ");
       } else {
         _error = 'Failed to load ComplaintSuggestion data';
-        AppLogger.error("ComplaintSuggestion Provider",
-            "ComplaintSuggestion Error: $_error ${response.statusCode}");
+        AppLogger.error("ComplaintSuggestion Provider", "ComplaintSuggestion Error: $_error ${response.statusCode}");
       }
     } catch (e) {
       _error = e.toString();
-      AppLogger.error("ComplaintSuggestion Provider",
-          "ComplaintSuggestion Exception: $_error");
+      AppLogger.error("ComplaintSuggestion Provider", "ComplaintSuggestion Exception: $_error");
     }
     _loading = false;
     notifyListeners();
@@ -62,7 +58,7 @@ class ComplaintSuggestionProvider with ChangeNotifier {
 
     try {
       final response = await sharePointDioClient.post(
-        "/sites/IT-Requests/_api/Web/Lists(guid'${Constants.itListId}')/items",
+        ShareApiConfig.itRequestItems,
         data: item.toJson(),
       );
 
@@ -113,8 +109,8 @@ class ComplaintSuggestionProvider with ChangeNotifier {
   }
   Future<bool> uploadSingleFile(String ticketId, AttachedBytes attachedFile) async {
     try {
-      final response = await sharePointDioClient.dio.post(
-        "https://alsanidi.sharepoint.com/sites/IT-Requests/_api/Web/Lists(guid'${Constants.itListId}')/items($ticketId)/AttachmentFiles/add(FileName='${attachedFile.fileName}')",
+      final response = await sharePointDioClient.post(
+        ShareApiConfig.addComplaintAttachments(ticketId: ticketId, fileName: attachedFile.fileName),
         data: attachedFile.fileBytes,
         options: Options(
           headers: {

@@ -1,5 +1,7 @@
+import 'package:company_portal/core/data/remote_data/dio_share_point/share_api_config.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
+import '../core/data/remote_data/dio_my_share_point/my_share_api_config.dart';
 import '../utils/export_import.dart';
 
 class AttachmentsProvider extends ChangeNotifier {
@@ -23,20 +25,17 @@ class AttachmentsProvider extends ChangeNotifier {
   String? get error => _error;
 
   String retrieveUrl(String ticketId, String commentCall) {
-    var url =
-        "/sites/IT-Requests/_api/web/lists(guid'${Constants.itListId}')/items($ticketId)/AttachmentFiles";
+    var url = ShareApiConfig.complaintAttachments(ticketId: ticketId);
+
     switch (commentCall) {
       case "It":
-        url =
-            "/sites/IT-Requests/_api/web/lists(guid'${Constants.itListId}')/items($ticketId)/AttachmentFiles";
+        url = ShareApiConfig.complaintAttachments(ticketId: ticketId);
         break;
       case "Alsanidi":
-        url =
-            "/sites/AbdulrahmanHamadAlsanidi/_api/Web/Lists(guid'${Constants.alSanidiListId}')/items($ticketId)/AttachmentFiles";
+        url = ShareApiConfig.ecommerceAttachments(ticketId: ticketId);
         break;
       case "Dynamics":
-        url =
-            "https://alsanidi-my.sharepoint.com/personal/retail_alsanidi_onmicrosoft_com/_api/Web/Lists(guid'${Constants.dynamicsListId}')/items($ticketId)/AttachmentFiles";
+        url = MyShareApiConfig.dynamicAttachments(ticketId: ticketId);
         break;
     }
     return url;
@@ -52,8 +51,8 @@ class AttachmentsProvider extends ChangeNotifier {
 
     try {
       final response = (commentCall == " Dynamics")
-          ? await mySharePointDioClient.dio.get(url)
-          : await sharePointDioClient.dio.get(url);
+          ? await mySharePointDioClient.get(url)
+          : await sharePointDioClient.get(url);
 
       if (response.statusCode == 200) {
         final parsedResponse = response.data["value"];
@@ -85,20 +84,16 @@ class AttachmentsProvider extends ChangeNotifier {
 
   String retrieveAttachedFileUrl(
       String ticketId, String commentCall, String fileName) {
-    var url =
-        "/sites/IT-Requests/_api/web/lists(guid'${Constants.itListId}')//items($ticketId)/AttachmentFiles('$fileName')/\$value";
+    var url = ShareApiConfig.complaintAttachmentValue(ticketId: ticketId, fileName: fileName);
     switch (commentCall) {
       case "It":
-        url =
-            "/sites/IT-Requests/_api/web/lists(guid'${Constants.itListId}')//items($ticketId)/AttachmentFiles('$fileName')/\$value";
+        url = ShareApiConfig.complaintAttachmentValue(ticketId: ticketId, fileName: fileName);
         break;
       case "Alsanidi":
-        url =
-            "/sites/AbdulrahmanHamadAlsanidi/_api/Web/Lists(guid'${Constants.alSanidiListId}')//items($ticketId)/AttachmentFiles('$fileName')/\$value";
+        url = ShareApiConfig.ecommerceAttachmentValue(ticketId: ticketId, fileName: fileName);
         break;
       case "Dynamics":
-        url =
-            "https://alsanidi-my.sharepoint.com/personal/retail_alsanidi_onmicrosoft_com/_api/Web/Lists(guid'${Constants.dynamicsListId}')//items($ticketId)/AttachmentFiles('$fileName')/\$value";
+        url = MyShareApiConfig.dynamicAttachmentValue(ticketId: ticketId, fileName: fileName);
         break;
     }
     return url;
@@ -114,13 +109,13 @@ class AttachmentsProvider extends ChangeNotifier {
 
     try {
       final response = (commentCall == " Dynamics")
-          ? await mySharePointDioClient.dio.get(
+          ? await mySharePointDioClient.get(
               url,
               options: Options(
                 responseType: ResponseType.bytes,
               ),
             )
-          : await sharePointDioClient.dio.get(
+          : await sharePointDioClient.get(
               url,
               options: Options(
                 responseType: ResponseType.bytes,
@@ -131,8 +126,7 @@ class AttachmentsProvider extends ChangeNotifier {
         return Uint8List.fromList(response.data);
       }
     } catch (e) {
-      AppLogger.error(
-          "Ecommerce Provider", "Download Exception: ${e.toString()}");
+      AppLogger.error("Ecommerce Provider", "Download Exception: ${e.toString()}");
     }
     return null;
   }
@@ -149,19 +143,13 @@ class AttachmentsProvider extends ChangeNotifier {
 
         if (fileBytes != null) {
           _fetchedFileBytes.add(AttachedBytes(fileName: fileName, fileBytes: fileBytes, fileBytesBase64: null, fileType: null));
-
-          AppLogger.info(
-            "Ecommerce Provider",
-            "Fetched File: $fileName | Size: ${fileBytes.lengthInBytes} bytes | Length: ${_fetchedFileBytes.length} | AttachedItem ${_fetchedFileBytes[0].fileName}",
-          );
         }
       }
       if (_fetchedFileBytes.isEmpty) {
         _error = "No files fetched";
       }
     } catch (e) {
-      AppLogger.error(
-          "Ecommerce Provider", "Ecommerce Image Exception: ${e.toString()}");
+      AppLogger.error("Ecommerce Provider", "Ecommerce Image Exception: ${e.toString()}");
     }
 
     _loading = false;

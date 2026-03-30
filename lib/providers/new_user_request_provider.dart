@@ -1,5 +1,6 @@
 import 'package:flutter/foundation.dart';
 import 'package:dio/dio.dart';
+import '../core/data/remote_data/dio_share_point/share_api_config.dart';
 import '../utils/export_import.dart';
 
 class NewUserRequestProvider extends ChangeNotifier {
@@ -26,8 +27,7 @@ class NewUserRequestProvider extends ChangeNotifier {
     notifyListeners();
 
     try {
-      final response = await sharePointDioClient.dio.get(
-          "/sites/IT-Requests/_api/Web/Lists(guid'${Constants.newUserListId}')/items");
+      final response = await sharePointDioClient.get(ShareApiConfig.newUserItems);
 
       if (response.statusCode == 200) {
         final parsedResponse = response.data;
@@ -63,10 +63,9 @@ class NewUserRequestProvider extends ChangeNotifier {
     notifyListeners();
 
     try {
-      final response = await sharePointDioClient.dio.post(
-        "/sites/IT-Requests/_api/Web/Lists(guid'${Constants.newUserListId}')/items($requestId)",
+      final response = await sharePointDioClient.post(
+        ShareApiConfig.updateNewUserItem(requestId: requestId),
         data: item.toJson(),
-
         options: Options(
           headers: {
             "X-HTTP-Method": "MERGE",
@@ -106,8 +105,8 @@ class NewUserRequestProvider extends ChangeNotifier {
     notifyListeners();
 
     try {
-      final response = await sharePointDioClient.dio.post(
-        "/sites/IT-Requests/_api/Web/Lists(guid'${Constants.newUserListId}')/items",
+      final response = await sharePointDioClient.post(
+        ShareApiConfig.newUserItems,
         data: item.toJson(),
       );
 

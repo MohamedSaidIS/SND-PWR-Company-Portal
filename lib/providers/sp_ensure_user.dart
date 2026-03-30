@@ -64,7 +64,7 @@ class SPEnsureUserProvider extends ChangeNotifier {
     notifyListeners();
 
     try {
-      final response = await sharePointDioClient.dio.post(
+      final response = await sharePointDioClient.post(
         ShareApiConfig.alsanidiEnsureUser,
         data: {
           "logonName": "i:0#.f|membership|$email",

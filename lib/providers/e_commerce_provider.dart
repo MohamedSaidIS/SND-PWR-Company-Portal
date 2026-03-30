@@ -1,5 +1,6 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
+import '../core/data/remote_data/dio_share_point/share_api_config.dart';
 import '../utils/export_import.dart';
 
 
@@ -27,9 +28,7 @@ class EcommerceProvider extends ChangeNotifier {
     notifyListeners();
 
     try {
-      final response = await sharePointDioClient.get(
-        "/sites/AbdulrahmanHamadAlsanidi/_api/Web/Lists(guid'${Constants.alSanidiListId}')/items?\$filter=AuthorId eq $ensureUserId&\$top=999",
-      );
+      final response = await sharePointDioClient.get(ShareApiConfig.ecommerceItemsByUser(ensureUserId: ensureUserId));
       if (response.statusCode == 200) {
         final parsedResponse = response.data;
         _ecommerceItemsList = await compute(
@@ -68,7 +67,7 @@ class EcommerceProvider extends ChangeNotifier {
 
     try {
       final response = await sharePointDioClient.post(
-        "/sites/AbdulrahmanHamadAlsanidi/_api/Web/Lists(guid'${Constants.alSanidiListId}')/items",
+        ShareApiConfig.ecommerceItems,
         data: item.toJson(),
       );
       if (response.statusCode == 201) {
@@ -119,10 +118,10 @@ class EcommerceProvider extends ChangeNotifier {
       notifyListeners();
     }
   }
-  Future<bool> uploadSingleFile(String ticketId, AttachedBytes attachedFile,) async {
+  Future<bool> uploadSingleFile(String ticketId, AttachedBytes attachedFile) async {
     try {
-      final response = await sharePointDioClient.dio.post(
-        "https://alsanidi.sharepoint.com/sites/AbdulrahmanHamadAlsanidi/_api/Web/Lists(guid'${Constants.alSanidiListId}')/items($ticketId)/AttachmentFiles/add(FileName='${attachedFile.fileName}')",
+      final response = await sharePointDioClient.post(
+        ShareApiConfig.addEcommerceAttachments(ticketId: ticketId, fileName: attachedFile.fileName),
         data: attachedFile.fileBytes,
         options: Options(
           headers: {

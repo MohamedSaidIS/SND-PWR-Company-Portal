@@ -1,3 +1,4 @@
+import 'package:company_portal/core/data/remote_data/dio_my_share_point/my_share_api_config.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
 import '../utils/export_import.dart';
@@ -23,7 +24,7 @@ class DynamicsProvider extends ChangeNotifier {
     notifyListeners();
 
     try {
-      final response = await mySharePointDioClient.get("/_api/Web/Lists(guid'${Constants.dynamicsListId}')/items?\$filter=AuthorId eq $ensureUserId&\$top=999",);
+      final response = await mySharePointDioClient.get(MyShareApiConfig.dynamicsItemsByUser(ensureUserId: ensureUserId));
       if (response.statusCode == 200) {
         final parsedResponse = response.data;
         _dynamicsItemsList = await compute(
@@ -62,7 +63,7 @@ class DynamicsProvider extends ChangeNotifier {
 
     try {
       final response = await mySharePointDioClient.post(
-        "/_api/Web/Lists(guid'${Constants.dynamicsListId}')/items",
+        MyShareApiConfig.dynamicsItems,
         data: item.toJson(),
       );
       if (response.statusCode == 201) {
@@ -118,8 +119,8 @@ class DynamicsProvider extends ChangeNotifier {
     AttachedBytes attachedFile,
   ) async {
     try {
-      final response = await mySharePointDioClient.dio.post(
-        "https://alsanidi-my.sharepoint.com/personal/retail_alsanidi_onmicrosoft_com/_api/Web/Lists(guid'${Constants.dynamicsListId}')/items($ticketId)/AttachmentFiles/add(FileName='${attachedFile.fileName}')",
+      final response = await mySharePointDioClient.post(
+        MyShareApiConfig.addDynamicsAttachments(ticketId: ticketId, fileName: attachedFile.fileName),
         data: attachedFile.fileBytes,
         options: Options(
           headers: {
