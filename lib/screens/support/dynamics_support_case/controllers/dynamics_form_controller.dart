@@ -30,6 +30,7 @@ class DynamicsFormController extends ChangeNotifier {
       lastDate: DateTime(2100),
     );
     if (picked != null) {
+      if(!context.mounted) return;
       date.text = DatesHelper.dashedFormatting(picked, context.currentLocale());
     }
   }
@@ -62,6 +63,7 @@ class DynamicsFormController extends ChangeNotifier {
     );
 
     if (success) {
+      if(!context.mounted) return;
       clearData();
       fileController.clear();
       AppNotifier.snackBar(

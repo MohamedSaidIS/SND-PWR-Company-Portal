@@ -48,6 +48,7 @@ class EcommerceFormController extends ChangeNotifier{
     );
 
     if (success) {
+      if(!context.mounted) return;
       clearData();
       fileController.clear();
       AppNotifier.snackBar(

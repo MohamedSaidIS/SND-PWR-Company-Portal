@@ -57,6 +57,7 @@ class ComplaintSuggestionFormController extends ChangeNotifier {
         fileController.attachedFiles);
 
     if (success) {
+      if(!context.mounted) return;
       clearData();
       fileController.clear();
       AppNotifier.snackBar(

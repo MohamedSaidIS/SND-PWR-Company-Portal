@@ -74,6 +74,8 @@ class VacationRequestController  {
       },
     );
     if (pickedDate == null) return;
+    if(!context.mounted) return;
+
     final pickedTime = await showTimePicker(
       context: context,
       initialTime: TimeOfDay.fromDateTime(DateTime.now()),
@@ -144,6 +146,7 @@ class VacationRequestController  {
 
       if (success) {
         clearData();
+        if(!context.mounted) return;
         AppNotifier.snackBar(
           context,
           local.fromSubmittedSuccessfully,

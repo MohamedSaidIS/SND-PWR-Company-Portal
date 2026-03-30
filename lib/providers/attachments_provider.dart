@@ -1,7 +1,5 @@
-import 'package:company_portal/core/data/remote_data/dio_share_point/share_api_config.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
-import '../core/data/remote_data/dio_my_share_point/my_share_api_config.dart';
 import '../utils/export_import.dart';
 
 class AttachmentsProvider extends ChangeNotifier {

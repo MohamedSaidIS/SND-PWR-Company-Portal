@@ -50,6 +50,8 @@ class AppNotifier {
                 onPressed: () async {
                   try {
                     await SecureStorageService().deleteData();
+
+                    if(!context.mounted) return;
                     await MsalAuthController(context: context, oauth: oauth).logout();
                     // final logoutUrl =
                     //     "https://login.microsoftonline.com/${EnvConfig.msTenantId}/oauth2/v2.0/logout"

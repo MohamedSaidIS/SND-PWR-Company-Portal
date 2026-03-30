@@ -90,7 +90,7 @@ class _SupportScreenState extends State<SupportScreen> {
                           await Future.delayed(
                               const Duration(milliseconds: 70));
                           animatedCardsNotifier.value[index] = false;
-
+                          if(!context.mounted) return;
                           navigatedScreen(context, item.name, widget.userInfo, widget.userImage);
                         },
                         child: ValueListenableBuilder<Map<int, bool>>(

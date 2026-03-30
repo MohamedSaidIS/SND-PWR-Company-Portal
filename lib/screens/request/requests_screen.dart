@@ -44,7 +44,7 @@ class _RequestsScreenState extends State<RequestsScreen> {
                   animatedCardsNotifier.value[index] = true;
                   await Future.delayed(const Duration(milliseconds: 70));
                   animatedCardsNotifier.value[index] = false;
-
+                  if(!context.mounted) return;
                   navigationScreen(context, item.navigatedScreen);
                 },
                 child: ValueListenableBuilder<Map<int, bool>>(

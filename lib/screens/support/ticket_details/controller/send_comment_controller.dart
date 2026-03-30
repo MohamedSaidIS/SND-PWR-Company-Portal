@@ -129,6 +129,7 @@ class SendCommentController extends ChangeNotifier {
           );
 
     if (success) {
+      if(!context.mounted) return;
       mentionsKey.currentState?.controller?.clear();
       FocusScope.of(context).unfocus();
       isBouncing = true;

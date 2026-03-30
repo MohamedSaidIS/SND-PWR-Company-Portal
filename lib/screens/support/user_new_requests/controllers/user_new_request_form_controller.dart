@@ -68,6 +68,7 @@ class UserNewRequestFormController {
       lastDate: DateTime(2100),
     );
     if (picked != null) {
+      if(!context.mounted) return;
       joiningDate.text = DatesHelper.dashedFormatting(picked, context.currentLocale());
     }
   }

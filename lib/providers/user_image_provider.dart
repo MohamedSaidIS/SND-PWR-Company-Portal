@@ -1,6 +1,5 @@
 import 'dart:io';
 import 'dart:typed_data';
-import 'package:company_portal/core/data/remote_data/dio_graph/graph_api_config.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import '../utils/export_import.dart';
