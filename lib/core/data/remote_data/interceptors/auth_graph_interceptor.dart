@@ -7,6 +7,12 @@ import '../../../service/secure_storage_service.dart';
 class AuthGraphInterceptor extends Interceptor{
 
   @override
+  void onResponse(Response<dynamic> response, ResponseInterceptorHandler handler) {
+    return handler.next(response);
+
+  }
+
+  @override
   void onRequest(RequestOptions options, RequestInterceptorHandler handler) async{
     String? token = await SecureStorageService().getData("GraphAccessToken");
 

@@ -157,7 +157,6 @@ class VacationRequestController  {
   }
 
   List<VacationAttachment> getAttachments(List<AttachedBytes> attachedFiles) {
-    // print("Base64Files ${attachedFiles.first.fileName} ${attachedFiles.first.fileBytesBase64}");
     return attachedFiles.map((attachment) {
       return VacationAttachment(
           fileNameWithExtension: attachment.fileName,

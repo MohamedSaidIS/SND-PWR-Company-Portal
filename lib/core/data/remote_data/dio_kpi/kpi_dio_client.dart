@@ -22,8 +22,7 @@ class KPIDioClient {
 
   Future<String?> getToken(bool isUAT) async {
     AppLogger.info("Kpi DioClient", "KpiUAT: $isUAT");
-    const url =
-        "https://login.microsoftonline.com/3e2223b9-a7ca-4c74-9555-66e0cd43c412/oauth2/token";
+    const url = "https://login.microsoftonline.com/3e2223b9-a7ca-4c74-9555-66e0cd43c412/oauth2/token";
     final response = await dio.post(
       url,
       data: {

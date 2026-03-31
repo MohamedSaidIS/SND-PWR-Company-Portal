@@ -29,6 +29,7 @@ class VacationPermissionRequestProvider extends ChangeNotifier {
           selectedType == "Vacation"
               ? "https://alsenidiuat.sandbox.operations.dynamics.com/api/services/HRMSrvGroup/HRMSrv/CreateVacation"
               : "https://alsenidiuat.sandbox.operations.dynamics.com/api/services/HRMSrvGroup/HRMSrv/CreatePermission",
+
           true,
           data: {
             "_contract": request.toJson(),
@@ -40,10 +41,8 @@ class VacationPermissionRequestProvider extends ChangeNotifier {
           parsedResponse,
         );
         _creationResponse != null
-            ? AppLogger.info("VacationPermissionRequest Provider",
-                "VacationPermissionRequest Data Fetching ${_creationResponse!.success} ${_creationResponse!.message}")
-            : AppLogger.info(
-                "VacationPermissionRequest Provider", "${response.statusCode}");
+            ? AppLogger.info("VacationPermissionRequest Provider", "VacationPermissionRequest Data Fetching ${_creationResponse!.success} ${_creationResponse!.message}")
+            : AppLogger.info("VacationPermissionRequest Provider", "${response.statusCode}");
         return true;
       } else {
         _error = 'Failed to load Personnel data';

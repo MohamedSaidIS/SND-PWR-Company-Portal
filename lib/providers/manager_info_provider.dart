@@ -20,10 +20,10 @@ class ManagerInfoProvider with ChangeNotifier {
     _loading = true;
     _error = null;
     notifyListeners();
-
     try {
       final response = await dioClient.get(GraphApiConfig.userManager);
-
+      AppLogger.info("Manager Info Provider",
+          "Manager Info Fetching Success: $response");
       if (response.statusCode == 200) {
         _managerInfo = await compute(
           (Map<String, dynamic> data) => UserInfo.fromJson(data),
