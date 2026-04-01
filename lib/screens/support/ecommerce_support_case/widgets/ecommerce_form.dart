@@ -1,5 +1,7 @@
+import 'package:company_portal/screens/support/ecommerce_support_case/bloc/e_commerce_bloc/e_commerce_bloc.dart';
+import 'package:company_portal/screens/support/ecommerce_support_case/bloc/e_commerce_form_bloc/e_commerce_form_bloc.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../../utils/export_import.dart';
 
 
@@ -13,74 +15,106 @@ class EcommerceForm extends StatefulWidget {
 }
 
 class _EcommerceFormState extends State<EcommerceForm> {
+  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+  final titleController = TextEditingController();
+  final descriptionController= TextEditingController();
+  String? selectedApp, selectedPriority = "Normal", selectedType;
+
   @override
   Widget build(BuildContext context) {
-    final provider = context.watch<EcommerceProvider>();
-    final controller = context.read<EcommerceFormController>();
     final local = context.local;
+    final fileController = context.read<FileController>();
+    final formBloc = context.read<ECommerceFormBloc>();
 
-    return Form(
-      key: controller.formKey,
-      autovalidateMode: AutovalidateMode.disabled,
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.stretch,
-        children: [
-          Expanded(
-            child: SingleChildScrollView(
-              child: Column(children: [
-                CustomTextField(
-                  controller: controller.title,
-                  label: local.title,
-                  validator: (v) => TextFieldHelper.optional(""),
+
+    return BlocConsumer<ECommerceFormBloc, ECommerceFormState>(
+      listener: (BuildContext context, ECommerceFormState state) {
+        if(state is ECommerceFormSuccess){
+          titleController.clear();
+          descriptionController.clear();
+          selectedApp = null;
+          selectedPriority = "Normal";
+          selectedType = null;
+          fileController.clear();
+          AppNotifier.snackBar(context, local.fromSubmittedSuccessfully, SnackBarType.success);
+        } else if (state is ECommerceFormError) {
+          AppNotifier.snackBar(context, state.errorMessage ?? "", SnackBarType.error);
+        }
+      },
+      builder: (context, state) {
+        final isLoading = state is ECommerceFormLoading;
+        return Form(
+          key: _formKey,
+          autovalidateMode: AutovalidateMode.disabled,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+              Expanded(
+                child: SingleChildScrollView(
+                  child: Column(children: [
+                    CustomTextField(
+                      controller: titleController,
+                      label: local.title,
+                      validator: (v) => TextFieldHelper.optional(""),
+                    ),
+                    const SizedBox(height: 16),
+                    CustomTextField(
+                      controller: descriptionController,
+                      label: local.description,
+                      maxLines: 3,
+                      validator: (v) => TextFieldHelper.optional(""),
+                    ),
+                    const SizedBox(height: 16),
+                    CustomDropDownField(
+                      value: selectedPriority,
+                      label: local.priority,
+                      onChanged: (val) => selectedPriority = val,
+                      validator: (v) => TextFieldHelper.textFormFieldValidation(v, local.pleaseSelectPriority),
+                      items: getPriorities(local),
+                    ),
+                    const SizedBox(height: 16),
+                    CustomDropDownField(
+                      value: selectedApp,
+                      label: local.app,
+                      onChanged: (val) => selectedApp = val,
+                      validator: (v) => TextFieldHelper.textFormFieldValidation(v, local.pleaseSelectApp),
+                      items: getAppList(local),
+                    ),
+                    const SizedBox(height: 16),
+                    CustomDropDownField(
+                      value: selectedType,
+                      label: local.type,
+                      onChanged: (val) => selectedType = val,
+                      items: getTypeList(local),
+                    ),
+                    const SizedBox(height: 16),
+                    const AttachmentPicker(),
+                    const SizedBox(height: 16),
+                  ],),
                 ),
-                const SizedBox(height: 16),
-                CustomTextField(
-                  controller: controller.description,
-                  label: local.description,
-                  maxLines: 3,
-                  validator: (v) => TextFieldHelper.optional(""),
-                ),
-                const SizedBox(height: 16),
-                CustomDropDownField(
-                  value: controller.selectedPriority,
-                  label: local.priority,
-                  onChanged: (val) => controller.selectedPriority = val,
-                  validator: (v) => TextFieldHelper.textFormFieldValidation(v, local.pleaseSelectPriority),
-                  items: getPriorities(local),
-                ),
-                const SizedBox(height: 16),
-                CustomDropDownField(
-                  value: controller.selectedApp,
-                  label: local.app,
-                  onChanged: (val) => controller.selectedApp = val,
-                  validator: (v) => TextFieldHelper.textFormFieldValidation(v, local.pleaseSelectApp),
-                  items: getAppList(local),
-                ),
-                const SizedBox(height: 16),
-                CustomDropDownField(
-                  value: controller.selectedType,
-                  label: local.type,
-                  onChanged: (val) => controller.selectedType = val,
-                  items: getTypeList(local),
-                ),
-                const SizedBox(height: 16),
-                const AttachmentPicker(),
-                const SizedBox(height: 16),
-              ],),
-            ),
+              ),
+              const SizedBox(height: 10),
+              SubmitButton(
+                btnText: local.submit,
+                loading: isLoading,
+                btnFunction: () async {
+                 if(!_formKey.currentState!.validate()) return;
+                 formBloc.add(CreateECommerceItemEvent(
+                   userId: widget.ensureUser,
+                   title: titleController.text,
+                   description: descriptionController.text,
+                   selectedApp: selectedApp,
+                   selectedPriority: selectedPriority,
+                   selectedType: selectedType,
+                   attachedFiles: fileController.attachedFiles,
+                  ),
+                 );
+                },
+              ),
+            ],
           ),
-          const SizedBox(height: 10),
-          SubmitButton(
-            btnText: local.submit,
-            loading: controller.isLoading,
-            btnFunction: () async {
-              setState(() => controller.isLoading = true);
-              await controller.submitForm(context, local, provider, widget.ensureUser);
-              setState(() => controller.isLoading = false);
-            },
-          ),
-        ],
-      ),
-    );
+        );
+  },
+);
   }
 }

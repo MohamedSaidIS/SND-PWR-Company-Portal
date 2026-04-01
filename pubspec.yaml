@@ -94,6 +94,8 @@ dependencies:
   http: ^1.6.0
   smooth_page_indicator: ^2.0.1
   flutter_screenutil: ^5.9.3
+  flutter_bloc: ^9.1.1
+  equatable: ^2.0.8
 
 
 dev_dependencies:
