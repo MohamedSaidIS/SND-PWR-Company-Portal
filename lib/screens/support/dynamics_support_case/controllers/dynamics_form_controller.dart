@@ -12,12 +12,7 @@ class DynamicsFormController extends ChangeNotifier {
   bool isLoading = false;
 
   void clearData() {
-    title.clear();
-    description.clear();
-    area.clear();
-    date.clear();
-    selectedPurpose = null;
-    selectedPriority = 'Normal';
+
   }
 
   Future<void> pickDate(
