@@ -19,5 +19,6 @@ final class CreateECommerceItemEvent extends ECommerceFormEvent{
       this.selectedApp,
       this.selectedPriority,
       this.selectedType,
-      required this.attachedFiles});
+      required this.attachedFiles,
+      });
 }

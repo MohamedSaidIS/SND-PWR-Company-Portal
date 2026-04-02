@@ -20,7 +20,7 @@ class ECommerceBloc extends Bloc<ECommerceEvent, ECommerceState> {
     emit(const ECommerceLoading());
     try{
       final items = await _repo.getItems(event.userId);
-      emit(ECommerceData(items));
+      emit(ECommerceLoaded(items));
     }catch(e){
       emit(ECommerceError(e.toString()));
     }

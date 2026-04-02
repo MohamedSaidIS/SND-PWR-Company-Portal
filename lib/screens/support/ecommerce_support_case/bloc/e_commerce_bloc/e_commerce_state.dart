@@ -14,13 +14,20 @@ final class ECommerceLoading extends ECommerceState {
   List<Object?> get props => [];
 
 }
-final class ECommerceData extends ECommerceState {
+final class ECommerceLoaded extends ECommerceState {
   final List<EcommerceItem> ecommerceItems;
-  const ECommerceData(this.ecommerceItems);
+  const ECommerceLoaded(this.ecommerceItems);
 
 
   @override
   List<Object?> get props => [ecommerceItems];
+}
+final class ECommerceEmpty extends ECommerceState {
+  const ECommerceEmpty();
+
+
+  @override
+  List<Object?> get props => [];
 }
 final class ECommerceError extends ECommerceState {
   final String? errorMessage;
@@ -30,9 +37,3 @@ final class ECommerceError extends ECommerceState {
   List<Object?> get props => [errorMessage];
 }
 
-final class ECommerceSuccess extends ECommerceState{
-  const ECommerceSuccess();
-
-  @override
-  List<Object?> get props => [];
-}

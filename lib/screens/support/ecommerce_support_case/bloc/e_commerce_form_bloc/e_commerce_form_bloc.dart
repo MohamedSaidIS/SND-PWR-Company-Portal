@@ -12,12 +12,12 @@ part 'e_commerce_form_state.dart';
 
 class ECommerceFormBloc extends Bloc<ECommerceFormEvent, ECommerceFormState> {
   final BaseEcommerceRepository _repo;
-  ECommerceFormBloc(this._repo) : super(ECommerceFormInitial()) {
+  ECommerceFormBloc(this._repo) : super(const ECommerceFormInitial()) {
     on<CreateECommerceItemEvent>(_onSubmitForm);
   }
 
   FutureOr<void> _onSubmitForm(CreateECommerceItemEvent event, Emitter<ECommerceFormState> emit) async {
-    emit(ECommerceFormLoading());
+    emit(const ECommerceFormLoading());
     try{
       final  success = await _repo.createItem(EcommerceItem(
         id: -1,
@@ -36,9 +36,9 @@ class ECommerceFormBloc extends Bloc<ECommerceFormEvent, ECommerceFormState> {
         event.attachedFiles,
       );
       if (success) {
-        emit(ECommerceFormSuccess());
+        emit(const ECommerceFormSuccess());
       } else {
-        emit(ECommerceFormError("Failed to create ecommerce item"));
+        emit(const ECommerceFormError("Failed to create ecommerce item"));
       }
     }catch(e){
       emit(ECommerceFormError(e.toString()));

@@ -17,7 +17,7 @@ class EcommerceSupportCaseScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     final local = context.local;
     final ensureUser = context.watch<SPEnsureUserProvider>().alsanidiSiteEnsureUser;
-
+    final repo = EcommerceRepo(SharePointDioClient());
     return PopScope(
       canPop: false,
       child: CommonSupportAppbar(
@@ -25,14 +25,14 @@ class EcommerceSupportCaseScreen extends StatelessWidget {
       tabTitle: local.ecommerceSupportCase,
       tabBarChildren: [
         BlocProvider(
-          create: (context) => ECommerceFormBloc(EcommerceRepo(SharePointDioClient())),
+          create: (context) => ECommerceFormBloc(repo),
         child: EcommerceScFormScreen(
           userName: "${userInfo?.givenName} ${userInfo?.surname}",
           ensureUserId: ensureUser?.id ?? -1,
         ),
       ),
         BlocProvider(
-          create: (context) => ECommerceBloc(EcommerceRepo(SharePointDioClient())),
+          create: (context) => ECommerceBloc(repo),
         child: EcommerceHistoryScreen(ensureUserId: ensureUser?.id ?? -1, userInfo: userInfo, userImage: userImage,),),
       ],
       ),

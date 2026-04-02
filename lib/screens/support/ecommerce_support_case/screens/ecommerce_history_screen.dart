@@ -64,12 +64,16 @@ class _EcommerceHistoryScreenState extends State<EcommerceHistoryScreen>
             case ECommerceLoading():
               return AppNotifier.loadingWidget(theme);
             case ECommerceError():
+              return Center(child: Row(children: [
+                const Icon(Icons.error, color: Colors.red,),
+                Text("Something went wrong ${state.errorMessage}", style: const TextStyle(color: Colors.red, fontSize: 16),)
+              ]),);
+            case ECommerceEmpty():
               return NotFoundScreen(
                   image: "assets/images/no_request.png",
                   title: local.noItemsFound,
                   subtitle: local.thereIsNoDataToDisplay);
-            case ECommerceSuccess():
-            case ECommerceData():
+            case ECommerceLoaded():
             _controller.forward();
               return FadeTransition(
                 opacity: _fadeAnimation,
@@ -77,7 +81,7 @@ class _EcommerceHistoryScreenState extends State<EcommerceHistoryScreen>
                   duration: const Duration(milliseconds: 300),
                   switchInCurve: Curves.easeInOut,
                   child: ListView.builder(
-                    key: ValueKey((state as ECommerceData).ecommerceItems.length),
+                    key: ValueKey(state.ecommerceItems.length),
                     padding: const EdgeInsets.only(
                         top: 10, left: 10, right: 10, bottom: 25),
                     itemCount: state.ecommerceItems.length,

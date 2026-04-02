@@ -68,11 +68,11 @@ List<SingleChildWidget> appProviders(LocaleProvider localeProvider) {
         dioClient: context.read<GraphDioClient>(),
       ),
     ),
-    ChangeNotifierProvider(
-      create: (context) => EcommerceProvider(
-        sharePointDioClient: context.read<SharePointDioClient>(),
-      ),
-    ),
+    // ChangeNotifierProvider(
+    //   create: (context) => EcommerceProvider(
+    //     sharePointDioClient: context.read<SharePointDioClient>(),
+    //   ),
+    // ),
     ChangeNotifierProvider(
       create: (context) => CommentProvider(
         sharePointDioClient: context.read<SharePointDioClient>(),
@@ -101,9 +101,9 @@ List<SingleChildWidget> appProviders(LocaleProvider localeProvider) {
     ChangeNotifierProvider(
       create: (_) => FileController(),
     ),
-    ChangeNotifierProvider(
-      create: (_) => EcommerceFormController(),
-    ),
+    // ChangeNotifierProvider(
+    //   create: (_) => EcommerceFormController(),
+    // ),
     ChangeNotifierProvider(
       create: (_) => DynamicsFormController(),
     ),

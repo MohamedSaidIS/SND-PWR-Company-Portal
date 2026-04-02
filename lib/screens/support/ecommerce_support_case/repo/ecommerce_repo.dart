@@ -10,7 +10,7 @@ abstract class BaseEcommerceRepository {
   Future<bool> createItem(EcommerceItem item, List<AttachedBytes> attachedFiles);
 }
 
-class EcommerceRepo extends BaseEcommerceRepository{
+class EcommerceRepo implements BaseEcommerceRepository{
   final SharePointDioClient client;
 
   EcommerceRepo(this.client);
