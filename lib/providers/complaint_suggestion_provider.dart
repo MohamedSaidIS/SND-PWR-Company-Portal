@@ -25,7 +25,7 @@ class ComplaintSuggestionProvider with ChangeNotifier {
     notifyListeners();
 
     try {
-      final response = await sharePointDioClient.get(ShareApiConfig.ecommerceItemsByUser(ensureUserId: ensureUserId));
+      final response = await sharePointDioClient.get(ShareApiConfig.complaintItemsByUser(ensureUserId: ensureUserId));
 
       if (response.statusCode == 200) {
         final parsedResponse = response.data;
