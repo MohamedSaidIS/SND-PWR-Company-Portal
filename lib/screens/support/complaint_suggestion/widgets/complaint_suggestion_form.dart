@@ -1,130 +1,139 @@
+import 'package:company_portal/screens/support/complaint_suggestion/bloc/complaint_form_bloc/complaint_form_bloc.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../../utils/export_import.dart';
 
-class ComplaintSuggestionForm extends StatefulWidget {
+class ComplaintSuggestionForm extends StatelessWidget {
   final int ensureUser;
   final String userName;
 
-  const ComplaintSuggestionForm(
-      {required this.ensureUser, required this.userName, super.key});
+  ComplaintSuggestionForm({required this.ensureUser, required this.userName, super.key});
 
-  @override
-  State<ComplaintSuggestionForm> createState() =>
-      _ComplaintSuggestionFormState();
-}
-
-class _ComplaintSuggestionFormState extends State<ComplaintSuggestionForm> {
-
-  @override
-  void initState() {
-    super.initState();
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      final controller = context.read<ComplaintSuggestionFormController>();
-      controller.setUserName(widget.userName);
-    });
-  }
+  final GlobalKey<FormState> formKey = GlobalKey<FormState>();
+  final titleController  = TextEditingController();
+  final descriptionController  = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
-    final provider = context.watch<ComplaintSuggestionProvider>();
-    final controller = context.watch<ComplaintSuggestionFormController>();
     final local = context.local;
+    final fileController = context.read<FileController>();
+    final formBloc = context.read<ComplaintFormBloc>();
 
-    return Form(
-      key: controller.formKey,
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.stretch,
-        children: [
-         Expanded(
-           child: SingleChildScrollView(
-             child: Column(
-               children: [
-                 const SizedBox(height: 16),
-                 SendOptionalName(
-                   isChecked: controller.isChecked,
-                   onChange: (val) => controller.isChecked = val!,
-                   nameController: controller.name,
-                 ),
-                 const SizedBox(height: 16),
-                 Row(
-                   mainAxisSize: MainAxisSize.min,
-                   crossAxisAlignment: CrossAxisAlignment.start,
+    return BlocConsumer<ComplaintFormBloc, ComplaintFormState>(
+      listener: (context, state) {
+        if(state.isSuccess){
+          titleController.clear();
+          descriptionController.clear();
+          fileController.clear();
+          AppNotifier.snackBar(context, local.fromSubmittedSuccessfully, SnackBarType.success);
+        }else if (state.errorMessage != null) {
+          AppNotifier.snackBar(context, state.errorMessage ?? "", SnackBarType.error);
+        }
+      },
+      builder: (context, state) {
+        return Form(
+          key: formKey,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+             Expanded(
+               child: SingleChildScrollView(
+                 child: Column(
                    children: [
-                     Expanded(
-                       child: RadioButtonSelection(
-                         text: local.complaint,
-                         groupValue: controller.selectedType!,
-                         value: "Complaint",
-                         onChange: (val) => controller.selectedType = val,
-                       ),
+                     const SizedBox(height: 16),
+                     SendOptionalName(
+                       isChecked: state.isChecked,
+                       onChange: (val) => formBloc.add(ToggleEvent(val!)),
+                       nameController: TextEditingController(text: userName),
                      ),
-                     const SizedBox(width: 10),
-                     Expanded(
-                       child: RadioButtonSelection(
-                         text: local.suggestion,
-                         groupValue: controller.selectedType!,
-                         value: "Suggestion",
-                         onChange: (val) => controller.selectedType = val,
-                       ),
+                     const SizedBox(height: 16),
+                     Row(
+                       mainAxisSize: MainAxisSize.min,
+                       crossAxisAlignment: CrossAxisAlignment.start,
+                       children: [
+                         Expanded(
+                           child: RadioButtonSelection(
+                             text: local.complaint,
+                             groupValue: state.selectedType,
+                             value: "Complaint",
+                             onChange: (val) => formBloc.add(ChangeTypeEvent(val!)),
+                           ),
+                         ),
+                         const SizedBox(width: 10),
+                         Expanded(
+                           child: RadioButtonSelection(
+                             text: local.suggestion,
+                             groupValue: state.selectedType,
+                             value: "Suggestion",
+                             onChange: (val) =>  formBloc.add(ChangeTypeEvent(val!)),
+                           ),
+                         ),
+                       ],
                      ),
+                     const SizedBox(height: 16),
+                     CustomDropDownField(
+                       value: state.selectedCategory,
+                       label: local.category,
+                       onChanged: (val) => formBloc.add(ChangeCategoryEvent(val!)),
+                       items: getCategories(local),
+                       validator: (val) => TextFieldHelper.textFormFieldValidation(
+                           val, local.pleaseSelectCategory),
+                     ),
+                     const SizedBox(height: 16),
+                     CustomDropDownField(
+                       value: state.selectedPriority,
+                       label: local.priority,
+                       onChanged: (val) => formBloc.add(ChangePriorityEvent(val!)),
+                       items: getPriorities(local),
+                       validator: (val) => TextFieldHelper.textFormFieldValidation(
+                           val, local.pleaseSelectPriority),
+                     ),
+                     const SizedBox(height: 16),
+                     CustomTextField(
+                       controller: titleController,
+                       label: local.issueTitle,
+                       maxLines: 2,
+                       validator: (value) => TextFieldHelper.textFormFieldValidation(
+                           value, local.pleaseEnterTitle),
+                     ),
+                     const SizedBox(height: 16),
+                     CustomTextField(
+                       controller: descriptionController,
+                       label: local.issueDescription,
+                       maxLines: 4,
+                       validator: (value) => TextFieldHelper.textFormFieldValidation(
+                           value, local.pleaseEnterYourDescription),
+                     ),
+                     const SizedBox(height: 16),
+                     const AttachmentPicker(),
+                     const SizedBox(height: 16),
                    ],
                  ),
-                 const SizedBox(height: 16),
-                 CustomDropDownField(
-                   value: controller.selectedCategory,
-                   label: local.category,
-                   onChanged: (val) => controller.selectedCategory = val,
-                   items: getCategories(local),
-                   validator: (val) => TextFieldHelper.textFormFieldValidation(
-                       val, local.pleaseSelectCategory),
-                 ),
-                 const SizedBox(height: 16),
-                 CustomDropDownField(
-                   value: controller.selectedPriority,
-                   label: local.priority,
-                   onChanged: (val) => controller.selectedPriority = val,
-                   items: getPriorities(local),
-                   validator: (val) => TextFieldHelper.textFormFieldValidation(
-                       val, local.pleaseSelectPriority),
-                 ),
-                 const SizedBox(height: 16),
-                 CustomTextField(
-                   controller: controller.issueTitle,
-                   label: local.issueTitle,
-                   maxLines: 2,
-                   validator: (value) => TextFieldHelper.textFormFieldValidation(
-                       value, local.pleaseEnterTitle),
-                 ),
-                 const SizedBox(height: 16),
-                 CustomTextField(
-                   controller: controller.issueDescription,
-                   label: local.issueDescription,
-                   maxLines: 4,
-                   validator: (value) => TextFieldHelper.textFormFieldValidation(
-                       value, local.pleaseEnterYourDescription),
-                 ),
-                 const SizedBox(height: 16),
-                 const AttachmentPicker(),
-                 const SizedBox(height: 16),
-               ],
+               ),
              ),
-           ),
-         ),
-          const SizedBox(height: 10),
-          SubmitButton(
-            btnText: local.submit,
-            loading: controller.isLoading,
-            btnFunction: () async {
-              setState(() => controller.isLoading = true);
-              await controller
-                  .submitForm(context, local, provider, widget.ensureUser);
-              setState(() => controller.isLoading = false);
-            },
+              const SizedBox(height: 10),
+              SubmitButton(
+                btnText: local.submit,
+                loading: state.isLoading,
+                btnFunction: () async {
+                  if(!formKey.currentState!.validate()) return;
+                  formBloc.add(CreateComplaintItemEvent(
+                    userId: ensureUser,
+                    title: titleController.text,
+                    description: descriptionController.text,
+                    selectedPriority: state.selectedPriority,
+                    selectedDepartment: state.selectedCategory,
+                    userName: state.isChecked ? userName.trim() : '',
+                    attachedFiles: fileController.attachedFiles,
+                  ),
+                  );
+                },
+              ),
+            ],
           ),
-        ],
-      ),
+        );
+      },
     );
   }
 }

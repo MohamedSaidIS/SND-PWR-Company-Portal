@@ -22,5 +22,24 @@ final class CreateComplaintItemEvent extends ComplaintFormEvent{
         required this.attachedFiles,
       });
 
+}
 
+class ChangeTypeEvent extends ComplaintFormEvent{
+  final String type;
+  ChangeTypeEvent(this.type);
+}
+
+class ToggleEvent extends ComplaintFormEvent{
+  final bool isChecked;
+  ToggleEvent(this.isChecked);
+}
+
+class ChangeCategoryEvent extends ComplaintFormEvent{
+  final String category;
+  ChangeCategoryEvent(this.category);
+}
+
+class ChangePriorityEvent extends ComplaintFormEvent{
+  final String priority;
+  ChangePriorityEvent(this.priority);
 }
