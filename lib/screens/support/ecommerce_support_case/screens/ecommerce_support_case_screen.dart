@@ -2,7 +2,6 @@ import 'dart:typed_data';
 import 'package:company_portal/screens/support/ecommerce_support_case/bloc/e_commerce_form_bloc/e_commerce_form_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:provider/provider.dart';
 import '../../../../utils/export_import.dart';
 import '../bloc/e_commerce_bloc/e_commerce_bloc.dart';
 import '../repo/ecommerce_repo.dart';

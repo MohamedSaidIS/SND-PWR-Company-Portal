@@ -4,7 +4,6 @@ import 'package:company_portal/screens/support/dynamics_support_case/bloc/dynami
 import 'package:company_portal/screens/support/dynamics_support_case/repo/dynamics_repo.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:provider/provider.dart';
 import '../../../../utils/export_import.dart';
 
 

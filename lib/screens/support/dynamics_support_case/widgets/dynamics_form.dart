@@ -1,7 +1,6 @@
 import 'package:company_portal/screens/support/dynamics_support_case/bloc/dynamics_form_bloc/dynamics_form_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:provider/provider.dart';
 
 import '../../../../utils/export_import.dart';
 

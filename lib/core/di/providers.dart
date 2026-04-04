@@ -38,11 +38,6 @@ List<SingleChildWidget> appProviders(LocaleProvider localeProvider) {
       ),
     ),
     ChangeNotifierProvider(
-      create: (context) => ComplaintSuggestionProvider(
-        sharePointDioClient: context.read<SharePointDioClient>(),
-      ),
-    ),
-    ChangeNotifierProvider(
       create: (context) => SalesKPIProvider(
         kpiDioClient: context.read<KPIDioClient>(),
       ),
@@ -68,11 +63,6 @@ List<SingleChildWidget> appProviders(LocaleProvider localeProvider) {
         dioClient: context.read<GraphDioClient>(),
       ),
     ),
-    // ChangeNotifierProvider(
-    //   create: (context) => EcommerceProvider(
-    //     sharePointDioClient: context.read<SharePointDioClient>(),
-    //   ),
-    // ),
     ChangeNotifierProvider(
       create: (context) => CommentProvider(
         sharePointDioClient: context.read<SharePointDioClient>(),
@@ -82,11 +72,6 @@ List<SingleChildWidget> appProviders(LocaleProvider localeProvider) {
     ChangeNotifierProvider(
       create: (context) => AttachmentsProvider(
         sharePointDioClient: context.read<SharePointDioClient>(),
-        mySharePointDioClient: context.read<MySharePointDioClient>(),
-      ),
-    ),
-    ChangeNotifierProvider(
-      create: (context) => DynamicsProvider(
         mySharePointDioClient: context.read<MySharePointDioClient>(),
       ),
     ),
@@ -100,15 +85,6 @@ List<SingleChildWidget> appProviders(LocaleProvider localeProvider) {
     ),
     ChangeNotifierProvider(
       create: (_) => FileController(),
-    ),
-    // ChangeNotifierProvider(
-    //   create: (_) => EcommerceFormController(),
-    // ),
-    ChangeNotifierProvider(
-      create: (_) => DynamicsFormController(),
-    ),
-    ChangeNotifierProvider(
-      create: (_) => ComplaintSuggestionFormController(),
     ),
     ChangeNotifierProvider(
       create: (_) => NotificationProvider()..load(),

@@ -1,7 +1,6 @@
 import 'dart:async';
 import 'package:company_portal/core/models/remote/complaint_suggestion_item.dart';
 import 'package:company_portal/screens/support/complaint_suggestion/repo/complaint_repo.dart';
-import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../../../core/models/local/attached_file_info.dart';
