@@ -1,6 +1,4 @@
 import 'dart:async';
-
-import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../../../core/models/local/attached_file_info.dart';
@@ -10,14 +8,28 @@ import '../../repo/ecommerce_repo.dart';
 part 'e_commerce_form_event.dart';
 part 'e_commerce_form_state.dart';
 
-class ECommerceFormBloc extends Bloc<ECommerceFormEvent, ECommerceFormState> {
+class ECommerceFormBloc extends Bloc<EcommerceFormEvent, EcommerceFormState> {
   final BaseEcommerceRepository _repo;
-  ECommerceFormBloc(this._repo) : super(const ECommerceFormInitial()) {
-    on<CreateECommerceItemEvent>(_onSubmitForm);
+  ECommerceFormBloc(this._repo) : super(EcommerceFormState()) {
+    on<CreateEcommerceItemEvent>(_onSubmitForm);
+
+    on<ChangePriorityEvent>((event,emit){
+      emit(state.copyWith(selectedPriority: event.selectedPriority));
+    });
+
+    on<ChangeAppEvent>((event,emit){
+      emit(state.copyWith(selectedApp: event.selectApp));
+    });
+
+    on<ChangeTypeEvent>((event,emit){
+      emit(state.copyWith(selectedType: event.selectedType));
+    });
+
+
   }
 
-  FutureOr<void> _onSubmitForm(CreateECommerceItemEvent event, Emitter<ECommerceFormState> emit) async {
-    emit(const ECommerceFormLoading());
+  FutureOr<void> _onSubmitForm(CreateEcommerceItemEvent event, Emitter<EcommerceFormState> emit) async {
+    emit(state.copyWith(isLoading: true, errorMessage: null));
     try{
       final  success = await _repo.createItem(EcommerceItem(
         id: -1,
@@ -36,12 +48,12 @@ class ECommerceFormBloc extends Bloc<ECommerceFormEvent, ECommerceFormState> {
         event.attachedFiles,
       );
       if (success) {
-        emit(const ECommerceFormSuccess());
+        emit(state.copyWith(isLoading: false, isSuccess: true, selectedApp: null, selectedPriority: "Normal", selectedType: null));
       } else {
-        emit(const ECommerceFormError("Failed to create ecommerce item"));
+        emit(state.copyWith(isLoading: false,errorMessage: "Failed to create ecommerce item"));
       }
     }catch(e){
-      emit(ECommerceFormError(e.toString()));
+      emit(state.copyWith(isLoading:false, errorMessage: e.toString()));
     }
   }
 }

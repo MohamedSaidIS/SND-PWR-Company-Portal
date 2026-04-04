@@ -1,8 +1,8 @@
 part of 'e_commerce_form_bloc.dart';
 
-sealed class ECommerceFormEvent {}
+sealed class EcommerceFormEvent {}
 
-final class CreateECommerceItemEvent extends ECommerceFormEvent{
+final class CreateEcommerceItemEvent extends EcommerceFormEvent{
 
   final int userId;
   final String title;
@@ -12,7 +12,7 @@ final class CreateECommerceItemEvent extends ECommerceFormEvent{
   final String? selectedType;
   final List<AttachedBytes> attachedFiles;
 
-  CreateECommerceItemEvent(
+  CreateEcommerceItemEvent(
       {required this.userId,
       required this.title,
       required this.description,
@@ -21,4 +21,19 @@ final class CreateECommerceItemEvent extends ECommerceFormEvent{
       this.selectedType,
       required this.attachedFiles,
       });
+}
+
+final class ChangeAppEvent extends EcommerceFormEvent{
+  final String? selectApp;
+  ChangeAppEvent(this.selectApp);
+}
+
+final class ChangePriorityEvent extends EcommerceFormEvent{
+  final String? selectedPriority;
+  ChangePriorityEvent(this.selectedPriority);
+}
+
+final class ChangeTypeEvent extends EcommerceFormEvent{
+  final String? selectedType;
+  ChangeTypeEvent(this.selectedType);
 }

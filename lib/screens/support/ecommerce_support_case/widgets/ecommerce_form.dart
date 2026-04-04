@@ -4,20 +4,14 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../../utils/export_import.dart';
 
 
-class EcommerceForm extends StatefulWidget {
+class EcommerceForm extends StatelessWidget {
+
+  EcommerceForm({required this.ensureUser, super.key});
   final int ensureUser;
 
-  const EcommerceForm({required this.ensureUser, super.key});
-
-  @override
-  State<EcommerceForm> createState() => _EcommerceFormState();
-}
-
-class _EcommerceFormState extends State<EcommerceForm> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   final titleController = TextEditingController();
   final descriptionController= TextEditingController();
-  String? selectedApp, selectedPriority = "Normal", selectedType;
 
   @override
   Widget build(BuildContext context) {
@@ -25,23 +19,18 @@ class _EcommerceFormState extends State<EcommerceForm> {
     final fileController = context.read<FileController>();
     final formBloc = context.read<ECommerceFormBloc>();
 
-
-    return BlocConsumer<ECommerceFormBloc, ECommerceFormState>(
-      listener: (BuildContext context, ECommerceFormState state) {
-        if(state is ECommerceFormSuccess){
+    return BlocConsumer<ECommerceFormBloc, EcommerceFormState>(
+      listener: (BuildContext context, EcommerceFormState state) {
+        if(state.isSuccess){
           titleController.clear();
           descriptionController.clear();
-          selectedApp = null;
-          selectedPriority = "Normal";
-          selectedType = null;
           fileController.clear();
           AppNotifier.snackBar(context, local.fromSubmittedSuccessfully, SnackBarType.success);
-        } else if (state is ECommerceFormError) {
+        } else if (state.errorMessage != null) {
           AppNotifier.snackBar(context, state.errorMessage ?? "", SnackBarType.error);
         }
       },
       builder: (context, state) {
-        final isLoading = state is ECommerceFormLoading;
         return Form(
           key: _formKey,
           autovalidateMode: AutovalidateMode.disabled,
@@ -65,25 +54,25 @@ class _EcommerceFormState extends State<EcommerceForm> {
                     ),
                     const SizedBox(height: 16),
                     CustomDropDownField(
-                      value: selectedPriority,
+                      value: state.selectedPriority,
                       label: local.priority,
-                      onChanged: (val) => selectedPriority = val,
+                      onChanged: (val) => formBloc.add(ChangePriorityEvent(val!)),
                       validator: (v) => TextFieldHelper.textFormFieldValidation(v, local.pleaseSelectPriority),
                       items: getPriorities(local),
                     ),
                     const SizedBox(height: 16),
                     CustomDropDownField(
-                      value: selectedApp,
+                      value: state.selectedApp,
                       label: local.app,
-                      onChanged: (val) => selectedApp = val,
+                      onChanged: (val) => formBloc.add(ChangeAppEvent(val!)),
                       validator: (v) => TextFieldHelper.textFormFieldValidation(v, local.pleaseSelectApp),
                       items: getAppList(local),
                     ),
                     const SizedBox(height: 16),
                     CustomDropDownField(
-                      value: selectedType,
+                      value: state.selectedType,
                       label: local.type,
-                      onChanged: (val) => selectedType = val,
+                      onChanged: (val) => formBloc.add(ChangeTypeEvent(val!)),
                       items: getTypeList(local),
                     ),
                     const SizedBox(height: 16),
@@ -95,16 +84,16 @@ class _EcommerceFormState extends State<EcommerceForm> {
               const SizedBox(height: 10),
               SubmitButton(
                 btnText: local.submit,
-                loading: isLoading,
+                loading: state.isLoading,
                 btnFunction: () async {
                  if(!_formKey.currentState!.validate()) return;
-                 formBloc.add(CreateECommerceItemEvent(
-                   userId: widget.ensureUser,
+                 formBloc.add(CreateEcommerceItemEvent(
+                   userId: ensureUser,
                    title: titleController.text,
                    description: descriptionController.text,
-                   selectedApp: selectedApp,
-                   selectedPriority: selectedPriority,
-                   selectedType: selectedType,
+                   selectedApp: state.selectedApp,
+                   selectedPriority: state.selectedPriority,
+                   selectedType: state.selectedType,
                    attachedFiles: fileController.attachedFiles,
                   ),
                  );
