@@ -4,22 +4,16 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../../utils/export_import.dart';
 
-class DynamicsForm extends StatefulWidget {
+class DynamicsForm extends StatelessWidget {
+  DynamicsForm({required this.ensureUser,super.key});
   final int ensureUser;
-  const DynamicsForm({required this.ensureUser,super.key});
 
-  @override
-  State<DynamicsForm> createState() => _DynamicsFormState();
-}
-
-class _DynamicsFormState extends State<DynamicsForm> {
   final GlobalKey<FormState> formKey = GlobalKey<FormState>();
   final titleController = TextEditingController();
   final descriptionController = TextEditingController();
   final areaController = TextEditingController();
   final dateController = TextEditingController();
-  String? selectedPurpose, selectedPriority = 'Normal';
-  
+
   @override
   Widget build(BuildContext context) {
     final local = context.local;
@@ -28,21 +22,18 @@ class _DynamicsFormState extends State<DynamicsForm> {
 
     return BlocConsumer<DynamicsFormBloc, DynamicsFormState>(
       listener: (context, state) {
-        if(state is DynamicsFormSuccess){
+        if(state.isSuccess){
           titleController.clear();
           descriptionController.clear();
           areaController.clear();
           dateController.clear();
-          selectedPurpose = null;
-          selectedPriority = 'Normal';
           fileController.clear();
           AppNotifier.snackBar(context, local.fromSubmittedSuccessfully, SnackBarType.success);
-        }else if (state is DynamicsFormError) {
+        }else if (state.errorMessage != null) {
           AppNotifier.snackBar(context, state.errorMessage ?? "", SnackBarType.error);
         }
       },
       builder: (context, state) {
-        final isLoading = state is DynamicsFormLoading;
         return Form(
           key: formKey,
           child: Column(
@@ -80,7 +71,7 @@ class _DynamicsFormState extends State<DynamicsForm> {
                                     firstDate: DateTime(2020),
                                     lastDate: DateTime(2100),
                                   );
-
+                                  if(!context.mounted) return;
                                   if (picked != null) {
                                     dateController.text = DatesHelper.dashedFormatting(picked, context.currentLocale());                                  }
                                 },
@@ -105,18 +96,18 @@ class _DynamicsFormState extends State<DynamicsForm> {
                       ),
                       const SizedBox(height: 16),
                       CustomDropDownField(
-                        value: selectedPriority,
+                        value: state.selectedPriority,
                         label: local.priority,
-                        onChanged: (val) => selectedPriority = val,
+                        onChanged: (val) => formBloc.add(ChangePriorityEvent(val)),
                         validator: (val) => TextFieldHelper.textFormFieldValidation(
                             val, local.pleaseSelectPriority),
                         items: getPriorities(local),
                       ),
                       const SizedBox(height: 16),
                       CustomDropDownField(
-                        value: selectedPurpose,
+                        value: state.selectedPurpose,
                         label: local.purpose,
-                        onChanged: (val) => selectedPurpose = val,
+                        onChanged: (val) => formBloc.add(ChangePurposeEvent(val)),
                         validator: (val) => TextFieldHelper.textFormFieldValidation(
                             val, local.pleaseSelectPurpose),
                         items: getPurpose(local),
@@ -131,16 +122,16 @@ class _DynamicsFormState extends State<DynamicsForm> {
               const SizedBox(height: 10),
               SubmitButton(
                 btnText: local.submit,
-                loading: isLoading,
+                loading: state.isLoading,
                 btnFunction: () async {
                   if (!formKey.currentState!.validate()) return;
                   formBloc.add(CreateDynamicsItemEvent(
-                    userId: widget.ensureUser,
+                    userId: ensureUser,
                     title: titleController.text,
                     description: descriptionController.text,
-                    selectedPriority: selectedPriority!,
+                    selectedPriority: state.selectedPriority!,
                     selectedArea: areaController.text,
-                    selectedPurpose: selectedPurpose!,
+                    selectedPurpose: state.selectedPurpose!,
                     dateReported: dateController.text,
                     attachedFiles: fileController.attachedFiles,
                   ),

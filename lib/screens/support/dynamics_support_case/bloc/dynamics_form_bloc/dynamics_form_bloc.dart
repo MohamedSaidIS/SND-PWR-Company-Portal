@@ -1,7 +1,6 @@
 import 'dart:async';
 import 'package:company_portal/core/models/remote/dynamics_item.dart';
 import 'package:company_portal/screens/support/dynamics_support_case/repo/dynamics_repo.dart';
-import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../../../core/models/local/attached_file_info.dart';
@@ -12,13 +11,19 @@ part 'dynamics_form_state.dart';
 
 class DynamicsFormBloc extends Bloc<DynamicsFormEvent, DynamicsFormState> {
   final BaseDynamicsRepository _repo;
-  DynamicsFormBloc(this._repo) : super(const DynamicsFormInitial()) {
+  DynamicsFormBloc(this._repo) : super(DynamicsFormState()) {
     on<CreateDynamicsItemEvent>(_onSubmitForm);
+    on<ChangePriorityEvent>((event, emit){
+      emit(state.copyWith(selectedPriority: event.selectedPriority));
+    });
+    on<ChangePurposeEvent>((event, emit){
+      emit(state.copyWith(selectedPurpose: event.selectedPurpose));
+    });
   }
 
 
   FutureOr<void> _onSubmitForm(CreateDynamicsItemEvent event, Emitter<DynamicsFormState> emit) async{
-    emit(const DynamicsFormLoading());
+    emit(state.copyWith(isLoading: true, errorMessage: null));
     try{
       final success = await _repo.createItem(
           DynamicsItem(
@@ -36,12 +41,12 @@ class DynamicsFormBloc extends Bloc<DynamicsFormEvent, DynamicsFormState> {
           ), event.attachedFiles,
       );
       if(success){
-        emit(const DynamicsFormSuccess());
+        emit(state.copyWith(isLoading: false, isSuccess: true, selectedPurpose: null, selectedPriority: 'Normal'));
       }else {
-        emit(const DynamicsFormError("Failed to create dynamics item"));
+        emit(state.copyWith(isLoading: false, errorMessage: "Failed to create dynamics item"));
       }
     }catch(e){
-      emit(DynamicsFormError(e.toString()));
+      emit(state.copyWith(isLoading: false, errorMessage: e.toString()));
     }
   }
 

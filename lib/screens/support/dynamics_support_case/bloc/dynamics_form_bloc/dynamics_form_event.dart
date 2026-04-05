@@ -27,3 +27,15 @@ final class CreateDynamicsItemEvent extends DynamicsFormEvent{
 
 }
 
+final class ChangePriorityEvent extends DynamicsFormEvent{
+  final String? selectedPriority;
+
+  ChangePriorityEvent(this.selectedPriority);
+}
+
+final class ChangePurposeEvent extends DynamicsFormEvent{
+  final String? selectedPurpose;
+
+  ChangePurposeEvent(this.selectedPurpose);
+}
+
