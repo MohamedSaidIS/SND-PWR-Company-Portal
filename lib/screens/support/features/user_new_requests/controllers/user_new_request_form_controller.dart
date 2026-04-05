@@ -33,7 +33,7 @@ class UserNewRequestFormController {
     if (widget.newUserRequest != null) fillForm(widget.newUserRequest);
   }
 
-  void fillForm(NewUserRequest? req) {
+  void fillForm(NewUserItem? req) {
     AppNotifier.logWithScreen("UserNewRequestFormController", "Request $req");
     if (req == null) return;
     isFilling = true;
@@ -74,7 +74,7 @@ class UserNewRequestFormController {
 
   Future<void> submitForm(
     AppLocalizations local,
-    NewUserRequest? request,
+    NewUserItem? request,
     int ensureUserId,) async {
     AppNotifier.logWithScreen("UserNewRequestFormController", "Validating form...");
     final isValid = formKey.currentState?.validate() ?? false;
@@ -100,7 +100,7 @@ class UserNewRequestFormController {
     }
   }
 
-  void snackBar(AppLocalizations local, bool success, NewUserRequest? request){
+  void snackBar(AppLocalizations local, bool success, NewUserItem? request){
     if (request == null) clearData();
     AppNotifier.snackBar(
       context,
@@ -109,8 +109,8 @@ class UserNewRequestFormController {
     );
   }
 
-  NewUserRequest _buildRequest(DateTime date, int ensureUserId) =>
-      NewUserRequest(
+  NewUserItem _buildRequest(DateTime date, int ensureUserId) =>
+      NewUserItem(
         id: -1,
         title: title.text,
         joiningDate: date,

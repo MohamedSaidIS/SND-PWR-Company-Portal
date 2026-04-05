@@ -7,12 +7,12 @@ class NewUserRequestProvider extends ChangeNotifier {
 
   NewUserRequestProvider({required this.sharePointDioClient});
 
-  List<NewUserRequest> _newUserRequestList = [];
+  List<NewUserItem> _newUserRequestList = [];
   bool _loading = false;
   bool _updated = false;
   String? _error;
 
-  List<NewUserRequest> get newUserRequestList => _newUserRequestList;
+  List<NewUserItem> get newUserRequestList => _newUserRequestList;
 
   bool get loading => _loading;
 
@@ -32,7 +32,7 @@ class NewUserRequestProvider extends ChangeNotifier {
         final parsedResponse = response.data;
         _newUserRequestList = await compute(
               (final data) => (data['value'] as List)
-              .map((e) => NewUserRequest.fromJson(e as Map<String, dynamic>))
+              .map((e) => NewUserItem.fromJson(e as Map<String, dynamic>))
               .where((req) => req.directManagerId == ensureUserId)
               .toList(),
           parsedResponse,
@@ -56,7 +56,7 @@ class NewUserRequestProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  Future<bool> updateNewUserRequest(int requestId, NewUserRequest item) async {
+  Future<bool> updateNewUserRequest(int requestId, NewUserItem item) async {
     _loading = true;
     _error = null;
     notifyListeners();
@@ -98,7 +98,7 @@ class NewUserRequestProvider extends ChangeNotifier {
     }
   }
 
-  Future<bool> createNewUserRequest(NewUserRequest item) async {
+  Future<bool> createNewUserRequest(NewUserItem item) async {
     _loading = true;
     _error = null;
     notifyListeners();

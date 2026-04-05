@@ -1,4 +1,4 @@
-class NewUserRequest {
+class NewUserItem {
   final int id;
   final String? title;
   final DateTime joiningDate;
@@ -20,7 +20,7 @@ class NewUserRequest {
   final String? requestDynamicsAccount;
   final String? specifyDynamicsRole;
 
-  NewUserRequest({
+  NewUserItem({
     required this.id,
     required this.title,
     required this.joiningDate,
@@ -43,8 +43,8 @@ class NewUserRequest {
     required this.specifyDynamicsRole,
   });
 
-  factory NewUserRequest.fromJson(Map<String, dynamic> json){
-    return NewUserRequest(
+  factory NewUserItem.fromJson(Map<String, dynamic> json){
+    return NewUserItem(
         id: json['Id'],
         title: json['Title'],
         joiningDate: DateTime.parse(json['field_1']),

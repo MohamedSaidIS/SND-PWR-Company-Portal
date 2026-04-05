@@ -4,7 +4,7 @@ import 'package:company_portal/utils/export_import.dart';
 class UserNewRequestFormScreen extends StatefulWidget {
   final String userName;
   final int ensureUserId;
-  final NewUserRequest? newUserRequest;
+  final NewUserItem? newUserRequest;
 
   const UserNewRequestFormScreen({
     super.key,
