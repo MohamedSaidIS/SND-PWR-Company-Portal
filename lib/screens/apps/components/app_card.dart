@@ -3,8 +3,7 @@ import 'package:device_apps/device_apps.dart';
 import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
 
-import '../../../utils/export_import.dart';
-
+import 'package:company_portal/utils/export_import.dart';
 class AppCard extends StatelessWidget {
   final AppItem item;
 

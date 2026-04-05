@@ -1,8 +1,7 @@
 import 'package:aad_oauth/aad_oauth.dart';
 import 'package:flutter/material.dart';
 
-import '../../../utils/export_import.dart';
-
+import 'package:company_portal/utils/export_import.dart';
 class AuthControllerOld {
   final BuildContext context;
   late final AadOAuth? oauth;

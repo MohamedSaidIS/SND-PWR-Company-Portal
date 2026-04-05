@@ -3,7 +3,7 @@ import 'package:csv/csv.dart';
 import 'package:dio/dio.dart';
 import 'package:excel/excel.dart';
 import 'package:flutter/foundation.dart';
-import '../utils/export_import.dart';
+import 'package:company_portal/utils/export_import.dart';
 
 class ManagementKpiProvider extends ChangeNotifier {
   final GraphDioClient dioClient;

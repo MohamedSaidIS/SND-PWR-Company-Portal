@@ -1,7 +1,6 @@
 import 'package:provider/provider.dart';
 import 'package:provider/single_child_widget.dart';
-import '../../../utils/export_import.dart';
-
+import 'package:company_portal/utils/export_import.dart';
 List<SingleChildWidget> appProviders(LocaleProvider localeProvider) {
   return [
     Provider<AuthConfigController>(

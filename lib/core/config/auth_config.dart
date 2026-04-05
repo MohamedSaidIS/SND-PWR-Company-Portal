@@ -1,7 +1,6 @@
 import 'package:aad_oauth/model/config.dart';
 import 'package:flutter/material.dart';
-import '../../../utils/export_import.dart';
-
+import 'package:company_portal/utils/export_import.dart';
 class AuthConfig {
   static Config createRefreshConfig(GlobalKey<NavigatorState> navigatorKey) {
     return Config(

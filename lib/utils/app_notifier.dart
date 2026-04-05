@@ -2,8 +2,7 @@
 import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
 import 'package:provider/provider.dart';
-import '../../../../utils/export_import.dart';
-
+import 'package:company_portal/utils/export_import.dart';
 class AppLogger {
   static void info(String tag, String msg) {
     debugPrint("ℹ️ [$tag] $msg");

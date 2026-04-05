@@ -2,8 +2,7 @@ import 'dart:convert';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_appauth/flutter_appauth.dart';
-import '../../../utils/export_import.dart';
-
+import 'package:company_portal/utils/export_import.dart';
 class AuthController {
   final FlutterAppAuth appAuth = const FlutterAppAuth();
   final BuildContext context;

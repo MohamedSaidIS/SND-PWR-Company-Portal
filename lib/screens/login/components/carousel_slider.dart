@@ -1,7 +1,6 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
-import '../../../../utils/export_import.dart';
-import 'package:flutter/material.dart';
+import 'package:company_portal/utils/export_import.dart';import 'package:flutter/material.dart';
 
 class CarouselSliderWidget extends StatefulWidget {
   const CarouselSliderWidget({super.key});

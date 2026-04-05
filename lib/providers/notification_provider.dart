@@ -1,6 +1,5 @@
 import 'package:flutter/cupertino.dart';
-import '../../../utils/export_import.dart';
-
+import 'package:company_portal/utils/export_import.dart';
 class NotificationProvider extends ChangeNotifier{
   final _storage = NotificationStorage();
 

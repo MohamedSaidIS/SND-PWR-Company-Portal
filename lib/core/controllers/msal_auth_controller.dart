@@ -1,6 +1,6 @@
 // import 'package:company_portal/config/auth_controller.dart';
 // import 'package:flutter/material.dart';
-// import '../utils/export_import.dart';
+// import 'package:company_portal/utils/export_import.dart';
 //
 // class MsalAuthController {
 //   final BuildContext context;
@@ -102,8 +102,7 @@
 
 
 import 'package:flutter/material.dart';
-import '../../../utils/export_import.dart';
-
+import 'package:company_portal/utils/export_import.dart';
 class MsalAuthController {
   final BuildContext context;
   final AuthConfigController oauth;

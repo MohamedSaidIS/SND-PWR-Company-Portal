@@ -1,6 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
-import '../utils/export_import.dart';
+import 'package:company_portal/utils/export_import.dart';
 
 
 class SPEnsureUserProvider extends ChangeNotifier {
@@ -96,7 +96,7 @@ class SPEnsureUserProvider extends ChangeNotifier {
 
     try {
       final response = await mySharePointDioClient.post(
-        MyShareApiConfig.dynamics,
+        MyShareApiConfig.dynamicsEnsureUser,
         data: {
           "logonName": "i:0#.f|membership|$email",
         },

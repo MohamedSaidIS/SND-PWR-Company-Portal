@@ -1,6 +1,6 @@
 import 'package:flutter/foundation.dart';
 import 'package:dio/dio.dart';
-import '../utils/export_import.dart';
+import 'package:company_portal/utils/export_import.dart';
 
 class NewUserRequestProvider extends ChangeNotifier {
   final SharePointDioClient sharePointDioClient;

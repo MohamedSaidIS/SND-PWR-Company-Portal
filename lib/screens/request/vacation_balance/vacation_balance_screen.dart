@@ -2,8 +2,7 @@ import 'package:company_portal/screens/request/vacation_balance/components/balan
 import 'package:company_portal/screens/request/vacation_balance/components/transactions_screen.dart';
 import 'package:company_portal/screens/request/vacation_balance/components/vacation_balance_section_header.dart';
 import 'package:flutter/material.dart';
-import '../../../../../utils/export_import.dart';
-
+import 'package:company_portal/utils/export_import.dart';
 class VacationBalanceScreen extends StatefulWidget {
   const VacationBalanceScreen({super.key});
 

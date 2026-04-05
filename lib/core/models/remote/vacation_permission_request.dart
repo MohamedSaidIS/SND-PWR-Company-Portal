@@ -1,5 +1,4 @@
-import '../../../utils/export_import.dart';
-class VacationPermissionRequest {
+import 'package:company_portal/utils/export_import.dart';class VacationPermissionRequest {
   final DateTime profileDate = DateTime.now();
   final DateTime startDate;
   final DateTime endDate;

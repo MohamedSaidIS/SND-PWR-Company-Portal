@@ -1,8 +1,7 @@
 import 'dart:core';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import '../../../utils/export_import.dart';
-
+import 'package:company_portal/utils/export_import.dart';
 class SalesKpisDetailsScreen extends StatefulWidget {
   final List<SalesKPI> salesKpis;
   final String initialTitle;

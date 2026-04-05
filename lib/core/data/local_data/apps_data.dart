@@ -1,5 +1,4 @@
-import '../../../../utils/export_import.dart';
-
+import 'package:company_portal/utils/export_import.dart';
 List<AppItem> getAppItems = [
   const AppItem(
       appIcon: 'assets/images/calender_icon.png',

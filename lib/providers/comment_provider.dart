@@ -1,6 +1,5 @@
 import 'package:flutter/foundation.dart';
-import '../../../utils/export_import.dart';
-
+import 'package:company_portal/utils/export_import.dart';
 class CommentProvider extends ChangeNotifier {
   final SharePointDioClient sharePointDioClient;
   final MySharePointDioClient mySharePointDioClient;

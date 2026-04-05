@@ -2,8 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
-import '../../utils/export_import.dart';
-
+import 'package:company_portal/utils/export_import.dart';
 class SharePointLauncherScreen extends StatefulWidget {
   const SharePointLauncherScreen({super.key});
 

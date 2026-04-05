@@ -3,8 +3,7 @@ import 'package:company_portal/screens/request/components/empty_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-import '../../../../utils/export_import.dart';
-
+import 'package:company_portal/utils/export_import.dart';
 class TransactionsScreen extends StatelessWidget {
   const TransactionsScreen({super.key});
 

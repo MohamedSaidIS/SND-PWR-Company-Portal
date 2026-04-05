@@ -1,6 +1,5 @@
 import 'package:local_auth/local_auth.dart';
-import '../../../utils/export_import.dart';
-
+import 'package:company_portal/utils/export_import.dart';
 class BiometricAuthController {
   final LocalAuthentication auth = LocalAuthentication();
 

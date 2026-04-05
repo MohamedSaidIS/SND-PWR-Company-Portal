@@ -1,5 +1,5 @@
 import 'package:flutter/foundation.dart';
-import '../utils/export_import.dart';
+import 'package:company_portal/utils/export_import.dart';
 
 class UserInfoProvider with ChangeNotifier {
   final GraphDioClient dioClient;
