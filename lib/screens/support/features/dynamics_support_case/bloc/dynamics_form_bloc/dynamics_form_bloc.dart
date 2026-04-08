@@ -18,7 +18,7 @@ class DynamicsFormBloc extends Bloc<DynamicsFormEvent, DynamicsFormState> {
 
 
   FutureOr<void> _onSubmitForm(CreateDynamicsItemEvent event, Emitter<DynamicsFormState> emit) async{
-    emit(state.copyWith(isLoading: true, errorMessage: null));
+    emit(state.copyWith(status: FormStatus.loading, errorMessage: null));
     try{
       final success = await _repo.createItem(
           DynamicsItem(
@@ -36,12 +36,12 @@ class DynamicsFormBloc extends Bloc<DynamicsFormEvent, DynamicsFormState> {
           ), event.attachedFiles,
       );
       if(success){
-        emit(state.copyWith(isLoading: false, isSuccess: true, selectedPurpose: null, selectedPriority: 'Normal'));
+        emit(state.copyWith(status: FormStatus.success,  selectedPurpose: null, selectedPriority: 'Normal'));
       }else {
-        emit(state.copyWith(isLoading: false, errorMessage: "Failed to create dynamics item"));
+        emit(state.copyWith(status: FormStatus.error, errorMessage: "Failed to create dynamics item"));
       }
     }catch(e){
-      emit(state.copyWith(isLoading: false, errorMessage: e.toString()));
+      emit(state.copyWith(status: FormStatus.error, errorMessage: e.toString()));
     }
   }
 

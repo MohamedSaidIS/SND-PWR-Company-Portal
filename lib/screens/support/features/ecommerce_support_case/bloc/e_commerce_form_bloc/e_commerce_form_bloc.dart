@@ -27,7 +27,7 @@ class ECommerceFormBloc extends Bloc<EcommerceFormEvent, EcommerceFormState> {
   }
 
   FutureOr<void> _onSubmitForm(CreateEcommerceItemEvent event, Emitter<EcommerceFormState> emit) async {
-    emit(state.copyWith(isLoading: true, errorMessage: null));
+    emit(state.copyWith(status: FormStatus.loading, errorMessage: null));
     try{
       final  success = await _repo.createItem(EcommerceItem(
         id: -1,
@@ -46,12 +46,12 @@ class ECommerceFormBloc extends Bloc<EcommerceFormEvent, EcommerceFormState> {
         event.attachedFiles,
       );
       if (success) {
-        emit(state.copyWith(isLoading: false, isSuccess: true, selectedApp: null, selectedPriority: "Normal", selectedType: null));
+        emit(state.copyWith(status: FormStatus.success, selectedApp: null, selectedPriority: "Normal", selectedType: null));
       } else {
-        emit(state.copyWith(isLoading: false,errorMessage: "Failed to create ecommerce item"));
+        emit(state.copyWith(status: FormStatus.error, errorMessage: "Failed to create ecommerce item"));
       }
     }catch(e){
-      emit(state.copyWith(isLoading:false, errorMessage: e.toString()));
+      emit(state.copyWith(status: FormStatus.error, errorMessage: e.toString()));
     }
   }
 }

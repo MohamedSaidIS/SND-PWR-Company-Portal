@@ -1,6 +1,4 @@
 import 'dart:io';
-import 'package:company_portal/screens/account/profile/profile_bloc/profile_bloc.dart';
-import 'package:company_portal/screens/account/profile/repo/profile_repo.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:provider/provider.dart';

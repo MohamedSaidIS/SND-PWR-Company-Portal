@@ -23,14 +23,14 @@ class DynamicsScFormScreen extends StatelessWidget {
     return SafeArea(
       child: BlocConsumer<DynamicsFormBloc, DynamicsFormState>(
         listener: (context, state) {
-          if(state.isSuccess){
+          if(state.status == FormStatus.success){
             titleController.clear();
             descriptionController.clear();
             areaController.clear();
             dateController.clear();
             fileController.clear();
             AppNotifier.snackBar(context, local.fromSubmittedSuccessfully, SnackBarType.success);
-          }else if (state.errorMessage != null) {
+          }else if (state.status == FormStatus.error) {
             AppNotifier.snackBar(context, state.errorMessage ?? "", SnackBarType.error);
           }
         },
@@ -125,7 +125,7 @@ class DynamicsScFormScreen extends StatelessWidget {
                   const SizedBox(height: 10),
                   SubmitButton(
                     btnText: local.submit,
-                    loading: state.isLoading,
+                    loading: state.status == FormStatus.loading,
                     btnFunction: () async {
                       if (!formKey.currentState!.validate()) return;
                       formBloc.add(CreateDynamicsItemEvent(

@@ -30,7 +30,7 @@ class ComplaintFormBloc extends Bloc<ComplaintFormEvent, ComplaintFormState>{
 
 
   FutureOr<void> _onSubmitForm(CreateComplaintItemEvent event, Emitter<ComplaintFormState> emit) async{
-    emit(state.copyWith(isLoading: true, errorMessage: null));
+    emit(state.copyWith(status: FormStatus.loading, errorMessage: null));
     try{
       final success = await _repo.createItem(ComplaintSuggestionItem(
           id: -1,
@@ -48,12 +48,12 @@ class ComplaintFormBloc extends Bloc<ComplaintFormEvent, ComplaintFormState>{
       ), event.attachedFiles);
 
       if(success){
-        emit(state.copyWith(isLoading: false, isSuccess: true, selectedType: "Complaint", isChecked: true, selectedCategory: null, selectedPriority: 'Normal'));
+        emit(state.copyWith(status: FormStatus.success, selectedType: "Complaint", isChecked: true, selectedCategory: null, selectedPriority: 'Normal'));
       }else{
-        emit(state.copyWith(errorMessage: "Failed to create complaint item", isLoading: false));
+        emit(state.copyWith(status: FormStatus.error, errorMessage: "Failed to create complaint item"));
       }
     }catch(e){
-      emit(state.copyWith(isLoading: false, errorMessage: e.toString()));
+      emit(state.copyWith(status: FormStatus.error, errorMessage: e.toString()));
     }
 
   }

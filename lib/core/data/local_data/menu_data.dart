@@ -1,6 +1,4 @@
 import 'dart:typed_data';
-
-import 'package:company_portal/screens/account/profile/profile_bloc/profile_bloc.dart';
 import 'package:company_portal/utils/export_import.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';

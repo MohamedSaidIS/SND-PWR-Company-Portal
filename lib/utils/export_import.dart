@@ -2,7 +2,6 @@ export '../main.dart';
 
 
 export '../core/di/providers.dart';
-export '../core/api_sercives/graph_api_service.dart';
 export '../core/common/radio_button_selection.dart';
 export '../core/common/animations.dart';
 export '../core/common/badge_widget.dart';
@@ -93,6 +92,11 @@ export '../screens/account/profile/components/user_text.dart';
 export '../screens/account/redirect_reports/redirect_reports_screen.dart';
 export '../screens/account/redirect_reports/widgets/direct_report_card_widget.dart';
 export '../screens/account/user_info/user_info_details_screen.dart';
+export '../screens/account/profile/profile_bloc/profile_bloc.dart';
+export '../screens/account/profile/repo/profile_repo.dart';
+export '../screens/account/user_info/component/info_card.dart';
+export '../screens/account/user_info/component/manager_info_widget.dart';
+export '../screens/account/user_info/component/personal_info_widget.dart';
 export '../screens/apps/apps_screen.dart';
 export '../screens/dashboard/dashboard_screen.dart';
 export '../screens/dashboard/loading_overlay.dart';

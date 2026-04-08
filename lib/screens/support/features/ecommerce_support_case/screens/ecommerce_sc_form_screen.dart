@@ -24,12 +24,12 @@ class EcommerceScFormScreen extends StatelessWidget {
     return SafeArea(
       child: BlocConsumer<ECommerceFormBloc, EcommerceFormState>(
         listener: (BuildContext context, EcommerceFormState state) {
-          if(state.isSuccess){
+          if(state.status == FormStatus.success){
             titleController.clear();
             descriptionController.clear();
             fileController.clear();
             AppNotifier.snackBar(context, local.fromSubmittedSuccessfully, SnackBarType.success);
-          } else if (state.errorMessage != null) {
+          } else if (state.status == FormStatus.error) {
             AppNotifier.snackBar(context, state.errorMessage ?? "", SnackBarType.error);
           }
         },
@@ -89,7 +89,7 @@ class EcommerceScFormScreen extends StatelessWidget {
                   const SizedBox(height: 10),
                   SubmitButton(
                     btnText: local.submit,
-                    loading: state.isLoading,
+                    loading: state.status == FormStatus.loading,
                     btnFunction: () async {
                       if(!_formKey.currentState!.validate()) return;
                       formBloc.add(CreateEcommerceItemEvent(
