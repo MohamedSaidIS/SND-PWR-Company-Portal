@@ -17,16 +17,6 @@ List<SingleChildWidget> appProviders(LocaleProvider localeProvider) {
       ),
     ),
     ChangeNotifierProvider(
-      create: (context) => ManagerInfoProvider(
-        dioClient: context.read<GraphDioClient>(),
-      ),
-    ),
-    ChangeNotifierProvider(
-      create: (context) => DirectReportsProvider(
-        dioClient: context.read<GraphDioClient>(),
-      ),
-    ),
-    ChangeNotifierProvider(
       create: (context) => UserImageProvider(
         dioClient: context.read<GraphDioClient>(),
       ),

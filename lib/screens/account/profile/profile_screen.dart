@@ -1,5 +1,8 @@
 import 'dart:io';
+import 'package:company_portal/screens/account/profile/profile_bloc/profile_bloc.dart';
+import 'package:company_portal/screens/account/profile/repo/profile_repo.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:provider/provider.dart';
 import 'package:company_portal/utils/export_import.dart';
 class ProfileScreen extends StatefulWidget {
@@ -48,6 +51,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
     final userInfo = userInfoProvider.userInfo;
     final userImage = userImageProvider.imageBytes;
     final local = context.local;
+    final repo = ProfileRepo(GraphDioClient());
 
 
     return Scaffold(
@@ -55,11 +59,11 @@ class _ProfileScreenState extends State<ProfileScreen> {
         title: local.profile,
         themeBtn: true,
       ),
-      body: SideFadeSlideAnimation(
-        delay: 0,
-        child: Builder(
-          builder: (context) {
-            return Container(
+      body: BlocProvider(
+        create: (context) => ProfileBloc(repo)..add(FetchAllHierarchyEvent()),
+        child: SideFadeSlideAnimation(
+          delay: 0,
+          child: Container(
               padding: const EdgeInsets.symmetric(vertical: 15, horizontal: 45),
               child: CustomScrollView(
                 slivers: [
@@ -82,8 +86,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   ),
                 ],
               ),
-            );
-          },
+            ),
         ),
       ),
     );

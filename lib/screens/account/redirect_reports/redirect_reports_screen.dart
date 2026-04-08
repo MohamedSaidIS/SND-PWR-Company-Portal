@@ -1,5 +1,6 @@
+import 'package:company_portal/screens/account/profile/profile_bloc/profile_bloc.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:company_portal/utils/export_import.dart';
 class DirectReportsScreen extends StatefulWidget {
   const DirectReportsScreen({super.key});
@@ -24,19 +25,19 @@ class _DirectReportsScreenState extends State<DirectReportsScreen> {
         ),
         body: Padding(
           padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 20),
-          child: Consumer<DirectReportsProvider>(
-              builder: (context, provider,_){
-                if (provider.loading) return AppNotifier.loadingWidget(theme);
-                if (provider.error != null) return Text("${provider.error}");
-                final reports =  provider.directReportList;
-                if (reports!.isEmpty || reports == []) {
-                  return NotFoundScreen(
-                      image: "assets/images/no_team_member.png",
-                      title: local.noTeamMembersAssigned,
-                      subtitle: local.thereAreCurrentlyNoTeamMembersAssignedToYouForDisplay);
-                }
-                return _ListView(directReports: reports);
-              })
+          child: BlocBuilder<ProfileBloc, ProfileState>(
+            builder: (context, state) {
+              if (state.isLoading) return AppNotifier.loadingWidget(theme);
+              if (state.errorMessage != null) return Text("${state.errorMessage}");
+              if (state.reportItems.isEmpty || state.reportItems == []) {
+                return NotFoundScreen(
+                    image: "assets/images/no_team_member.png",
+                    title: local.noTeamMembersAssigned,
+                    subtitle: local.thereAreCurrentlyNoTeamMembersAssignedToYouForDisplay);
+              }
+              return _ListView(directReports: state.reportItems);
+            },
+          ),
         ),
       ),
     );
@@ -65,7 +66,7 @@ class _ListView extends StatelessWidget {
         Expanded(
           child: RefreshIndicator(
             onRefresh: () async {
-              await context.read<DirectReportsProvider>().fetchRedirectReport();
+              // await context.read<DirectReportsProvider>().fetchRedirectReport();
             },
             child: ListView.separated(
               itemCount: directReports.length,

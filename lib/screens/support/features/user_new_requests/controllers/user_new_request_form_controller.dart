@@ -1,12 +1,9 @@
+import 'package:company_portal/screens/support/features/user_new_requests/bloc/new_user_form_bloc/new_user_form_bloc.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 import 'package:company_portal/utils/export_import.dart';
 class UserNewRequestFormController {
   final BuildContext context;
   final GlobalKey<FormState> formKey = GlobalKey<FormState>();
-
-  bool isLoading = false;
-  bool isFilling = false;
 
   final title = TextEditingController();
   final joiningDate = TextEditingController();
@@ -24,19 +21,12 @@ class UserNewRequestFormController {
   final specifyNewMail = TextEditingController();
   final specifyDynamics = TextEditingController();
 
-  String? deviceType, newEmail, useDynamics, needPhone;
-
-  UserNewRequestFormController(this.context, dynamic widget) {
-    final userInfo = context.read<UserInfoProvider>().userInfo;
-    manager.text = userInfo?.mail ?? "";
-    AppNotifier.logWithScreen("UserNewRequestFormController", "Request ${widget.newUserRequest}");
-    if (widget.newUserRequest != null) fillForm(widget.newUserRequest);
+  UserNewRequestFormController(NewUserItem? newUserItem, {required this.context}) {
+    if (newUserItem != null) fillForm(newUserItem);
   }
 
   void fillForm(NewUserItem? req) {
-    AppNotifier.logWithScreen("UserNewRequestFormController", "Request $req");
     if (req == null) return;
-    isFilling = true;
     title.text = req.title ?? '';
     joiningDate.text = DatesHelper.dashedFormatting(req.joiningDate, context.currentLocale());
     location.text = req.location ?? '';
@@ -45,18 +35,12 @@ class UserNewRequestFormController {
     jobTitle.text = req.jobTitle ?? '';
     mobile.text = req.phoneNo ?? '';
     department.text = req.department ?? '';
-    deviceType = req.deviceRequestType;
-    newEmail = req.newEmailRequest;
-    useDynamics = req.requestDynamicsAccount;
-    needPhone = req.requestPhoneLine;
     laptopNeed.text = req.laptopNeeds ?? '';
     specialSpecs.text = req.specialSpecs ?? '';
     software.text = req.specificSoftware ?? '';
     currentMail.text = req.currentEmailToUse ?? '';
     specifyNewMail.text = req.specifyNeedForNewEmail ?? '';
     specifyDynamics.text = req.specifyDynamicsRole ?? '';
-
-    isFilling = false;
   }
 
   Future<void> pickDate() async {
@@ -72,66 +56,39 @@ class UserNewRequestFormController {
     }
   }
 
-  Future<void> submitForm(
-    AppLocalizations local,
-    NewUserItem? request,
-    int ensureUserId,) async {
-    AppNotifier.logWithScreen("UserNewRequestFormController", "Validating form...");
-    final isValid = formKey.currentState?.validate() ?? false;
-    AppNotifier.logWithScreen("UserNewRequestFormController","Form valid? $isValid");
-
-    if (!isValid) {
-      AppNotifier.snackBar(
-          context, local.pleaseFillAllFields, SnackBarType.warning);
-      return;
-    }
-
-    final provider = context.read<NewUserRequestProvider>();
-    try {
-      final parsed = DatesHelper.parseTimeToSend(joiningDate.text);
-      final success = request != null
-          ? await provider.updateNewUserRequest(
-              request.id, _buildRequest(parsed, ensureUserId))
-          : await provider
-              .createNewUserRequest(_buildRequest(parsed, ensureUserId));
-      snackBar(local, success, request);
-    } catch (e) {
-      AppNotifier.logWithScreen("UserNewRequestController", "$e");
-    }
-  }
-
   void snackBar(AppLocalizations local, bool success, NewUserItem? request){
     if (request == null) clearData();
-    AppNotifier.snackBar(
-      context,
-      success? local.fromSubmittedSuccessfully: local.somethingWentWrong,
+    AppNotifier.snackBar(context, success? local.fromSubmittedSuccessfully: local.somethingWentWrong,
       success? SnackBarType.success: SnackBarType.error,
     );
   }
 
-  NewUserItem _buildRequest(DateTime date, int ensureUserId) =>
-      NewUserItem(
-        id: -1,
-        title: title.text,
-        joiningDate: date,
-        location: location.text,
-        enName: englishName.text,
-        arName: arabicName.text,
-        jobTitle: jobTitle.text,
-        phoneNo: mobile.text,
-        department: department.text,
-        deviceRequestType: deviceType,
-        newEmailRequest: newEmail,
-        requestDynamicsAccount: useDynamics,
-        requestPhoneLine: needPhone,
-        directManagerId: ensureUserId,
-        laptopNeeds: laptopNeed.text,
-        specialSpecs: specialSpecs.text,
-        specificSoftware: software.text,
-        currentEmailToUse: currentMail.text,
-        specifyNeedForNewEmail: specifyNewMail.text,
-        specifyDynamicsRole: specifyDynamics.text,
-      );
+  NewUserItem buildRequest({required int ensureUserId, required NewUserFormState state}) {
+    final parsedDate = DatesHelper.parseTimeToSend(joiningDate.text);
+    return NewUserItem(
+      id: -1,
+      title: title.text,
+      joiningDate: parsedDate,
+      location: location.text,
+      enName: englishName.text,
+      arName: arabicName.text,
+      jobTitle: jobTitle.text,
+      phoneNo: mobile.text,
+      department: department.text,
+      deviceRequestType: state.deviceType,
+      newEmailRequest:  state.newEmail,
+      requestDynamicsAccount:  state.useDynamics,
+      requestPhoneLine:  state.needPhone,
+      directManagerId: ensureUserId,
+      laptopNeeds: laptopNeed.text,
+      specialSpecs: specialSpecs.text,
+      specificSoftware: software.text,
+      currentEmailToUse: currentMail.text,
+      specifyNeedForNewEmail: specifyNewMail.text,
+      specifyDynamicsRole: specifyDynamics.text,
+    );
+  }
+
 
   void clearData() {
     title.clear();
@@ -149,10 +106,5 @@ class UserNewRequestFormController {
     currentMail.clear();
     specifyNewMail.clear();
     specifyDynamics.clear();
-
-    deviceType = null;
-    newEmail = null;
-    useDynamics = null;
-    needPhone = null;
   }
 }

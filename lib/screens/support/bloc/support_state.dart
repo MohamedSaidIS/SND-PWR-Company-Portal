@@ -21,7 +21,7 @@ class SupportState {
     return SupportState(
       animatedCards: animatedCards ?? this.animatedCards,
       isLoading: isLoading ?? this.isLoading,
-      errorMessage: errorMessage ?? this.errorMessage,
+      errorMessage: errorMessage,
       itUser: itUser ?? this.itUser,
       alsanidiUser: alsanidiUser ?? this.alsanidiUser,
       dynamicsUser: dynamicsUser ?? this.dynamicsUser,

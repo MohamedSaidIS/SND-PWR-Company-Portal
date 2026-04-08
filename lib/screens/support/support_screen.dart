@@ -1,5 +1,6 @@
 import 'dart:typed_data';
 
+import 'package:company_portal/screens/account/profile/profile_bloc/profile_bloc.dart';
 import 'package:company_portal/screens/support/repo/support_repo.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -17,7 +18,6 @@ class SupportScreen extends StatelessWidget {
     final local = context.local;
     final colorScheme = theme.colorScheme;
     final items = SupportItem.getSupportItems(local);
-    final directReportList = context.watch<DirectReportsProvider>().directReportList;
     final repo = SupportRepo(client: SharePointDioClient(), myClient: MySharePointDioClient());
 
 
@@ -34,45 +34,48 @@ class SupportScreen extends StatelessWidget {
           ),
           body: BlocBuilder<SupportBloc, SupportState>(
             builder: (context, state) {
-              return Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: SideFadeSlideAnimation(
-                  delay: 0,
-                  child: GridView.builder(
-                    physics: const BouncingScrollPhysics(),
-                    itemCount: items.length,
-                    gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                      crossAxisCount: 2,
-                      crossAxisSpacing: 8,
-                      mainAxisSpacing: 8,
-                      childAspectRatio: 0.8,
+              return BlocBuilder<ProfileBloc, ProfileState>(
+                builder: (_, profilState) {
+                  final directReportList = profilState.reportItems;
+                  return Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: SideFadeSlideAnimation(
+                      delay: 0,
+                      child: GridView.builder(
+                        physics: const BouncingScrollPhysics(),
+                        itemCount: items.length,
+                        gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                          crossAxisCount: 2,
+                          crossAxisSpacing: 8,
+                          mainAxisSpacing: 8,
+                          childAspectRatio: 0.8,
+                        ),
+                        itemBuilder: (context, index) {
+                          final item = items[index];
+                          final isAnimated = state.animatedCards[index] ?? false;
+                          return (item.name == "Users New \nRequests" && (directReportList.isEmpty))
+                            ? const SizedBox.shrink()
+                            : InkWell(
+                              splashColor: Colors.transparent,
+                              onTap: () async {
+                                final bloc = context.read<SupportBloc>();
+                                bloc.add(AnimatedCardEvent(index, true));
+                                await Future.delayed(const Duration(milliseconds: 70));
+                                bloc.add(AnimatedCardEvent(index, false));
+                                if(!context.mounted) return;
+                                navigatedScreen(context, item.name, userInfo, userImage);
+                              },
+                              child: SupportCard(
+                                title: item.translatedName,
+                                image: item.image,
+                                isAnimated: isAnimated,
+                              )
+                           );
+                        },
+                      ),
                     ),
-                    itemBuilder: (context, index) {
-                      final item = items[index];
-                      final isAnimated = state.animatedCards[index] ?? false;
-                      return (item.name == "Users New \nRequests" &&
-                            directReportList != null &&
-                            directReportList.isEmpty)
-                        ? const SizedBox.shrink()
-                        : InkWell(
-                          splashColor: Colors.transparent,
-                          onTap: () async {
-                            final bloc = context.read<SupportBloc>();
-                            bloc.add(AnimatedCardEvent(index, true));
-                            await Future.delayed(const Duration(milliseconds: 70));
-                            bloc.add(AnimatedCardEvent(index, false));
-                            if(!context.mounted) return;
-                            navigatedScreen(context, item.name, userInfo, userImage);
-                          },
-                          child: SupportCard(
-                            title: item.translatedName,
-                            image: item.image,
-                            isAnimated: isAnimated,
-                          )
-                       );
-                    },
-                  ),
-                ),
+                  );
+                },
               );
             },
           ),

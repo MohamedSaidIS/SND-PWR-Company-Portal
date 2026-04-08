@@ -1,5 +1,3 @@
-import 'package:company_portal/core/data/remote_data/dio_my_share_point/my_share_point_dio_client.dart';
-import 'package:company_portal/core/data/remote_data/dio_share_point/share_point_dio_client.dart';
 import 'package:company_portal/core/models/remote/ensure_user_result.dart';
 import 'package:flutter/foundation.dart';
 
