@@ -27,7 +27,7 @@ class EcommerceFormState{
     return EcommerceFormState(
       isLoading: isLoading ?? this.isLoading,
       isSuccess: isSuccess ?? this.isSuccess,
-      errorMessage: errorMessage ?? this.errorMessage,
+      errorMessage: errorMessage,
       selectedApp: selectedApp ?? this.selectedApp,
       selectedType: selectedType ?? this.selectedType,
       selectedPriority: selectedPriority ?? this.selectedPriority

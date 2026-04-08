@@ -40,51 +40,54 @@ class AttachmentPicker extends StatelessWidget {
               ),
             ),
           ),
-          allFiles.isEmpty ? const SizedBox.shrink()
-              : SizedBox(
-            height: (25 * (allFiles.length)).toDouble(),
-            child: Scrollbar(
+           AnimatedSize(
+             duration: const Duration(milliseconds: 300),
+             curve: Curves.easeInOut,
+             child: SizedBox(
+               height: 80,
+               child: Scrollbar(
               thumbVisibility: allFiles.length >= 2 ? true : false,
-              child: ListView.builder(
-                  physics: allFiles.length >= 2
-                      ? const AlwaysScrollableScrollPhysics()
-                      : const NeverScrollableScrollPhysics(),
-                  itemCount: allFiles.length,
-                  itemBuilder: (context, index) {
-                    final file = allFiles[index];
-                    return Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 15.0),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Expanded(
-                            child: Text(
-                              file.fileName,
-                              overflow: TextOverflow.ellipsis,
-                              style:
-                                  TextStyle(color: theme.colorScheme.secondary, fontSize: 13),
-                            ),
+               child: ListView.builder(
+                physics: allFiles.length >= 2
+                    ? const AlwaysScrollableScrollPhysics()
+                    : const NeverScrollableScrollPhysics(),
+                itemCount: allFiles.length,
+                itemBuilder: (context, index) {
+                  final file = allFiles[index];
+                  return Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 15.0),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Expanded(
+                          child: Text(
+                            file.fileName,
+                            overflow: TextOverflow.ellipsis,
+                            style:
+                                TextStyle(color: theme.colorScheme.secondary, fontSize: 13),
                           ),
-                          IconButton(
-                            onPressed: () {
-                              provider.deleteFiles(index);
-                            },
-                            icon: const Icon(
-                              Icons.close,
-                              size: 16,
-                            ),
-                            style: TextButton.styleFrom(
-                              padding: const EdgeInsets.all(6),
-                              minimumSize: const Size(0, 0),
-                              tapTargetSize: MaterialTapTargetSize.shrinkWrap,
-                            ),
+                        ),
+                        IconButton(
+                          onPressed: () {
+                            provider.deleteFiles(index);
+                          },
+                          icon: const Icon(
+                            Icons.close,
+                            size: 16,
                           ),
-                        ],
+                          style: TextButton.styleFrom(
+                            padding: const EdgeInsets.all(6),
+                            minimumSize: const Size(0, 0),
+                            tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                          ),
+                        ),
+                      ],
+                    ),
+                  );
+                }),
+                        ),
                       ),
-                    );
-                  }),
-            ),
-          ),
+              ),
         ],
       );
     });

@@ -1,23 +1,35 @@
 import 'dart:typed_data';
 
+import 'package:company_portal/screens/account/profile/profile_bloc/profile_bloc.dart';
 import 'package:company_portal/utils/export_import.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:line_awesome_flutter/line_awesome_flutter.dart';
 
-List<MenuItem> getMenuItems(AppLocalizations local, ThemeData theme, UserInfo userInfo, Uint8List userImage, VoidCallback onLogout){
-  return  [
+List<MenuItem> getMenuItems(AppLocalizations local, ThemeData theme,
+    UserInfo userInfo, Uint8List userImage, VoidCallback onLogout,
+    BuildContext context) {
+  return [
     MenuItem(
       title: local.userInformation,
       icon: LineAwesomeIcons.user,
-      navigatedPage: () => UserInfoDetailsScreen(
-        userInfo: userInfo,
-      ),
+      navigatedPage: () =>
+          BlocProvider.value(
+            value: context.read<ProfileBloc>(),
+            child: UserInfoDetailsScreen(
+              userInfo: userInfo,
+            ),
+          ),
       textColor: theme.colorScheme.primary,
     ),
     MenuItem(
       title: local.directReport,
       icon: LineAwesomeIcons.book_solid,
-      navigatedPage: () => const DirectReportsScreen(),
+      navigatedPage: () =>
+          BlocProvider.value(
+              value: context.read<ProfileBloc>(),
+              child: const DirectReportsScreen()
+          ),
       textColor: theme.colorScheme.primary,
       addSeparator: true,
     ),
@@ -31,8 +43,12 @@ List<MenuItem> getMenuItems(AppLocalizations local, ThemeData theme, UserInfo us
       title: local.support,
       icon: LineAwesomeIcons.hands_helping_solid,
       textColor: theme.colorScheme.primary,
-      navigatedPage: () => SupportScreen(
-          userInfo: userInfo, userImage: userImage),
+      navigatedPage: () =>
+          BlocProvider.value(
+            value: context.read<ProfileBloc>(),
+            child: SupportScreen(
+                userInfo: userInfo, userImage: userImage),
+          ),
       addSeparator: true,
     ),
     MenuItem(

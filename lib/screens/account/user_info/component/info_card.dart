@@ -1,12 +1,10 @@
-import 'package:company_portal/utils/context_extensions.dart';
+import 'package:company_portal/utils/export_import.dart';
 import 'package:flutter/material.dart';
 
-import '../../../utils/app_separators.dart';
-
-class UserInfoCard extends StatelessWidget {
+class InfoCard extends StatelessWidget {
   final List<Widget> children;
 
-  const UserInfoCard({super.key, required this.children});
+  const InfoCard({super.key, required this.children});
 
   @override
   Widget build(BuildContext context) {

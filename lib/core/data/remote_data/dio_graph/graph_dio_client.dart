@@ -22,7 +22,7 @@ class GraphDioClient {
   }
 
   Future<Response> post(String endPoint,
-  {Map<String, dynamic>? data}) async {
+  {Map<String, dynamic>? data, Options? options,}) async {
     try{
       final response = await dio.post(endPoint, data: data);
       return response;

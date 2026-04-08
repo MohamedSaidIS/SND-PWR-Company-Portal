@@ -25,8 +25,7 @@ class _MenuSectionState extends State<MenuSection> {
     final local = context.local;
     AppNotifier.logWithScreen("Menu Screen", "Image: ${widget.userImage}");
 
-    items = getMenuItems(
-        local, theme, widget.userInfo!, widget.userImage!, widget.onLogout);
+    items = getMenuItems(local, theme, widget.userInfo!, widget.userImage!, widget.onLogout, context);
   }
 
   @override

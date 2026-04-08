@@ -13,8 +13,7 @@ class SendComment extends StatelessWidget {
       create: (_) => SendCommentController(),
       builder: (context, _) {
         final allUsersProvider = context.watch<AllOrganizationUsersProvider>();
-        final mentionUsers =
-            allUsersProvider.allUsers.map((u) => u.toMap()).toList();
+        final mentionUsers = allUsersProvider.allUsers.map((u) => u.toMap()).toList();
         final theme = context.theme;
 
         return SafeArea(

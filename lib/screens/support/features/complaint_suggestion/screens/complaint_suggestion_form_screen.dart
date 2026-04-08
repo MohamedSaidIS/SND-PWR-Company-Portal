@@ -20,28 +20,28 @@ class ComplaintSuggestionFormScreen extends StatelessWidget {
     final fileController = context.read<FileController>();
     final formBloc = context.read<ComplaintFormBloc>();
 
-    return BlocConsumer<ComplaintFormBloc, ComplaintFormState>(
-      listener: (context, state) {
-        if(state.isSuccess){
-          titleController.clear();
-          descriptionController.clear();
-          fileController.clear();
-          AppNotifier.snackBar(context, local.fromSubmittedSuccessfully, SnackBarType.success);
-        }else if (state.errorMessage != null) {
-          AppNotifier.snackBar(context, state.errorMessage ?? "", SnackBarType.error);
-        }
-      },
-      builder: (context, state) {
-        return Padding(
-          padding: const EdgeInsets.all(16.0),
-          child: Form(
-            key: formKey,
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.stretch,
-              children: [
-                Expanded(
-                  child: SingleChildScrollView(
-                    child: Column(
+    return SafeArea(
+      child: BlocConsumer<ComplaintFormBloc, ComplaintFormState>(
+        listener: (context, state) {
+          if(state.isSuccess){
+            titleController.clear();
+            descriptionController.clear();
+            fileController.clear();
+            AppNotifier.snackBar(context, local.fromSubmittedSuccessfully, SnackBarType.success);
+          }else if (state.errorMessage != null) {
+            AppNotifier.snackBar(context, state.errorMessage ?? "", SnackBarType.error);
+          }
+        },
+        builder: (context, state) {
+          return Padding(
+            padding: const EdgeInsets.all(16.0),
+            child: Form(
+              key: formKey,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: [
+                  Expanded(
+                    child: ListView(
                       children: [
                         const SizedBox(height: 16),
                         SendOptionalName(
@@ -113,30 +113,30 @@ class ComplaintSuggestionFormScreen extends StatelessWidget {
                       ],
                     ),
                   ),
-                ),
-                const SizedBox(height: 10),
-                SubmitButton(
-                  btnText: local.submit,
-                  loading: state.isLoading,
-                  btnFunction: () async {
-                    if(!formKey.currentState!.validate()) return;
-                    formBloc.add(CreateComplaintItemEvent(
-                      userId: ensureUserId,
-                      title: titleController.text,
-                      description: descriptionController.text,
-                      selectedPriority: state.selectedPriority,
-                      selectedDepartment: state.selectedCategory,
-                      userName: state.isChecked ? userName.trim() : '',
-                      attachedFiles: fileController.attachedFiles,
-                    ),
-                    );
-                  },
-                ),
-              ],
+                  const SizedBox(height: 10),
+                  SubmitButton(
+                    btnText: local.submit,
+                    loading: state.isLoading,
+                    btnFunction: () async {
+                      if(!formKey.currentState!.validate()) return;
+                      formBloc.add(CreateComplaintItemEvent(
+                        userId: ensureUserId,
+                        title: titleController.text,
+                        description: descriptionController.text,
+                        selectedPriority: state.selectedPriority,
+                        selectedDepartment: state.selectedCategory,
+                        userName: state.isChecked ? userName.trim() : '',
+                        attachedFiles: fileController.attachedFiles,
+                      ),
+                      );
+                    },
+                  ),
+                ],
+              ),
             ),
-          ),
-        );
-      },
+          );
+        },
+      ),
     );
   }
 }

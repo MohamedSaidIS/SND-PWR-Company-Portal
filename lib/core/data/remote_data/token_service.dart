@@ -39,9 +39,9 @@ class TokenService{
           scopes: [
             "openid",
             "profile",
-            "User.read",
+            "User.Read",
             "offline_access",
-            "https://graph.microsoft.com/.default"
+            // "https://graph.microsoft.com/.default"
           ],
         ),
       );

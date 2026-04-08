@@ -3,7 +3,7 @@ import 'package:dio/dio.dart';
 
 import '../dio_exception_handler.dart';
 
-class MySharePointDioClient {
+class MySharePointDioClient{
   final dio = MySharePointDioConfig.createDio();
 
   Future<Response> get(String endpoint,

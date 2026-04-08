@@ -38,8 +38,6 @@ class _DashboardScreenState extends State<DashboardScreen> {
   Future<void> _loadInitialData() async {
     final userProvider = context.read<UserInfoProvider>();
     final imageProvider = context.read<UserImageProvider>();
-    final managerProvider = context.read<ManagerInfoProvider>();
-    final reportsProvider = context.read<DirectReportsProvider>();
     final vacationProvider = context.read<VacationBalanceProvider>();
     final allUsersProvider = context.read<AllOrganizationUsersProvider>();
 
@@ -48,7 +46,6 @@ class _DashboardScreenState extends State<DashboardScreen> {
       userProvider.getGroupId(),
       userProvider.getGroupMembers("4053f91a-d9a0-4a65-8057-1a816e498d0f"),
       imageProvider.fetchImage(),
-      managerProvider.fetchManagerInfo(),
       allUsersProvider.getAllUsers(),
     ]);
 
@@ -59,10 +56,6 @@ class _DashboardScreenState extends State<DashboardScreen> {
 
     await vacationProvider.getWorkerPersonnelNumber(_userInfo!.id);
     await vacationProvider.getVacationTransactions(_userInfo!.id);
-
-    if (reportsProvider.directReportList == null) {
-      await reportsProvider.fetchRedirectReport();
-    }
 
     await PreferenceManager().setString(Constants.userId, _userInfo!.id);
     await PreferenceManager().setString(Constants.userEmail, _userInfo!.mail ?? "");

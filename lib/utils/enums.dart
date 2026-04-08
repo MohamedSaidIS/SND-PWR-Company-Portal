@@ -11,3 +11,10 @@ enum ViewState {
   empty,
   data,
 }
+
+enum FormStatus{
+  initial,
+  loading,
+  success,
+  error,
+}

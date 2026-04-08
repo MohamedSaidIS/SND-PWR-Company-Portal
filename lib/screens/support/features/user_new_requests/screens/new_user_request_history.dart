@@ -1,4 +1,5 @@
 import 'package:company_portal/screens/support/features/user_new_requests/bloc/new_user_bloc/new_user_bloc.dart';
+import 'package:company_portal/screens/support/features/user_new_requests/bloc/new_user_form_bloc/new_user_form_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:company_portal/utils/export_import.dart';
@@ -49,7 +50,6 @@ class _NewUserRequestHistoryState extends State<NewUserRequestHistory>
       body: BlocBuilder<NewUserBloc, NewUserState>(
         builder: (BuildContext context, state) {
           switch(state){
-
             case NewUserLoading():
               return AppNotifier.loadingWidget(theme);
             case NewUserError():
@@ -79,10 +79,13 @@ class _NewUserRequestHistoryState extends State<NewUserRequestHistory>
                         id: item.id.toString(),
                         needStatus: false,
                         status: '',
-                        navigatedScreen: UserNewRequestFormScreen(
-                          userName: "",
-                          ensureUserId: widget.ensureUserId,
-                          newUserRequest: item,
+                        navigatedScreen: BlocProvider.value(
+                          value: context.read<NewUserFormBloc>(),
+                          child: UserNewRequestFormScreen(
+                            userName: "",
+                            ensureUserId: widget.ensureUserId,
+                            newUserItem: item,
+                          ),
                         ),
                       );
                     },

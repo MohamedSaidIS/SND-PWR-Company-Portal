@@ -6,7 +6,8 @@ import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:provider/provider.dart';
-import 'package:company_portal/utils/export_import.dart';
+import '../../utils/export_import.dart';
+
 class NotificationManager {
   NotificationManager._internal();
 
@@ -60,10 +61,14 @@ class NotificationManager {
       );
 
       String? apnsToken;
-      while (apnsToken == null) {
+      for (int i = 0; i < 10; i++)  {
         apnsToken = await _fcm.getAPNSToken();
-        await Future.delayed(const Duration(milliseconds: 300));
-      }
+        if (apnsToken != null) {
+          AppLogger.info("APNS", "Ready: $apnsToken");
+          break;
+        }
+
+        await Future.delayed(const Duration(milliseconds: 500));      }
     }
   }
 
@@ -83,8 +88,8 @@ class NotificationManager {
     const settings = InitializationSettings(android: AndroidInitializationSettings('@mipmap/ic_launcher'), iOS: DarwinInitializationSettings());
 
     await _local.initialize(
-        settings,
-        onDidReceiveNotificationResponse: _onLocalNotificationTap,
+      settings,
+      onDidReceiveNotificationResponse: _onLocalNotificationTap,
     );
 
   }
@@ -97,17 +102,17 @@ class NotificationManager {
   }
 
   Future<void> _registerTokenWithRetry(String userId) async {
-      try {
-        final fcmToken = await getFCMTokenSafe();
-        if (fcmToken != null) {
-          await _sendTokenToServer(userId, fcmToken);
-          return;
-        } else {
-          AppLogger.error("Notification Service", 'FCM Token is null');
-        }
-      }catch(e){
-        AppLogger.error("Notification Service", "❌ Failed to get FCM token  $e");
+    try {
+      final fcmToken = await getFCMTokenSafe();
+      if (fcmToken != null) {
+        await _sendTokenToServer(userId, fcmToken);
+        return;
+      } else {
+        AppLogger.error("Notification Service", 'FCM Token is null');
       }
+    }catch(e){
+      AppLogger.error("Notification Service", "❌ Failed to get FCM token  $e");
+    }
 
   }
 
@@ -186,28 +191,28 @@ class NotificationManager {
 
     if(Platform.isAndroid){
       _local.show(
-      _notificationId++,
-      notification.title,
-      notification.body,
-      const NotificationDetails(
-          android: AndroidNotificationDetails(
-            'default_channel',
-            'General',
-            importance: Importance.max,
-            priority: Priority.high,
-            playSound: true,
-            enableVibration: true,
-            autoCancel: true,
-            sound: RawResourceAndroidNotificationSound('notification_sound'),
-          ),
-          iOS: DarwinNotificationDetails(
-            presentAlert: true,
-            presentBadge: true,
-            presentSound: true,
-          )
-      ),
-      payload: message.data.isNotEmpty ? jsonEncode(message.data) : null,
-    );
+        _notificationId++,
+        notification.title,
+        notification.body,
+        const NotificationDetails(
+            android: AndroidNotificationDetails(
+              'default_channel',
+              'General',
+              importance: Importance.max,
+              priority: Priority.high,
+              playSound: true,
+              enableVibration: true,
+              autoCancel: true,
+              sound: RawResourceAndroidNotificationSound('notification_sound'),
+            ),
+            iOS: DarwinNotificationDetails(
+              presentAlert: true,
+              presentBadge: true,
+              presentSound: true,
+            )
+        ),
+        payload: message.data.isNotEmpty ? jsonEncode(message.data) : null,
+      );
     }
 
     _saveNotification(message);

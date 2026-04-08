@@ -11,6 +11,8 @@ class AuthSharePointInterceptor extends Interceptor{
     String? token = await SecureStorageService().getData("SPAccessToken");
 
     final expired = await TokenService.isSpTokenExpired();
+    print("SharePoint Token is expired $expired");
+
     if (expired) {
       token = await TokenService.refreshSpToken();
     }

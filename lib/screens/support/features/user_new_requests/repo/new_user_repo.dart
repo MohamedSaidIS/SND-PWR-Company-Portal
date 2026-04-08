@@ -1,5 +1,6 @@
 import 'package:company_portal/core/data/remote_data/dio_share_point/share_point_dio_client.dart';
 import 'package:company_portal/core/models/remote/new_user_request.dart';
+import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
 
 import '../../../../../core/data/remote_data/dio_share_point/share_api_config.dart';
@@ -33,15 +34,42 @@ class NewUserRepo extends BaseNewUserRepository{
   }
 
   @override
-  Future<bool> createItem(NewUserItem item) {
-    // TODO: implement createItem
-    throw UnimplementedError();
+  Future<bool> createItem(NewUserItem item) async{
+    try {
+      final response = await client.post(
+        ShareApiConfig.newUserItems,
+        data: item.toJson(),
+      );
+      if (response.statusCode != 201) {
+        throw Exception("Failed to create item");
+      }
+      return true;
+    }catch(e) {
+      throw Exception(e.toString());
+    }
   }
 
   @override
-  Future<bool> updateItem(NewUserItem item, int itemId) {
-    // TODO: implement updateItem
-    throw UnimplementedError();
+  Future<bool> updateItem(NewUserItem item, int itemId) async{
+    try{
+    final response = await client.post(
+      ShareApiConfig.updateNewUserItem(requestId: itemId),
+      data: item.toJson(),
+      options: Options(
+        headers: {
+          "X-HTTP-Method": "MERGE",
+          "If-Match": "*",
+        },
+      ),
+    );
+
+    if (response.statusCode != 204) {
+      throw Exception("Failed to update item");
+    }
+    return true;
+    }catch(e){
+      throw Exception(e.toString());
+    }
   }
 
 }

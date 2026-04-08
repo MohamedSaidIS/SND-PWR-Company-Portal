@@ -17,6 +17,7 @@ class AuthGraphInterceptor extends Interceptor{
     String? token = await SecureStorageService().getData("GraphAccessToken");
 
     final expired = await TokenService.isGraphTokenExpired();
+    print("GraphToken is expired $expired");
     if (expired) {
       token = await TokenService.refreshGraphToken();
     }
@@ -27,6 +28,7 @@ class AuthGraphInterceptor extends Interceptor{
   @override
   void onError(DioException err, ErrorInterceptorHandler handler) {
     if (err.response?.statusCode == 401) {
+      print("GraphToken is expired ${err.response?.statusCode}");
       AppNotifier.sessionExpiredDialog();
     }
     handler.next(err);

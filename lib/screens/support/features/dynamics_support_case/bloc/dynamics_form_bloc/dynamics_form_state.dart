@@ -25,7 +25,7 @@ class DynamicsFormState{
     return DynamicsFormState(
       isLoading: isLoading ?? this.isLoading,
       isSuccess: isSuccess ?? this.isSuccess,
-      errorMessage: errorMessage ?? this.errorMessage,
+      errorMessage: errorMessage,
       selectedPurpose: selectedPurpose ?? this.selectedPurpose,
       selectedPriority: selectedPriority ?? this.selectedPriority
     );
