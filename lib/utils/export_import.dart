@@ -72,7 +72,6 @@ export '../core/models/remote/kpi_sheet_url.dart';
 export '../providers/all_organization_users_provider.dart';
 export '../providers/comment_provider.dart';
 export '../providers/locale_provider.dart';
-export '../providers/new_user_request_provider.dart';
 export '../providers/sales_kpis_provider.dart';
 export '../providers/sp_ensure_user.dart';
 export '../providers/user_image_provider.dart';
