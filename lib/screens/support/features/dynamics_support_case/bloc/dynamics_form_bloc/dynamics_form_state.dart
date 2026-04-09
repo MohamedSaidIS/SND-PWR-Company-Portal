@@ -8,7 +8,7 @@ class DynamicsFormState{
   final String? selectedPriority;
 
   DynamicsFormState({
-      this.status = FormStatus.loading,
+      this.status = FormStatus.initial,
       this.errorMessage,
       this.selectedPurpose,
       this.selectedPriority = 'Normal'});

@@ -8,7 +8,7 @@ class EcommerceFormState{
   final String? selectedType;
 
   EcommerceFormState({
-    this.status = FormStatus.loading,
+    this.status = FormStatus.initial,
     this.errorMessage,
     this.selectedApp,
     this.selectedPriority  = "Normal",

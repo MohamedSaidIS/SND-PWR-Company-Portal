@@ -1,4 +1,4 @@
-import 'package:dio/src/dio_exception.dart';
+import 'package:dio/dio.dart';
 
 class DioExceptionHandler {
   static handleException(DioException e){

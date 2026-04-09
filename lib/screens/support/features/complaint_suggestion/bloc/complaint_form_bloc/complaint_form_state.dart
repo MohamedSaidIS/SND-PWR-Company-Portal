@@ -11,7 +11,7 @@ class ComplaintFormState {
   const ComplaintFormState({
     this.selectedType = "Complaint",
     this.isChecked = true,
-    this.status = FormStatus.loading,
+    this.status = FormStatus.initial,
     this.errorMessage,
     this.selectedCategory,
     this.selectedPriority = 'Normal'

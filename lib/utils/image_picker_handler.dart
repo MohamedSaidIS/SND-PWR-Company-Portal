@@ -51,46 +51,14 @@ class ImagePickerHandler {
     );
   }
 
-  Future<void> _pickImage(
-      ImageSource source, Function(File) onImagePicked) async {
+  Future<void> _pickImage(ImageSource source, Function(File) onImagePicked) async {
     final pickedFile = await _picker.pickImage(source: source);
 
     if (pickedFile != null) {
-      // final croppedFile = await _cropImage(pickedFile.path, context);
-      // if(croppedFile != null){
         onImagePicked(File(pickedFile.path));
-      // }
     }
     if (!context.mounted) return;
     Navigator.pop(context);
   }
 }
 
-// Future<CroppedFile?> _cropImage(String imageFilePath, BuildContext context) async {
-//   return await ImageCropper().cropImage(
-//     sourcePath: imageFilePath,
-//
-//
-//     uiSettings: [
-//       AndroidUiSettings(
-//         toolbarTitle: context.local.editImage,
-//         toolbarColor: context.theme.primaryColor,
-//         toolbarWidgetColor: Colors.white,
-//         hideBottomControls: false,
-//         aspectRatioPresets: [
-//           CropAspectRatioPreset.original,
-//           CropAspectRatioPreset.square,
-//           CropAspectRatioPreset.ratio4x3,
-//         ],
-//       ),
-//       IOSUiSettings(
-//         title: context.local.editImage,
-//         aspectRatioPresets: [
-//           CropAspectRatioPreset.original,
-//           CropAspectRatioPreset.square,
-//           CropAspectRatioPreset.ratio4x3,
-//         ],
-//       ),
-//     ],
-//   );
-// }
