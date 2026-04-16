@@ -11,6 +11,7 @@ ThemeData darkMode = ThemeData(
     primary: AppDarkColors.primary, // text
     secondary: AppDarkColors.secondary,
     outline: AppDarkColors.secondary,
+    onPrimaryContainer: AppDarkColors.bottomSheetBackground,
   ),
   appBarTheme: const AppBarTheme(
     backgroundColor: AppDarkColors.surface,

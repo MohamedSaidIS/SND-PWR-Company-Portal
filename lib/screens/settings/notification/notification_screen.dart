@@ -84,8 +84,8 @@ class _NotificationScreenState extends State<NotificationScreen> {
                                   color: getNotificationIconColor(
                                       notification.data['notificationType']),
                                 ),
-                                title: Text(notification.title ?? ''),
-                                subtitle: Text(notification.body ?? ''),
+                                title: Text(notification.title ?? '', style: const TextStyle(color: Colors.black),),
+                                subtitle: Text(notification.body ?? '', style: const TextStyle(color: Colors.black),),
                                 trailing: notification.isRead
                                     ? null
                                     : const Icon(
@@ -124,11 +124,12 @@ class FilterButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final theme = context.theme;
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 3, vertical: 5),
       child: ElevatedButton(
         style: ElevatedButton.styleFrom(
-          backgroundColor: selected ? Colors.blueAccent : Colors.white,
+          backgroundColor: selected ? Colors.blueAccent : theme.colorScheme.onPrimaryContainer,
           foregroundColor: selected ? Colors.white : Colors.black,
           shape:
               RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),

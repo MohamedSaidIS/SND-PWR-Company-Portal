@@ -10,6 +10,7 @@ ThemeData lightMode = ThemeData(
     primary: AppLightColors.primary, // text
     secondary: AppLightColors.secondary, //Color(0xFF1B818E),
     outline: AppLightColors.secondary,
+    onPrimaryContainer: AppLightColors.bottomSheetBackground,
   ),
   appBarTheme: const AppBarTheme(
     backgroundColor: Color(0xfcfcf1e8),

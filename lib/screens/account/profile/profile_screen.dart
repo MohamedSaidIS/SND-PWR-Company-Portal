@@ -45,12 +45,10 @@ class _ProfileScreenState extends State<ProfileScreen> {
   Widget build(BuildContext context) {
     final userInfoProvider = context.watch<UserInfoProvider>();
     final userImageProvider = context.watch<UserImageProvider>();
-
     final userInfo = userInfoProvider.userInfo;
     final userImage = userImageProvider.imageBytes;
     final local = context.local;
     final repo = ProfileRepo(GraphDioClient());
-
 
     return Scaffold(
       appBar: CustomAppBar(

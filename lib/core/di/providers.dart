@@ -37,7 +37,6 @@ List<SingleChildWidget> appProviders(LocaleProvider localeProvider) {
         mySharePointDioClient: context.read<MySharePointDioClient>(),
       ),
     ),
-
     ChangeNotifierProvider(
       create: (context) => VacationBalanceProvider(
         kpiDioClient: context.read<KPIDioClient>(),

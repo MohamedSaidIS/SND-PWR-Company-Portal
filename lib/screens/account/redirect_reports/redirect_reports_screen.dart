@@ -64,39 +64,34 @@ class _ListView extends StatelessWidget {
         ),
         const SizedBox(height: 16),
         Expanded(
-          child: RefreshIndicator(
-            onRefresh: () async {
-              // await context.read<DirectReportsProvider>().fetchRedirectReport();
-            },
-            child: ListView.separated(
-              itemCount: directReports.length,
-              separatorBuilder: (_, __) => const SizedBox(height: 12),
-              itemBuilder: (context, index) {
-                final item = directReports[index];
-                return FutureBuilder(
-                  future: Future.delayed(Duration(milliseconds: 100 * index)),
-                  builder: (context, snapshot) {
-                    if (snapshot.connectionState != ConnectionState.done) {
-                      return const SizedBox.shrink();
-                    }
-                    return TweenAnimationBuilder<double>(
-                      key: ValueKey(item.id ?? index),
-                      duration: const Duration(milliseconds: 500),
-                      tween: Tween(begin: 0, end: 1),
-                      curve: Curves.easeInOut,
-                      builder: (context, value, child) => Opacity(
-                        opacity: value,
-                        child: Transform.translate(
-                          offset: Offset(0, 30 * (1 - value)),
-                          child: child,
-                        ),
+          child: ListView.separated(
+            itemCount: directReports.length,
+            separatorBuilder: (_, __) => const SizedBox(height: 12),
+            itemBuilder: (context, index) {
+              final item = directReports[index];
+              return FutureBuilder(
+                future: Future.delayed(Duration(milliseconds: 100 * index)),
+                builder: (context, snapshot) {
+                  if (snapshot.connectionState != ConnectionState.done) {
+                    return const SizedBox.shrink();
+                  }
+                  return TweenAnimationBuilder<double>(
+                    key: ValueKey(item.id ?? index),
+                    duration: const Duration(milliseconds: 500),
+                    tween: Tween(begin: 0, end: 1),
+                    curve: Curves.easeInOut,
+                    builder: (context, value, child) => Opacity(
+                      opacity: value,
+                      child: Transform.translate(
+                        offset: Offset(0, 30 * (1 - value)),
+                        child: child,
                       ),
-                      child: DirectReportCardWidget(directReportItem: item),
-                    );
-                  },
-                );
-              },
-            ),
+                    ),
+                    child: DirectReportCardWidget(directReportItem: item),
+                  );
+                },
+              );
+            },
           ),
         ),
       ],
