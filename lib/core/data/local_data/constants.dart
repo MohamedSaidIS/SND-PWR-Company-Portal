@@ -12,4 +12,5 @@ class Constants{
   static const String userEmail = 'user_email';
   static const String groupInfo = 'group_info';
   static const String notifications = 'notifications';
+  static const String kpiManagementFilter = 'kpi_management_filter';
 }

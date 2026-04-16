@@ -47,36 +47,39 @@ class MyApp extends StatelessWidget {
     final localeProvider = Provider.of<LocaleProvider>(context);
     final themeProvider = Provider.of<ThemeProvider>(context);
 
-    return Builder(builder: (context) {
-      return MaterialApp(
-          // debugShowCheckedModeBanner: false,
-          // showPerformanceOverlay: true,
-          // debugShowMaterialGrid: false,
-          // checkerboardRasterCacheImages: true,
-          // checkerboardOffscreenLayers: true,
-          debugShowCheckedModeBanner: false,
-          locale: localeProvider.locale,
-          supportedLocales: const [
-            Locale('en'),
-            Locale('ar'),
-            Locale('ur'),
-          ],
-          localizationsDelegates: const [
-            AppLocalizations.delegate,
-            GlobalMaterialLocalizations.delegate,
-            GlobalWidgetsLocalizations.delegate,
-            GlobalCupertinoLocalizations.delegate
-          ],
-          theme: themeProvider.themeData,
-          themeMode: ThemeMode.system,
-          home: const SplashScreen(),
-          navigatorKey: AppNavigator.key,
-          routes: {
-            '/login': (_) => const LoginScreen(),
-            '/notification': (_) => const NotificationScreen(),
-          });
-    },);
-  }
+      return Builder(
+        builder: (context) {
+          return MaterialApp(
+            // debugShowCheckedModeBanner: false,
+            // showPerformanceOverlay: true,
+            // debugShowMaterialGrid: false,
+            // checkerboardRasterCacheImages: true,
+            // checkerboardOffscreenLayers: true,
+            debugShowCheckedModeBanner: false,
+            locale: localeProvider.locale,
+            supportedLocales: const [
+              Locale('en'),
+              Locale('ar'),
+              Locale('ur'),
+            ],
+            localizationsDelegates: const [
+              AppLocalizations.delegate,
+              GlobalMaterialLocalizations.delegate,
+              GlobalWidgetsLocalizations.delegate,
+              GlobalCupertinoLocalizations.delegate
+            ],
+            theme: themeProvider.themeData,
+            themeMode: ThemeMode.system,
+            home: const SplashScreen(),
+            navigatorKey: AppNavigator.key,
+            routes: {
+              '/login': (_) => const LoginScreen(),
+              '/notification': (_) => const NotificationScreen(),
+            }
+          );
+        }
+      );
+   }
 }
 
 class AppNavigator {

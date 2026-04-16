@@ -22,15 +22,17 @@ class _KpiEvaluationYearsState extends State<KpiEvaluationYears> {
     WidgetsBinding.instance.addPostFrameCallback((_) async {
      context.read<ManagementKpiProvider>();
     });
+    selectedFilter = PreferenceManager().getString(Constants.kpiManagementFilter);
   }
 
   @override
   Widget build(BuildContext context) {
     final kpiProvider = context.watch<ManagementKpiProvider>();
 
-    if (selectedFilter == null && widget.kpiSheets.isNotEmpty) {
+    if (selectedFilter == null && widget.kpiSheets.isNotEmpty){
       final item = widget.kpiSheets[0];
       selectedFilter = "${item.year.toString()}_${item.quarter}";
+      PreferenceManager().setString(Constants.kpiManagementFilter, selectedFilter!);
       //"${DateTime.now().year}_${widget.kpiSheets.first.quarter}";
       WidgetsBinding.instance.addPostFrameCallback((_) {
         kpiProvider.getKpiSheet(widget.userEmail, item.year, item.quarter);
@@ -46,11 +48,12 @@ class _KpiEvaluationYearsState extends State<KpiEvaluationYears> {
             text: "${item.year.toString()}_${item.quarter}",
             selected:
                 selectedFilter == "${item.year.toString()}_${item.quarter}",
-            onPressed: () async {
+              onPressed: () async {
               setState(() {
                 selectedFilter = "${item.year.toString()}_${item.quarter}";
+                PreferenceManager().setString(Constants.kpiManagementFilter, selectedFilter!);
               });
-              Future.microtask(() {
+              await Future.microtask(() {
                 kpiProvider.getKpiSheet(
                     widget.userEmail /*"Sm@alsanidi.com.sa"*/,
                     item.year,
