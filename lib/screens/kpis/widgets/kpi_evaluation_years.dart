@@ -23,6 +23,7 @@ class _KpiEvaluationYearsState extends State<KpiEvaluationYears> {
      context.read<ManagementKpiProvider>();
     });
     selectedFilter = PreferenceManager().getString(Constants.kpiManagementFilter);
+    // print("Selected Filter: $selectedFilter");
   }
 
   @override
@@ -30,6 +31,7 @@ class _KpiEvaluationYearsState extends State<KpiEvaluationYears> {
     final kpiProvider = context.watch<ManagementKpiProvider>();
 
     if (selectedFilter == null && widget.kpiSheets.isNotEmpty){
+      // print("Selected Filter1: $selectedFilter");
       final item = widget.kpiSheets[0];
       selectedFilter = "${item.year.toString()}_${item.quarter}";
       PreferenceManager().setString(Constants.kpiManagementFilter, selectedFilter!);
@@ -50,8 +52,10 @@ class _KpiEvaluationYearsState extends State<KpiEvaluationYears> {
                 selectedFilter == "${item.year.toString()}_${item.quarter}",
               onPressed: () async {
               setState(() {
+                // print("Selected Filter2: $selectedFilter");
                 selectedFilter = "${item.year.toString()}_${item.quarter}";
                 PreferenceManager().setString(Constants.kpiManagementFilter, selectedFilter!);
+                // print("Selected Filter3: $selectedFilter");
               });
               await Future.microtask(() {
                 kpiProvider.getKpiSheet(

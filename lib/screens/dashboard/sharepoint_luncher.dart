@@ -67,23 +67,23 @@ class _SharePointLauncherScreenState
     setState(() => _accessToken = token.trim());
   }
 
-  Future<void> _launchUrl(String url) async {
-    final uri = Uri.parse(url);
-    if (!await launchUrl(
-      uri,
-      mode: LaunchMode.inAppBrowserView,
-      webViewConfiguration: const WebViewConfiguration(
-        enableDomStorage: true,
-        enableJavaScript: true
-      )
-    )) {
-      if (mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('Could not launch $url')),
-        );
-      }
-    }
-  }
+  // Future<void> _launchUrl(String url) async {
+  //   final uri = Uri.parse(url);
+  //   if (!await launchUrl(
+  //     uri,
+  //     mode: LaunchMode.inAppBrowserView,
+  //     webViewConfiguration: const WebViewConfiguration(
+  //       enableDomStorage: true,
+  //       enableJavaScript: true
+  //     )
+  //   )) {
+  //     if (mounted) {
+  //       ScaffoldMessenger.of(context).showSnackBar(
+  //         SnackBar(content: Text('Could not launch $url')),
+  //       );
+  //     }
+  //   }
+  // }
 
   @override
   Widget build(BuildContext context) {

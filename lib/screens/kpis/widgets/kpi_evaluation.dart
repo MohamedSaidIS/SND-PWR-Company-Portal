@@ -21,9 +21,10 @@ class KpiEvaluationScreen extends StatelessWidget {
                 itemBuilder: (context, index) {
                   final item = items[index];
                   return KpiSection(
-                      title: item.sectionTitle,
-                      weight: item.secWeight,
-                      items: item.items);
+                    title: item.sectionTitle,
+                    weight: item.secWeight,
+                    items: item.items,
+                  );
                 },
               ),
             ),
