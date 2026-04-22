@@ -1722,6 +1722,18 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'You’re all caught up'**
   String get youAllCaughtUp;
+
+  /// No description provided for @youAreNotAMemberOfAnyGroupYet.
+  ///
+  /// In en, this message translates to:
+  /// **'You’re not a member of any group yet.'**
+  String get youAreNotAMemberOfAnyGroupYet;
+
+  /// No description provided for @reachOutToTheHRDepartmentIfYouNeedHelp.
+  ///
+  /// In en, this message translates to:
+  /// **'Reach out to the HR Department if you need help.'**
+  String get reachOutToTheHRDepartmentIfYouNeedHelp;
 }
 
 class _AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> {

@@ -270,6 +270,8 @@
   "noItemsFound": "لا توجد عناصر",
   "thereIsNoDataToDisplay": "لا توجد بيانات للعرض",
   "noNotificationsFound": "لا توجد إشعارات",
-  "youAllCaughtUp": "لا توجد عناصر تتطلب إجراء"
+  "youAllCaughtUp": "لا توجد عناصر تتطلب إجراء",
+  "youAreNotAMemberOfAnyGroupYet": "أنت لست عضوًا في أي مجموعة بعد.",
+  "reachOutToTheHRDepartmentIfYouNeedHelp": "تواصل مع قسم الموارد البشرية إذا كنت بحاجة إلى مساعدة."
 }
 

@@ -820,4 +820,10 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get youAllCaughtUp => 'لا توجد عناصر تتطلب إجراء';
+
+  @override
+  String get youAreNotAMemberOfAnyGroupYet => 'أنت لست عضوًا في أي مجموعة بعد.';
+
+  @override
+  String get reachOutToTheHRDepartmentIfYouNeedHelp => 'تواصل مع قسم الموارد البشرية إذا كنت بحاجة إلى مساعدة.';
 }

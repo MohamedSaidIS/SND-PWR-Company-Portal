@@ -97,13 +97,13 @@ class _LoginScreenState extends State<LoginScreen> {
       if (mySpToken == null) return false;
       await SecureStorageService()
           .saveData("MySPTokenSavedAt", DateTime.now().toIso8601String());
-
-      AppNotifier.logWithScreen(
-          "LoginScreen", "✅ Graph token retrieved: $graphToken");
-      AppNotifier.logWithScreen(
-          "LoginScreen", "✅ SharePoint token retrieved: $spToken");
-      AppNotifier.logWithScreen(
-          "LoginScreen", "✅ MySharePoint token retrieved: $mySpToken");
+      //
+      // AppNotifier.logWithScreen(
+      //     "LoginScreen", "✅ Graph token retrieved: $graphToken");
+      // AppNotifier.logWithScreen(
+      //     "LoginScreen", "✅ SharePoint token retrieved: $spToken");
+      // AppNotifier.logWithScreen(
+      //     "LoginScreen", "✅ MySharePoint token retrieved: $mySpToken");
 
       return true;
     } catch (e) {

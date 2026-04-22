@@ -820,4 +820,10 @@ class AppLocalizationsUr extends AppLocalizations {
 
   @override
   String get youAllCaughtUp => 'فی الحال کسی کارروائی کی ضرورت نہیں ہے';
+
+  @override
+  String get youAreNotAMemberOfAnyGroupYet => 'آپ ابھی تک کسی بھی گروپ کے رکن نہیں ہیں۔';
+
+  @override
+  String get reachOutToTheHRDepartmentIfYouNeedHelp => 'اگر آپ کو مدد کی ضرورت ہو تو براہ کرم محکمۂ انسانی وسائل سے رابطہ کریں۔';
 }

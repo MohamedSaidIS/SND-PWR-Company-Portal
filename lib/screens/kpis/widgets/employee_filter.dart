@@ -80,17 +80,19 @@ class _EmployeeFilterState extends State<EmployeeFilter> {
               final employee = employees.firstWhere(
                     (e) => e.memberId == item.value,
                 orElse: () => GroupMember(
-                    memberId: '',
-                    displayName: '',
-                    givenName: '',
-                    surname: '',
-                    mail: '',
-                    jobTitle: ''),
+                  memberId: '',
+                  displayName: '',
+                  givenName: '',
+                  surname: '',
+                  mail: '',
+                  jobTitle: '',
+                ),
               );
 
               return (employee.displayName ?? '')
                   .toLowerCase()
-                  .contains(searchValue.toLowerCase());
+                  .contains(searchValue.toLowerCase(),
+              );
             },
           ),
 

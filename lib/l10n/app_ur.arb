@@ -270,6 +270,9 @@
   "noItemsFound": "کوئی آئٹمز نہیں ملے",
   "thereIsNoDataToDisplay": "ڈسپلے کرنے کے لیے کوئی ڈیٹا موجود نہیں ہے",
   "noNotificationsFound": "کوئی اطلاع موجود نہیں ہے",
-  "youAllCaughtUp": "فی الحال کسی کارروائی کی ضرورت نہیں ہے"
+  "youAllCaughtUp": "فی الحال کسی کارروائی کی ضرورت نہیں ہے",
+  "youAreNotAMemberOfAnyGroupYet": "آپ ابھی تک کسی بھی گروپ کے رکن نہیں ہیں۔",
+  "reachOutToTheHRDepartmentIfYouNeedHelp": "اگر آپ کو مدد کی ضرورت ہو تو براہ کرم محکمۂ انسانی وسائل سے رابطہ کریں۔"
+
 
 }

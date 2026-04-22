@@ -69,42 +69,43 @@ class _HomeScreenState extends State<HomeScreen> {
     return PopScope(
       canPop: false,
       child: Scaffold(
-          body: PopScope(
-            canPop: false,
-            child: screens[_currentIndex],
-          ),
-          bottomNavigationBar: CurvedNavigationBar(
-              height: 70,
-              index: _currentIndex,
-              letIndexChange: (newIndex) {
-                if (!_isUserDataLoaded && newIndex != 0) {
-                  AppNotifier.snackBar(
-                    context,
-                    local.loadingData,
-                    SnackBarType.warning,
-                  );
-                  return false;
-                }
-                return true;
-              },
-              onTap: (index) async {
-                setState(() => _currentIndex = index);
-                if (index == 2) {
-                  final userProvider = context.read<UserInfoProvider>();
-                  await userProvider.getGroupId();
-                }
-              },
-              backgroundColor: _currentIndex == 0? theme.navigationBarTheme.shadowColor! : Colors.transparent,
-              buttonBackgroundColor: theme.colorScheme.secondary,
-              color: theme.navigationBarTheme.backgroundColor!,
-              items: const [
-                Icon(LineAwesomeIcons.home_solid, size: 30),
-                Icon(Icons.apps, size: 30),
-                Icon(LineAwesomeIcons.chart_bar, size: 30),
-                Icon(LineAwesomeIcons.file_alt_solid, size: 30),
-                Icon(LineAwesomeIcons.user, size: 30),
-              ])
-          ),
+        body: PopScope(
+          canPop: false,
+          child: screens[_currentIndex],
+        ),
+        bottomNavigationBar: CurvedNavigationBar(
+          height: 70,
+          index: _currentIndex,
+          letIndexChange: (newIndex) {
+            if (!_isUserDataLoaded && newIndex != 0) {
+              AppNotifier.snackBar(
+                context,
+                local.loadingData,
+                SnackBarType.warning,
+              );
+              return false;
+            }
+            return true;
+          },
+          onTap: (index) async {
+            setState(() => _currentIndex = index);
+            if (index == 2) {
+              final userProvider = context.read<UserInfoProvider>();
+              await userProvider.getGroupId();
+            }
+          },
+          backgroundColor: _currentIndex == 0? theme.navigationBarTheme.shadowColor! : Colors.transparent,
+          buttonBackgroundColor: theme.colorScheme.secondary,
+          color: theme.navigationBarTheme.backgroundColor!,
+          items: const [
+            Icon(LineAwesomeIcons.home_solid, size: 30),
+            Icon(Icons.apps, size: 30),
+            Icon(LineAwesomeIcons.chart_bar, size: 30),
+            Icon(LineAwesomeIcons.file_alt_solid, size: 30),
+            Icon(LineAwesomeIcons.user, size: 30),
+          ],
+        )
+      ),
     );
   }
 }

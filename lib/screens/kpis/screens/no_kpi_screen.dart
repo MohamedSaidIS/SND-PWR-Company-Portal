@@ -30,7 +30,7 @@ class NoKpiScreen extends StatelessWidget {
               ),
               const SizedBox(height: 24),
               Text(
-                "You’re not a member of any group yet.",
+                local.youAreNotAMemberOfAnyGroupYet,
                 textAlign: TextAlign.center,
                 style: theme.textTheme.headlineSmall?.copyWith(
                   fontWeight: FontWeight.bold,
@@ -39,7 +39,7 @@ class NoKpiScreen extends StatelessWidget {
               ),
               const SizedBox(height: 12),
               Text(
-                "Reach out to the HR Department if you need help.",
+                local.reachOutToTheHRDepartmentIfYouNeedHelp,
                 textAlign: TextAlign.center,
                 style: theme.textTheme.bodyMedium?.copyWith(
                   color: theme.colorScheme.onSurface.withValues(alpha:0.7),

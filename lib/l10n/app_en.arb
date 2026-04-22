@@ -270,6 +270,9 @@
   "noItemsFound": "No requests found",
   "thereIsNoDataToDisplay": "There is no data to display",
   "noNotificationsFound":"No notifications found",
-  "youAllCaughtUp":"You’re all caught up"
+  "youAllCaughtUp":"You’re all caught up",
+  "youAreNotAMemberOfAnyGroupYet": "You’re not a member of any group yet.",
+  "reachOutToTheHRDepartmentIfYouNeedHelp": "Reach out to the HR Department if you need help."
+
 
 }
